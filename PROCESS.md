@@ -2,172 +2,417 @@
 
 > A methodology for AI-assisted software development.
 > Derived from real project experience. Tool-agnostic — works with any AI coding assistant.
+>
+> **For AI roles:** Do not load this document into AI sessions. Each AI role has its own
+> entry point in [`roles/`](./roles/) that contains exactly what it needs — nothing more.
+> This document is for the Human Lead to understand the full methodology.
+> See [`MECHANICS.md`](./MECHANICS.md) for why this separation exists.
 
 ---
 
-## The Core Idea
+## The Foundational Insight
 
-AI coding assistants are powerful executors but unreliable architects. Left to their own devices, they produce code that works locally but accumulates debt globally. They don't remember what they did yesterday. They don't know why a decision was made three sessions ago. They'll happily redo work, contradict earlier choices, or introduce abstractions that clash with the existing codebase.
+Traditional software development resisted upfront planning for a good reason: humans can't hold enough context to plan accurately. By the time you've read the codebase, traced the dependencies, considered the edge cases, and mapped the existing patterns, you've already forgotten the first half. Waterfall failed because it demanded detailed plans from people who couldn't realistically produce them — so the industry moved to iterative discovery. Write code, see what breaks, adjust.
 
-This methodology fixes that by treating AI development like a disciplined engineering process: plan before you code, record what you decide and why, accumulate lessons across sessions, and never let an AI agent operate without context.
+LLMs change this equation. An AI can read an entire codebase, hold it in context, trace execution paths, and produce a detailed plan — in minutes, not weeks. The cognitive bottleneck that made upfront planning impractical for humans does not apply to AI. Planning is now cheap.
 
-The result is that session 10 benefits from every mistake caught in sessions 1 through 9 — not through model fine-tuning, but through structured context that the AI reads at the start of each session.
+**This methodology exists because planning is now cheap.**
 
----
+But "plan more" is not "do waterfall." The distinction matters:
 
-## Principles
+**Waterfall locks in the plan.** You plan once, at the start, and then execute that plan to completion. When reality diverges from the plan (and it always does), you either force the code to match the plan or engage a costly change control process. The plan is sacred.
 
-### 1. Plan before you code — especially with AI
+**AI-SDLC locks in the discipline of planning, not the plan itself.** You plan before every phase. You execute. Implementation reveals new information. You replan. The cycle is tight — hours, not months. A plan that gets revised three times in two days isn't a failure of planning; it's the process working as designed. The plans are disposable. The discipline of producing them is not.
 
-A flawed design doc costs an hour to rewrite. Flawed code costs a day to untangle. This is even more true with AI agents, because they can produce large volumes of wrong code very quickly.
+This is what makes the approach possible *now* in a way it wasn't before. The Senior Architect can load the full codebase, every previous decision, every lesson learned, and produce a phase plan that accounts for the real state of the system — not a guess from a whiteboard session. And when that plan turns out to be partially wrong (which it will), the same Architect can reload context, absorb what was learned during implementation, and produce a corrected plan just as quickly.
 
-Every unit of work (called a "phase") gets a written plan before any code is written. The plan includes: what problem it solves, what steps to take, what files are touched, how to verify it's correct, and explicit done-criteria.
-
-If someone (human or AI) is asked to implement something and no plan exists, the correct response is to write the plan, not start coding.
-
-### 2. Separate the planner from the executor
-
-The AI that designs the approach should not be the same AI session (or even the same tool) that writes the code. This separation exists because:
-
-- **Planning requires broad context.** The planner reads specs, traces code paths, considers trade-offs, and writes a detailed phase doc. It needs to hold the full picture.
-- **Execution requires focused context.** The executor follows a specific, bounded prompt: "do this, in this file, verify with this command." It doesn't need the full architectural picture — and loading it would waste context window.
-- **Review becomes possible.** The human reviews the plan before execution begins. Bad designs are caught on paper, not in pull requests.
-
-In practice, the planner produces numbered implementation prompts that the executor runs in sequence. Each prompt is self-contained — it states what to do, which files to touch, and how to verify success. The executor doesn't need to read the spec or the plan; the prompt has everything.
-
-### 3. Accumulate knowledge across sessions
-
-AI sessions are stateless by default. Every new conversation starts from zero. This methodology compensates by maintaining a structured knowledge base that the AI reads at the start of each session:
-
-- **Decisions log** — what was decided and why. Prevents the AI from re-litigating settled questions or making contradictory choices.
-- **Lessons learned** — actionable entries in the format "do Y instead of Z because..." Not vague ("X was hard") but specific and prescriptive. These are the highest-value artefact in the system — they're effectively fine-tuning the AI's behaviour through context.
-- **Session log** — what was done, by whom, which files were touched. Gives the next session a running start.
-- **Journal** — one-line timeline entries across all work. Quick orientation.
-
-### 4. Phases are the unit of work
-
-All work is organised into phases. A phase is a bounded chunk of work with a clear goal, concrete steps, and done-criteria. Phases are:
-
-- **Sequential** — each phase builds on the previous. The roadmap shows the order.
-- **Small enough to complete in 1-3 sessions** — if a phase can't be finished in a day or two, it should be split.
-- **Self-contained for review** — each phase has its own spec, its own implementation prompts, and its own verification. You can review and approve a phase without understanding the entire project.
-- **Checkpoints for rollback** — if a phase goes wrong, you revert to the previous phase's state. Clean boundaries make this safe.
-
-### 5. Dig deep before committing to a plan
-
-A plan written without reading the code is a guess. Before writing a phase plan, the planner must:
-
-- Read the relevant source files
-- Trace execution paths end to end
-- Identify edge cases and existing patterns
-- Check for existing tests, build commands, and project conventions
-
-Phase plans should reference specific file paths, show code snippets of current behaviour, and include tables of test cases with exact inputs and expected outputs. Vague plans produce vague code.
-
-### 6. Plans evolve, but changes are tracked
-
-Phase plans are living documents — they can and should be revised when new information emerges during implementation. But changes are never silent. Every revision gets:
-
-- A version bump in the doc header
-- An entry in the decisions log explaining what changed and why
-- A journal entry noting the revision
-
-This matters because multiple AI sessions and humans may reference the same plan. Silent changes create confusion.
-
-### 7. Test at the boundary of what's changing
-
-Before any refactor that moves code between modules, write automated tests that assert the current behaviour. Run them before the refactor, run them after. If they pass without changes to the test files, the refactor preserved behaviour.
-
-Key testing principles:
-
-- **Baseline every code path the refactor touches** — not just the obvious methods. Trace every conditional branch, every type-specific import.
-- **Test at the right abstraction level** — if you're refactoring a data pipeline, write pipeline tests (data in, data out), not E2E browser tests. Test the boundary of what's changing.
-- **Targeted assertions, not snapshots** — assert specific properties. Snapshots break on incidental changes; targeted assertions survive refactors if behaviour is preserved.
-- **Every new feature ships with its tests** — no separate "test batch" phase. Tests are part of the definition of done, not a standalone effort.
+The process is structured. The project execution is adaptive. Don't confuse the two.
 
 ---
 
-## The Workflow
+## A Note on Human Accountability
 
-### Starting a new project
+This methodology does not reduce the human's responsibility. It increases it.
 
-1. Set up the workspace — three sibling folders: code repo, project journal repo, ai-sdlc methodology (see [SETUP.md](./SETUP.md))
-2. Initialise the project journal repo with INDEX.md, JOURNAL.md, DECISIONS.md, LESSONS_LEARNED.md
-3. Write a SPEC.md for the first workstream (the vision: what problem, what the solution looks like, design principles)
-4. Write a CONTEXT.md (codebase reference: repo structure, key files, existing patterns)
-5. Write a PLAN.md (the roadmap: list of phases, current status)
-6. Start Phase 1
+The AI does more of the work — planning, writing code, generating tests, producing artefacts. But the human owns every decision. Every goal is human-defined. Every gatekeep is human-approved. Every plan passes through a human review gate before it becomes code. The AI is the workforce. The human is the authority.
 
-### Starting a session
+When the Human Lead is also the sole stakeholder — which is the common case for solo developers and small teams — there is no one else to defer to. The gatekeep "my own approval" means you are accountable for the quality of what ships. This is not a limitation of the process. It is the point. AI-SDLC exists to empower humans through AI, not to replace human judgement with AI output.
 
-1. Read the project's PLAN.md to see current status
-2. Read LESSONS_LEARNED.md (both global and project-scoped)
-3. Read the last few JOURNAL.md entries
-4. Read the active phase's spec
-5. Continue where the previous session left off
+This is a partnership driven by humans. If the human disengages — rubber-stamps plans without reading them, skips review gates, accepts AI output without scrutiny — the process breaks. The methodology is only as strong as the human driving it.
 
-### Planning a phase
+---
 
-1. The planner reads the codebase deeply (relevant source files, tests, configuration)
-2. The planner writes a phase spec under `phases/N-name/SPEC.md` including: problem/goal, concrete steps, test cases, done criteria
-3. The human reviews and approves the spec
-4. The planner writes numbered implementation prompts under `phases/N-name/impl/`
-5. The human reviews the prompts
+## Goals and Gatekeeping
 
-### Executing a phase
+Everything starts with a goal.
 
-1. The executor runs prompts in order (01, 02, 03...)
-2. Each prompt is self-contained — it states what to do and how to verify
-3. After each prompt, verify the done-criteria before moving to the next
-4. If a prompt fails or needs adjustment, report back to the planner for a revised prompt
+A **goal** is a human-defined, non-technical description of something to achieve. It is abstract, high-level, and expressed in terms of outcomes — not implementation. Goals answer "what do we want?" not "how do we build it?"
 
-### Finishing a session
+Goals are the most human-driven part of the process. The Senior Architect may participate in refining them — pushing back on feasibility, suggesting scope adjustments, asking clarifying questions — but the goal itself comes from the Human Lead. It is never generated by AI.
 
-1. Update PLAN.md statuses
-2. Add a SESSION_LOG.md entry (what was done, by whom, files touched, open threads)
-3. Add a line to JOURNAL.md
-4. If something was learned, add it to the appropriate LESSONS_LEARNED.md
+**Examples of goals:**
 
-### Reviewing and evolving the roadmap
+- "Users should be able to register without needing to understand the underlying type system."
+- "The plugin architecture should support third-party extensions without modifying core code."
+- "Onboarding a new developer to the DX layer should take hours, not days."
 
-After completing a cluster of phases, review the roadmap:
+**Examples of what goals are not:**
 
-- Are the remaining phases still correctly scoped?
-- Did implementation reveal new work that should be a phase?
-- Should phases be split, merged, or reordered?
+- "Refactor `registry.ts` to use a lookup table." (This is a technical task, not a goal.)
+- "Add 15 progressive demos." (This is a deliverable, not an outcome.)
+- "Fix the type errors." (This is maintenance, not direction.)
 
-Log any changes in the decisions log and journal. Renumber phases if the execution order changes — old numbering has no historical value once the plan is revised.
+A **gatekeep** is the condition under which a goal is considered achieved. It names **who decides** and **what they're evaluating**, even if the criteria are subjective. The discipline is in identifying the person accountable, not in quantifying every metric.
+
+**Examples of gatekeeps:**
+
+- "The Head of Product confirms the new registration flow meets the design spec."
+- "The Human Lead (me) is satisfied that the demo narrative is clear and progressive."
+- "The tech lead on the consuming team confirms the plugin API is usable without documentation beyond the type signatures."
+- "Three beta users complete the onboarding task without asking for help."
+
+**Examples of what gatekeeps are not:**
+
+- "It should feel right." (No one is named as the decision-maker.)
+- "Tests pass." (That's a done-criterion for a phase, not a gatekeep for a goal. Tests verify code correctness; gatekeeps verify that the goal was met.)
+- "The AI says it's done." (The AI is never the gatekeeper.)
+
+### How Goals and Gatekeeps Flow into the Process
+
+Goals live above phases. A single goal might span multiple phases, or a single phase might serve multiple goals. The relationship is:
+
+```
+Goal (human-defined, abstract)
+  → Gatekeep (who decides it's achieved, what they're evaluating)
+    → Phases (technical work that serves the goal)
+      → Implementation prompts (bounded tasks within a phase)
+```
+
+When the Senior Architect writes a phase spec, the spec must reference which goal(s) the phase serves. When the Human Lead reviews a completed phase, they evaluate it against the goal and its gatekeep — not just against the phase's technical done-criteria. A phase can be technically complete (tests pass, type-checker clean) and still fail the gatekeep (the demo narrative isn't clear enough).
+
+**This is the process's integrity check.** Without goals and gatekeeps, the process optimises for technical correctness — which the AI is good at — while potentially missing whether the work actually achieves what the human wanted. Goals keep the process anchored to human intent. Gatekeeps ensure someone is accountable for verifying that intent was met.
+
+### When Goals Are Unclear
+
+If the Human Lead cannot articulate a goal clearly, that is a signal to stop and think — not to start planning anyway. The Senior Architect can help by asking probing questions, but the goal must crystallise before any phase spec is written. A technically excellent plan that serves the wrong goal is waste.
+
+Similarly, if a gatekeep cannot be defined, the goal is probably too vague. "Make it better" has no gatekeep because no one can verify "better" without criteria. Push the goal until it has a shape that someone can evaluate.
 
 ---
 
 ## Roles
 
-| Role | Responsibility | Typical tool |
-|---|---|---|
-| **Lead / Human** | Reviews plans, approves phases, makes final calls, provides domain context | — |
-| **Planner** | Reads codebase, writes specs and phase plans, produces implementation prompts, reviews executor output | AI assistant with broad context (e.g., Cowork, Claude) |
-| **Executor** | Follows implementation prompts, writes code, runs tests | AI coding agent (e.g., Windsurf, Cursor, Claude Code) |
+Five roles drive this process. The Human Lead plus four AI roles, each running in a **separate session** — this is not optional. Mixing roles in a single session degrades output because each role needs different context, different instructions, and a different stance toward the work.
 
-The same human can fill the Lead role and supervise both AI roles. The key is that planning and execution are separate activities with a review gate between them.
+### Human Lead
+
+The human. Defines goals, sets gatekeeps, and has final authority over everything — approvals, direction, trade-offs. Every review gate in this process exists so the Human Lead can catch mistakes before they become code.
+
+The Human Lead's primary job is not reviewing specs or approving prompts (though they do both). Their primary job is defining what success looks like (goals) and verifying that it was achieved (gatekeeps). They provide the domain context the AI cannot infer, challenge the Architect's assumptions, and decide when a plan is good enough to execute. They also decide when to override the process — skip a phase, combine steps, change direction.
+
+When the Human Lead is also the sole stakeholder, they carry the full weight of gatekeeping. This is by design (see "A Note on Human Accountability" above).
+
+**Not an AI role.** This is always a person.
+
+### Senior Architect
+
+Designs the approach. Reads the codebase deeply, writes phase specs, makes architectural decisions. This role has an explicit mandate to **push back** — on the Human Lead's assumptions, on scope, on feasibility. The Architect should challenge, not comply.
+
+The Architect produces the phase spec: what problem we're solving, what the approach is, what the steps are, how we'll verify it's correct. The spec goes to the Human Lead for review before anyone writes code.
+
+**Key behaviour:** broad context, systems thinking, trade-off analysis. The Architect reads the full knowledge base (lessons learned, decisions log, codebase) and holds the big picture.
+
+**Session context:** loads TRACKING.md, LESSONS_LEARNED.md, DECISIONS.md, JOURNAL.md, CONTEXT.md, active phase spec, and reads relevant source files directly. This is the heaviest context load of any role — the Architect needs it to make sound decisions.
+
+### Technical Lead
+
+Translates architecture into execution. Takes the Architect's approved spec and writes numbered implementation prompts (see [PROMPTS.md](./PROMPTS.md)). Also reviews the Developer's output — verifying that what was built matches what was specified.
+
+The Technical Lead is the bridge between design and code. They need to understand both the Architect's intent and the Developer's constraints. A good implementation prompt is precise enough that the Developer can execute without guessing, but flexible enough to handle minor codebase surprises.
+
+**Key behaviour:** precision, prompt craft, verification. The Tech Lead writes prompts that name reference implementations, include exact verification commands, and define bounded goals (see [PROMPTS.md](./PROMPTS.md)).
+
+**Session context:** loads the active phase spec, LESSONS_LEARNED.md, and reads the specific source files the prompts will touch. Does not need the full decisions history or journal — the spec already encodes those decisions.
+
+### Developer
+
+Writes code by following implementation prompts. Each prompt is self-contained — the Developer does not need to read the spec, the plan, or the lessons learned. The prompt has everything.
+
+If the Developer encounters something unexpected (a file that doesn't match the prompt's assumptions, a failing test that shouldn't fail, a missing dependency), the correct response is to **report back to the Technical Lead**, not to improvise. Improvised fixes compound — each one makes the next prompt's assumptions less accurate.
+
+**Key behaviour:** focused execution, discipline, literal prompt-following. The Developer optimises for correctness within the prompt's scope, not for architectural elegance.
+
+**Session context:** loads **only the implementation prompt**. This is the lightest context load of any role. The Developer doesn't need the knowledge base — the prompt has already distilled it into actionable steps.
+
+### Navigator
+
+The process operator. The Navigator's job is orientation: where are we, what just happened, what should happen next, and what context does each role need right now.
+
+The process itself is complex enough that keeping track of it is its own task. The Human Lead shouldn't have to read through TRACKING.md, JOURNAL.md, the active phase spec, and the decisions log just to figure out where things stand. The Navigator does this for them — reading the tracking artefacts, producing a briefing, and advising what to do next.
+
+**Primary responsibilities:**
+
+- **Briefing at session start.** The Human Lead's first conversation should be with the Navigator: "bring me up to speed." The Navigator reads the journal state and produces a summary: what phase we're in, what the last session accomplished, what's pending, what decisions are open.
+- **Context advising.** The Navigator tells each role exactly which files to load for the current phase — not the generic protocol from the table below, but the *specific* files and sections that matter right now. "For this Architect session, load TRACKING.md, the phase 3 spec, and LESSONS_LEARNED.md — skip DECISIONS.md, nothing relevant there for this phase."
+- **Tracking hygiene.** After any session, the Navigator updates TRACKING.md, JOURNAL.md, and status fields. It flags when the journal is stale, when decisions haven't been logged, when lessons learned should be captured. The Navigator owns the navigation infrastructure that every other role depends on.
+- **Process compliance.** The Navigator flags when the process is being skipped — a phase spec was written without referencing a goal, a Developer session improvised instead of reporting back, a plan was revised without a decisions log entry. It doesn't enforce (only the Human Lead has authority), but it surfaces.
+
+**Key behaviour:** operational awareness, summarisation, process fidelity. The Navigator doesn't design, write prompts, or code. It maintains the infrastructure that makes every other role effective.
+
+**Session context:** loads TRACKING.md, JOURNAL.md (recent entries), PLAN.md status, and SESSION_LOG.md (last entry). Light and fast — the Navigator reads tracking artefacts, not source code.
+
+**When to use the Navigator:** The Human Lead should consult the Navigator at the start of any work session ("where are we?"), after any session ends ("update the journal"), and whenever they feel lost in the process. The Navigator is the cheapest role to run and the one that prevents the most expensive mistakes — stale context feeding into an Architect or Tech Lead session.
+
+### Role Summary
+
+| Role | Responsibility | Session context | Stance |
+|---|---|---|---|
+| **Human Lead** | Goals, gatekeeps, authority, domain context | — | Decides |
+| **Navigator** | Orientation, briefing, tracking, context advising | Tracking artefacts (TRACKING, JOURNAL, PLAN status) | Orients |
+| **Senior Architect** | System design, phase specs, architectural decisions | Full knowledge base + source code | Challenges |
+| **Technical Lead** | Implementation prompts, code review, verification | Phase spec + relevant source files | Translates |
+| **Developer** | Code execution, prompt-following | Implementation prompt only | Executes |
+
+---
+
+## Model Tiers
+
+Each AI role has different cognitive demands. Rather than hardcoding specific models (which change frequently), this methodology uses a **tier system**. Map tiers to your current best-available models.
+
+| Tier | Characteristics | Typical roles |
+|---|---|---|
+| **Tier 1 — Reasoning** | Strongest reasoning, largest context window. Architectural thinking, trade-off analysis, nuanced judgement. | Senior Architect, Technical Lead (complex phases) |
+| **Tier 2 — Execution** | Strong code generation, good instruction-following. Fast, cost-effective. | Developer, Technical Lead (straightforward phases), Navigator |
+
+**Current mapping (as of March 2026):**
+
+| Tier | Example models |
+|---|---|
+| Tier 1 | Claude Opus 4.6, GPT-4.5, Gemini 2.5 Pro |
+| Tier 2 | Claude Sonnet 4.6, GPT-4.1, Gemini 2.5 Flash |
+
+Update this mapping when models change. The tiers themselves are stable — the models behind them are not.
+
+**When the Technical Lead moves between tiers:** For phases that involve complex refactoring, novel architecture, or ambiguous requirements, the Tech Lead benefits from Tier 1 (writing good prompts for hard problems requires strong reasoning). For phases that follow established patterns — adding a new type that mirrors an existing one, extending a test suite — Tier 2 is sufficient. The Human Lead makes this call per phase.
+
+**Token efficiency is the reason for role separation.** The Developer loads one implementation prompt (~50-100 lines). The Architect loads the full knowledge base (~300+ lines) plus source files. If the Developer loaded Architect-level context, you'd pay for tokens that don't improve code quality. If the Architect loaded Developer-level context, it would miss the big picture. Each role loads exactly what it needs — no more.
+
+---
+
+## The Workflow — Three Modes
+
+This is not vibe coding. Vibe coding is "give the AI a vague idea, let it generate, hope for the best." It works for throwaway prototypes. It does not work for anything you need to maintain, extend, or trust. AI-SDLC is the deliberate opposite: structured intent, human accountability at every gate, and AI constrained by process — not unleashed without it.
+
+The process operates in three modes: **Inception**, **Planning**, and **Implementation**. At any point, the project is in exactly one mode for exactly one active goal. The mode is tracked in TRACKING.md (see [TEMPLATES.md](./TEMPLATES.md)), which is the single source of truth for "where are we."
+
+**One active goal at a time.** A project may have multiple goals defined, but only one is active. This prevents context scatter — every role knows exactly which goal it's serving. If the Human Lead wants to switch goals, they do so explicitly, and the reason for the switch is logged. The Navigator updates TRACKING.md.
+
+```
+Inception ──→ Planning ──→ Implementation ──→ Goal achieved
+                 ↑               │                    │
+                 └───────────────┘                    │
+              (phase-level issue)                     ↓
+                                              Pick next goal
+                                           (or back to Inception)
+```
+
+### Mode 1 — Inception
+
+**Who you're talking to:** Navigator, Senior Architect.
+
+Inception is where the project takes shape. The Human Lead defines goals, the Navigator sets up the journal structure, and the Senior Architect helps refine the vision. No code is written. No phases exist yet. The only output is clarity about what we're building and how we'll know when it's done.
+
+**What happens in Inception:**
+
+1. **Human Lead** articulates the goal(s) and gatekeep(s). The Architect may push back, ask probing questions, or suggest refinements — but the goal comes from the human.
+2. **Navigator** sets up the workspace and journal structure (see [SETUP.md](./SETUP.md)). Creates TRACKING.md, JOURNAL.md, DECISIONS.md, LESSONS_LEARNED.md.
+3. **Senior Architect** writes a SPEC.md for the first workstream — the problem, the vision, design principles.
+4. **Senior Architect** writes a CONTEXT.md — codebase reference: repo structure, key files, existing patterns.
+5. **Human Lead** reviews and approves.
+
+**Hard gate:** Inception cannot end without at least one goal and its gatekeep defined in TRACKING.md. If any AI role is asked to enter Planning without a goal, the correct response is: "No goals are defined. We need to go back to Inception." This is the process's most basic self-enforcement mechanism.
+
+**When Inception ends:** When the Human Lead decides it ends. The process doesn't automate this — the human judges when there's enough clarity to start planning. The Navigator updates TRACKING.md: mode switches to Planning, the first goal becomes active.
+
+### Mode 2 — Planning
+
+**Who you're talking to:** Navigator, Senior Architect, Technical Lead.
+
+Planning is where a goal gets broken into phases and phases get broken into implementation prompts. A phase is simply one piece of the goal — a bounded chunk of work with a clear purpose, concrete steps, and done-criteria. A small goal might have only one phase. A large goal might have twelve. The Architect decides the decomposition; the Human Lead approves it.
+
+**What happens in Planning:**
+
+1. **Navigator** briefs the Human Lead: which goal is active, what the current state is, what happened in the last session.
+2. **Senior Architect** reads the codebase deeply — relevant source files, tests, configuration, existing patterns. A plan written without reading the code is a guess.
+3. **Senior Architect** writes the PLAN.md — the roadmap: a list of phases with status, each referencing the active goal.
+4. **Senior Architect** writes the phase spec(s): problem/goal, concrete steps, test cases, done criteria. Specs should reference specific file paths, show code snippets of current behaviour, and include tables of test cases. Vague plans produce vague code.
+5. **Human Lead** reviews and approves the spec (or pushes back — the Architect should defend the design or revise it).
+6. **Technical Lead** writes numbered implementation prompts for the approved phase (see [PROMPTS.md](./PROMPTS.md)).
+7. **Human Lead** reviews the prompts. This is the gate between Planning and Implementation.
+
+**When Planning ends:** When the Human Lead approves the implementation prompts for a phase. The Navigator updates TRACKING.md: mode switches to Implementation, with the active phase and prompt number recorded.
+
+### Mode 3 — Implementation
+
+**Who you're talking to:** Navigator, Technical Lead, Developer.
+
+Implementation is where code gets written. The Developer follows prompts in order. The Technical Lead reviews output and handles prompt-level fixes. The Navigator tracks progress.
+
+**What happens in Implementation:**
+
+1. **Navigator** advises which prompt is next and confirms the Developer has the right context (which is just the prompt itself).
+2. **Developer** executes the prompt — writes code, runs verification commands, checks done-criteria.
+3. **Technical Lead** reviews the Developer's output.
+4. If verification passes, move to the next prompt. If the phase is complete, the Human Lead evaluates against the goal's gatekeep.
+5. **Navigator** updates TRACKING.md after each prompt or session.
+
+**Within-phase fixes (stay in Implementation):** If a prompt produces a failing test, a type error, or an unexpected result, the Developer reports back to the Technical Lead. The Tech Lead issues a fix prompt — a targeted correction that addresses the specific issue. The Developer executes it. This is a tight loop that doesn't require a mode change. The phase is still sound; a prompt just needs adjustment.
+
+**Phase-level issues (go back to Planning):** If the Developer or Technical Lead discovers that the phase itself is flawed — the approach doesn't work, the assumptions were wrong, a dependency was missed — this is not a prompt fix. The Human Lead decides to switch back to Planning. The Navigator updates TRACKING.md (mode → Planning) and captures what went wrong and why. When the Architect opens a new session, the context is already there. The Architect might tweak the phase, remove it, split it, or add new ones. The roadmap gets revised, the decision gets logged, and the process continues.
+
+**The authority chain for mode transitions:** The Developer cannot decide to go back to Planning (it follows prompts). The Technical Lead can *flag* a phase-level issue. But the Human Lead is the only one who authorises a mode transition. The Navigator updates TRACKING.md.
+
+### Session Discipline — Start and End
+
+Every work session, regardless of mode, has the same bookends:
+
+**Starting a session — talk to the Navigator first:**
+
+The Navigator reads TRACKING.md and the recent journal, and produces a briefing: what mode we're in, which goal is active, what the last session accomplished, what's pending, and what context the next role should load.
+
+**Default context by role:**
+
+| Role | Always load | Load on demand | Never load |
+|---|---|---|---|
+| **Navigator** | TRACKING.md, JOURNAL.md (last 10 entries), PLAN.md (status) | DECISIONS.md, LESSONS_LEARNED.md | Source code, phase specs, impl prompts |
+| **Senior Architect** | TRACKING.md, LESSONS_LEARNED.md (both), DECISIONS.md, CONTEXT.md, active phase spec | Completed phase specs, SESSION_LOG.md (last entry) | Entire session log history, all impl prompts |
+| **Technical Lead** | Active phase spec, LESSONS_LEARNED.md, relevant source files | CONTEXT.md, DECISIONS.md | Full journal, session logs, other phase specs |
+| **Developer** | The current implementation prompt | Nothing else | Everything except the prompt |
+
+The Navigator refines this per session. "For this Architect session, skip DECISIONS.md — nothing relevant. But load the phase 2 spec, because this phase depends on it."
+
+**Ending a session — Navigator handoff:**
+
+The Navigator is the last role to run. It updates all tracking artefacts:
+
+1. Update TRACKING.md — mode, active phase, prompt number, next action
+2. Update PLAN.md statuses (use status indicators from [TEMPLATES.md — Conventions](./TEMPLATES.md#status-indicators))
+3. Add a SESSION_LOG.md entry — what was done, by which role, files touched, open threads (full mode only)
+4. Add a line to JOURNAL.md
+5. If something was learned, add it to LESSONS_LEARNED.md
+6. If the session changed codebase structure, update CONTEXT.md
+7. Commit the journal repo
+
+The Navigator can perform steps 1-6 autonomously. The Human Lead verifies and commits. Skipping this means the next session starts with stale context — the exact amnesia problem this methodology exists to solve.
+
+### Goal Completion and Transition
+
+When all phases for the active goal are complete and the Human Lead confirms the gatekeep is met:
+
+1. **Navigator** updates TRACKING.md — goal status → Achieved
+2. If other goals are defined, the **Human Lead** picks the next one to activate → mode switches to Planning for that goal
+3. If no other goals exist, mode switches to Inception → the Human Lead defines what's next
+
+The lifecycle: Inception → Planning → Implementation → goal achieved → pick next goal (or back to Inception). The modes repeat per goal.
+
+### Swapping Goals
+
+The Human Lead can switch the active goal at any time. This is a deliberate decision, not an accident, and it gets logged:
+
+1. **Human Lead** decides to swap (e.g., goal 3 became urgent after client feedback)
+2. **Navigator** updates TRACKING.md — previous goal status → Paused (with reason), new goal → Active
+3. The reason for the swap is logged in DECISIONS.md — this context is critical for the next session
+
+When returning to a paused goal, the Navigator's briefing includes why it was paused and what state it was in when work stopped.
+
+---
+
+## Scaling the Process
+
+Not every project needs the full ceremony. The methodology scales along two axes: project size and team familiarity. The three modes (Inception, Planning, Implementation) apply at every scale — what changes is the amount of structure around them.
+
+### Lite Mode — Small Projects (1-5 phases, single workstream)
+
+Use when: a feature, a refactor, or a bug fix that takes a few sessions but benefits from planning. A small goal with one phase is perfectly valid — no overhead needed beyond a TRACKING.md entry and an inline spec.
+
+**Structure:**
+```
+my-project-journal/
+├── TRACKING.md
+├── JOURNAL.md
+├── DECISIONS.md
+├── LESSONS_LEARNED.md
+└── PLAN.md              ← Flat phase list with inline specs
+```
+
+No workstream folders. No separate phase folders. PLAN.md contains the roadmap and the phase specs inline. Implementation prompts can be written directly in the session rather than as separate files. The journal, decisions log, and lessons learned still exist — these are never optional, because accumulated knowledge is the core value proposition.
+
+**Role compression in lite mode:** The Senior Architect, Technical Lead, and Navigator can be the same AI session (same model, same context). The separation between design, prompt-writing, and tracking still happens — it's just sequential within one session. The Developer remains a separate session.
+
+**What you skip:** Workstream-level SPEC.md, CONTEXT.md, SESSION_LOG.md. Separate phase folders and impl/ directories. Session continuity is handled through JOURNAL.md entries and the inline phase specs in PLAN.md.
+
+**When to upgrade to full mode:** If you hit six phases, if the plan has been revised more than twice, or if you're onboarding a second person — switch to the full structure. The cost of upgrading mid-project is low (create folders, move inline specs into files).
+
+### Full Mode — Large Projects (6+ phases, possibly multiple workstreams)
+
+Use when: a multi-week or multi-month effort touching many files, requiring architectural decisions, involving multiple contributors.
+
+**Structure:** The full journal structure from [TEMPLATES.md](./TEMPLATES.md), with workstream folders, phase folders, numbered implementation prompts, and separate session logs.
+
+**What you gain:** Clean separation between workstreams, implementation prompts that can be handed to different Developer sessions (or different people), and a session log that provides continuity when work spans many days.
+
+### The Non-Negotiables (Both Modes)
+
+Regardless of scale, these are never skipped:
+
+- **Goals and gatekeeps before anything else.** No planning without a defined goal. No implementation without approved prompts.
+- **TRACKING.md is always current.** The single source of truth for mode, active goal, and next action.
+- **A written plan before code.** Even in lite mode, the phase has a spec (even if it's three paragraphs inline in PLAN.md).
+- **Decisions log.** Every non-trivial decision gets recorded with context and reasoning.
+- **Lessons learned.** Every hard-won lesson gets written down in actionable form.
+- **Journal entries.** One line per session. The cost is ten seconds; the value compounds.
+- **Orientation before action.** Talk to the Navigator first. Know where you are before deciding what to do.
+- **Review gate between planning and execution.** The Human Lead approves the plan before the Developer writes code.
+- **Role separation between design and execution.** Even in lite mode, the Architect/Tech Lead session and the Developer session are separate.
 
 ---
 
 ## Anti-Patterns
 
 ### "Just do it"
-Skipping the planning step because "it's a small change." Small changes that touch shared infrastructure are where the worst bugs hide. If it touches more than one file or changes behaviour, write a phase spec.
 
-### The 500-line plan
-Putting implementation detail in PLAN.md instead of phase docs. PLAN.md is a roadmap — phase table, links, status. All detail lives in the phase docs.
+Skipping the planning step because "it's a small change." Small changes that touch shared infrastructure are where the worst bugs hide. If it touches more than one file or changes behaviour, write a phase spec — even a three-paragraph one.
 
 ### Amnesia sessions
-Starting a new AI session without loading context. The AI will make decisions that contradict previous sessions, re-introduce patterns that were explicitly rejected, or redo work that's already done.
 
-### Snapshot testing as a shortcut
-Using snapshot tests instead of targeted assertions. Snapshots break on incidental changes and don't communicate intent. They give a false sense of coverage without proving behaviour is preserved.
+Starting a new AI session without loading context. The AI will contradict previous decisions, reintroduce rejected patterns, or redo completed work. The context loading protocol exists for this reason — and each role has a specific loading recipe (see the context loading table above).
 
-### Testing after the fact
-Writing a separate "add tests" phase after features are built. Tests are part of the definition of done for each phase. A feature without tests is not complete.
+### The 500-line plan
+
+Putting implementation detail in PLAN.md instead of phase docs. PLAN.md is a roadmap — phase table, links, status. All detail lives in the phase specs and implementation prompts.
 
 ### Silent plan changes
-Revising a plan without logging what changed. The next session (or the next person) reads the plan assuming it's the original and misses the context of why it was revised.
+
+Revising a spec without logging what changed. The next session reads the plan assuming it's the original and misses the context for why it was revised. Every revision gets a version bump, a decisions log entry, and a journal note.
+
+### Snapshot testing as a shortcut
+
+Using snapshot tests instead of targeted assertions. Snapshots break on incidental changes and don't communicate intent. They give a false sense of coverage without proving behaviour is preserved.
+
+### The green bar illusion
+
+AI-generated tests that pass without asserting anything meaningful. `expect(result).toBeDefined()` proves nothing. `expect(result).toBeTruthy()` on an object that's always truthy proves nothing. When an AI writes tests, verify that the assertions are specific: exact property values, exact array lengths, exact types, exact error messages. If the test would still pass with a completely wrong implementation, it's not a test.
+
+This is the most common AI testing failure mode. The AI optimises for green — a passing test suite — not for coverage of actual behaviour. Treat AI-generated tests with the same scrutiny you'd give a junior developer's first PR.
+
+### Testing after the fact
+
+Writing a separate "add tests" phase after features are built. Tests are part of the definition of done for each phase. A feature without tests is incomplete. Before any refactor that moves code between modules, write tests that assert current behaviour — run them before and after. If they pass without changes to the test files, the refactor preserved behaviour.
+
+### The improvising Developer
+
+A Developer session that encounters something unexpected and decides to "fix it" without going back to the Technical Lead. The Developer's job is to follow the prompt. If the prompt doesn't account for the current state of the code, the correct response is to report back, not to improvise. Improvised fixes compound — each one makes the next prompt's assumptions less accurate.
+
+### Role bleed
+
+Running the Architect and Developer in the same session "to save time." The Architect's job is to challenge assumptions and think broadly. The Developer's job is to follow instructions precisely. These are opposing mindsets. When combined in one session, the AI either over-thinks execution (slow, over-engineered) or under-thinks design (quick, brittle). Keep them separate.
