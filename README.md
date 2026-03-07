@@ -20,7 +20,7 @@ This methodology fixes that. The core mechanism: structured context that persist
 
 2. **Planning is now cheap — so plan aggressively.** LLMs can hold an entire codebase in context and produce a detailed plan in minutes. The cognitive bottleneck that made upfront planning impractical for humans doesn't apply to AI. This isn't waterfall — the plans are disposable and get revised constantly. The discipline of producing them is what matters.
 
-3. **Five roles, clear separation.** The Human Lead defines goals and gatekeeps. The Navigator orients — "where are we, what's next, what context do you need." The Senior Architect designs the approach and pushes back. The Technical Lead writes implementation prompts and reviews output. The Developer writes code. Each AI role runs in a separate session with its own context. See [PROCESS.md](./PROCESS.md) for the full role definitions.
+3. **Five roles, clear separation.** The Human Lead defines goals and gatekeeps. The Orchestrator guides — "where are we, what's next, which role should I talk to" — and stays open as the human's constant companion. The Senior Architect designs the approach and pushes back. The Technical Lead writes implementation prompts and reviews output. The Developer writes code. Each AI role runs in a separate session with its own context loaded via entry points (see [`roles/`](./roles/) and [MECHANICS.md](./MECHANICS.md)).
 
 4. **Accumulate knowledge across sessions.** Decisions, lessons learned, and session logs persist in a structured knowledge base. Each new session loads this context. The AI effectively gets better at your project over time.
 
@@ -62,7 +62,7 @@ The process scales. For a two-week feature, you might use a single PLAN.md with 
 4. Read [PROCESS.md](./PROCESS.md) to understand the workflow
 5. Read [MECHANICS.md](./MECHANICS.md) to understand the context isolation architecture
 6. Read [PROMPTS.md](./PROMPTS.md) before writing your first implementation prompts
-7. Point your AI tool at the workspace folder. Load a role entry point from `roles/` — start with the [Navigator](./roles/navigator.md)
+7. Point your AI tool at the workspace folder. Load a role entry point from `roles/` — start with the [Orchestrator](./roles/orchestrator.md)
 
 ## License
 

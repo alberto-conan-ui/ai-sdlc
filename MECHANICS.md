@@ -9,9 +9,9 @@
 
 PROCESS.md describes the full methodology: roles, modes, workflows, anti-patterns. It's written for a human who needs the complete picture. But AI sessions are not humans reading a manual — they're workers performing a bounded job. When an AI role loads the full methodology, three things go wrong.
 
-**Context waste.** The Developer doesn't need to know how the Architect thinks. The Navigator doesn't need prompt craft guidance. The Architect doesn't need the Developer's stance on unexpected failures. Every role pays the token cost of the full methodology, but most of that context is irrelevant to its task. In a context window with hard limits, irrelevant tokens displace useful ones — the source files, the phase spec, the lessons learned.
+**Context waste.** The Developer doesn't need to know how the Architect thinks. The Orchestrator doesn't need prompt craft guidance. The Architect doesn't need the Developer's stance on unexpected failures. Every role pays the token cost of the full methodology, but most of that context is irrelevant to its task. In a context window with hard limits, irrelevant tokens displace useful ones — the source files, the phase spec, the lessons learned.
 
-**Role bleed.** This is the more insidious problem. An AI that knows about other roles' responsibilities starts doing their jobs. An Architect that knows the Developer's constraints over-specifies implementation details instead of designing systems. A Developer that knows the Architect's reasoning second-guesses the prompt instead of following it. A Navigator that knows about prompt craft starts writing prompts. Knowledge shapes behaviour — even knowledge the role shouldn't act on.
+**Role bleed.** This is the more insidious problem. An AI that knows about other roles' responsibilities starts doing their jobs. An Architect that knows the Developer's constraints over-specifies implementation details instead of designing systems. A Developer that knows the Architect's reasoning second-guesses the prompt instead of following it. An Orchestrator that knows about prompt craft starts writing prompts. Knowledge shapes behaviour — even knowledge the role shouldn't act on.
 
 **No formal boot sequence.** Without a defined entry point, context loading is manual and inconsistent. The Human Lead has to remember which files each role needs, or the AI loads everything "just in case." Both lead to the same outcome: expensive sessions with unfocused context and unpredictable behaviour.
 
@@ -26,7 +26,7 @@ Each AI role reads **one entry-point file** from the `roles/` folder. That file 
 - What its responsibilities are (specific, bounded)
 - What it must not do (explicit boundaries)
 
-The entry point contains **no knowledge of other roles' internals**. The Navigator doesn't know how the Architect designs phase specs. The Developer doesn't know how the Tech Lead writes prompts. Each role operates within its own context boundary.
+The entry point contains **no knowledge of other roles' internals**. The Orchestrator doesn't know how the Architect designs phase specs. The Developer doesn't know how the Tech Lead writes prompts. Each role operates within its own context boundary.
 
 This isn't just about saving tokens (though it does). It's about **cognitive framing**. The same model behaves differently when given an Architect's entry point versus a Developer's entry point — even with identical project files loaded. The entry point shapes how the AI interprets the codebase, what it prioritises, and what it ignores. Role separation is a behavioural tool, not just a cost optimisation.
 
@@ -42,7 +42,7 @@ Small, self-contained markdown files in `roles/`. One per AI role. Each is 60–
 
 1. **Identity** — Who the role is, in one or two sentences. Not a job description — a stance. "You design systems and push back on assumptions" is a stance. "You are responsible for phase specs, CONTEXT.md updates, and design rationale" is a job description. The identity sets the AI's posture.
 
-2. **Files to load** — The specific project files this role needs. Not a generic table — the entry point names the files. The Navigator further refines this per session ("skip DECISIONS.md, load the phase 2 spec instead").
+2. **Files to load** — The specific project files this role needs. Not a generic table — the entry point names the files. The Orchestrator further refines this per session ("skip DECISIONS.md, load the phase 2 spec instead").
 
 3. **Responsibilities** — What the role produces. Concrete deliverables, not abstract duties.
 
@@ -59,19 +59,36 @@ Small, self-contained markdown files in `roles/`. One per AI role. Each is 60–
 
 ### The constraint that makes this work
 
-Entry points reference **project artefacts** (TRACKING.md, phase specs, source code), never **other entry points**. The Navigator doesn't say "the Architect should load X." It says "the next session should load these files: [list]." The Human Lead maps that advice to the right role. This keeps roles genuinely isolated — they share a project state (via TRACKING.md), not a process state (via each other).
+Entry points reference **project artefacts** (TRACKING.md, phase specs, source code), never **other entry points**. The Orchestrator doesn't say "the Architect should load X." It says "the next session should load these files: [list]." The Human Lead maps that advice to the right role. This keeps roles genuinely isolated — they share a project state (via TRACKING.md), not a process state (via each other).
 
 ---
 
-## The Navigator as Default Entry Point
+## The Orchestrator — The Human Lead's Companion
 
-The Navigator is the cheapest role (lightest context load) and the one that prevents the most expensive mistakes (stale context feeding into an Architect or Tech Lead session).
+The Orchestrator is fundamentally different from the other roles. The Architect, Tech Lead, and Developer are workers — you open a session, they do a job, the session ends. The Orchestrator is a companion — it stays open. The Human Lead tabs back to it between every role session.
 
-**When the Human Lead doesn't know where things stand** — which is the common case at the start of a work day — the Navigator is the first session. It reads TRACKING.md and the recent journal, produces a 3–5 line briefing, and advises which files the next role should load. This costs a few hundred tokens of project-artefact context. The alternative — loading a full Architect session to figure out where you are — costs thousands of tokens of source code and spec context before you even know whether the Architect is the right role.
+This changes the workflow. Instead of "run a Navigator session to get a briefing, close it, run an Architect, close it, run a Navigator to update tracking," the Orchestrator is always there:
 
-**The Navigator is the router.** It answers "where are we?" and "what context does the next role need?" This routing function is what earns the Navigator its place as a separate role. It's not doing work that another role could absorb — it's doing the meta-work that makes every other role effective.
+```
+[Orchestrator always open]
+   ├── Human asks: "where are we?" → Orchestrator briefs
+   ├── Human: "what next?" → Orchestrator generates handoff prompt for Architect
+   ├── Human pastes handoff prompt into Architect session → does design work → closes it
+   ├── Human tabs back: "just finished with the Architect, what next?"
+   │   → Orchestrator updates tracking, generates handoff prompt for Tech Lead
+   ├── Human pastes handoff prompt into Tech Lead session → writes prompts → closes it
+   ├── Human tabs back: "prompts are done, ready for implementation?"
+   │   → Orchestrator updates tracking, generates handoff prompt for Developer
+   └── ...
+```
 
-**When you don't need the Navigator:** If you already know the current state (you just finished a session, you remember the phase and prompt number), skip the Navigator and go directly to the working role. The Navigator is for orientation, not ceremony.
+**The Orchestrator reduces gate fatigue.** The methodology has many review gates — spec review, prompt review, phase completion, gatekeep evaluation. Without the Orchestrator, the Human Lead has to remember which gate they're at, what's pending, and what the next step is. With the Orchestrator, they just ask. The process has the same rigour, but the human doesn't have to carry the process state in their head.
+
+**The Orchestrator earns its place by being cheap.** It loads only tracking artefacts — TRACKING.md, JOURNAL.md, PLAN.md status. No source code, no specs, no prompts. This means the context window stays small, responses are fast, and the cost per interaction is minimal. You can ask the Orchestrator ten questions in the time it takes to load one Architect session.
+
+**The Orchestrator generates handoff prompts.** This is its most valuable output. When the Human Lead finishes with one role and needs to start another, the Orchestrator produces the exact prompt to paste into the new session — including which entry point to load, which project files to read, what just happened, and what the session needs to achieve. This solves the context transfer problem: the human is normally the relay between roles, and humans are lossy relays. They forget what decisions were made, which files changed, what constraints apply. The handoff prompt packages everything the Orchestrator knows into a ready-to-use opening for the next role, eliminating that information loss.
+
+**When you don't need the Orchestrator:** If you already know the current state and the next step, go directly to the working role. The Orchestrator is for guidance, not ceremony. But most of the time — especially at the start of a work day, or after a complex session — the Orchestrator is where you start.
 
 ---
 
@@ -89,31 +106,26 @@ Role separation serves three purposes, in order of importance:
 
 ## How to Use the Entry Points
 
-### Starting a work session
+### The typical workflow
 
-1. **Open your AI tool.** Point it at the workspace folder.
-2. **Pick a role.** If you don't know where things stand, start with the Navigator. If you do know, pick the role for what you're doing.
-3. **Load the entry point.** Tell the AI to read the role's entry point file and follow its instructions for loading project files.
-4. **Do the work.** The AI operates within the boundaries defined by its entry point.
-5. **End the session.** Run the Navigator to update tracking artefacts.
+1. **Open the Orchestrator.** This is your home base. Load `roles/orchestrator.md`.
+2. **Ask where you are.** The Orchestrator reads tracking artefacts and briefs you.
+3. **Open a working role.** Based on the Orchestrator's advice, open an Architect, Tech Lead, or Developer session with its entry point.
+4. **Do the work.** The working role operates within its boundaries.
+5. **Tab back to the Orchestrator.** Tell it what happened. It updates tracking and advises the next step.
 
-### The typical session sequence
-
-```
-Navigator (brief) → [Architect | Tech Lead | Developer] (work) → Navigator (update)
-```
-
-The Navigator bookends the working session. This is the mechanism that prevents amnesia between sessions — the Navigator captures what happened and prepares context for the next one.
+The Orchestrator stays open throughout. Working roles open and close as needed.
 
 ### Choosing a role
 
 | Situation | Role |
 |---|---|
-| "I don't know where we are" | Navigator |
+| "I don't know where we are" | Orchestrator |
+| "What should I do next?" | Orchestrator |
 | "I need to design the next phase" | Architect |
 | "I need prompts for an approved spec" | Tech Lead |
 | "I need to execute a prompt" | Developer |
-| "I just finished work and need to log it" | Navigator |
+| "I just finished with a role session" | Orchestrator |
 
 ---
 

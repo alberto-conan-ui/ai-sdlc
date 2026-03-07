@@ -25,7 +25,7 @@ my-project-workspace/              ← AI tool points here
     ├── SETUP.md
     ├── TEMPLATES.md
     └── roles/                     ← AI role entry points
-        ├── navigator.md
+        ├── orchestrator.md
         ├── architect.md
         ├── tech-lead.md
         └── developer.md
