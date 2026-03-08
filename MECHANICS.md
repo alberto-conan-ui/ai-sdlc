@@ -106,6 +106,18 @@ Role separation serves three purposes, in order of importance:
 
 ---
 
+## Session Persistence Is in the Artefacts, Not the Tool
+
+Some AI tools maintain persistent sessions — the Orchestrator stays open across role switches and retains its full conversation history. Others reset context with every new conversation. Both work with this methodology, because persistence lives in the written artefacts, not in the AI's memory.
+
+Every piece of state is written down: STATUS.md tracks where you are, the journal tracks what happened, phase specs track the plan, session receipts track what the Developer did. When the Orchestrator opens a fresh session, it loads its entry point, reads STATUS.md and the recent journal, and knows exactly where things stand — not because it remembers, but because everything was recorded.
+
+Tools with persistent sessions get convenience: the Orchestrator doesn't need to reload context between role switches. Tools without persistent sessions get the same information, just re-read from disk. The handoff prompts the Orchestrator generates are especially valuable in stateless tools — they're the packaged context bridge that would otherwise be lost between conversations.
+
+This is a deliberate design choice. The methodology never relies on an AI role's memory of previous interactions. It relies on written artefacts that any session can read. If your tool offers persistence, you benefit from faster Orchestrator interactions. If it doesn't, the process still works — the journal and STATUS.md are the memory.
+
+---
+
 ## How to Use the Entry Points
 
 ### The typical workflow

@@ -268,14 +268,14 @@ Each AI role has different cognitive demands. Rather than hardcoding specific mo
 | **Tier 1 — Reasoning** | Strongest reasoning, largest context window. Architectural thinking, trade-off analysis, nuanced judgement. | Senior Architect, Technical Lead (complex phases) |
 | **Tier 2 — Execution** | Strong code generation, good instruction-following. Fast, cost-effective. | Developer, Technical Lead (straightforward phases), Orchestrator |
 
-**Current mapping (as of March 2026):**
+**Illustrative mapping (March 2026 — update with your current best-available models):**
 
 | Tier | Example models |
 |---|---|
 | Tier 1 | Claude Opus 4.6, GPT-4.5, Gemini 2.5 Pro |
 | Tier 2 | Claude Sonnet 4.6, GPT-4.1, Gemini 2.5 Flash |
 
-Update this mapping when models change. The tiers themselves are stable — the models behind them are not.
+These are examples, not recommendations — the model landscape changes faster than any document can track. The tiers themselves are stable; the models behind them are not. Use whatever you currently consider your strongest reasoning model for Tier 1 and your best execution model for Tier 2.
 
 **When the Technical Lead moves between tiers:** For phases that involve complex refactoring, novel architecture, or ambiguous requirements, the Tech Lead benefits from Tier 1 (writing good prompts for hard problems requires strong reasoning). For phases that follow established patterns — adding a new type that mirrors an existing one, extending a test suite — Tier 2 is sufficient. The Human Lead makes this call per phase.
 
