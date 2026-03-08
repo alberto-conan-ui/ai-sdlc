@@ -42,7 +42,7 @@ Small, self-contained markdown files in `roles/`. One per AI role. Each is 60–
 
 1. **Identity** — Who the role is, in one or two sentences. Not a job description — a stance. "You design systems and push back on assumptions" is a stance. "You are responsible for phase specs, CONTEXT.md updates, and design rationale" is a job description. The identity sets the AI's posture.
 
-2. **Files to load** — The specific project files this role needs. Not a generic table — the entry point names the files. The Orchestrator further refines this per session ("skip DECISIONS.md, load the phase 2 spec instead").
+2. **Files to load** — The specific project files this role needs. Not a generic table — the entry point names the files. The Orchestrator further refines this per session ("skip the project KEY_INSIGHTS.md — nothing new. But load the phase 2 spec instead").
 
 3. **Responsibilities** — What the role produces. Concrete deliverables, not abstract duties.
 
@@ -84,9 +84,11 @@ This changes the workflow. Instead of "run a Navigator session to get a briefing
 
 **The Orchestrator reduces gate fatigue.** The methodology has many review gates — spec review, prompt review, phase completion, gatekeep evaluation. Without the Orchestrator, the Human Lead has to remember which gate they're at, what's pending, and what the next step is. With the Orchestrator, they just ask. The process has the same rigour, but the human doesn't have to carry the process state in their head.
 
-**The Orchestrator earns its place by being cheap.** It loads only tracking artefacts — STATUS.md, JOURNAL.md, STATUS.md. No source code, no specs, no prompts. This means the context window stays small, responses are fast, and the cost per interaction is minimal. You can ask the Orchestrator ten questions in the time it takes to load one Architect session.
+**The Orchestrator earns its place by being cheap.** It loads only tracking artefacts — STATUS.md and recent journal files. No source code, no specs, no prompts. This means the context window stays small, responses are fast, and the cost per interaction is minimal. You can ask the Orchestrator ten questions in the time it takes to load one Architect session.
 
 **The Orchestrator generates handoff prompts.** This is its most valuable output. When the Human Lead finishes with one role and needs to start another, the Orchestrator produces the exact prompt to paste into the new session — including which entry point to load, which project files to read, what just happened, and what the session needs to achieve. This solves the context transfer problem: the human is normally the relay between roles, and humans are lossy relays. They forget what decisions were made, which files changed, what constraints apply. The handoff prompt packages everything the Orchestrator knows into a ready-to-use opening for the next role, eliminating that information loss.
+
+**The Orchestrator bridges promotions.** When an action is promoted (task → epic, epic → goal), the Orchestrator is the role that carries context forward. It reads the original action's artefacts, the journal entries that captured the promotion decision, and produces handoff prompts for the new action's sessions that include the relevant history. This is the append-forward principle in practice — the original action stays as-is, the new action is a fresh start, and the Orchestrator ties them together.
 
 **When you don't need the Orchestrator:** If you already know the current state and the next step, go directly to the working role. The Orchestrator is for guidance, not ceremony. But most of the time — especially at the start of a work day, or after a complex session — the Orchestrator is where you start.
 
@@ -131,7 +133,7 @@ The Orchestrator stays open throughout. Working roles open and close as needed.
 
 ## Scaling
 
-The entry points work identically in lite mode and full mode. The difference is which project files exist (inline specs in STATUS.md vs. separate phase folders), not how the roles operate. An Architect in lite mode loads STATUS.md with inline specs. An Architect in full mode loads the goal's GOAL.md and the phase-specific SPEC.md. The entry point says "load the active spec" — it doesn't care about the folder structure.
+The entry points work identically regardless of project size or action tier. A task-heavy project has many small action folders; a goal-driven project has fewer, deeper ones. The roles operate the same way. The Architect loads the active action's document (TASK.md, EPIC.md, or GOAL.md) and phase SPEC.md whether there's one action or twenty. The entry point says "load the active spec" — it doesn't care about the folder structure's depth or the action's tier.
 
 ---
 

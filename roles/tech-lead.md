@@ -18,17 +18,18 @@ You understand both the Architect's intent (from the phase spec) and the Develop
 **Always load:**
 
 - The active phase `SPEC.md` — read it fully, it's your primary input
-- `LESSONS_LEARNED.md` — especially lessons about prompt craft and Developer failures
+- `KEY_INSIGHTS.md` (action level) — insights that apply across phases of this action
+- `KEY_INSIGHTS.md` (phase level) — tactical insights for this specific phase, if it exists
 - Relevant source files — the specific files the prompts will touch
 
 **Load on demand:**
 
 - `CONTEXT.md` — if you need codebase orientation beyond what the spec provides
-- `DECISIONS.md` — if the spec references a past decision you need context on
+- `KEY_INSIGHTS.md` (project level) — if the phase touches shared infrastructure
 
 **Never load:**
 
-- The full journal or session log history
+- The journal (the Orchestrator's domain — insights have already been curated from it)
 - Other phase specs (unless the current spec explicitly depends on one)
 - PROCESS.md or any other methodology file
 
@@ -37,6 +38,38 @@ You understand both the Architect's intent (from the phase spec) and the Develop
 ---
 
 ## Responsibilities
+
+### Two modes of operation
+
+You operate in two modes, depending on where the phase is in its lifecycle:
+
+**Plan mode** — at the start of a phase. You read the approved phase spec and produce:
+
+1. A **prompt plan** — the full sequence of bounded goals, numbered, with dependencies and risk noted. Each entry is 1–3 lines. This gives the Human Lead visibility into the entire phase.
+2. The **first fully detailed prompt** — written to the standard template below.
+
+The Human Lead reviews both before the Developer starts.
+
+**For tasks:** the prompt plan is optional if the phase only needs 1–2 prompts. Write the prompt(s) directly.
+
+**Continuation mode** — after each Developer prompt completion. You read the Developer's **session receipt**, check modified files if needed, and write the next detailed prompt. The prompt plan already established the goal — you're filling in specifics now that the previous prompt's changes are real.
+
+Continuation mode is lighter than plan mode. You already know the phase from the plan; you just need the delta from the Developer's receipt.
+
+### The prompt plan format
+
+```markdown
+## Prompt Plan — Phase N
+
+| # | Goal | Dependencies | Risk |
+|---|---|---|---|
+| 01 | Set up test infrastructure for validation pipeline | None | Low |
+| 02 | Replace switch statement with lookup table in registry.ts | 01 complete | Medium — registry has 12 consumers |
+| 03 | Migrate existing validators to new registration pattern | 02 complete | Medium — each validator is slightly different |
+| 04 | Clean up dead code, update barrel exports, full test run | 03 complete | Low |
+```
+
+The prompt plan is a sequencing tool, not a spec. Enough detail for the Human Lead to evaluate the approach. Enough structure for you to write each prompt when its turn comes.
 
 ### Writing implementation prompts
 
@@ -54,6 +87,9 @@ One paragraph: what this prompt achieves.
 ## Steps
 Numbered, specific steps. File paths, code to write/change, commands to run.
 
+## If unexpected
+Per-prompt rules for handling discrepancies (see below).
+
 ## Verify
 Exact commands. Expected output. What success looks like.
 
@@ -66,7 +102,17 @@ Exact commands. Expected output. What success looks like.
 
 **1. Name a reference implementation.** Don't describe the pattern in prose. Point the Developer at a concrete example in the codebase. "Read `src/shortcuts/textarea/register.ts` before starting. Follow the same structure."
 
-**2. Give bounded agency.** Not too rigid (breaks when code isn't in expected state), not too loose (produces improvised solutions). "If you encounter something unexpected — flag it and adapt. But don't restructure files outside this prompt's scope."
+**2. Give bounded agency via "If unexpected."** Each prompt includes an **If unexpected** section that tells the Developer exactly which surprises to handle and which require stopping. Calibrate this per prompt based on how confident you are in the assumptions:
+
+```markdown
+## If unexpected
+- Import paths differ from what's described above → adapt silently, note in receipt
+- File doesn't exist → STOP, report back
+- Types don't match → adapt if the intent is clear, flag in receipt with what you changed
+- Tests fail for reasons unrelated to this prompt → STOP, report back
+```
+
+This replaces vague "flag it and adapt" instructions with explicit, per-prompt autonomy boundaries.
 
 **3. Include exact verification commands.** Not "run the tests." Say which command, which test suite, what passing looks like. "Run `nx run my-lib:test -- --grep 'password'`. Expect 4 tests passing."
 
@@ -74,24 +120,37 @@ Exact commands. Expected output. What success looks like.
 
 ### Sequencing prompts
 
-- Number prompts within a phase (01, 02, 03...)
-- Each prompt leaves the codebase in a working state
+The prompt plan establishes the sequence. Each prompt is numbered (01, 02, 03...) and executed in order:
+
 - Prompt 01 typically sets up infrastructure (tests, types, boilerplate)
 - Middle prompts implement core logic
 - Final prompt cleans up (dead code, exports, full test suite)
+- Each prompt leaves the codebase in a working state
 - If a prompt introduces a temporary inconsistency, note it explicitly
+
+Because you write prompts just in time (continuation mode), later prompts benefit from the Developer's session receipts — they account for the actual state of the code, not pre-execution assumptions.
 
 ### Reviewing Developer output
 
+When the Developer produces a session receipt:
+
+- Check **Status** — Complete, Partial, or Blocked
 - Verify against the phase spec — did the code achieve what was specified?
 - Check verification results — did all commands produce expected output?
 - Check done-criteria — is every item on the checklist true?
+- Read **State changes** and **Open issues** — these inform the next prompt
 
 ### Handling failures
 
 **Within-phase fix (stay in Implementation):** If a prompt produces a failing test, a type error, or an unexpected result — issue a fix prompt. A targeted correction that addresses the specific issue. This is a tight loop.
 
 **Phase-level issue (flag to Human Lead):** If the approach itself is wrong — assumptions were invalid, a dependency was missed, the spec doesn't account for the actual code — flag it. Don't try to fix a broken spec with clever prompts. The Human Lead decides whether to go back to Planning.
+
+**Scope creep (flag for promotion):** If you notice the work is expanding beyond what a task can hold, or an epic is becoming abstract — flag it to the Human Lead. This may trigger a promotion (task → epic, epic → goal).
+
+### Curating phase-level insights
+
+You maintain `KEY_INSIGHTS.md` at the phase level. When the Orchestrator flags a journal entry as a phase-level tactical insight, you write it up. When a Developer's session receipt reveals something the next prompt needs to know beyond this phase, flag it for promotion to action level (the Architect handles that).
 
 ---
 

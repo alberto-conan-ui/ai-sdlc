@@ -11,13 +11,16 @@ Every project uses a workspace parent folder containing three siblings:
 ```
 my-project-workspace/              ← AI tool points here
 ├── my-project/                    ← Code repo (git clone)
-├── my-project-journal/              ← Project journal (its own git repo)
+├── my-project-journal/            ← Project journal (its own git repo)
 │   ├── STATUS.md
-│   ├── JOURNAL.md
-│   ├── DECISIONS.md
-│   ├── LESSONS_LEARNED.md
+│   ├── KEY_INSIGHTS.md
 │   ├── CONTEXT.md
-│   └── goals/
+│   ├── journal/
+│   │   └── YYYY-WNN.md
+│   └── actions/
+│       ├── task-fix-login-bug/
+│       ├── epic-refactor-validation/
+│       └── goal-plugin-architecture/
 └── ai-sdlc/                      ← Methodology repo (shared across projects)
     ├── README.md
     ├── PROCESS.md                 ← Full methodology (human-facing)
@@ -41,6 +44,21 @@ Three repos, three concerns, three change cadences:
 | `ai-sdlc/` | The methodology itself | The process evolves | All projects |
 
 The AI tool mounts the workspace folder, giving it access to all three in a single session.
+
+### workspace.yaml
+
+A configuration file at the workspace root defines the folder names once, eliminating fragile relative paths in documents and prompts:
+
+```yaml
+# workspace.yaml — single source of truth for folder names
+code: my-project
+journal: my-project-journal
+methodology: ai-sdlc
+```
+
+With this file, all documents can reference paths as `{code}/src/services/auth.ts` instead of `../my-project/src/services/auth.ts`. The AI resolves these references at session start by reading `workspace.yaml`. The Orchestrator's handoff prompts use the same shorthand.
+
+This is especially valuable for implementation prompts, where deep folder nesting would otherwise require counting `../` levels: `{code}/src/services/auth.ts` is always correct regardless of where the prompt file lives.
 
 ---
 
@@ -66,11 +84,18 @@ ln -s ~/repos/my-project ./my-project
 # 3. Symlink ai-sdlc (one clone shared across all projects)
 ln -s ~/repos/ai-sdlc ./ai-sdlc
 
-# 4. Create the project journal
+# 4. Create workspace.yaml
+cat > workspace.yaml << 'EOF'
+code: my-project
+journal: my-project-journal
+methodology: ai-sdlc
+EOF
+
+# 5. Create the project journal
 mkdir my-project-journal && cd my-project-journal && git init
 
-# 5. Initialise using templates from TEMPLATES.md
-# Create: STATUS.md, JOURNAL.md, DECISIONS.md, LESSONS_LEARNED.md, CONTEXT.md
+# 6. Initialise using templates from TEMPLATES.md
+# Create: STATUS.md, KEY_INSIGHTS.md, CONTEXT.md, journal/ folder, actions/ folder
 ```
 
 Then point your AI tool at `~/workspaces/my-project-workspace/`.
@@ -85,11 +110,11 @@ Each project gets its own workspace and journal. The methodology is shared via s
 ~/workspaces/
 ├── project-a-workspace/
 │   ├── project-a/              ← code
-│   ├── project-a-journal/        ← journal (its own git repo)
+│   ├── project-a-journal/      ← journal (its own git repo)
 │   └── ai-sdlc/               ← symlink → ~/repos/ai-sdlc
 ├── project-b-workspace/
 │   ├── project-b/              ← code
-│   ├── project-b-journal/        ← journal (its own git repo)
+│   ├── project-b-journal/      ← journal (its own git repo)
 │   └── ai-sdlc/               ← symlink → ~/repos/ai-sdlc
 ```
 
@@ -105,7 +130,7 @@ One ai-sdlc clone on disk. Process improvements are immediately available everyw
 
 **AI tools see everything.** Because the AI is pointed at the parent workspace, it can read and write code, read and write project knowledge, read the methodology, follow relative paths between all three, and run build/test commands in the code repo.
 
-**Knowledge accumulates.** Decisions, lessons learned, and session logs persist in the journal. Each new session loads this context. The AI effectively gets better at your project over time.
+**Knowledge accumulates.** The journal captures everything chronologically. Key insights are curated from journal entries and placed at the right scope level (project, action, phase). Each new session loads the relevant insights. The AI effectively gets better at your project over time.
 
 **Each journal has its own history.** Separate repos mean clean, self-contained git logs per project. Collaborators can clone a project journal without seeing other projects' histories.
 
@@ -113,17 +138,20 @@ One ai-sdlc clone on disk. Process improvements are immediately available everyw
 
 ## Path References
 
-From the project journal, reference code files using relative paths:
+Use the `workspace.yaml` shorthand in all documents and prompts:
 
 ```
-../my-project/src/services/auth.ts
+{code}/src/services/auth.ts
+{journal}/actions/epic-refactor-validation/phases/1-baseline-tests/SPEC.md
+{methodology}/roles/architect.md
 ```
 
-From implementation prompts (deeper in the folder structure):
+The AI resolves `{code}`, `{journal}`, and `{methodology}` by reading `workspace.yaml` at session start. This works regardless of where the referencing file lives — no `../` counting required.
+
+**Fallback:** If workspace.yaml isn't present, use relative paths from the workspace root:
 
 ```
-# From my-project-journal/goals/1-name/phases/1-phase/impl/01-task.md
-../../../../../my-project/src/services/auth.ts
+my-project/src/services/auth.ts
 ```
 
 All paths resolve correctly because the workspace convention places all three repos as siblings under a shared parent.

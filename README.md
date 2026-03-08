@@ -12,21 +12,25 @@ AI coding assistants are powerful executors but unreliable architects. They don'
 
 This methodology fixes that. The core mechanism: structured context that persists across sessions. Session 10 benefits from every mistake caught in sessions 1 through 9 — not through model fine-tuning, but through a knowledge base the AI reads at the start of each session.
 
-**This is a human-driven process.** AI-SDLC exists to empower humans through AI, not to replace human judgement with AI output. The AI does more of the work — planning, coding, testing. But the human defines every goal, sets every gatekeep, and approves every plan. If the human disengages, the process breaks. The methodology is only as strong as the person driving it.
+**This is a human-driven process for senior developers.** AI-SDLC exists to empower humans through AI, not to replace human judgement with AI output. The AI does more of the work — planning, coding, testing. But the human defines every action, sets every gatekeep, and approves every plan. Every review gate requires experienced judgement — evaluating AI-generated specs, spotting subtle bugs in AI-written code, knowing when to push back. If the human disengages, the process breaks. The methodology is only as strong as the person driving it.
+
+**Use it for the right work.** Not everything needs this process. A one-line fix, a config change, a dependency bump — just do it. AI-SDLC earns its keep when the work has dependencies, touches shared state, or requires decisions that constrain future work. The test: would you benefit from a written plan before coding this? If yes, create an action. If not, skip the process. See [PROCESS.md](./PROCESS.md) for the full guidance.
 
 ## Principles
 
-1. **Goals first, always.** Everything starts with a human-defined goal — abstract, non-technical, outcome-oriented. Every goal has a gatekeep: who decides it's achieved, and what they're evaluating. Without clear goals and gatekeeps, the process optimises for technical correctness while potentially missing what the human actually wanted. See [PROCESS.md](./PROCESS.md) for the full goals and gatekeeping framework.
+1. **Actions first, always.** Everything starts with a human-defined action — a task, an epic, or a goal. Each has a gatekeep: who decides it's achieved, and what they're evaluating. Without clear actions and gatekeeps, the process optimises for technical correctness while potentially missing what the human actually wanted. See [PROCESS.md](./PROCESS.md) for the full actions and gatekeeping framework.
 
-2. **Planning is now cheap — so plan aggressively.** LLMs can hold an entire codebase in context and produce a detailed plan in minutes. The cognitive bottleneck that made upfront planning impractical for humans doesn't apply to AI. This isn't waterfall — the plans are disposable and get revised constantly. The discipline of producing them is what matters.
+2. **Three tiers, right-sized ceremony.** Not all work is the same size. A bug fix (task) needs a quick spec and a prompt. A multi-phase refactor (epic) needs full planning. A product-shaping aspiration (goal) needs Inception to crystallise the vision. The tier determines how much process — but the machinery underneath is the same. See [PROCESS.md](./PROCESS.md) for the tier definitions.
 
-3. **Five roles, clear separation.** The Human Lead defines goals and gatekeeps. The Orchestrator guides — "where are we, what's next, which role should I talk to" — and stays open as the human's constant companion. The Senior Architect designs the approach and pushes back. The Technical Lead writes implementation prompts and reviews output. The Developer writes code. Each AI role runs in a separate session with its own context loaded via entry points (see [`roles/`](./roles/) and [MECHANICS.md](./MECHANICS.md)).
+3. **Planning is now cheap — so plan aggressively.** LLMs can hold an entire codebase in context and produce a detailed plan in minutes. The cognitive bottleneck that made upfront planning impractical for humans doesn't apply to AI. This isn't waterfall — the plans are disposable and get revised constantly. The discipline of producing them is what matters.
 
-4. **Accumulate knowledge across sessions.** Decisions, lessons learned, and session logs persist in a structured knowledge base. Each new session loads this context. The AI effectively gets better at your project over time.
+4. **Five roles, clear separation.** The Human Lead defines actions and gatekeeps. The Orchestrator guides — "where are we, what's next, which role should I talk to" — and stays open as the human's constant companion. The Senior Architect designs the approach and pushes back. The Technical Lead writes implementation prompts and reviews output. The Developer writes code. Each AI role runs in a separate session with its own context loaded via entry points (see [`roles/`](./roles/) and [MECHANICS.md](./MECHANICS.md)).
 
-5. **Phases are the unit of work.** Every piece of work is a bounded phase with a clear goal, concrete steps, and done-criteria. Small enough to finish in 1-3 sessions. Self-contained for review. Clean rollback boundaries.
+5. **Accumulate knowledge across sessions.** A rolling journal captures everything chronologically. Key insights are curated from the journal and placed at the right scope — project, action, or phase level. Each new session loads the relevant insights. The AI effectively gets better at your project over time.
 
-6. **Plans evolve, but changes are tracked.** Specs are living documents. When new information emerges, the plan gets revised — with a version bump, a decision log entry, and a journal note. Silent changes are forbidden.
+6. **Phases are the unit of work.** Every piece of work is a bounded phase with a clear goal, concrete steps, and done-criteria. Small enough to finish in 1-3 sessions. Self-contained for review. Clean rollback boundaries.
+
+7. **Append-forward, never rewrite.** The journal moves forward, never backward. When a plan changes, the new plan is a new artefact. When a task outgrows its scope, a new epic is created — the task stays as-is. Promotion, revision, and abandonment are all forward moves. The Orchestrator ties them together.
 
 ## How It Works
 
@@ -35,19 +39,34 @@ Every project uses a three-folder workspace:
 ```
 my-project-workspace/
 ├── my-project/           ← Code repo
-├── my-project-journal/    ← Project journal (specs, plans, decisions, lessons)
+├── my-project-journal/   ← Project journal (specs, plans, insights, journal)
+│   ├── STATUS.md
+│   ├── KEY_INSIGHTS.md   ← Project-level insights (curated from journal)
+│   ├── CONTEXT.md
+│   ├── journal/          ← Raw chronological log (weekly rolling files)
+│   └── actions/
+│       ├── task-fix-login-bug/
+│       ├── epic-refactor-validation/
+│       │   ├── EPIC.md
+│       │   ├── KEY_INSIGHTS.md
+│       │   └── phases/
+│       │       └── N-phase-name/
+│       │           ├── SPEC.md
+│       │           ├── KEY_INSIGHTS.md
+│       │           └── impl/
+│       └── goal-plugin-architecture/
 └── ai-sdlc/              ← This repo (methodology, shared across projects)
 ```
 
 Three repos, three concerns. Code in one, project knowledge in another, the methodology itself evolving independently. The AI tool mounts the workspace folder to access all three.
 
-The process scales. For a two-week feature, you might use a single STATUS.md with inline phase specs. For a multi-month effort, you use the full structure with goals, phase folders, and numbered implementation prompts. See [PROCESS.md](./PROCESS.md) for the scaling guidance.
+The process scales through the tier system, not through mode switches. A bug fix is a task — one phase, done quickly. A feature is an epic — multiple phases, concrete gatekeep. A product direction is a goal — full Inception, abstract gatekeep. The structure is the same; what changes is the depth and ceremony.
 
 ## Documentation
 
 | File | What it covers |
 |---|---|
-| [PROCESS.md](./PROCESS.md) | The full methodology — workflow, roles, scaling, anti-patterns (human-facing) |
+| [PROCESS.md](./PROCESS.md) | The full methodology — actions, tiers, workflow, roles, scaling, anti-patterns (human-facing) |
 | [MECHANICS.md](./MECHANICS.md) | Context isolation architecture — why AI roles use entry points, not PROCESS.md |
 | [PROMPTS.md](./PROMPTS.md) | How to write effective implementation prompts for Developer sessions |
 | [SETUP.md](./SETUP.md) | Workspace setup — the three-folder convention |

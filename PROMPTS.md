@@ -9,7 +9,75 @@
 
 The role separation is the backbone of this methodology. The Senior Architect designs the approach, the Technical Lead translates it into prompts, and the Developer writes the code. The implementation prompt is the interface between the Technical Lead and the Developer. A good prompt produces correct code on the first attempt. A bad prompt produces confident, plausible, wrong code — and the Developer won't know it's wrong because it doesn't have the architectural context to judge.
 
+This applies regardless of action tier. Even a task with a single prompt benefits from precision — the difference between "fix the redirect" and a properly structured prompt with verification commands is the difference between a fix that works and a fix that introduces a new bug.
+
 Every minute spent writing a precise prompt saves ten minutes debugging the Developer's misinterpretation.
+
+---
+
+## The Prompt Plan — Just-in-Time Prompting
+
+Writing all implementation prompts upfront before execution begins has the same structural problem as waterfall planning: prompt 03 is written based on the Tech Lead's *reading* of the code, not on the actual state of the code after prompts 01 and 02 have modified it. The later the prompt, the staler its assumptions.
+
+The solution: **plan the sequence upfront, but detail each prompt just in time.**
+
+### How it works
+
+During Planning, the Tech Lead produces two artefacts:
+
+1. **A prompt plan** — the full sequence of bounded goals for the phase, with dependencies noted. Each entry is 1–3 lines. This gives the Human Lead visibility into the entire phase and serves as the review gate between Planning and Implementation.
+
+2. **The first fully detailed prompt** — written to the standard prompt template (see Prompt Structure below). This is what the Developer actually executes.
+
+The Human Lead reviews both. The prompt plan is the contract for the phase's scope. The detailed prompt is the first unit of work.
+
+**For tasks:** the prompt plan is optional. If the phase only needs one or two prompts, the prompts themselves are sufficient — the sequencing overhead of a plan adds no value. Write the prompt(s) directly.
+
+During Implementation, after the Developer completes a prompt and produces a **session receipt** (see below), the Tech Lead reads that receipt, checks modified files if needed, and writes the next detailed prompt. The prompt plan already established prompt 02's goal — the Tech Lead is filling in the specifics now that prompt 01's changes are real.
+
+### The prompt plan format
+
+```markdown
+## Prompt Plan — Phase N
+
+| # | Goal | Dependencies | Risk |
+|---|---|---|---|
+| 01 | Set up test infrastructure for validation pipeline | None | Low |
+| 02 | Replace switch statement with lookup table in registry.ts | 01 complete | Medium — registry has 12 consumers |
+| 03 | Migrate existing validators to new registration pattern | 02 complete | Medium — each validator is slightly different |
+| 04 | Clean up dead code, update barrel exports, full test run | 03 complete | Low |
+```
+
+The prompt plan is not a spec and not a set of implementation prompts. It's a sequencing tool — enough detail for the Human Lead to evaluate the approach and enough structure for the Tech Lead to write each prompt when its turn comes.
+
+### Human review cadence
+
+The Human Lead controls how much oversight each prompt gets:
+
+- **Per-prompt review** — for high-risk phases, novel architecture, or unfamiliar codebases. The Human Lead reviews each detailed prompt before the Developer gets it.
+- **Batch review** — for well-established patterns. The Human Lead approves the prompt plan and lets the Tech Lead and Developer cycle through prompts, reviewing at milestones (e.g., every 3 prompts, or at the midpoint).
+- **Plan-only review** — for low-risk phases that follow known patterns. The Human Lead reviews the prompt plan, then the Tech Lead and Developer execute without per-prompt gates.
+
+The Orchestrator advises which cadence is appropriate based on phase complexity. The Human Lead decides.
+
+### The session receipt
+
+Every Developer session ends by producing a session receipt — a structured summary that enables the Tech Lead to write the next prompt accurately. The receipt format:
+
+```markdown
+## Session Receipt
+- **Role:** Developer
+- **Prompt:** NN — Short Description
+- **Status:** Complete / Partial / Blocked
+- **Accomplished:** <what was done>
+- **Files created/modified:** <paths>
+- **State changes:** <structural changes the next prompt needs to know — new directories, changed exports, renamed files, altered type signatures>
+- **Open issues:** <anything unexpected, flagged discrepancies>
+```
+
+The **state changes** field is the most important. It captures the delta between the codebase the Tech Lead last saw and the codebase the next prompt will encounter. Without it, the Tech Lead is guessing — and guessing is how prompt assumptions go stale.
+
+The receipt is not a journal entry (that's the Orchestrator's job). It's a context bridge from one prompt to the next.
 
 ---
 
@@ -36,6 +104,20 @@ Prompts that are too rigid break when the codebase isn't in the expected state. 
 **Right:** "Add password input validation to the registration pipeline. Follow the same pattern as `textarea/register.ts`. If you encounter something unexpected — a missing export, a type mismatch, a file that's structured differently than expected — flag it and adapt rather than forcing the original plan. But don't restructure files outside the scope of this prompt."
 
 The key phrase is "flag it and adapt." The Developer can handle minor discrepancies, but it should surface them rather than silently working around them. And "don't restructure files outside the scope" prevents scope creep.
+
+#### The "If unexpected" section
+
+Rather than a global autonomy setting, each prompt should include an **If unexpected** section that tells the Developer exactly which surprises are okay to handle and which require stopping. The Tech Lead calibrates this per prompt based on how confident they are in the prompt's assumptions.
+
+```markdown
+## If unexpected
+- Import paths differ from what's described above → adapt silently, note in receipt
+- File doesn't exist → STOP, report back
+- Types don't match → adapt if the intent is clear, flag in receipt with what you changed
+- Tests fail for reasons unrelated to this prompt → STOP, report back
+```
+
+This gives the Tech Lead fine-grained control without requiring the Developer to make judgement calls about what counts as "minor." Each prompt draws the line explicitly.
 
 ### 3. Include exact verification commands
 
@@ -78,6 +160,9 @@ One paragraph: what this prompt achieves.
 ## Steps
 Numbered, specific steps. File paths, code to write/change, commands to run.
 
+## If unexpected
+Per-prompt rules for handling discrepancies. What to adapt silently, what to flag, what to STOP on.
+
 ## Verify
 Exact commands. Expected output. What success looks like.
 
@@ -86,7 +171,7 @@ Exact commands. Expected output. What success looks like.
 - [ ] Specific criterion
 ```
 
-The Goal section is for the Developer's orientation — why are we doing this? The Steps section is the work. The Verify section is how both the Developer and the human know it worked. The Done-when checklist is binary — each item is either true or false, no judgement calls.
+The Goal section is for the Developer's orientation — why are we doing this? The Steps section is the work. The **If unexpected** section defines the Developer's autonomy boundary for this specific prompt (see principle 2 above). The Verify section is how both the Developer and the human know it worked. The Done-when checklist is binary — each item is either true or false, no judgement calls.
 
 ---
 
@@ -112,7 +197,7 @@ Three paragraphs of background context before getting to what needs to be done. 
 
 ## Sequencing Prompts
 
-Implementation prompts within a phase are numbered (01, 02, 03...) and executed in order. Each prompt should leave the codebase in a working state — tests pass, type-checker clean, no broken imports. This means:
+The prompt plan establishes the sequence. Each prompt is numbered (01, 02, 03...) and executed in order. Each prompt should leave the codebase in a working state — tests pass, type-checker clean, no broken imports. The typical pattern:
 
 - **Prompt 01** typically sets up infrastructure: test files, type definitions, registration boilerplate.
 - **Middle prompts** implement the core logic, one bounded piece at a time.
@@ -121,3 +206,5 @@ Implementation prompts within a phase are numbered (01, 02, 03...) and executed 
 If a prompt introduces a temporary inconsistency (e.g., a new type that isn't yet exported), note it explicitly: "After this prompt, `PasswordInput` exists but isn't exported from the barrel. Prompt 03 handles the export."
 
 Prompts should be independent enough that if Prompt 03 fails, you can revise and re-run it without re-running 01 and 02. This means each prompt should not undo or overwrite work from previous prompts except where explicitly stated.
+
+Because prompts are written just in time (see The Prompt Plan above), later prompts benefit from the Developer's session receipts — they account for the actual state of the code, not the Tech Lead's pre-execution assumptions. This eliminates the most common sequencing failure: a prompt that assumes a file structure the previous prompt changed.
