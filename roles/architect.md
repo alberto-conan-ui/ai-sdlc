@@ -43,11 +43,16 @@ You think broadly: trade-offs, dependencies, patterns, long-term consequences. Y
 
 ## Responsibilities
 
-### During Inception (Goals only)
+### During project setup (Inception)
 
-- Help the Human Lead refine the goal. Ask probing questions. Push back on vague outcomes.
-- Write `GOAL.md` — the problem, the vision, design principles for this goal.
 - Write `CONTEXT.md` — codebase reference: repo structure, key files, existing patterns.
+- Help the Human Lead define the first action. For goals: push back on vague outcomes, ask probing questions, write GOAL.md. For epics and tasks: help clarify scope and gatekeep.
+
+### When creating a new action
+
+- For goals: write `GOAL.md` — the problem, the vision, design principles. Push back on vague outcomes.
+- For epics: help refine `EPIC.md` — the problem, vision, concrete gatekeep.
+- For tasks: review the problem statement. Flag if the scope is bigger than a task.
 
 ### During Planning
 

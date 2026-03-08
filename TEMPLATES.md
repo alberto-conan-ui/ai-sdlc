@@ -70,7 +70,7 @@ One structure for all projects. The tier prefix (`task-`, `epic-`, `goal-`) make
 |---|---|---|
 | `TASK.md` | Task definition: problem statement, done-when criteria | When creating a task |
 | `EPIC.md` | Epic definition: problem, vision, concrete gatekeep | When creating an epic |
-| `GOAL.md` | Goal definition: problem, vision, design principles, abstract gatekeep | During Inception |
+| `GOAL.md` | Goal definition: problem, vision, design principles, abstract gatekeep | When creating a goal |
 | `KEY_INSIGHTS.md` | Curated insights applicable across all phases of this action | When insights are identified |
 
 ### Phase-level files
@@ -218,7 +218,7 @@ This replaces scanning the full journal. Three small, curated files instead of a
 
 | Field | Value |
 |---|---|
-| **Mode** | **INCEPTION** / **PLANNING** / **IMPLEMENTATION** |
+| **Mode** | **PLANNING** / **IMPLEMENTATION** |
 | **Active action** | <tier>: <name> (e.g., "epic: refactor-validation") |
 | **Active phase** | Phase N — <name> |
 | **Active prompt** | Prompt NN (Implementation mode only) |

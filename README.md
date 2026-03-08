@@ -20,7 +20,7 @@ This methodology fixes that. The core mechanism: structured context that persist
 
 1. **Actions first, always.** Everything starts with a human-defined action — a task, an epic, or a goal. Each has a gatekeep: who decides it's achieved, and what they're evaluating. Without clear actions and gatekeeps, the process optimises for technical correctness while potentially missing what the human actually wanted. See [PROCESS.md](./PROCESS.md) for the full actions and gatekeeping framework.
 
-2. **Three tiers, right-sized ceremony.** Not all work is the same size. A bug fix (task) needs a quick spec and a prompt. A multi-phase refactor (epic) needs full planning. A product-shaping aspiration (goal) needs Inception to crystallise the vision. The tier determines how much process — but the machinery underneath is the same. See [PROCESS.md](./PROCESS.md) for the tier definitions.
+2. **Three tiers, right-sized ceremony.** Not all work is the same size. A bug fix (task) needs a quick spec and a prompt. A multi-phase refactor (epic) needs full planning. A product-shaping aspiration (goal) needs a GOAL.md with design principles and an abstract gatekeep. The tier determines how much process — but the machinery underneath is the same. See [PROCESS.md](./PROCESS.md) for the tier definitions.
 
 3. **Planning is now cheap — so plan aggressively.** LLMs can hold an entire codebase in context and produce a detailed plan in minutes. The cognitive bottleneck that made upfront planning impractical for humans doesn't apply to AI. This isn't waterfall — the plans are disposable and get revised constantly. The discipline of producing them is what matters.
 
@@ -60,7 +60,7 @@ my-project-workspace/
 
 Three repos, three concerns. Code in one, project knowledge in another, the methodology itself evolving independently. The AI tool mounts the workspace folder to access all three.
 
-The process scales through the tier system, not through mode switches. A bug fix is a task — one phase, done quickly. A feature is an epic — multiple phases, concrete gatekeep. A product direction is a goal — full Inception, abstract gatekeep. The structure is the same; what changes is the depth and ceremony.
+The process scales through the tier system, not through mode switches. A bug fix is a task — one phase, done quickly. A feature is an epic — multiple phases, concrete gatekeep. A product direction is a goal — multiple phases, abstract gatekeep, design principles. The structure is the same; what changes is the depth and ceremony.
 
 ## Documentation
 

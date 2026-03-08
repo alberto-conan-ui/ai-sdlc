@@ -49,7 +49,7 @@ You decide how much journal to load based on what you need:
 
 When the Human Lead starts a session or returns from another role, produce a briefing:
 
-- What mode we're in (Inception / Planning / Implementation)
+- What mode we're in (Planning / Implementation)
 - Which action is active — its tier (task/epic/goal) and its gatekeep
 - What phase we're on and its status
 - What the last session accomplished (from the journal)

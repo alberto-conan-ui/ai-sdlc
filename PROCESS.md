@@ -86,19 +86,19 @@ There are three tiers: **Task**, **Epic**, and **Goal**. The tier determines how
 
 **Task** — a bounded, concrete piece of work. One phase, one to three prompts, done in a session or two. "Fix the login redirect bug." "Add a loading spinner to the dashboard." "Update the date format in the export CSV."
 
-A task skips Inception entirely. The Human Lead already knows what's wrong and what done looks like. The gatekeep is concrete and verifiable: the bug is fixed, the spinner appears, the date format is correct. Role compression is the default — the Architect might get pulled in ad hoc if the fix turns out to be trickier than expected, but there's no formal design phase. The Tech Lead and Architect are often the same session. The process is deliberately loose because tasks are meant to be quick.
+The Human Lead already knows what's wrong and what done looks like. The gatekeep is concrete and verifiable: the bug is fixed, the spinner appears, the date format is correct. Role compression is the default — the Architect might get pulled in ad hoc if the fix turns out to be trickier than expected, but there's no formal design phase. The Tech Lead and Architect are often the same session. The process is deliberately loose because tasks are meant to be quick.
 
 A task has a TASK.md (lightweight — problem statement and done-when criteria) and a single phase folder with a spec and implementation prompts.
 
 **Epic** — a multi-phase piece of work with a concrete, measurable outcome. "Refactor the validation pipeline to use a lookup table." "Add OAuth2 support to the API." "Migrate the test suite from Jest to Vitest."
 
-An epic skips Inception but gets full Planning and Implementation. The outcome is tangible — the refactor is done, the feature works, the migration is complete. The gatekeep is concrete: specific conditions that can be verified without subjective judgement. The Architect designs the phases, the Tech Lead writes the prompts, the Developer executes them. Full role separation is the default.
+An epic gets full Planning and Implementation. The outcome is tangible — the refactor is done, the feature works, the migration is complete. The gatekeep is concrete: specific conditions that can be verified without subjective judgement. The Architect designs the phases, the Tech Lead writes the prompts, the Developer executes them. Full role separation is the default.
 
 An epic has an EPIC.md (problem, vision, concrete gatekeep) and a phases folder with the standard spec/impl structure.
 
-**Goal** — an abstract, outcome-oriented aspiration that requires Inception to crystallise. "Users should be able to register without understanding the type system." "Onboarding a new developer to the DX layer should take hours, not days."
+**Goal** — an abstract, outcome-oriented aspiration. "Users should be able to register without understanding the type system." "Onboarding a new developer to the DX layer should take hours, not days."
 
-A goal gets the full process: Inception → Planning → Implementation. The gatekeep involves human judgement — not just whether the code works, but whether the outcome was achieved. The Senior Architect helps refine the goal, writes GOAL.md with design principles, and plans the roadmap. This is the heavyweight tier, appropriate for work that shapes the product's direction.
+A goal gets full Planning and Implementation with the heaviest ceremony. The gatekeep involves human judgement — not just whether the code works, but whether the outcome was achieved. The Senior Architect helps refine the goal, writes GOAL.md with design principles, and plans the roadmap. This is the heavyweight tier, appropriate for work that shapes the product's direction.
 
 A goal has a GOAL.md (problem, vision, design principles, abstract gatekeep) and a phases folder with the standard structure.
 
@@ -106,13 +106,12 @@ A goal has a GOAL.md (problem, vision, design principles, abstract gatekeep) and
 
 | | Task | Epic | Goal |
 |---|---|---|---|
-| **Starts at** | Planning (compressed) | Planning | Inception |
+| **Planning weight** | Compressed (short spec, optional prompt plan) | Full | Full |
 | **Phases** | One | Multiple | Multiple |
 | **Gatekeep** | Concrete, verifiable | Concrete, measurable | Abstract, human-judged |
 | **Role compression** | Default | Optional | Full separation |
 | **Prompt plan** | Optional (1–2 prompts may not need one) | Yes | Yes |
 | **Action document** | TASK.md (lightweight) | EPIC.md (problem + concrete gatekeep) | GOAL.md (problem + vision + principles + abstract gatekeep) |
-| **Inception** | Skip | Skip | Full |
 
 ### Choosing a Tier
 
@@ -283,52 +282,41 @@ These are examples, not recommendations — the model landscape changes faster t
 
 ---
 
-## The Workflow — Three Modes
+## The Workflow
 
 This is not vibe coding. Vibe coding is "give the AI a vague idea, let it generate, hope for the best." It works for throwaway prototypes. It does not work for anything you need to maintain, extend, or trust. AI-SDLC is the deliberate opposite: structured intent, human accountability at every gate, and AI constrained by process — not unleashed without it.
 
-The process operates in three modes: **Inception**, **Planning**, and **Implementation**. At any point, the project is in exactly one mode for exactly one active action. The mode is tracked in STATUS.md (see [TEMPLATES.md](./TEMPLATES.md)), which is the single source of truth for "where are we."
+### Inception — Project Cold Start
 
-**One active action at a time.** A project may have multiple actions defined, but only one is active. This prevents context scatter — every role knows exactly which action it's serving. If the Human Lead wants to switch actions, they do so explicitly, and the reason for the switch is logged. The Orchestrator updates STATUS.md.
-
-### How Tiers Enter the Workflow
-
-Not every action starts at the same mode:
-
-```
-Goal:  Inception ──→ Planning ──→ Implementation ──→ Action achieved
-Epic:                Planning ──→ Implementation ──→ Action achieved
-Task:                Planning (compressed) ──→ Implementation ──→ Action achieved
-                        ↑               │
-                        └───────────────┘
-                     (phase-level issue)
-```
-
-Goals enter at Inception because they need vision-setting and abstract gatekeep definition. Epics enter at Planning because the outcome is already concrete. Tasks enter at a compressed Planning — the spec might be a few paragraphs, the prompt plan might be optional, and the Architect/Tech Lead session might be combined.
-
-The return loop (Implementation → Planning) works the same regardless of tier. If a phase's approach turns out to be wrong, the Human Lead sends it back to Planning.
-
-### Mode 1 — Inception (Goals Only)
+Inception happens once per project, when the workspace doesn't exist yet. It is not a recurring mode — it's the setup step.
 
 **Who you're talking to:** Orchestrator, Senior Architect.
 
-Inception is where a goal takes shape. The Human Lead defines the goal, the Orchestrator sets up the action structure, and the Senior Architect helps refine the vision. No code is written. No phases exist yet. The only output is clarity about what we're building and how we'll know when it's done.
+**What happens:**
 
-Tasks and epics skip this mode entirely — their outcomes are already concrete enough to plan against.
+1. **Human Lead** sets up the workspace (see [SETUP.md](./SETUP.md)).
+2. **Orchestrator** creates the journal structure: STATUS.md, KEY_INSIGHTS.md, CONTEXT.md, journal/ folder with the first weekly file, and the actions/ folder.
+3. **Senior Architect** writes CONTEXT.md — codebase reference: repo structure, key files, existing patterns.
+4. **Human Lead** defines the first action (task, epic, or goal) and its gatekeep.
 
-**What happens in Inception:**
+Once the project is set up, Inception is done. Every action — regardless of tier — enters at Planning.
 
-1. **Human Lead** articulates the goal and its gatekeep. The Architect may push back, ask probing questions, or suggest refinements — but the goal comes from the human.
-2. **Orchestrator** sets up the action folder in `actions/goal-<name>/` and the journal structure if this is a new project (see [SETUP.md](./SETUP.md)).
-3. **Senior Architect** writes GOAL.md — the problem, the vision, design principles.
-4. **Senior Architect** writes or updates CONTEXT.md — codebase reference: repo structure, key files, existing patterns.
-5. **Human Lead** reviews and approves.
+### Two Modes
 
-**Hard gate:** Inception cannot end without the goal and its gatekeep defined. If any AI role is asked to enter Planning without this, the correct response is: "The goal isn't defined yet. We need to finish Inception." This is the process's most basic self-enforcement mechanism.
+After Inception, the project operates in two modes: **Planning** and **Implementation**. At any point, the project is in exactly one mode for exactly one active action. The mode is tracked in STATUS.md (see [TEMPLATES.md](./TEMPLATES.md)), which is the single source of truth for "where are we."
 
-**When Inception ends:** When the Human Lead decides it ends. The process doesn't automate this — the human judges when there's enough clarity to start planning. The Orchestrator updates STATUS.md: mode switches to Planning.
+**One active action at a time.** A project may have multiple actions defined, but only one is active. This prevents context scatter — every role knows exactly which action it's serving. If the Human Lead wants to switch actions, they do so explicitly, and the reason for the switch is logged. The Orchestrator updates STATUS.md.
 
-### Mode 2 — Planning
+```
+Planning ──→ Implementation ──→ Action achieved ──→ Pick next action
+    ↑               │
+    └───────────────┘
+  (phase-level issue)
+```
+
+All three tiers follow this cycle. What differs is the weight of each step: a task's Planning is compressed (short spec, maybe no prompt plan), while a goal's Planning involves deep codebase analysis, multi-phase roadmaps, and formal review gates. The modes are the same — the ceremony scales with the tier.
+
+### Planning
 
 **Who you're talking to:** Orchestrator, Senior Architect, Technical Lead.
 
@@ -348,7 +336,7 @@ Planning is where an action gets broken into phases and phases get broken into i
 
 **When Planning ends:** When the Human Lead approves the prompt plan (or the prompt itself, for tasks) and the first implementation prompt. The Orchestrator updates STATUS.md: mode switches to Implementation, with the active phase and prompt number recorded.
 
-### Mode 3 — Implementation
+### Implementation
 
 **Who you're talking to:** Orchestrator, Technical Lead, Developer.
 
@@ -375,7 +363,7 @@ Every work session, regardless of mode, has the same bookends:
 
 **Starting a session — the Orchestrator is already open:**
 
-The Orchestrator stays open between role sessions. When you start work (or return from a role session), ask it for a briefing. It reads STATUS.md and the recent journal and produces a summary: what mode we're in, which action is active (and its tier), what the last session accomplished, what's pending, and what to do next. When it recommends the next role, it generates a **handoff prompt** — the exact prompt to paste into that role's new session, pre-loaded with the right context, recent decisions, and the specific task. This eliminates the information loss that happens when the human has to relay context between roles manually.
+The Orchestrator stays open between role sessions. When you start work (or return from a role session), ask it for a briefing. It reads STATUS.md and the recent journal and produces a summary: which action is active (and its tier), what mode we're in (Planning or Implementation), what the last session accomplished, what's pending, and what to do next. When it recommends the next role, it generates a **handoff prompt** — the exact prompt to paste into that role's new session, pre-loaded with the right context, recent decisions, and the specific task. This eliminates the information loss that happens when the human has to relay context between roles manually.
 
 **Default context by role:**
 
