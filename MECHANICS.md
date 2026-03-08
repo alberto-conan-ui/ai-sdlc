@@ -63,34 +63,35 @@ Entry points reference **project artefacts** (STATUS.md, phase specs, source cod
 
 ---
 
-## The Orchestrator — The Human Lead's Companion
+## The Orchestrator — Home Base
 
-The Orchestrator is fundamentally different from the other roles. The Architect, Tech Lead, and Developer are workers — you open a session, they do a job, the session ends. The Orchestrator is a companion — it stays open. The Human Lead tabs back to it between every role session.
+The Orchestrator is fundamentally different from the other roles. The Architect, Tech Lead, and Developer are workers — you open a session, they do a job, the session ends. The Orchestrator is a home base — it provides orientation and guidance when you need it.
 
-This changes the workflow. Instead of "run a Navigator session to get a briefing, close it, run an Architect, close it, run a Navigator to update tracking," the Orchestrator is always there:
+**Where the Orchestrator earns its place:**
 
 ```
-[Orchestrator always open]
-   ├── Human asks: "where are we?" → Orchestrator briefs
-   ├── Human: "what next?" → Orchestrator generates handoff prompt for Architect
-   ├── Human pastes handoff prompt into Architect session → does design work → closes it
-   ├── Human tabs back: "just finished with the Architect, what next?"
-   │   → Orchestrator updates tracking, generates handoff prompt for Tech Lead
-   ├── Human pastes handoff prompt into Tech Lead session → writes prompts → closes it
-   ├── Human tabs back: "prompts are done, ready for implementation?"
-   │   → Orchestrator updates tracking, generates handoff prompt for Developer
-   └── ...
+Start of work day → Orchestrator briefs you
+    ↓
+Architect session → define goal, design roadmap, write spec
+    ↓
+Orchestrator → logs, updates tracking, hands off to Tech Lead
+    ↓
+Tech Lead + Developer loop (Orchestrator stays out)
+    ↓
+Phase done → Orchestrator → logs, suggests Architect for next phase
+    ↓
+Repeat
 ```
 
-**The Orchestrator reduces gate fatigue.** The methodology has many review gates — spec review, prompt review, phase completion, gatekeep evaluation. Without the Orchestrator, the Human Lead has to remember which gate they're at, what's pending, and what the next step is. With the Orchestrator, they just ask. The process has the same rigour, but the human doesn't have to carry the process state in their head.
+**The key insight: the Orchestrator is for transitions, not for every interaction.** During implementation, the Tech Lead and Developer pass context to each other through session receipts. The Orchestrator adds no value between prompts — the session receipt is the context bridge. The Orchestrator earns its keep at phase handovers (logging what happened, suggesting the next move), at the start of a work day (bringing you up to speed), and when you've lost track of where things stand.
 
-**The Orchestrator earns its place by being cheap.** It loads only tracking artefacts — STATUS.md and recent journal files. No source code, no specs, no prompts. This means the context window stays small, responses are fast, and the cost per interaction is minimal. You can ask the Orchestrator ten questions in the time it takes to load one Architect session.
+**The Orchestrator generates handoff prompts.** This is its most valuable output. When the Human Lead needs to start a new role session, the Orchestrator produces the exact prompt to paste in — which entry point to load, which project files to read, what just happened, what the session needs to achieve. This solves the context transfer problem: the human is normally the relay between roles, and humans are lossy relays. The handoff prompt packages everything into a ready-to-use opening for the next role, eliminating information loss.
 
-**The Orchestrator generates handoff prompts.** This is its most valuable output. When the Human Lead finishes with one role and needs to start another, the Orchestrator produces the exact prompt to paste into the new session — including which entry point to load, which project files to read, what just happened, and what the session needs to achieve. This solves the context transfer problem: the human is normally the relay between roles, and humans are lossy relays. They forget what decisions were made, which files changed, what constraints apply. The handoff prompt packages everything the Orchestrator knows into a ready-to-use opening for the next role, eliminating that information loss.
+**The Orchestrator is cheap.** It loads only tracking artefacts — STATUS.md and recent journal files. No source code, no specs, no prompts. Fast responses, minimal cost.
 
-**The Orchestrator bridges promotions.** When an action is promoted (task → epic, epic → goal), the Orchestrator is the role that carries context forward. It reads the original action's artefacts, the journal entries that captured the promotion decision, and produces handoff prompts for the new action's sessions that include the relevant history. This is the append-forward principle in practice — the original action stays as-is, the new action is a fresh start, and the Orchestrator ties them together.
+**The Orchestrator bridges promotions.** When an action is promoted (task → epic, epic → goal), the Orchestrator carries context forward via handoff prompts — the append-forward principle in practice.
 
-**When you don't need the Orchestrator:** If you already know the current state and the next step, go directly to the working role. The Orchestrator is for guidance, not ceremony. But most of the time — especially at the start of a work day, or after a complex session — the Orchestrator is where you start.
+**When you don't need the Orchestrator:** during implementation (Tech Lead and Developer handle their own context), and when you already know the current state and the next step. Go directly to the working role.
 
 ---
 
@@ -122,13 +123,12 @@ This is a deliberate design choice. The methodology never relies on an AI role's
 
 ### The typical workflow
 
-1. **Open the Orchestrator.** This is your home base. Load `roles/orchestrator.md`.
-2. **Ask where you are.** The Orchestrator reads tracking artefacts and briefs you.
-3. **Open a working role.** Based on the Orchestrator's advice, open an Architect, Tech Lead, or Developer session with its entry point.
-4. **Do the work.** The working role operates within its boundaries.
-5. **Tab back to the Orchestrator.** Tell it what happened. It updates tracking and advises the next step.
+1. **Open the Orchestrator** when you need orientation — start of day, after a break, at phase handovers.
+2. **Open working roles** based on the Orchestrator's advice (or your own judgement). Architect for planning, Tech Lead for prompts, Developer for execution.
+3. **During implementation,** the Tech Lead and Developer cycle directly — session receipts are the context bridge. No Orchestrator between prompts.
+4. **At phase handovers,** return to the Orchestrator. It logs, updates tracking, and suggests the next move.
 
-The Orchestrator stays open throughout. Working roles open and close as needed.
+Working roles open and close as needed. The Orchestrator is there when you need it.
 
 ### Choosing a role
 

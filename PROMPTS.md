@@ -19,21 +19,19 @@ Every minute spent writing a precise prompt saves ten minutes debugging the Deve
 
 Writing all implementation prompts upfront before execution begins has the same structural problem as waterfall planning: prompt 03 is written based on the Tech Lead's *reading* of the code, not on the actual state of the code after prompts 01 and 02 have modified it. The later the prompt, the staler its assumptions.
 
-The solution: **plan the sequence upfront, but detail each prompt just in time.**
+The solution: **detail each prompt just in time, with as much or as little upfront planning as the phase needs.**
 
 ### How it works
 
-During Planning, the Tech Lead produces two artefacts:
+The Tech Lead and Human Lead discuss the approach for each phase. Some phases benefit from planning the full sequence upfront; others are better served by writing one prompt at a time based on the Developer's receipts. The right approach depends on how predictable the work is.
 
-1. **A prompt plan** — the full sequence of bounded goals for the phase, with dependencies noted. Each entry is 1–3 lines. This gives the Human Lead visibility into the entire phase and serves as the review gate between Planning and Implementation.
+**When a prompt plan helps:** complex phases with dependencies between prompts, phases where the Human Lead wants visibility into the full sequence before code is written, or high-risk work that warrants upfront planning. The prompt plan is a sequencing tool — the full sequence of bounded goals, with dependencies noted. Each entry is 1–3 lines.
 
-2. **The first fully detailed prompt** — written to the standard prompt template (see Prompt Structure below). This is what the Developer actually executes.
+**When to skip the prompt plan:** tasks with one or two prompts, phases that follow established patterns, exploratory work where the next step depends heavily on what the previous prompt reveals. Write prompts directly, one at a time, informed by the Developer's session receipts.
 
-The Human Lead reviews both. The prompt plan is the contract for the phase's scope. The detailed prompt is the first unit of work.
+When a prompt plan exists, the Human Lead reviews it alongside the first detailed prompt. When there's no plan, the Human Lead reviews prompts at whatever cadence they've agreed on with the Tech Lead.
 
-**For tasks:** the prompt plan is optional. If the phase only needs one or two prompts, the prompts themselves are sufficient — the sequencing overhead of a plan adds no value. Write the prompt(s) directly.
-
-During Implementation, after the Developer completes a prompt and produces a **session receipt** (see below), the Tech Lead reads that receipt, checks modified files if needed, and writes the next detailed prompt. The prompt plan already established prompt 02's goal — the Tech Lead is filling in the specifics now that prompt 01's changes are real.
+After the Developer completes a prompt and produces a **session receipt** (see below), the Tech Lead reads that receipt, checks modified files if needed, and writes the next detailed prompt — filling in the specifics now that the previous prompt's changes are real.
 
 ### The prompt plan format
 
@@ -58,7 +56,7 @@ The Human Lead controls how much oversight each prompt gets:
 - **Batch review** — for well-established patterns. The Human Lead approves the prompt plan and lets the Tech Lead and Developer cycle through prompts, reviewing at milestones (e.g., every 3 prompts, or at the midpoint).
 - **Plan-only review** — for low-risk phases that follow known patterns. The Human Lead reviews the prompt plan, then the Tech Lead and Developer execute without per-prompt gates.
 
-The Orchestrator advises which cadence is appropriate based on phase complexity. The Human Lead decides.
+The Human Lead decides the cadence per phase, based on risk and complexity. The Tech Lead can suggest — it knows the phase best.
 
 ### The session receipt
 

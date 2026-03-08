@@ -66,6 +66,7 @@ The process scales through the tier system, not through mode switches. A bug fix
 
 | File | What it covers |
 |---|---|
+| [FLOWS.md](./FLOWS.md) | Practical walkthroughs — start here to see the process in action |
 | [PROCESS.md](./PROCESS.md) | The full methodology — actions, tiers, workflow, roles, scaling, anti-patterns (human-facing) |
 | [MECHANICS.md](./MECHANICS.md) | Context isolation architecture — why AI roles use entry points, not PROCESS.md |
 | [PROMPTS.md](./PROMPTS.md) | How to write effective implementation prompts for Developer sessions |
@@ -78,10 +79,11 @@ The process scales through the tier system, not through mode switches. A bug fix
 1. Clone this repo
 2. Set up a workspace folder for your project (see [SETUP.md](./SETUP.md))
 3. Create a project journal repo using the templates in [TEMPLATES.md](./TEMPLATES.md)
-4. Read [PROCESS.md](./PROCESS.md) to understand the workflow
-5. Read [MECHANICS.md](./MECHANICS.md) to understand the context isolation architecture
-6. Read [PROMPTS.md](./PROMPTS.md) before writing your first implementation prompts
-7. Point your AI tool at the workspace folder. Load a role entry point from `roles/` — start with the [Orchestrator](./roles/orchestrator.md)
+4. Read a flow in [FLOWS.md](./FLOWS.md) to see the process in action — this is the fastest way to understand how everything fits together
+5. Read [PROCESS.md](./PROCESS.md) for the full methodology and reference
+6. Read [MECHANICS.md](./MECHANICS.md) to understand the context isolation architecture
+7. Read [PROMPTS.md](./PROMPTS.md) before writing your first implementation prompts
+8. Point your AI tool at the workspace folder. Load a role entry point from `roles/` — start with the [Orchestrator](./roles/orchestrator.md)
 
 ## License
 

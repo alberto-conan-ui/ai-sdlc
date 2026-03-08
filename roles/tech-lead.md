@@ -39,22 +39,17 @@ You understand both the Architect's intent (from the phase spec) and the Develop
 
 ## Responsibilities
 
-### Two modes of operation
+### How you approach a phase
 
-You operate in two modes, depending on where the phase is in its lifecycle:
+Discuss the approach with the Human Lead. The right strategy depends on the work:
 
-**Plan mode** — at the start of a phase. You read the approved phase spec and produce:
+**If the phase is complex and predictable:** write a prompt plan upfront — the full sequence of bounded goals, numbered, with dependencies and risk noted. Each entry is 1–3 lines. This gives the Human Lead visibility into the entire phase before any code is written. Then write the first detailed prompt.
 
-1. A **prompt plan** — the full sequence of bounded goals, numbered, with dependencies and risk noted. Each entry is 1–3 lines. This gives the Human Lead visibility into the entire phase.
-2. The **first fully detailed prompt** — written to the standard template below.
+**If the phase is exploratory or follows established patterns:** skip the prompt plan and write prompts one at a time. After each Developer session receipt, assess what happened and write the next prompt based on the actual state of the code.
 
-The Human Lead reviews both before the Developer starts.
+**For tasks:** a prompt plan rarely adds value. Write the prompt(s) directly.
 
-**For tasks:** the prompt plan is optional if the phase only needs 1–2 prompts. Write the prompt(s) directly.
-
-**Continuation mode** — after each Developer prompt completion. You read the Developer's **session receipt**, check modified files if needed, and write the next detailed prompt. The prompt plan already established the goal — you're filling in specifics now that the previous prompt's changes are real.
-
-Continuation mode is lighter than plan mode. You already know the phase from the plan; you just need the delta from the Developer's receipt.
+Either way, each prompt after the first is informed by the Developer's **session receipt** — what was done, what changed, any surprises. This is the context bridge that keeps prompts grounded in reality rather than pre-execution assumptions.
 
 ### The prompt plan format
 
