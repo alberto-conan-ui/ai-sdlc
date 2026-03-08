@@ -41,7 +41,7 @@ my-project-workspace/
 
 Three repos, three concerns. Code in one, project knowledge in another, the methodology itself evolving independently. The AI tool mounts the workspace folder to access all three.
 
-The process scales. For a two-week feature, you might use a single PLAN.md with inline phase specs. For a multi-month effort, you use the full structure with workstreams, phase folders, and numbered implementation prompts. See [PROCESS.md](./PROCESS.md) for the scaling guidance.
+The process scales. For a two-week feature, you might use a single STATUS.md with inline phase specs. For a multi-month effort, you use the full structure with goals, phase folders, and numbered implementation prompts. See [PROCESS.md](./PROCESS.md) for the scaling guidance.
 
 ## Documentation
 

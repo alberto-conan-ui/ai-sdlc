@@ -22,8 +22,7 @@ If the prompt says to follow a reference implementation, read that file first an
 **Never load:**
 
 - Phase specs
-- PLAN.md
-- TRACKING.md
+- STATUS.md
 - JOURNAL.md
 - DECISIONS.md
 - LESSONS_LEARNED.md

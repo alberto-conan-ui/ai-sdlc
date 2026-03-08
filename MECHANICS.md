@@ -59,7 +59,7 @@ Small, self-contained markdown files in `roles/`. One per AI role. Each is 60–
 
 ### The constraint that makes this work
 
-Entry points reference **project artefacts** (TRACKING.md, phase specs, source code), never **other entry points**. The Orchestrator doesn't say "the Architect should load X." It says "the next session should load these files: [list]." The Human Lead maps that advice to the right role. This keeps roles genuinely isolated — they share a project state (via TRACKING.md), not a process state (via each other).
+Entry points reference **project artefacts** (STATUS.md, phase specs, source code), never **other entry points**. The Orchestrator doesn't say "the Architect should load X." It says "the next session should load these files: [list]." The Human Lead maps that advice to the right role. This keeps roles genuinely isolated — they share a project state (via STATUS.md), not a process state (via each other).
 
 ---
 
@@ -84,7 +84,7 @@ This changes the workflow. Instead of "run a Navigator session to get a briefing
 
 **The Orchestrator reduces gate fatigue.** The methodology has many review gates — spec review, prompt review, phase completion, gatekeep evaluation. Without the Orchestrator, the Human Lead has to remember which gate they're at, what's pending, and what the next step is. With the Orchestrator, they just ask. The process has the same rigour, but the human doesn't have to carry the process state in their head.
 
-**The Orchestrator earns its place by being cheap.** It loads only tracking artefacts — TRACKING.md, JOURNAL.md, PLAN.md status. No source code, no specs, no prompts. This means the context window stays small, responses are fast, and the cost per interaction is minimal. You can ask the Orchestrator ten questions in the time it takes to load one Architect session.
+**The Orchestrator earns its place by being cheap.** It loads only tracking artefacts — STATUS.md, JOURNAL.md, STATUS.md. No source code, no specs, no prompts. This means the context window stays small, responses are fast, and the cost per interaction is minimal. You can ask the Orchestrator ten questions in the time it takes to load one Architect session.
 
 **The Orchestrator generates handoff prompts.** This is its most valuable output. When the Human Lead finishes with one role and needs to start another, the Orchestrator produces the exact prompt to paste into the new session — including which entry point to load, which project files to read, what just happened, and what the session needs to achieve. This solves the context transfer problem: the human is normally the relay between roles, and humans are lossy relays. They forget what decisions were made, which files changed, what constraints apply. The handoff prompt packages everything the Orchestrator knows into a ready-to-use opening for the next role, eliminating that information loss.
 
@@ -131,7 +131,7 @@ The Orchestrator stays open throughout. Working roles open and close as needed.
 
 ## Scaling
 
-The entry points work identically in lite mode and full mode. The difference is which project files exist (inline specs in PLAN.md vs. separate phase folders), not how the roles operate. An Architect in lite mode loads PLAN.md with inline specs. An Architect in full mode loads the phase-specific SPEC.md. The entry point says "load the active spec" — it doesn't care about the folder structure.
+The entry points work identically in lite mode and full mode. The difference is which project files exist (inline specs in STATUS.md vs. separate phase folders), not how the roles operate. An Architect in lite mode loads STATUS.md with inline specs. An Architect in full mode loads the goal's GOAL.md and the phase-specific SPEC.md. The entry point says "load the active spec" — it doesn't care about the folder structure.
 
 ---
 

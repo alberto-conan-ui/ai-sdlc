@@ -12,11 +12,12 @@ Every project uses a workspace parent folder containing three siblings:
 my-project-workspace/              ← AI tool points here
 ├── my-project/                    ← Code repo (git clone)
 ├── my-project-journal/              ← Project journal (its own git repo)
-│   ├── TRACKING.md
+│   ├── STATUS.md
 │   ├── JOURNAL.md
 │   ├── DECISIONS.md
 │   ├── LESSONS_LEARNED.md
-│   └── <workstream>/
+│   ├── CONTEXT.md
+│   └── goals/
 └── ai-sdlc/                      ← Methodology repo (shared across projects)
     ├── README.md
     ├── PROCESS.md                 ← Full methodology (human-facing)
@@ -69,7 +70,7 @@ ln -s ~/repos/ai-sdlc ./ai-sdlc
 mkdir my-project-journal && cd my-project-journal && git init
 
 # 5. Initialise using templates from TEMPLATES.md
-# Create: TRACKING.md, JOURNAL.md, DECISIONS.md, LESSONS_LEARNED.md
+# Create: STATUS.md, JOURNAL.md, DECISIONS.md, LESSONS_LEARNED.md, CONTEXT.md
 ```
 
 Then point your AI tool at `~/workspaces/my-project-workspace/`.
@@ -121,8 +122,8 @@ From the project journal, reference code files using relative paths:
 From implementation prompts (deeper in the folder structure):
 
 ```
-# From my-project-journal/workstream/phases/1-name/impl/01-task.md
-../../../../my-project/src/services/auth.ts
+# From my-project-journal/goals/1-name/phases/1-phase/impl/01-task.md
+../../../../../my-project/src/services/auth.ts
 ```
 
 All paths resolve correctly because the workspace convention places all three repos as siblings under a shared parent.

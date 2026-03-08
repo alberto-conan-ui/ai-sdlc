@@ -122,7 +122,7 @@ The Architect produces the phase spec: what problem we're solving, what the appr
 
 **Key behaviour:** broad context, systems thinking, trade-off analysis. The Architect reads the full knowledge base (lessons learned, decisions log, codebase) and holds the big picture.
 
-**Session context:** loads TRACKING.md, LESSONS_LEARNED.md, DECISIONS.md, JOURNAL.md, CONTEXT.md, active phase spec, and reads relevant source files directly. This is the heaviest context load of any role — the Architect needs it to make sound decisions.
+**Session context:** loads STATUS.md, LESSONS_LEARNED.md, DECISIONS.md, CONTEXT.md, active GOAL.md and phase spec, and reads relevant source files directly. This is the heaviest context load of any role — the Architect needs it to make sound decisions.
 
 ### Technical Lead
 
@@ -148,19 +148,19 @@ If the Developer encounters something unexpected (a file that doesn't match the 
 
 The Human Lead's constant companion. Unlike the other roles — which open, do a job, and close — the Orchestrator stays open. The Human Lead tabs back to it between every role session.
 
-The Orchestrator's job is orientation and guidance: where are we, what just happened, what should happen next, and which role should the human talk to. The process itself is complex enough that keeping track of it is its own task. The Human Lead shouldn't have to read TRACKING.md, JOURNAL.md, and the decisions log just to figure out where things stand. The Orchestrator does this for them — and actively advises what to do next.
+The Orchestrator's job is orientation and guidance: where are we, what just happened, what should happen next, and which role should the human talk to. The process itself is complex enough that keeping track of it is its own task. The Human Lead shouldn't have to read STATUS.md, JOURNAL.md, and the decisions log just to figure out where things stand. The Orchestrator does this for them — and actively advises what to do next.
 
 **Primary responsibilities:**
 
 - **Briefing.** When the Human Lead starts work or returns from another role session: "bring me up to speed." The Orchestrator reads the journal state and produces a 3–5 line summary: what phase we're in, what the last session accomplished, what's pending.
 - **Guiding next steps.** The Orchestrator doesn't just say where you are — it recommends where to go. "The Architect's spec is approved. Next step: open a Tech Lead session to write prompts. It should load these files: [list]." This reduces gate fatigue — the human doesn't have to carry the process state in their head.
 - **Context advising.** The Orchestrator tells each role exactly which files to load — not the generic protocol from the table below, but the *specific* files and sections that matter right now.
-- **Tracking hygiene.** After any role session, the Orchestrator updates TRACKING.md, JOURNAL.md, and status fields. It flags when the journal is stale, when decisions haven't been logged, when lessons learned should be captured.
+- **Tracking hygiene.** After any role session, the Orchestrator updates STATUS.md, JOURNAL.md, and status fields. It flags when the journal is stale, when decisions haven't been logged, when lessons learned should be captured.
 - **Process compliance.** The Orchestrator flags when the process is being skipped — a phase spec was written without referencing a goal, a Developer session improvised instead of reporting back, a plan was revised without a decisions log entry. It doesn't enforce (only the Human Lead has authority), but it surfaces.
 
 **Key behaviour:** operational awareness, guidance, process fidelity. The Orchestrator doesn't design, write prompts, or code. It guides the human and maintains the tracking infrastructure that makes every other role effective.
 
-**Session context:** loads TRACKING.md, JOURNAL.md (recent entries), PLAN.md status, and SESSION_LOG.md (last entry). Light and fast — the Orchestrator reads tracking artefacts, not source code.
+**Session context:** loads STATUS.md and JOURNAL.md (recent entries). Light and fast — the Orchestrator reads tracking artefacts, not source code.
 
 **The typical workflow:** Orchestrator stays open. Human asks "where are we?" → gets briefed → opens a working role (Architect, Tech Lead, Developer) → does the work → tabs back to Orchestrator → "just finished, what next?" → Orchestrator updates tracking and advises the next step. The Orchestrator is the cheapest role to run and the one that prevents the most expensive mistakes.
 
@@ -169,7 +169,7 @@ The Orchestrator's job is orientation and guidance: where are we, what just happ
 | Role | Responsibility | Session context | Stance |
 |---|---|---|---|
 | **Human Lead** | Goals, gatekeeps, authority, domain context | — | Decides |
-| **Orchestrator** | Guidance, briefing, tracking, context advising (always open) | Tracking artefacts (TRACKING, JOURNAL, PLAN status) | Guides |
+| **Orchestrator** | Guidance, briefing, tracking, context advising (always open) | STATUS.md, JOURNAL.md (recent entries) | Guides |
 | **Senior Architect** | System design, phase specs, architectural decisions | Full knowledge base + source code | Challenges |
 | **Technical Lead** | Implementation prompts, code review, verification | Phase spec + relevant source files | Translates |
 | **Developer** | Code execution, prompt-following | Implementation prompt only | Executes |
@@ -204,9 +204,9 @@ Update this mapping when models change. The tiers themselves are stable — the 
 
 This is not vibe coding. Vibe coding is "give the AI a vague idea, let it generate, hope for the best." It works for throwaway prototypes. It does not work for anything you need to maintain, extend, or trust. AI-SDLC is the deliberate opposite: structured intent, human accountability at every gate, and AI constrained by process — not unleashed without it.
 
-The process operates in three modes: **Inception**, **Planning**, and **Implementation**. At any point, the project is in exactly one mode for exactly one active goal. The mode is tracked in TRACKING.md (see [TEMPLATES.md](./TEMPLATES.md)), which is the single source of truth for "where are we."
+The process operates in three modes: **Inception**, **Planning**, and **Implementation**. At any point, the project is in exactly one mode for exactly one active goal. The mode is tracked in STATUS.md (see [TEMPLATES.md](./TEMPLATES.md)), which is the single source of truth for "where are we."
 
-**One active goal at a time.** A project may have multiple goals defined, but only one is active. This prevents context scatter — every role knows exactly which goal it's serving. If the Human Lead wants to switch goals, they do so explicitly, and the reason for the switch is logged. The Orchestrator updates TRACKING.md.
+**One active goal at a time.** A project may have multiple goals defined, but only one is active. This prevents context scatter — every role knows exactly which goal it's serving. If the Human Lead wants to switch goals, they do so explicitly, and the reason for the switch is logged. The Orchestrator updates STATUS.md.
 
 ```
 Inception ──→ Planning ──→ Implementation ──→ Goal achieved
@@ -226,14 +226,14 @@ Inception is where the project takes shape. The Human Lead defines goals, the Or
 **What happens in Inception:**
 
 1. **Human Lead** articulates the goal(s) and gatekeep(s). The Architect may push back, ask probing questions, or suggest refinements — but the goal comes from the human.
-2. **Orchestrator** sets up the workspace and journal structure (see [SETUP.md](./SETUP.md)). Creates TRACKING.md, JOURNAL.md, DECISIONS.md, LESSONS_LEARNED.md.
-3. **Senior Architect** writes a SPEC.md for the first workstream — the problem, the vision, design principles.
-4. **Senior Architect** writes a CONTEXT.md — codebase reference: repo structure, key files, existing patterns.
+2. **Orchestrator** sets up the workspace and journal structure (see [SETUP.md](./SETUP.md)). Creates STATUS.md, JOURNAL.md, DECISIONS.md, LESSONS_LEARNED.md, and the first goal folder.
+3. **Senior Architect** writes a GOAL.md for the first goal — the problem, the vision, design principles.
+4. **Senior Architect** writes CONTEXT.md — codebase reference: repo structure, key files, existing patterns.
 5. **Human Lead** reviews and approves.
 
-**Hard gate:** Inception cannot end without at least one goal and its gatekeep defined in TRACKING.md. If any AI role is asked to enter Planning without a goal, the correct response is: "No goals are defined. We need to go back to Inception." This is the process's most basic self-enforcement mechanism.
+**Hard gate:** Inception cannot end without at least one goal and its gatekeep defined in STATUS.md. If any AI role is asked to enter Planning without a goal, the correct response is: "No goals are defined. We need to go back to Inception." This is the process's most basic self-enforcement mechanism.
 
-**When Inception ends:** When the Human Lead decides it ends. The process doesn't automate this — the human judges when there's enough clarity to start planning. The Orchestrator updates TRACKING.md: mode switches to Planning, the first goal becomes active.
+**When Inception ends:** When the Human Lead decides it ends. The process doesn't automate this — the human judges when there's enough clarity to start planning. The Orchestrator updates STATUS.md: mode switches to Planning, the first goal becomes active.
 
 ### Mode 2 — Planning
 
@@ -245,13 +245,13 @@ Planning is where a goal gets broken into phases and phases get broken into impl
 
 1. **Orchestrator** briefs the Human Lead: which goal is active, what the current state is, what happened in the last session.
 2. **Senior Architect** reads the codebase deeply — relevant source files, tests, configuration, existing patterns. A plan written without reading the code is a guess.
-3. **Senior Architect** writes the PLAN.md — the roadmap: a list of phases with status, each referencing the active goal.
+3. **Senior Architect** writes the roadmap in STATUS.md — a list of phases with status, each referencing the active goal.
 4. **Senior Architect** writes the phase spec(s): problem/goal, concrete steps, test cases, done criteria. Specs should reference specific file paths, show code snippets of current behaviour, and include tables of test cases. Vague plans produce vague code.
 5. **Human Lead** reviews and approves the spec (or pushes back — the Architect should defend the design or revise it).
 6. **Technical Lead** writes numbered implementation prompts for the approved phase (see [PROMPTS.md](./PROMPTS.md)).
 7. **Human Lead** reviews the prompts. This is the gate between Planning and Implementation.
 
-**When Planning ends:** When the Human Lead approves the implementation prompts for a phase. The Orchestrator updates TRACKING.md: mode switches to Implementation, with the active phase and prompt number recorded.
+**When Planning ends:** When the Human Lead approves the implementation prompts for a phase. The Orchestrator updates STATUS.md: mode switches to Implementation, with the active phase and prompt number recorded.
 
 ### Mode 3 — Implementation
 
@@ -265,13 +265,13 @@ Implementation is where code gets written. The Developer follows prompts in orde
 2. **Developer** executes the prompt — writes code, runs verification commands, checks done-criteria.
 3. **Technical Lead** reviews the Developer's output.
 4. If verification passes, move to the next prompt. If the phase is complete, the Human Lead evaluates against the goal's gatekeep.
-5. **Orchestrator** updates TRACKING.md after each prompt or session.
+5. **Orchestrator** updates STATUS.md after each prompt or session.
 
 **Within-phase fixes (stay in Implementation):** If a prompt produces a failing test, a type error, or an unexpected result, the Developer reports back to the Technical Lead. The Tech Lead issues a fix prompt — a targeted correction that addresses the specific issue. The Developer executes it. This is a tight loop that doesn't require a mode change. The phase is still sound; a prompt just needs adjustment.
 
-**Phase-level issues (go back to Planning):** If the Developer or Technical Lead discovers that the phase itself is flawed — the approach doesn't work, the assumptions were wrong, a dependency was missed — this is not a prompt fix. The Human Lead decides to switch back to Planning. The Orchestrator updates TRACKING.md (mode → Planning) and captures what went wrong and why. When the Architect opens a new session, the context is already there. The Architect might tweak the phase, remove it, split it, or add new ones. The roadmap gets revised, the decision gets logged, and the process continues.
+**Phase-level issues (go back to Planning):** If the Developer or Technical Lead discovers that the phase itself is flawed — the approach doesn't work, the assumptions were wrong, a dependency was missed — this is not a prompt fix. The Human Lead decides to switch back to Planning. The Orchestrator updates STATUS.md (mode → Planning) and captures what went wrong and why. When the Architect opens a new session, the context is already there. The Architect might tweak the phase, remove it, split it, or add new ones. The roadmap gets revised, the decision gets logged, and the process continues.
 
-**The authority chain for mode transitions:** The Developer cannot decide to go back to Planning (it follows prompts). The Technical Lead can *flag* a phase-level issue. But the Human Lead is the only one who authorises a mode transition. The Orchestrator updates TRACKING.md.
+**The authority chain for mode transitions:** The Developer cannot decide to go back to Planning (it follows prompts). The Technical Lead can *flag* a phase-level issue. But the Human Lead is the only one who authorises a mode transition. The Orchestrator updates STATUS.md.
 
 ### Session Discipline — Start and End
 
@@ -279,15 +279,15 @@ Every work session, regardless of mode, has the same bookends:
 
 **Starting a session — the Orchestrator is already open:**
 
-The Orchestrator stays open between role sessions. When you start work (or return from a role session), ask it for a briefing. It reads TRACKING.md and the recent journal and produces a summary: what mode we're in, which goal is active, what the last session accomplished, what's pending, and what to do next. When it recommends the next role, it generates a **handoff prompt** — the exact prompt to paste into that role's new session, pre-loaded with the right context, recent decisions, and the specific task. This eliminates the information loss that happens when the human has to relay context between roles manually.
+The Orchestrator stays open between role sessions. When you start work (or return from a role session), ask it for a briefing. It reads STATUS.md and the recent journal and produces a summary: what mode we're in, which goal is active, what the last session accomplished, what's pending, and what to do next. When it recommends the next role, it generates a **handoff prompt** — the exact prompt to paste into that role's new session, pre-loaded with the right context, recent decisions, and the specific task. This eliminates the information loss that happens when the human has to relay context between roles manually.
 
 **Default context by role:**
 
 | Role | Always load | Load on demand | Never load |
 |---|---|---|---|
-| **Orchestrator** | TRACKING.md, JOURNAL.md (last 10 entries), PLAN.md (status) | DECISIONS.md, LESSONS_LEARNED.md | Source code, phase specs, impl prompts |
-| **Senior Architect** | TRACKING.md, LESSONS_LEARNED.md (both), DECISIONS.md, CONTEXT.md, active phase spec | Completed phase specs, SESSION_LOG.md (last entry) | Entire session log history, all impl prompts |
-| **Technical Lead** | Active phase spec, LESSONS_LEARNED.md, relevant source files | CONTEXT.md, DECISIONS.md | Full journal, session logs, other phase specs |
+| **Orchestrator** | STATUS.md, JOURNAL.md (recent entries) | DECISIONS.md, LESSONS_LEARNED.md | Source code, phase specs, impl prompts |
+| **Senior Architect** | STATUS.md, LESSONS_LEARNED.md, DECISIONS.md, CONTEXT.md, active phase spec | Completed phase specs, JOURNAL.md (last entry) | All impl prompts |
+| **Technical Lead** | Active phase spec, LESSONS_LEARNED.md, relevant source files | CONTEXT.md, DECISIONS.md | Full journal, other phase specs |
 | **Developer** | The current implementation prompt | Nothing else | Everything except the prompt |
 
 The Orchestrator refines this per session. "For this Architect session, skip DECISIONS.md — nothing relevant. But load the phase 2 spec, because this phase depends on it."
@@ -296,21 +296,19 @@ The Orchestrator refines this per session. "For this Architect session, skip DEC
 
 After closing a role session, tab back to the Orchestrator. Tell it what happened. It updates all tracking artefacts:
 
-1. Update TRACKING.md — mode, active phase, prompt number, next action
-2. Update PLAN.md statuses (use status indicators from [TEMPLATES.md — Conventions](./TEMPLATES.md#status-indicators))
-3. Add a SESSION_LOG.md entry — what was done, by which role, files touched, open threads (full mode only)
-4. Add a line to JOURNAL.md
-5. If something was learned, add it to LESSONS_LEARNED.md
-6. If the session changed codebase structure, update CONTEXT.md
-7. Commit the journal repo
+1. Update STATUS.md — mode, active phase, prompt number, next action, roadmap statuses
+2. Add a JOURNAL.md entry — summary line plus detail if needed
+3. If something was learned, add it to LESSONS_LEARNED.md
+4. If the session changed codebase structure, update CONTEXT.md
+5. Commit the journal repo
 
-The Orchestrator can perform steps 1-6 autonomously. The Human Lead verifies and commits. Skipping this means the next session starts with stale context — the exact amnesia problem this methodology exists to solve.
+The Orchestrator can perform steps 1-4 autonomously. The Human Lead verifies and commits. Skipping this means the next session starts with stale context — the exact amnesia problem this methodology exists to solve.
 
 ### Goal Completion and Transition
 
 When all phases for the active goal are complete and the Human Lead confirms the gatekeep is met:
 
-1. **Orchestrator** updates TRACKING.md — goal status → Achieved
+1. **Orchestrator** updates STATUS.md — goal status → Achieved
 2. If other goals are defined, the **Human Lead** picks the next one to activate → mode switches to Planning for that goal
 3. If no other goals exist, mode switches to Inception → the Human Lead defines what's next
 
@@ -321,7 +319,7 @@ The lifecycle: Inception → Planning → Implementation → goal achieved → p
 The Human Lead can switch the active goal at any time. This is a deliberate decision, not an accident, and it gets logged:
 
 1. **Human Lead** decides to swap (e.g., goal 3 became urgent after client feedback)
-2. **Orchestrator** updates TRACKING.md — previous goal status → Paused (with reason), new goal → Active
+2. **Orchestrator** updates STATUS.md — previous goal status → Paused (with reason), new goal → Active
 3. The reason for the swap is logged in DECISIONS.md — this context is critical for the next session
 
 When returning to a paused goal, the Orchestrator's briefing includes why it was paused and what state it was in when work stopped.
@@ -332,43 +330,43 @@ When returning to a paused goal, the Orchestrator's briefing includes why it was
 
 Not every project needs the full ceremony. The methodology scales along two axes: project size and team familiarity. The three modes (Inception, Planning, Implementation) apply at every scale — what changes is the amount of structure around them.
 
-### Lite Mode — Small Projects (1-5 phases, single workstream)
+### Lite Mode — Small Projects (1-5 phases, single goal)
 
-Use when: a feature, a refactor, or a bug fix that takes a few sessions but benefits from planning. A small goal with one phase is perfectly valid — no overhead needed beyond a TRACKING.md entry and an inline spec.
+Use when: a feature, a refactor, or a bug fix that takes a few sessions but benefits from planning. A small goal with one phase is perfectly valid — no overhead needed beyond a STATUS.md entry and an inline spec.
 
 **Structure:**
 ```
 my-project-journal/
-├── TRACKING.md
+├── STATUS.md              ← Where are we + roadmap + inline phase specs
 ├── JOURNAL.md
 ├── DECISIONS.md
 ├── LESSONS_LEARNED.md
-└── PLAN.md              ← Flat phase list with inline specs
+└── CONTEXT.md
 ```
 
-No workstream folders. No separate phase folders. PLAN.md contains the roadmap and the phase specs inline. Implementation prompts can be written directly in the session rather than as separate files. The journal, decisions log, and lessons learned still exist — these are never optional, because accumulated knowledge is the core value proposition.
+No goals/ folder. No separate phase folders. STATUS.md contains the current state, the roadmap, and the phase specs inline. Implementation prompts can be written directly in the session rather than as separate files. The journal, decisions log, and lessons learned still exist — these are never optional, because accumulated knowledge is the core value proposition.
 
 **Role compression in lite mode:** The Senior Architect, Technical Lead, and Orchestrator can be the same AI session (same model, same context). The separation between design, prompt-writing, and tracking still happens — it's just sequential within one session. The Developer remains a separate session.
 
-**What you skip:** Workstream-level SPEC.md, CONTEXT.md, SESSION_LOG.md. Separate phase folders and impl/ directories. Session continuity is handled through JOURNAL.md entries and the inline phase specs in PLAN.md.
+**What you skip:** The goals/ folder, separate phase folders, and impl/ directories. Session continuity is handled through JOURNAL.md entries and the inline phase specs in STATUS.md.
 
-**When to upgrade to full mode:** If you hit six phases, if the plan has been revised more than twice, or if you're onboarding a second person — switch to the full structure. The cost of upgrading mid-project is low (create folders, move inline specs into files).
+**When to upgrade to full mode:** If you hit six phases, if the plan has been revised more than twice, or if you're onboarding a second person — switch to the full structure. The cost of upgrading mid-project is low (create the goals/ folder, move inline specs into files).
 
-### Full Mode — Large Projects (6+ phases, possibly multiple workstreams)
+### Full Mode — Large Projects (6+ phases, possibly multiple goals)
 
 Use when: a multi-week or multi-month effort touching many files, requiring architectural decisions, involving multiple contributors.
 
-**Structure:** The full journal structure from [TEMPLATES.md](./TEMPLATES.md), with workstream folders, phase folders, numbered implementation prompts, and separate session logs.
+**Structure:** The full journal structure from [TEMPLATES.md](./TEMPLATES.md), with goal folders, phase folders, numbered implementation prompts, and detailed journal entries.
 
-**What you gain:** Clean separation between workstreams, implementation prompts that can be handed to different Developer sessions (or different people), and a session log that provides continuity when work spans many days.
+**What you gain:** Clean separation between goals, implementation prompts that can be handed to different Developer sessions (or different people), and a journal history that provides continuity when work spans many days.
 
 ### The Non-Negotiables (Both Modes)
 
 Regardless of scale, these are never skipped:
 
 - **Goals and gatekeeps before anything else.** No planning without a defined goal. No implementation without approved prompts.
-- **TRACKING.md is always current.** The single source of truth for mode, active goal, and next action.
-- **A written plan before code.** Even in lite mode, the phase has a spec (even if it's three paragraphs inline in PLAN.md).
+- **STATUS.md is always current.** The single source of truth for mode, active goal, and next action.
+- **A written plan before code.** Even in lite mode, the phase has a spec (even if it's three paragraphs inline in STATUS.md).
 - **Decisions log.** Every non-trivial decision gets recorded with context and reasoning.
 - **Lessons learned.** Every hard-won lesson gets written down in actionable form.
 - **Journal entries.** One line per session. The cost is ten seconds; the value compounds.
@@ -388,9 +386,9 @@ Skipping the planning step because "it's a small change." Small changes that tou
 
 Starting a new AI session without loading context. The AI will contradict previous decisions, reintroduce rejected patterns, or redo completed work. The context loading protocol exists for this reason — and each role has a specific loading recipe (see the context loading table above).
 
-### The 500-line plan
+### The 500-line status file
 
-Putting implementation detail in PLAN.md instead of phase docs. PLAN.md is a roadmap — phase table, links, status. All detail lives in the phase specs and implementation prompts.
+Putting implementation detail in STATUS.md instead of phase specs. STATUS.md is for current state and the roadmap — phase table, links, status. All detail lives in the phase specs and implementation prompts.
 
 ### Silent plan changes
 
