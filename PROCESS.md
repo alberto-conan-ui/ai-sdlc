@@ -56,11 +56,15 @@ This is a judgement call, and the methodology trusts you to make it. That's by d
 
 ### Human Accountability
 
-This methodology does not reduce your responsibility. It increases it.
+This methodology demands more from you, not less.
 
-The AI does more of the work — planning, writing code, generating tests, producing artefacts. But you own every decision. Every action is human-defined. Every gatekeep is human-approved. Every plan passes through your review before it becomes code. The AI is the workforce. You are the authority.
+The AI handles production — planning, writing code, generating tests, producing artefacts, and all the bookkeeping that holds the process together: journal entries, STATUS.md updates, key insights, session receipts. The AI writes; you don't. But you own every decision, and ownership lives in review.
+
+Every plan passes through your review before it becomes code. Every insight the AI writes gets your scrutiny before it joins the knowledge base. Every gatekeep requires your judgement — not the AI's assertion that it's done. The AI is the workforce. You are the authority. And authority means active review, not passive approval.
 
 You are typically both the lead and the sole stakeholder — which means there is no one else to defer to. The gatekeep "my own approval" means you are accountable for the quality of what ships. This is not a limitation of the process. It is the point. AI-SDLC exists to empower you through AI, not to replace your judgement with AI output.
+
+**This is where the process makes its real demand.** When the AI produces a phase spec, you need to evaluate whether the approach is sound — not skim it and approve. When the AI writes a journal entry, you need to verify it captured what actually happened — not assume it did. When the AI writes a key insight, you need to judge whether it's specific enough to be useful and placed at the right level — not let it accumulate unchecked. The AI generates volume. You supply the judgement that makes the volume valuable.
 
 This is a partnership driven by you. If you disengage — rubber-stamp plans without reading them, skip review gates, accept AI output without scrutiny — the process breaks. The methodology is only as strong as the person driving it.
 
@@ -421,7 +425,7 @@ Implementation is where code gets written. In Tech Lead stance, the AI reads the
 
 In a single session, the AI has seen everything from prior stances — the table defines what each stance *focuses on*, not what it can see. Be aware that a Developer stance in the same session as a prior Architect conversation carries that context. For complex work, a fresh Developer session produces more disciplined output.
 
-**Tracking updates:** The AI handles its own tracking per common.md — journal entries, STATUS.md updates, insight writing — regardless of stance. The mechanism matters less than the discipline: keeping tracking current means the next session starts with accurate context.
+**Tracking updates:** The AI handles its own tracking per common.md — journal entries, STATUS.md updates, insight writing — regardless of stance. Your job is not to produce these artefacts but to verify them: scan the journal entry for accuracy, check that STATUS.md reflects reality, review insights for specificity. The mechanism matters less than the discipline: keeping tracking current *and accurate* means the next session starts with trustworthy context.
 
 ### Action Completion and Transition
 
@@ -485,27 +489,31 @@ Regardless of action tier, these are never skipped:
 - **A gatekeep for every action.** Tasks get concrete verification. Epics get measurable conditions. Goals get human-judged criteria. But every action has a definition of done.
 - **STATUS.md is always current.** The single source of truth for mode, active action, and next action.
 - **A written spec before code.** Every phase has a spec — even a task's single phase.
-- **Journal entries.** Every session, every decision, every lesson — tagged and logged in the current week's journal file. The cost is ten seconds; the value compounds.
-- **Key insights written.** The AI writes insights directly to KEY_INSIGHTS.md at the right level (per common.md), regardless of stance. You review them. This is how the AI gets better at your project over time.
+- **Journal entries.** Every session, every decision, every lesson — tagged and logged in the current week's journal file. The AI writes them (per common.md). You verify they're accurate. The cost is seconds; the value compounds.
+- **Key insights written and reviewed.** The AI writes insights directly to KEY_INSIGHTS.md at the right level (per common.md), regardless of stance. You actively review them — revising what's vague, removing what's wrong, promoting what applies more broadly. This is how the AI gets better at your project over time, and your review is what makes the insights trustworthy.
 - **Review gate between planning and execution.** You approve the plan before any code gets written.
 - **Stance separation between design and execution.** The Architect/Tech Lead and the Developer are different cognitive stances. Whether they run in separate sessions is your call — but be aware that a Developer in the same session as a design conversation will carry that context. For complex work, a fresh Developer session produces more disciplined output.
-- **Tracking updated at phase handovers.** The AI keeps STATUS.md and the journal current per common.md, regardless of stance. The cost is minutes; the value compounds across sessions.
+- **Tracking updated at phase handovers.** The AI keeps STATUS.md and the journal current per common.md, regardless of stance. You verify the updates are accurate — especially after complex phases where the AI may mischaracterise what happened. The cost is minutes; the value compounds across sessions.
 
 ### The Overhead Discipline
 
-Reading those nine non-negotiables, you might think: this is a lot of tracking for someone who just wants to ship code. You're right — it is. The methodology demands real discipline, and it doesn't pretend otherwise.
+Reading those nine non-negotiables, you might think: this is a lot of overhead for someone who just wants to ship code. But notice what the list actually asks of you: review, verify, approve. Not write, not track, not update. The AI does the production. You do the thinking.
+
+This is a critical distinction. The AI writes journal entries, updates STATUS.md, writes insights, produces session receipts — all per common.md. You never stare at a blank journal file wondering what to write. But the methodology demands something harder than writing: it demands that you actually read what the AI wrote and verify it's correct. That you catch the insight that's too vague to be useful. That you notice when a STATUS.md update mischaracterises the phase outcome. That you push back on a spec that looks plausible but misses the real constraint.
+
+**The process demands more from you, not less.** Without this methodology, you'd write code, review code, ship code. With it, you review plans, review specs, review prompts, review code, review journal entries, review insights, review status updates. Every artefact the AI produces passes through your judgement. The AI's throughput is high — it will generate more artefacts in a day than you'd produce in a week. Your job is to make sure that volume is accurate, specific, and trustworthy. That's harder than writing it yourself, because it requires you to think critically about someone else's output at speed.
 
 Here's why it's worth it.
 
 **Session 1 is the most expensive session you'll ever run.** The AI knows nothing about your project. It reads source files, makes wrong assumptions, produces plans you have to correct, and writes code that doesn't match your patterns. Every correction is a lesson — but without the journal and insight files, that lesson evaporates when the session ends. Session 2 starts from zero again. So does session 3. You're paying the same teaching cost every time.
 
-**The tracking overhead is the mechanism that makes sessions get cheaper.** When the AI loads KEY_INSIGHTS.md and reads "Never use direct DOM manipulation in this codebase — the framework's reactivity system breaks" — that's a lesson you taught it once, in session 4, and it carries forward into every session after. When STATUS.md says "Phase 2 complete, phase 3 specced, the lookup table approach worked but watch for the type narrowing issue in registry.ts" — that's ten minutes of orientation that would otherwise cost thirty minutes of re-reading code and re-discovering context.
+**The tracking overhead is the mechanism that makes sessions get cheaper.** When the AI loads KEY_INSIGHTS.md and reads "Never use direct DOM manipulation in this codebase — the framework's reactivity system breaks" — that's a lesson you taught it once, in session 4, and it carries forward into every session after. When STATUS.md says "Phase 2 complete, phase 3 specced, the lookup table approach worked but watch for the type narrowing issue in registry.ts" — that's ten minutes of orientation that would otherwise cost thirty minutes of re-reading code and re-discovering context. But those insights are only as good as your review. An AI-written insight that says "the refactor was complex" teaches nothing. One that you refined to say "before moving validators between modules, write assertion tests for current behaviour first" teaches permanently. The AI writes the first draft. Your review turns it into durable knowledge.
 
-**The compound curve is real but not instant.** For a two-session task, the overhead barely pays for itself — you'd have been fine without it. For a five-phase epic spanning three weeks, the difference is dramatic. Session 12 loads the insights from sessions 1–11, avoids every mistake already caught, follows every pattern already established, and starts producing useful output in minutes instead of spending the first half-hour re-learning the project. The overhead per session stays roughly constant (a few minutes of tracking), but the value it delivers grows with every session that contributes to the knowledge base.
+**The compound curve is real but not instant.** For a two-session task, the overhead barely pays for itself — you'd have been fine without it. For a five-phase epic spanning three weeks, the difference is dramatic. Session 12 loads the insights from sessions 1–11, avoids every mistake already caught, follows every pattern already established, and starts producing useful output in minutes instead of spending the first half-hour re-learning the project. The overhead per session stays roughly constant (a few minutes of review), but the value it delivers grows with every session that contributes to the knowledge base.
 
-**This is why the methodology requires discipline, not enthusiasm.** You don't need to enjoy writing journal entries. You need to write them anyway, because the version of you that comes back after a two-week break — or the AI that opens a fresh session tomorrow — will depend on them. The journal is not documentation for its own sake. It is the mechanism that turns individual sessions into cumulative progress.
+**This is why the methodology requires discipline, not enthusiasm.** You don't need to enjoy reviewing journal entries. You need to review them anyway, because the version of you that comes back after a two-week break — or the AI that opens a fresh session tomorrow — will depend on them being accurate. The journal is not documentation for its own sake. It is the mechanism that turns individual sessions into cumulative progress. And your review is what makes it trustworthy.
 
-If you find the overhead isn't paying off, check two things: Are you actually reading the insights at session start? And are the insights specific enough to be actionable? "The refactor was tricky" teaches nothing. "Before moving validators between modules, write assertion tests for current behaviour first" teaches permanently. The discipline is only as valuable as the quality of what you capture.
+If you find the overhead isn't paying off, check two things: Are you actually reading the AI's tracking output at session end and the insights at session start? And when you read them, are you engaging critically — refining vague insights, correcting inaccurate summaries, removing noise? The discipline is not in producing the artefacts. The AI handles that. The discipline is in the quality of your attention to what the AI produces.
 
 ---
 
@@ -548,6 +556,14 @@ A Developer session that encounters something unexpected and decides to "fix it"
 ### Stance bleed
 
 When the AI's output starts mixing stances — the Architect over-specifying implementation details, the Developer second-guessing prompts instead of following them, the Tech Lead redesigning the spec instead of translating it. This is a signal, not a catastrophe. If you notice stance bleed, separate the stances into different sessions. If you don't notice it, compression is working fine. The risk is highest between design (Architect/Tech Lead) and execution (Developer) — which is why a fresh Developer session is recommended for complex work.
+
+### The rubber stamp
+
+The AI writes a journal entry — you glance at it, looks fine, move on. The AI writes a key insight — seems reasonable, leave it. The AI updates STATUS.md — sure, whatever. The tracking artefacts accumulate, all technically present, none actually reviewed. Three weeks later, the AI loads insights that are too vague to be actionable, journal entries that mischaracterise what happened, and a STATUS.md that doesn't reflect the real state. The knowledge base looks complete but teaches nothing.
+
+This is the most insidious failure mode because the process *appears* to be working. All the artefacts exist. All the non-negotiables are technically satisfied. But the human review that gives those artefacts their value never happened. The AI generates volume; only your critical attention makes that volume trustworthy. If you're approving tracking output without engaging with it, you're paying the overhead cost without getting the compound returns.
+
+The fix is not to review more — it's to review better. Read the AI's journal entry and ask: does this actually capture what happened, or is it a plausible-sounding summary? Read the key insight and ask: is this specific enough that a fresh AI session could act on it, or is it generic advice? If the answer is "generic," rewrite it or remove it. Five minutes of engaged review at session end is worth more than an hour of passive accumulation.
 
 ### Misclassifying tiers
 
