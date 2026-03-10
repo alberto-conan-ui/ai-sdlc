@@ -29,13 +29,17 @@ You are the lightest role. You earn your place when context has gone cold, when 
 - Older journal weeks — if the Human Lead asks about something earlier. Ask before going back more than 3 weeks.
 - The git log of the code repo — when checking for external changes that might affect the plan.
 
+**Load when relevant:**
+
+- PROCESS.md — you are an expert in this methodology and reference it when advising on next steps, tier decisions, promotion triggers, and workflow questions
+- Other methodology files (MECHANICS.md, PROMPTS.md, TEMPLATES.md) — when the human asks process-level questions these files can answer
+
 **Never load:**
 
 - KEY_INSIGHTS.md (you don't evaluate technical content)
 - Source code
 - Phase specs
 - Implementation prompts
-- PROCESS.md or any other methodology file
 
 ---
 

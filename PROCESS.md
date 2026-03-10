@@ -262,6 +262,30 @@ The orientation stance. You invoke this when you need the AI to answer: where ar
 
 **Context focus:** STATUS.md and recent journal files (current + previous week). Light and fast — tracking artefacts, not source code.
 
+### Curator Stance
+
+The knowledge maintenance stance. The Curator reads everything — journals, insights at all levels, completed specs, session receipts — and proposes editorial actions on the project's accumulated knowledge. It identifies stale insights, promotes lessons that apply more broadly than where they were first captured, retires knowledge that's no longer relevant, and flags gaps where important patterns were learned but never written down.
+
+**When to use the Curator stance:**
+
+- Periodically during a long-running epic or goal — when journal entries have accumulated across several phases and the insight files may have drifted from what's actually true
+- After completing an action — to distill what was learned into insights that will serve the next action
+- When you notice the AI making mistakes that a previous session already caught — this is a signal that the insight wasn't captured or was captured at the wrong level
+- When starting a new project that shares patterns with a completed one — the Curator can identify which insights should carry over
+
+**What the Curator produces:**
+
+- **Insight audit** — a review of all KEY_INSIGHTS.md files (project, action, phase), flagging which insights are stale, which should be promoted to a higher level, which should be retired, and which are missing
+- **Promotion recommendations** — specific insights that have proven applicable beyond their original scope, with proposed text for the higher-level file
+- **Journal distillation** — scanning recent journal entries for lessons and decisions that haven't been captured as insights yet
+- **Cross-action patterns** — identifying recurring themes across completed actions that should become project-level insights
+
+**Key behaviour:** editorial judgment, pattern recognition, knowledge organization. The Curator thinks like a senior architect reviewing what the project has learned — not what to build next, but what to remember.
+
+**Context focus:** KEY_INSIGHTS.md (all levels), journal/ (all available weeks), completed action documents and specs. The Curator has the broadest read access of any stance — it needs to see everything to judge what matters. It does not read source code directly; it reads what the other stances wrote about the source code.
+
+**The Curator proposes; you decide.** Like the Navigator, the Curator is purely advisory. It recommends editorial changes to the insight files — you review and approve them. This keeps the human in control of what the project "knows" while offloading the editorial labor of maintaining the knowledge hierarchy.
+
 ### Common Foundation
 
 All AI stances share a common foundation (`roles/common.md`) that defines:
@@ -281,6 +305,7 @@ You review insights as they appear and maintain final authority over what stays.
 | **Tech Lead** | Implementation prompts, code review, verification | Phase spec + KEY_INSIGHTS.md (action + phase) + source files | Translates | Rarely — benefits from Architect context |
 | **Developer** | Code execution, prompt-following | Implementation prompt only | Executes | Often — clean context produces disciplined output |
 | **Navigator** | Orientation, briefing, handoff prompts, external change checks | STATUS.md + journal/ (recent weeks) | Guides | When context is cold |
+| **Curator** | Knowledge maintenance, insight audit, journal distillation | KEY_INSIGHTS.md (all levels) + journal/ (all weeks) + completed specs | Curates | Dedicated session recommended |
 
 ---
 
@@ -292,6 +317,7 @@ Each AI stance has different cognitive demands. Rather than hardcoding specific 
 |---|---|---|
 | **Tier 1 — Reasoning** | Strongest reasoning, largest context window. Architectural thinking, trade-off analysis, nuanced judgement. | Architect, Tech Lead (complex phases) |
 | **Tier 2 — Execution** | Strong code generation, good instruction-following. Fast, cost-effective. | Developer, Tech Lead (straightforward phases), Navigator |
+| **Tier 1 — Reasoning** (periodic) | Broad context, editorial judgment, pattern recognition across history. | Curator |
 
 **Illustrative mapping (March 2026 — update with your current best-available models):**
 
@@ -391,6 +417,7 @@ Implementation is where code gets written. In Tech Lead stance, the AI reads the
 | **Tech Lead** | Active phase spec, KEY_INSIGHTS.md (action + phase), relevant source files | CONTEXT.md, project KEY_INSIGHTS.md | other phase specs |
 | **Developer** | The current implementation prompt | Nothing else | Everything except the prompt |
 | **Navigator** | STATUS.md, journal/ (current + previous week) | Older journal weeks, git log | KEY_INSIGHTS.md, source code, phase specs, impl prompts |
+| **Curator** | KEY_INSIGHTS.md (all levels), journal/ (all weeks), completed action docs and specs | CONTEXT.md | Source code, impl prompts |
 
 In a single session, the AI has seen everything from prior stances — the table defines what each stance *focuses on*, not what it can see. Be aware that a Developer stance in the same session as a prior Architect conversation carries that context. For complex work, a fresh Developer session produces more disciplined output.
 
@@ -463,6 +490,22 @@ Regardless of action tier, these are never skipped:
 - **Review gate between planning and execution.** You approve the plan before any code gets written.
 - **Stance separation between design and execution.** The Architect/Tech Lead and the Developer are different cognitive stances. Whether they run in separate sessions is your call — but be aware that a Developer in the same session as a design conversation will carry that context. For complex work, a fresh Developer session produces more disciplined output.
 - **Tracking updated at phase handovers.** The AI keeps STATUS.md and the journal current per common.md, regardless of stance. The cost is minutes; the value compounds across sessions.
+
+### The Overhead Discipline
+
+Reading those nine non-negotiables, you might think: this is a lot of tracking for someone who just wants to ship code. You're right — it is. The methodology demands real discipline, and it doesn't pretend otherwise.
+
+Here's why it's worth it.
+
+**Session 1 is the most expensive session you'll ever run.** The AI knows nothing about your project. It reads source files, makes wrong assumptions, produces plans you have to correct, and writes code that doesn't match your patterns. Every correction is a lesson — but without the journal and insight files, that lesson evaporates when the session ends. Session 2 starts from zero again. So does session 3. You're paying the same teaching cost every time.
+
+**The tracking overhead is the mechanism that makes sessions get cheaper.** When the AI loads KEY_INSIGHTS.md and reads "Never use direct DOM manipulation in this codebase — the framework's reactivity system breaks" — that's a lesson you taught it once, in session 4, and it carries forward into every session after. When STATUS.md says "Phase 2 complete, phase 3 specced, the lookup table approach worked but watch for the type narrowing issue in registry.ts" — that's ten minutes of orientation that would otherwise cost thirty minutes of re-reading code and re-discovering context.
+
+**The compound curve is real but not instant.** For a two-session task, the overhead barely pays for itself — you'd have been fine without it. For a five-phase epic spanning three weeks, the difference is dramatic. Session 12 loads the insights from sessions 1–11, avoids every mistake already caught, follows every pattern already established, and starts producing useful output in minutes instead of spending the first half-hour re-learning the project. The overhead per session stays roughly constant (a few minutes of tracking), but the value it delivers grows with every session that contributes to the knowledge base.
+
+**This is why the methodology requires discipline, not enthusiasm.** You don't need to enjoy writing journal entries. You need to write them anyway, because the version of you that comes back after a two-week break — or the AI that opens a fresh session tomorrow — will depend on them. The journal is not documentation for its own sake. It is the mechanism that turns individual sessions into cumulative progress.
+
+If you find the overhead isn't paying off, check two things: Are you actually reading the insights at session start? And are the insights specific enough to be actionable? "The refactor was tricky" teaches nothing. "Before moving validators between modules, write assertion tests for current behaviour first" teaches permanently. The discipline is only as valuable as the quality of what you capture.
 
 ---
 

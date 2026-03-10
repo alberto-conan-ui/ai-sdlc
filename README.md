@@ -24,7 +24,7 @@ This methodology fixes that. The core mechanism: structured context that persist
 
 3. **Planning is now cheap — so plan aggressively.** LLMs can hold an entire codebase in context and produce a detailed plan in minutes. The cognitive bottleneck that made upfront planning impractical for humans doesn't apply to AI. This isn't waterfall — the plans are disposable and get revised constantly. The discipline of producing them is what matters.
 
-4. **Four roles, flexible separation.** The Human Lead defines actions and gatekeeps. The Senior Architect designs the approach and pushes back. The Technical Lead writes implementation prompts and reviews output. The Developer writes code. A shared foundation (`roles/common.md`) gives every role journal, insight, and tracking responsibilities. The Navigator is a lightweight advisory role invoked when context is cold. Each role has a distinct stance defined by entry points in [`roles/`](./roles/). Whether roles run in separate sessions or as mode switches within the same conversation is the Human Lead's call — compression is the default, full separation the escalation path for complex work (see [MECHANICS.md](./MECHANICS.md)).
+4. **Five AI stances, one practitioner.** This is a solo framework. You shift the AI between cognitive stances: the Architect designs and pushes back, the Tech Lead writes implementation prompts, the Developer writes code, the Navigator provides orientation when context is cold, and the Curator maintains the project's accumulated knowledge. A shared foundation (`roles/common.md`) gives every stance journal, insight, and tracking responsibilities. Each stance has an entry point in [`roles/`](./roles/). In practice, you'll usually stay in one session and shift stances as the conversation flows — separate sessions are the escalation path for complex work (see [MECHANICS.md](./MECHANICS.md)).
 
 5. **Accumulate knowledge across sessions.** A rolling journal captures everything chronologically. Key insights are curated from the journal and placed at the right scope — project, action, or phase level. Each new session loads the relevant insights. The AI effectively gets better at your project over time.
 
@@ -84,7 +84,7 @@ The process scales through the tier system, not through mode switches. A bug fix
 5. Read [PROCESS.md](./PROCESS.md) for the full methodology and reference
 6. Read [MECHANICS.md](./MECHANICS.md) to understand the context isolation architecture
 7. Read [PROMPTS.md](./PROMPTS.md) before writing your first implementation prompts
-8. Point your AI tool at the workspace folder. Load a role entry point from `roles/` — start with the [Architect](./roles/architect.md) for design work or the [Navigator](./roles/navigator.md) for orientation
+8. Point your AI tool at the workspace folder. Load a stance entry point from `roles/` — start with the [Architect](./roles/architect.md) for design work or the [Navigator](./roles/navigator.md) for orientation
 
 ## License
 

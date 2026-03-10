@@ -139,6 +139,7 @@ Regardless of how you manage sessions — one persistent conversation or many se
 | "I need prompts for an approved spec" | Tech Lead | Usually same session as Architect |
 | "I need to execute a prompt" | Developer | Fresh session recommended for complex work |
 | "Phase is done, what's next?" | Navigator (or active role) | Inline is usually fine |
+| "Are our insights still accurate?" | Curator | Dedicated session recommended — broad read access needed |
 
 ---
 

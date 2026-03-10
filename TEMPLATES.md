@@ -168,7 +168,7 @@ Insights can also be demoted or removed when they're no longer relevant. A phase
 
 ### Who maintains them
 
-Every role writes insights directly to the appropriate KEY_INSIGHTS.md per `roles/common.md`. The **Architect** typically writes project-level and action-level insights (broadest context). The **Tech Lead** typically writes phase-level insights (tactical details). The **Human Lead** reviews insights as they appear.
+The AI writes insights directly to the appropriate KEY_INSIGHTS.md per `roles/common.md`, regardless of stance. The **Architect** typically writes project-level and action-level insights (broadest context). The **Tech Lead** typically writes phase-level insights (tactical details). The **Curator** periodically audits all levels and proposes promotions, demotions, and retirements. You review insights as they appear and maintain final authority over what stays.
 
 ### KEY_INSIGHTS.md template
 

@@ -20,6 +20,8 @@ The methodology is being written and refined. The core documents describe the fu
 - **One example flow.** FLOWS.md has a solo goal walkthrough.
 - **Session flexibility.** Role separation reframed as a cognitive framing technique with compression as the default (March 2026 revision).
 - **Distributed upkeep model.** Orchestrator replaced with common.md (shared responsibilities for all roles) + Navigator (lightweight advisory). Journal, insights, and STATUS.md are now every role's responsibility. Human Lead reviews insights directly (March 2026 revision).
+- **Curator stance.** Dedicated knowledge maintenance stance that audits insights, distills journals, and proposes editorial changes to the insight hierarchy. Offloads curation labor from the human while keeping editorial authority with them (March 2026 addition).
+- **Overhead discipline framing.** Explicit section in PROCESS.md making the honest case for why the tracking overhead compounds in value over sessions, and when to check that it's working (March 2026 addition).
 
 ## Known Gaps — Will Be Addressed
 
@@ -36,7 +38,7 @@ These are recognized issues that will be tackled as the methodology matures:
 
 These are structural questions raised during review that need real-world validation:
 
-- **Insight curation durability.** The three-level KEY_INSIGHTS.md hierarchy (project, action, phase) is theoretically sound but may be too much editorial overhead in practice. Watch for curation lapses — if they happen consistently, simplify to a single file per action.
+- **Insight curation durability.** The three-level KEY_INSIGHTS.md hierarchy (project, action, phase) is theoretically sound but may be too much editorial overhead in practice. The Curator stance (March 2026 addition) offloads the editorial labor to the AI — it reads all journals and insights, proposes promotions/demotions/retirements, and the human approves. This should reduce curation lapses, but needs real-world validation. Watch for whether the Curator is invoked often enough to keep insights current.
 - **Context window limits.** As projects accumulate insights, CONTEXT.md, three levels of KEY_INSIGHTS.md, and a phase spec may push useful context limits for smaller models. No data yet on where the practical ceiling is.
 - **Process-as-procrastination.** The methodology could become a way to avoid shipping — endlessly refining specs, curating insights, and updating STATUS.md while writing no code. No anti-pattern for this yet because the right framing hasn't been found.
 

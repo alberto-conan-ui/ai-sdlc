@@ -28,12 +28,13 @@ my-project-workspace/              ← AI tool points here
     ├── PROMPTS.md
     ├── SETUP.md
     ├── TEMPLATES.md
-    └── roles/                     ← AI role entry points
-        ├── common.md               ← Shared responsibilities (all roles load this first)
-        ├── navigator.md
+    └── roles/                     ← AI stance entry points
+        ├── common.md               ← Shared responsibilities (all stances load this first)
         ├── architect.md
         ├── tech-lead.md
-        └── developer.md
+        ├── developer.md
+        ├── navigator.md
+        └── curator.md
 ```
 
 Three repos, three concerns, three change cadences:
