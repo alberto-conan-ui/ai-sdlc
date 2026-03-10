@@ -24,13 +24,13 @@ This methodology fixes that. The core mechanism: structured context that persist
 
 3. **Planning is now cheap — so plan aggressively.** LLMs can hold an entire codebase in context and produce a detailed plan in minutes. The cognitive bottleneck that made upfront planning impractical for humans doesn't apply to AI. This isn't waterfall — the plans are disposable and get revised constantly. The discipline of producing them is what matters.
 
-4. **Five roles, flexible separation.** The Human Lead defines actions and gatekeeps. The Orchestrator guides orientation and tracking. The Senior Architect designs the approach and pushes back. The Technical Lead writes implementation prompts and reviews output. The Developer writes code. Each role has a distinct stance defined by entry points in [`roles/`](./roles/). Whether roles run in separate sessions or as mode switches within the same conversation is the Human Lead's call — compression is the default, full separation the escalation path for complex work (see [MECHANICS.md](./MECHANICS.md)).
+4. **Four roles, flexible separation.** The Human Lead defines actions and gatekeeps. The Senior Architect designs the approach and pushes back. The Technical Lead writes implementation prompts and reviews output. The Developer writes code. A shared foundation (`roles/common.md`) gives every role journal, insight, and tracking responsibilities. The Navigator is a lightweight advisory role invoked when context is cold. Each role has a distinct stance defined by entry points in [`roles/`](./roles/). Whether roles run in separate sessions or as mode switches within the same conversation is the Human Lead's call — compression is the default, full separation the escalation path for complex work (see [MECHANICS.md](./MECHANICS.md)).
 
 5. **Accumulate knowledge across sessions.** A rolling journal captures everything chronologically. Key insights are curated from the journal and placed at the right scope — project, action, or phase level. Each new session loads the relevant insights. The AI effectively gets better at your project over time.
 
 6. **Phases are the unit of work.** Every piece of work is a bounded phase with a clear goal, concrete steps, and done-criteria. Small enough to finish in 1-3 sessions. Self-contained for review. Clean rollback boundaries.
 
-7. **Append-forward, never rewrite.** The journal moves forward, never backward. When a plan changes, the new plan is a new artefact. When a task outgrows its scope, a new epic is created — the task stays as-is. Promotion, revision, and abandonment are all forward moves. The Orchestrator ties them together.
+7. **Append-forward, never rewrite.** The journal moves forward, never backward. When a plan changes, the new plan is a new artefact. When a task outgrows its scope, a new epic is created — the task stays as-is. Promotion, revision, and abandonment are all forward moves. The Navigator bridges context across promotions when needed.
 
 ## How It Works
 
@@ -84,7 +84,7 @@ The process scales through the tier system, not through mode switches. A bug fix
 5. Read [PROCESS.md](./PROCESS.md) for the full methodology and reference
 6. Read [MECHANICS.md](./MECHANICS.md) to understand the context isolation architecture
 7. Read [PROMPTS.md](./PROMPTS.md) before writing your first implementation prompts
-8. Point your AI tool at the workspace folder. Load a role entry point from `roles/` — start with the [Orchestrator](./roles/orchestrator.md)
+8. Point your AI tool at the workspace folder. Load a role entry point from `roles/` — start with the [Architect](./roles/architect.md) for design work or the [Navigator](./roles/navigator.md) for orientation
 
 ## License
 

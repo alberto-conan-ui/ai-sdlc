@@ -29,7 +29,8 @@ my-project-workspace/              ← AI tool points here
     ├── SETUP.md
     ├── TEMPLATES.md
     └── roles/                     ← AI role entry points
-        ├── orchestrator.md
+        ├── common.md               ← Shared responsibilities (all roles load this first)
+        ├── navigator.md
         ├── architect.md
         ├── tech-lead.md
         └── developer.md
@@ -56,7 +57,7 @@ journal: my-project-journal
 methodology: ai-sdlc
 ```
 
-With this file, all documents can reference paths as `{code}/src/services/auth.ts` instead of `../my-project/src/services/auth.ts`. The AI resolves these references at session start by reading `workspace.yaml`. The Orchestrator's handoff prompts use the same shorthand.
+With this file, all documents can reference paths as `{code}/src/services/auth.ts` instead of `../my-project/src/services/auth.ts`. The AI resolves these references at session start by reading `workspace.yaml`. The Navigator's handoff prompts use the same shorthand.
 
 This is especially valuable for implementation prompts, where deep folder nesting would otherwise require counting `../` levels: `{code}/src/services/auth.ts` is always correct regardless of where the prompt file lives.
 

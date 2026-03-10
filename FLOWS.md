@@ -18,10 +18,10 @@
 | Role | Typical session setup | Notes |
 |---|---|---|
 | Human Lead | You, always | Every decision, every gate |
-| Orchestrator | Inline or dedicated — your call | Dedicated when context is cold; inline for quick updates |
 | Senior Architect | Often shared with Tech Lead | Designs the roadmap and phase specs |
 | Technical Lead | Often shared with Architect | Writes prompts, reviews Developer output |
 | Developer | Fresh session recommended | Cleanest output with no design context baggage |
+| Navigator | Invoked when context is cold | Briefings, handoff prompts, promotion bridging |
 
 For a goal, you might choose full role separation if the design work is deep and the Developer prompts are complex. For simpler goals, the Architect and Tech Lead can share a session — the Tech Lead benefits from having been part of the design conversation. The Human Lead decides based on the work.
 
@@ -31,7 +31,7 @@ For a goal, you might choose full role separation if the design work is deep and
 
 You come in with a rough idea: "I need to make this app mobile-friendly." You don't need a polished goal statement — that's what the next step is for.
 
-**If starting fresh or context is cold:** open an Orchestrator session (load `roles/orchestrator.md`). Tell it you want to create a new goal. It will scaffold the action folder, update STATUS.md, log the first journal entry, and generate a handoff prompt for the Architect.
+**If starting fresh or context is cold:** invoke the Navigator (load `roles/navigator.md`). Tell it you want to create a new goal. It will brief you on the current state and generate a handoff prompt for the Architect. You (or the active role) set up the action folder, update STATUS.md, and log the first journal entry per common.md.
 
 **If you're already in a session and context is warm:** ask your current role to set up the action folder and STATUS.md entry, or do it yourself. Then switch to Architect mode to define the goal.
 
@@ -43,7 +43,7 @@ Either way, by the end of this step you have: an action folder (`actions/goal-mo
 
 **Session: Senior Architect** (load `roles/architect.md` — fresh session or mode switch, your call)
 
-If you have an Orchestrator handoff prompt, paste it. If you're mode-switching, give the Architect the context: "I want to define a goal around making the app mobile-friendly. Read CONTEXT.md and let's shape it." This is a conversation — you and the Architect go back and forth until the goal is clear and the roadmap makes sense.
+If you have a Navigator handoff prompt, paste it. If you're mode-switching, give the Architect the context: "I want to define a goal around making the app mobile-friendly. Read CONTEXT.md and let's shape it." This is a conversation — you and the Architect go back and forth until the goal is clear and the roadmap makes sense.
 
 The Architect reads the codebase and CONTEXT.md, then pushes you on the vague parts. "Mobile-friendly" isn't a goal — it's a wish. Expect questions like: which workflows need to work on mobile? What does "work" mean — just renders, or comfortable to use? Who decides it's done? You provide the domain answers; the Architect shapes them into a GOAL.md with a clear problem statement, vision, design principles, and gatekeep.
 
@@ -59,7 +59,7 @@ From there, the conversation naturally moves to planning. The Architect breaks t
 
 Push back on the roadmap. Is the phase order right? Is anything missing? Is the scope realistic? The Architect should defend its choices or revise them.
 
-Whether this takes one session or several doesn't matter. If you need a fresh handoff between sessions, ask the Orchestrator (or write one yourself). By the end, you have an approved GOAL.md, a roadmap in STATUS.md, and a phase 1 spec (SPEC.md).
+Whether this takes one session or several doesn't matter. If you need a fresh handoff between sessions, invoke the Navigator (or write one yourself). By the end, you have an approved GOAL.md, a roadmap in STATUS.md, and a phase 1 spec (SPEC.md).
 
 ---
 
@@ -73,13 +73,13 @@ Switch to the Tech Lead role with the phase spec. You can continue in the same s
 
 **What you do:** whatever level of review makes sense. Some phases you'll want to read every prompt before the Developer touches it. Others you'll let the Tech Lead and Developer cycle through, reviewing the output at the end. For phase 1 (audit) you might barely check in. For phase 2 (layout system) you might review every prompt because it touches everything. For phase 4 (touch & interaction) you might pull the Architect back in because the patterns are unfamiliar. This is your call, phase by phase.
 
-**The Orchestrator stays out of this loop.** The Tech Lead and Developer pass context between each other through session receipts — that's the mechanism. No Orchestrator overhead between prompts. The loop is tight: Tech Lead writes prompt → Developer executes → session receipt → Tech Lead writes next prompt.
+**The implementation loop is tight.** The Tech Lead and Developer pass context between each other through session receipts — that's the mechanism. No overhead between prompts: Tech Lead writes prompt → Developer executes → session receipt → Tech Lead writes next prompt. Every role handles its own upkeep (journal, STATUS.md) per common.md.
 
 ---
 
 ### 4. Phase Handover
 
-When a phase is done, handle the handover. For complex handovers (especially after a long phase or when context has drifted), the Orchestrator is valuable here — it logs what happened, updates STATUS.md and the journal, and suggests the next move. For simple handovers, update tracking yourself and move on.
+When a phase is done, handle the handover. For complex handovers (especially after a long phase or when context has drifted), invoke the Navigator — it reads the project state and suggests the next move. The active role logs what happened and updates STATUS.md per common.md. For simple handovers, update tracking yourself and move on.
 
 **You and the Architect review:** does this phase move you toward the goal's gatekeep? For the audit phase: do you have a clear catalogue of issues and a working device-testing workflow? If something's off, the Architect helps you decide — fix prompts from the Tech Lead, or a revised approach? If the phase is solid, the Architect designs the next phase spec, loading the previous phase's insights and the updated codebase context. Each phase builds on what was learned before.
 
@@ -101,16 +101,16 @@ After all phases are complete (or enough that you're satisfied):
 
 ### What This Flow Actually Looks Like Day-to-Day
 
-The description above is the full arc. In daily practice, most of your time is spent in step 3 — talking to the Tech Lead and Developer, getting code written. You might run the Architect and Tech Lead in one session, switching modes as the conversation flows from design to prompts. You might open a fresh Developer session for each prompt batch, or share the session for low-risk work. The Orchestrator might be a dedicated session at the start of the day, or just a quick "where was I?" question to whatever role is active. You'll find your rhythm — the methodology provides the roles and the structure, not the session management rules.
+The description above is the full arc. In daily practice, most of your time is spent in step 3 — talking to the Tech Lead and Developer, getting code written. You might run the Architect and Tech Lead in one session, switching modes as the conversation flows from design to prompts. You might open a fresh Developer session for each prompt batch, or share the session for low-risk work. You might invoke the Navigator at the start of the day when context is cold, or just ask the active role "where was I?" when context is warm. You'll find your rhythm — the methodology provides the roles and the structure, not the session management rules.
 
 ---
 
 ### When Things Go Sideways
 
-**The Architect's roadmap was wrong.** Phase 2 reveals that the layout system can't be swapped without also reworking the navigation. The Tech Lead flags it. You decide to go back to Planning. The Orchestrator logs the decision, the Architect writes a revised roadmap (new version — the original stays as-is). This is the process working, not failing.
+**The Architect's roadmap was wrong.** Phase 2 reveals that the layout system can't be swapped without also reworking the navigation. The Tech Lead flags it. You decide to go back to Planning. The active role logs the decision in the journal (per common.md), the Architect writes a revised roadmap (new version — the original stays as-is). This is the process working, not failing.
 
 **A Developer session improvises.** The Developer encounters a CSS framework conflict and "fixes" it by rewriting the build config. This is outside the prompt's scope. The session receipt flags it. The Tech Lead reviews, and you decide whether the fix holds or needs to be reverted. The lesson goes in the journal; if it applies beyond this phase, it gets promoted to KEY_INSIGHTS.md.
 
-**You lose momentum.** Three weeks pass. You come back and context is cold. This is when a dedicated Orchestrator session earns its cost — it reads STATUS.md and the journal, tells you exactly which phase you were on, what was done, and what's pending. It also checks the git log for external changes that might affect the work. You pick up where you left off.
+**You lose momentum.** Three weeks pass. You come back and context is cold. This is when the Navigator earns its cost — it reads STATUS.md and the journal, tells you exactly which phase you were on, what was done, and what's pending. It also checks the git log for external changes that might affect the work. You pick up where you left off.
 
-**The goal changes.** Halfway through, stakeholder feedback shifts the priority from "mobile-friendly" to "mobile-first with offline support." The original goal stays as-is (append-forward). You create a new goal that supersedes it. The Orchestrator bridges the context — everything learned in the first goal carries over.
+**The goal changes.** Halfway through, stakeholder feedback shifts the priority from "mobile-friendly" to "mobile-first with offline support." The original goal stays as-is (append-forward). You create a new goal that supersedes it. The Navigator bridges the context — everything learned in the first goal carries over.

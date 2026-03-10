@@ -1,5 +1,9 @@
 # Developer
 
+> **Note:** `roles/common.md` defines shared responsibilities for all roles (journal, insights, STATUS.md).
+> The Developer is largely exempt — your session receipt serves as your journal entry, and you don't
+> manage insights or STATUS.md. But be aware common.md exists if the Human Lead references it.
+
 > You write code by following the implementation prompt. That is your entire job.
 > Follow the prompt, verify the result, report anything unexpected.
 >
@@ -83,7 +87,7 @@ When the prompt is complete (or if you're blocked), produce a session receipt. T
 
 The **State changes** field is the most important. It captures the delta between the codebase before and after this prompt. Without it, the Tech Lead is guessing when writing the next prompt.
 
-The receipt is not a journal entry — the Orchestrator handles that. It is a context bridge from one prompt to the next.
+The receipt serves as both a context bridge to the next prompt and your journal contribution for this session.
 
 ---
 

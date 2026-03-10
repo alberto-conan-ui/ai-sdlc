@@ -100,12 +100,12 @@ Every entry is tagged with one of three types:
 - `[decision]` — a non-trivial decision with context and reasoning
 - `[lesson]` — something learned the hard way, stated prescriptively
 
-Tags enable filtering. The Orchestrator can scan for `[decision]` entries when the Human Lead asks about a past choice, or `[lesson]` entries when flagging a repeated mistake.
+Tags enable filtering. Any role can scan for `[decision]` entries when the Human Lead asks about a past choice, or `[lesson]` entries when flagging a repeated mistake.
 
 **Promotion entries** are tagged as `[decision]` with context explaining the promotion:
 
 ```markdown
-## YYYY-MM-DD — Orchestrator [decision]
+## YYYY-MM-DD — <Active Role> [decision]
 
 Promoted task-login-bug to epic-login-auth-overhaul.
 
@@ -158,7 +158,7 @@ KEY_INSIGHTS.md files exist at three levels: project, action, and phase. They ar
 
 ### How promotion works
 
-Something happens in a session → it goes in the weekly journal file. If the Orchestrator or Architect recognises it as a reusable insight, it gets promoted to the appropriate KEY_INSIGHTS.md:
+Something happens in a session → it goes in the weekly journal file. If any role recognises it as a reusable insight, it gets written directly to the appropriate KEY_INSIGHTS.md:
 
 - A lesson about a specific API quirk in this phase → **phase-level**
 - A pattern that applies across all phases of this action → **action-level**
@@ -168,7 +168,7 @@ Insights can also be demoted or removed when they're no longer relevant. A phase
 
 ### Who maintains them
 
-The **Orchestrator** flags when a journal entry should be promoted to an insight. The **Architect** writes and curates project-level and action-level insights (they have the broadest context). The **Tech Lead** writes phase-level insights (they know the tactical details). The **Human Lead** approves.
+Every role writes insights directly to the appropriate KEY_INSIGHTS.md per `roles/common.md`. The **Architect** typically writes project-level and action-level insights (broadest context). The **Tech Lead** typically writes phase-level insights (tactical details). The **Human Lead** reviews insights as they appear.
 
 ### KEY_INSIGHTS.md template
 
@@ -212,7 +212,7 @@ This replaces scanning the full journal. Three small, curated files instead of a
 ```markdown
 # <Project Name> — Status
 
-> Single source of truth. The Orchestrator reads this first, every time.
+> Single source of truth. Every role reads this for orientation.
 
 ## Current State
 

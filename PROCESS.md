@@ -68,11 +68,9 @@ This is a partnership driven by humans. If the human disengages — rubber-stamp
 
 The project journal moves forward, never backward. When a plan changes, the new plan is a new artefact. The old plan stays as the record of what was believed at the time. When a task outgrows its scope, the task stays as-is and a new epic or goal is created to continue the work. Promotion, revision, and abandonment are all forward moves — new entries, new files, new journal notes.
 
-This principle exists because rewriting history breaks the context chain. If a spec gets silently edited, the journal entries that reference it no longer make sense. If a task folder gets renamed or restructured, the Orchestrator's references go stale. By always moving forward — creating new artefacts rather than mutating old ones — every past reference remains valid, and the journal tells a truthful story.
+This principle exists because rewriting history breaks the context chain. If a spec gets silently edited, the journal entries that reference it no longer make sense. If a task folder gets renamed or restructured, references go stale. By always moving forward — creating new artefacts rather than mutating old ones — every past reference remains valid, and the journal tells a truthful story.
 
 The only file that genuinely mutates is STATUS.md, and even that is just pointer updates: which action is active, which phase, which prompt. Everything else is append-only.
-
-The Orchestrator is the role that ties forward moves together. It reads the journal, knows what was promoted from what, and bridges the context gap so the Human Lead and other roles don't have to trace the history manually.
 
 ---
 
@@ -127,9 +125,9 @@ When it's ambiguous, start with the lighter tier. A task that outgrows its scope
 
 When a task turns out to need a second phase, it's no longer a task — it's an epic. When an epic's gatekeep turns out to require subjective evaluation, it's a goal.
 
-**Promotion follows the append-forward principle.** The original action stays as-is. A new action is created at the higher tier. The journal captures the promotion decision: what was the original action, why it's being promoted, and what the new action needs to accomplish. The Orchestrator bridges the context — it knows the history and can advise the new action's Architect or Tech Lead on what was already done and what was learned.
+**Promotion follows the append-forward principle.** The original action stays as-is. A new action is created at the higher tier. The journal captures the promotion decision: what was the original action, why it's being promoted, and what the new action needs to accomplish. The Navigator (if invoked) or the active role bridges the context — advising the new action's Architect or Tech Lead on what was already done and what was learned.
 
-A promoted task's TASK.md is never modified. The new epic's EPIC.md references the original task ("Promoted from task-login-bug — see journal 2026-W11") and the Orchestrator's handoff prompt carries over the relevant context.
+A promoted task's TASK.md is never modified. The new epic's EPIC.md references the original task ("Promoted from task-login-bug — see journal 2026-W11"). The Navigator (if invoked) or the active role carries over the relevant context.
 
 The promotion triggers:
 
@@ -140,9 +138,7 @@ The promotion triggers:
 
 A project may have many actions defined, but only one is active. This prevents context scatter — every role knows exactly which action it's serving. The active action and its tier are tracked in STATUS.md.
 
-If the Human Lead wants to switch actions, they do so explicitly. The Orchestrator updates STATUS.md, logs the reason in the journal, and captures the state of the paused action. When returning to a paused action, the Orchestrator's briefing includes why it was paused and what state it was in.
-
-Because the journal captures context for every action that's been worked on, the Orchestrator can answer "what was I working on three weeks ago?" or "can I pick this up again?" by scanning the journal history.
+If the Human Lead wants to switch actions, they do so explicitly. The active role (or the Human Lead directly) updates STATUS.md and logs the reason in the journal. When returning to a paused action, the journal captures why it was paused and what state it was in — any role can surface this when asked.
 
 ---
 
@@ -178,19 +174,22 @@ If the Human Lead cannot define a gatekeep, the action is probably scoped wrong.
 
 ## Roles
 
-Five roles drive this process. The Human Lead plus four AI roles, each with a distinct stance toward the work. Role separation is a **cognitive framing technique** — telling the AI "you are an Architect, challenge assumptions" produces genuinely different output than "you are a Developer, follow this prompt." The roles exist because different stances produce different thinking.
+Four roles drive this process. The Human Lead plus three AI roles, each with a distinct stance toward the work. All AI roles share a common foundation (`roles/common.md`) that handles journal writing, key insight management, and STATUS.md updates. Each role adds its specific stance on top.
+
+Role separation is a **cognitive framing technique** — telling the AI "you are an Architect, challenge assumptions" produces genuinely different output than "you are a Developer, follow this prompt." The roles exist because different stances produce different thinking.
+
+A fourth AI role — the **Navigator** — exists for pure orientation: "where are we, what should I do next?" It's invoked when the Human Lead needs process-level guidance, not as a standing session. Any role can answer basic orientation questions via the common foundation; the Navigator adds value when context has gone cold or transitions require judgment.
 
 **How you separate roles is your call.** The Human Lead decides whether each role gets its own session or runs as a mode switch within the same conversation. The methodology defines what each role does and how it thinks — not which window it runs in.
 
 **When separate sessions earn their cost:**
-- **The Developer on complex work.** A Developer in a fresh session — loading only the implementation prompt, with no memory of the design discussion — produces more disciplined, literal output. If you've spent 30 messages debating architecture and then say "now follow this prompt," the model will be primed by those 30 messages. For high-risk work, a clean Developer session is worth the overhead.
+- **The Developer on complex work.** A Developer in a fresh session — loading only the implementation prompt, with no memory of the design discussion — produces more disciplined, literal output. For high-risk work, a clean Developer session is worth the overhead.
 - **When you notice role pollution.** If the Architect starts writing implementation details instead of designing systems, or the Developer starts second-guessing prompts, that's a signal that the roles need physical separation.
 - **Goals with deep design work.** The full Architect → Tech Lead → Developer pipeline in separate sessions produces the cleanest output for work that demands genuine systems thinking.
 
 **When mode switching within a session works fine:**
 - **Tasks.** One session, shifting between Architect thinking and Tech Lead thinking as needed. The Developer can share the session for low-risk tasks or get a fresh one for anything non-trivial.
 - **Architect → Tech Lead transitions.** These roles share most of their context, and the Tech Lead writes better prompts when it was part of the design conversation. The nuance lost in a handoff prompt often costs more than the role pollution it prevents.
-- **The Orchestrator's duties.** Briefing, tracking updates, and "what's next" guidance don't require a separate session. The Human Lead can ask any active role to update STATUS.md and the journal — or do it themselves in two minutes.
 
 **The default is compression. Full separation is the escalation path** — reserved for work where the quality difference justifies the overhead. The Human Lead makes this call per phase based on risk, complexity, and what they're seeing in the output.
 
@@ -200,7 +199,9 @@ The human. Defines actions, classifies them by tier, sets gatekeeps, and has fin
 
 The Human Lead's primary job is defining what success looks like and verifying that it was achieved. They provide the domain context the AI cannot infer, challenge the Architect's assumptions, and decide when a plan is good enough to execute. They also decide when to override the process — skip a phase, combine steps, change direction, promote a task to an epic.
 
-**The Human Lead also decides session boundaries.** When to open a fresh session for a role, when to switch modes within the same conversation, when the Orchestrator's duties are worth a separate session versus a quick STATUS.md update. This is a judgement call informed by the work's complexity and the output quality they're seeing.
+**The Human Lead also decides session boundaries.** When to open a fresh session for a role, when to switch modes within the same conversation, when to invoke the Navigator versus just asking the active role "where are we?" This is a judgement call informed by the work's complexity and the output quality they're seeing.
+
+**The Human Lead reviews key insights.** Every AI role writes insights directly to KEY_INSIGHTS.md (per common.md). The Human Lead reviews these as they appear — revising, removing, or promoting insights that don't hold up or that apply more broadly than the role realized.
 
 When the Human Lead is also the sole stakeholder, they carry the full weight of gatekeeping. This is by design (see "Human Accountability" above).
 
@@ -240,43 +241,52 @@ If the Developer encounters something unexpected, the prompt's **If unexpected**
 
 **Session context:** loads **only the implementation prompt**. This is the lightest context load of any role. The Developer doesn't need the knowledge base — the prompt has already distilled it into actionable steps.
 
-### Orchestrator
+### Navigator
 
-The Human Lead's orientation role. The Orchestrator provides guidance: where are we, what just happened, what should happen next.
+The Human Lead's orientation role. The Navigator answers: where are we, what just happened, what should happen next. It's the lightest AI role — purely advisory, no upkeep responsibilities.
 
-**The Orchestrator is often a mode, not a session.** For most work, the Human Lead can ask any active role "where are we?" or update STATUS.md and the journal themselves. A dedicated Orchestrator session is useful when context has gone cold — returning after a long break, resuming a paused action, or when the project state is genuinely unclear.
+**When to invoke the Navigator:**
+- Returning after a long break or resuming a paused action — context is cold and needs synthesizing
+- Bridging promotions (task → epic, epic → goal) — carrying context from the original action forward
+- When the Human Lead has genuinely lost track and needs a clean briefing
+- When a transition requires judgment about the smartest next move
 
-**When the Orchestrator earns a dedicated session:**
-- Resuming after a multi-day break or a long pause
-- Complex phase handovers where multiple tracking artefacts need updating
-- Bridging promotions (task → epic, epic → goal) where context from the original action needs to be carried forward
-- When the Human Lead has lost track and needs a clean briefing from STATUS.md and the journal
+**When the Navigator isn't needed:**
+- Quick status checks — ask the active role or read STATUS.md directly
+- Simple phase handovers — any role can update STATUS.md per common.md
+- During implementation — the Tech Lead and Developer handle their own context
 
-**When the Orchestrator's duties can be handled inline:**
-- Quick status checks ("what phase am I on?") — ask the current role or read STATUS.md
-- Simple phase handovers — update STATUS.md and the journal directly
-- Tracking hygiene — any role can update STATUS.md at the Human Lead's request
-
-**Core responsibilities (whether in a dedicated session or handled inline):**
+**Core responsibilities:**
 
 - **Briefing** — a 3–5 line summary from STATUS.md and the journal: what action, what tier, what phase, what happened last, what's next.
-- **Handoff prompts** — when the Human Lead decides to open a fresh session for a role, the Orchestrator generates the exact prompt to paste in: which entry point to load, which files to read, what context to carry over. This is the Orchestrator's most valuable output — it eliminates the information loss when moving between separate sessions.
-- **Tracking updates** — STATUS.md, journal entries, insight promotion flags.
-- **Process flags** — surfacing when the process is being skipped (no action defined, specs revised without logging, tracking gone stale). Flag clearly, then move on — the Orchestrator advises, the Human Lead decides.
+- **Advising the next step** — not just "where are we" but "where should we go." Which role to invoke next, which files it should load, whether the current spec still makes sense.
+- **Handoff prompts** — when the Human Lead opens a fresh session, the Navigator generates the exact prompt to paste in: entry points to load, files to read, context to carry over.
+- **Checking for external changes** — reading the code repo's git log and flagging codebase drift that might affect the current plan.
 
-**Key behaviour:** operational awareness, guidance, process fidelity. The Orchestrator doesn't design, write prompts, or code.
+**Key behaviour:** process-level judgment, orientation, guidance. The Navigator doesn't design, write prompts, or code.
 
 **Session context:** loads STATUS.md and recent journal files (current + previous week). Light and fast — tracking artefacts, not source code.
+
+### Common Foundation
+
+All AI roles share a common foundation (`roles/common.md`) that defines:
+
+- **Journal writing** — every role logs `[session]`, `[decision]`, and `[lesson]` entries as part of its normal output
+- **Key insight management** — every role writes insights directly to the appropriate KEY_INSIGHTS.md, decides the level (phase, action, project), and scans for insights from lower levels to promote
+- **STATUS.md updates** — every role updates STATUS.md when its work changes the project state
+- **Orientation** — any role can answer "where are we?" by reading STATUS.md and the recent journal
+
+The Human Lead reviews insights as they appear and maintains final authority over what stays.
 
 ### Role Summary
 
 | Role | Responsibility | Context focus | Stance | Typical session |
 |---|---|---|---|---|
-| **Human Lead** | Actions, gatekeeps, authority, domain context, session boundaries | — | Decides | Always present |
-| **Orchestrator** | Guidance, briefing, tracking, handoff prompts | STATUS.md, journal/ (recent weeks) | Guides | Inline or dedicated — Human Lead's call |
+| **Human Lead** | Actions, gatekeeps, authority, insight review, session boundaries | — | Decides | Always present |
 | **Senior Architect** | System design, phase specs, architectural decisions | KEY_INSIGHTS.md (all levels) + CONTEXT.md + source code | Challenges | Often shared with Tech Lead |
 | **Technical Lead** | Implementation prompts, code review, verification | Phase spec + KEY_INSIGHTS.md (action + phase) + source files | Translates | Often shared with Architect |
 | **Developer** | Code execution, prompt-following | Implementation prompt only | Executes | Fresh session recommended for complex work |
+| **Navigator** | Orientation, briefing, handoff prompts, external change checks | STATUS.md + journal/ (recent weeks) | Guides | Invoked when context is cold |
 
 ---
 
@@ -287,7 +297,7 @@ Each AI role has different cognitive demands. Rather than hardcoding specific mo
 | Tier | Characteristics | Typical roles |
 |---|---|---|
 | **Tier 1 — Reasoning** | Strongest reasoning, largest context window. Architectural thinking, trade-off analysis, nuanced judgement. | Senior Architect, Technical Lead (complex phases) |
-| **Tier 2 — Execution** | Strong code generation, good instruction-following. Fast, cost-effective. | Developer, Technical Lead (straightforward phases), Orchestrator |
+| **Tier 2 — Execution** | Strong code generation, good instruction-following. Fast, cost-effective. | Developer, Technical Lead (straightforward phases), Navigator |
 
 **Illustrative mapping (March 2026 — update with your current best-available models):**
 
@@ -312,14 +322,13 @@ This is not vibe coding. Vibe coding is "give the AI a vague idea, let it genera
 
 Inception happens once per project, when the workspace doesn't exist yet. It is not a recurring mode — it's the setup step.
 
-**Who you're talking to:** Orchestrator, Senior Architect.
+**Who you're talking to:** Senior Architect.
 
 **What happens:**
 
-1. **Human Lead** sets up the workspace (see [SETUP.md](./SETUP.md)).
-2. **Orchestrator** creates the journal structure: STATUS.md, KEY_INSIGHTS.md, CONTEXT.md, journal/ folder with the first weekly file, and the actions/ folder.
-3. **Senior Architect** writes CONTEXT.md — codebase reference: repo structure, key files, existing patterns.
-4. **Human Lead** defines the first action with the **Senior Architect** — collaboratively shaping the problem, scope, and gatekeep.
+1. **Human Lead** sets up the workspace (see [SETUP.md](./SETUP.md)) and creates the journal structure: STATUS.md, KEY_INSIGHTS.md, CONTEXT.md, journal/ folder with the first weekly file, and the actions/ folder.
+2. **Senior Architect** writes CONTEXT.md — codebase reference: repo structure, key files, existing patterns.
+3. **Human Lead** defines the first action with the **Senior Architect** — collaboratively shaping the problem, scope, and gatekeep.
 
 Once the project is set up, Inception is done. Every action — regardless of tier — enters at Planning.
 
@@ -327,7 +336,7 @@ Once the project is set up, Inception is done. Every action — regardless of ti
 
 After Inception, the project operates in two modes: **Planning** and **Implementation**. At any point, the project is in exactly one mode for exactly one active action. The mode is tracked in STATUS.md (see [TEMPLATES.md](./TEMPLATES.md)), which is the single source of truth for "where are we."
 
-**One active action at a time.** A project may have multiple actions defined, but only one is active. This prevents context scatter — every role knows exactly which action it's serving. If the Human Lead wants to switch actions, they do so explicitly, and the reason for the switch is logged. The Orchestrator updates STATUS.md.
+**One active action at a time.** A project may have multiple actions defined, but only one is active. This prevents context scatter — every role knows exactly which action it's serving. If the Human Lead wants to switch actions, they do so explicitly — the active role updates STATUS.md and logs the reason in the journal.
 
 ```
 Planning ──→ Implementation ──→ Action achieved ──→ Pick next action
@@ -340,7 +349,7 @@ All three tiers follow this cycle. What differs is the weight of each step: a ta
 
 ### Planning
 
-**Who you're talking to:** Senior Architect (primarily), Orchestrator (for orientation and handovers).
+**Who you're talking to:** Senior Architect (primarily).
 
 Planning is where an action gets defined, broken into phases, and each phase gets a spec. This is a conversation between the Human Lead and the Architect — not a rigid sequence of handoffs. A phase is a bounded chunk of work with a clear purpose, concrete steps, and done-criteria. A small epic might have two phases. A large goal might have twelve. A task has exactly one.
 
@@ -354,17 +363,17 @@ The Human Lead reviews and approves the spec (or pushes back — the Architect s
 
 **Planning for tasks:** compressed. The Architect produces a short spec (a few paragraphs — problem, steps, done-when). The Architect and Tech Lead may share a session. The Human Lead reviews, but the gate is lighter — a task spec doesn't need the same scrutiny as a multi-phase epic.
 
-**When Planning ends:** When the Human Lead approves the phase spec and is ready to move to implementation. The Orchestrator updates STATUS.md: mode switches to Implementation.
+**When Planning ends:** When the Human Lead approves the phase spec and is ready to move to implementation. The active role updates STATUS.md: mode switches to Implementation.
 
 ### Implementation
 
-**Who you're talking to:** Technical Lead, Developer. Orchestrator at phase handovers (dedicated or inline).
+**Who you're talking to:** Technical Lead, Developer.
 
 Implementation is where code gets written. The Tech Lead reads the phase spec, writes implementation prompts, and the Developer executes them. How this loop works — how many prompts, how much review between them, whether prompts are written upfront or one at a time based on session receipts — is a conversation between the Human Lead and the Tech Lead. The process is deliberately freestyle here because the right approach depends on the work.
 
 **The essentials:** The Tech Lead produces prompts. The Developer executes them and produces session receipts — what was done, what files changed, any surprises. The receipts feed the next prompt. This is the context bridge that keeps prompts grounded in the actual state of the code rather than pre-execution assumptions (see [PROMPTS.md](./PROMPTS.md) for just-in-time prompting).
 
-**The Orchestrator stays out of this loop.** The Tech Lead and Developer pass context to each other through session receipts — that's the mechanism. No Orchestrator overhead between prompts. The loop is tight: Tech Lead writes prompt → Developer executes → session receipt → Tech Lead writes next prompt.
+**The implementation loop is tight.** The Tech Lead and Developer pass context to each other through session receipts — that's the mechanism. Tech Lead writes prompt → Developer executes → session receipt → Tech Lead writes next prompt.
 
 **Review cadence — the Human Lead's call:** Some phases warrant reading every prompt before the Developer gets it (high-risk, novel patterns, shared infrastructure). Others are fine with the Tech Lead and Developer cycling through, with the Human Lead reviewing at the end (low-risk, familiar patterns). The Human Lead decides per phase based on risk and complexity.
 
@@ -372,32 +381,32 @@ Implementation is where code gets written. The Tech Lead reads the phase spec, w
 
 **Phase-level issues (go back to Planning):** If the approach itself is flawed — assumptions were invalid, a dependency was missed — this is not a prompt fix. The Tech Lead flags it. The Human Lead decides to switch back to Planning. Following the append-forward principle, the revised phase gets a new spec version rather than silently modifying the original.
 
-**Phase handovers:** When a phase is done, the Human Lead evaluates: does it move toward the action's gatekeep? This is where the Orchestrator comes back — it logs what happened, updates STATUS.md and the journal, and suggests the next move (typically an Architect session to review the outcome and plan the next phase). Each phase builds on the previous one's insights and the updated codebase.
+**Phase handovers:** When a phase is done, the Human Lead evaluates: does it move toward the action's gatekeep? The active role logs what happened and updates STATUS.md (per common.md). The typical next move is an Architect session to review the outcome and plan the next phase. If context has gone cold or the transition is complex, invoke the Navigator for guidance. Each phase builds on the previous one's insights and the updated codebase.
 
 ### Session Discipline
 
-**Starting a work day or returning after a break:** get a briefing. If you're in a persistent session, ask your current role "where are we?" and it can read STATUS.md. If you're starting fresh — or the context has gone cold — open an Orchestrator session or ask it inline. Either way, the goal is orientation: which action, which phase, what was done, what's next.
+**Starting a work day or returning after a break:** get oriented. Ask the active role "where are we?" — any role can read STATUS.md and the journal per common.md. If context has gone truly cold (returning after weeks, resuming a paused action), invoke the Navigator for a proper briefing.
 
-**During implementation:** the Tech Lead and Developer cycle through prompts using session receipts as context bridges. No Orchestrator needed between prompts. Come back to orientation at phase handovers or when you need it.
+**During implementation:** the Tech Lead and Developer cycle through prompts using session receipts as context bridges. The loop is tight and self-contained.
 
 **Default context by role:**
 
 | Role | Always load | Load on demand | Never load |
 |---|---|---|---|
-| **Orchestrator** | STATUS.md, journal/ (current + previous week) | Older journal weeks (asks before loading 3+ weeks back) | KEY_INSIGHTS.md, source code, phase specs, impl prompts |
-| **Senior Architect** | STATUS.md, CONTEXT.md, KEY_INSIGHTS.md (project + action + phase), active action doc (GOAL/EPIC/TASK.md), active phase spec | Completed phase specs, relevant source files | journal/, impl prompts |
-| **Technical Lead** | Active phase spec, KEY_INSIGHTS.md (action + phase), relevant source files | CONTEXT.md, project KEY_INSIGHTS.md | journal/, other phase specs |
+| **Senior Architect** | STATUS.md, CONTEXT.md, KEY_INSIGHTS.md (project + action + phase), active action doc (GOAL/EPIC/TASK.md), active phase spec | Completed phase specs, relevant source files | impl prompts |
+| **Technical Lead** | Active phase spec, KEY_INSIGHTS.md (action + phase), relevant source files | CONTEXT.md, project KEY_INSIGHTS.md | other phase specs |
 | **Developer** | The current implementation prompt | Nothing else | Everything except the prompt |
+| **Navigator** | STATUS.md, journal/ (current + previous week) | Older journal weeks, git log | KEY_INSIGHTS.md, source code, phase specs, impl prompts |
 
 When running roles in the same session via mode switching, the context table still defines what each role *focuses on* — even if the model has seen more. The Human Lead should be aware that a Developer operating in the same session as a prior Architect conversation will carry that context. For high-risk work, a fresh Developer session produces more disciplined output.
 
-**Tracking updates:** At phase handovers, update tracking artefacts: STATUS.md, journal entries, insight promotion flags. This can be done by the Orchestrator, by the active role at the Human Lead's request, or by the Human Lead directly. The mechanism matters less than the discipline — keeping tracking current means the next session starts with accurate context.
+**Tracking updates:** Every role handles its own tracking per common.md — journal entries, STATUS.md updates, insight writing. The mechanism matters less than the discipline: keeping tracking current means the next session starts with accurate context.
 
 ### Action Completion and Transition
 
 When all phases for the active action are complete and the Human Lead confirms the gatekeep is met:
 
-1. **Orchestrator** updates STATUS.md — action status → Achieved
+1. The active role updates STATUS.md — action status → Achieved
 2. If other actions are defined, the **Human Lead** picks the next one to activate
 3. If no other actions exist, the Human Lead defines what's next
 
@@ -408,10 +417,10 @@ For tasks, completion is often immediate — one phase, gatekeep verified, done.
 The Human Lead can switch the active action at any time. This is a deliberate decision, not an accident, and it gets logged:
 
 1. **Human Lead** decides to swap (e.g., a critical bug came in while working on an epic)
-2. **Orchestrator** updates STATUS.md — previous action status → Paused (with reason), new action → Active
+2. The active role updates STATUS.md — previous action status → Paused (with reason), new action → Active
 3. The reason for the swap is logged as a `[decision]` entry in the journal — this context is critical for the next session
 
-When returning to a paused action, the Orchestrator's briefing includes why it was paused and what state it was in when work stopped.
+When returning to a paused action, the journal captures why it was paused and what state it was in. The Navigator can synthesize this into a briefing if context has gone cold.
 
 ### Staying Current with External Changes
 
@@ -419,13 +428,13 @@ Codebases don't stand still. Other developers push changes, dependencies get upd
 
 This is a real-world problem, and the methodology doesn't pretend it doesn't exist. The solution isn't a special process — it's the same discipline you'd apply as a senior developer: stay current.
 
-**When starting any new action,** ask the Orchestrator to check for recent external changes that might be relevant. The Orchestrator can read the git log of the code repo, compare it against what CONTEXT.md describes, and flag anything that looks like it could affect the current work. This takes a minute and can save hours of building on stale assumptions.
+**When starting any new action,** check for recent external changes. The Navigator can read the git log and compare it against CONTEXT.md, or the Architect can do this as part of its normal codebase read. This takes a minute and can save hours of building on stale assumptions.
 
-**When resuming a paused action,** the same check applies — possibly more urgently. The longer an action has been paused, the more the codebase may have drifted. The Orchestrator's briefing should include whether significant changes have landed since work was paused.
+**When resuming a paused action,** the same check applies — possibly more urgently. The longer an action has been paused, the more the codebase may have drifted.
 
-**When CONTEXT.md goes stale,** the Architect updates it. This isn't a special event — it's part of the Architect's normal session if the codebase structure has changed. The Orchestrator flags when it suspects CONTEXT.md is out of date.
+**When CONTEXT.md goes stale,** the Architect updates it. This isn't a special event — it's part of the Architect's normal session if the codebase structure has changed. Any role can flag staleness.
 
-The journal captures everything that happens within the process. It doesn't capture what happens outside it. Bridging that gap is a human responsibility — and the Orchestrator's briefing routine is the natural place to surface it.
+The journal captures everything that happens within the process. It doesn't capture what happens outside it. Bridging that gap is a human responsibility.
 
 ---
 
@@ -438,12 +447,12 @@ A project that's mostly bug fixes and small features will have many tasks and fe
 ### What Scales Naturally
 
 - **Actions** — more work means more action folders. Each is self-contained. The naming convention (`task-*`, `epic-*`, `goal-*`) makes the tier visible at a glance.
-- **Journal** — weekly rolling files mean the journal grows without becoming unwieldy. The Orchestrator loads recent weeks; old weeks are there for history.
+- **Journal** — weekly rolling files mean the journal grows without becoming unwieldy. Recent weeks are loaded by active roles; old weeks are there for history.
 - **Key insights** — insights accumulate at each level. Phase-level insights stay relevant during that phase; action-level insights persist across phases; project-level insights persist across actions. As the project grows, the insight hierarchy captures the knowledge that matters.
 
 ### Role Compression
 
-**Compression is the default.** For tasks and small epics, run the Architect and Tech Lead in the same session — the shared context actually helps. Handle Orchestrator duties inline or do them yourself. The Developer can share the session for low-risk work or get a fresh session when disciplined prompt-following matters.
+**Compression is the default.** For tasks and small epics, run the Architect and Tech Lead in the same session — the shared context actually helps. The Developer can share the session for low-risk work or get a fresh session when disciplined prompt-following matters. Invoke the Navigator only when context has gone cold.
 
 **Full separation is the escalation path.** For goals and complex epics where you notice role pollution — the Architect over-specifying implementation, the Developer second-guessing prompts — separate them. The Human Lead makes this call based on what they're seeing in the output, not based on a blanket rule.
 
@@ -456,10 +465,10 @@ Regardless of action tier, these are never skipped:
 - **STATUS.md is always current.** The single source of truth for mode, active action, and next action.
 - **A written spec before code.** Every phase has a spec — even a task's single phase.
 - **Journal entries.** Every session, every decision, every lesson — tagged and logged in the current week's journal file. The cost is ten seconds; the value compounds.
-- **Key insights curated.** When a journal entry proves important beyond its session, it gets promoted to KEY_INSIGHTS.md at the right level. This is how the AI gets better at your project over time.
+- **Key insights written.** Every role writes insights directly to KEY_INSIGHTS.md at the right level (per common.md). The Human Lead reviews them. This is how the AI gets better at your project over time.
 - **Review gate between planning and execution.** The Human Lead approves the plan before the Developer writes code.
 - **Role separation between design and execution.** The Architect/Tech Lead and the Developer use different cognitive stances. Whether they run in separate sessions is the Human Lead's call — but be aware that a Developer in the same session as a design conversation will carry that context. For complex work, a fresh Developer session produces more disciplined output.
-- **Tracking updated at phase handovers.** STATUS.md and the journal reflect what happened. The cost is minutes; the value compounds across sessions.
+- **Tracking updated at phase handovers.** Every role keeps STATUS.md and the journal current per common.md. The cost is minutes; the value compounds across sessions.
 
 ---
 

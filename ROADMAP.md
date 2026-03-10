@@ -16,9 +16,10 @@ The methodology is being written and refined. The core documents describe the fu
 - **Prompt craft guide.** PROMPTS.md covers the four principles, just-in-time prompting, session receipts, and common failures.
 - **Templates and conventions.** TEMPLATES.md defines the full project journal structure, file templates, naming conventions, and insight promotion model.
 - **Workspace setup.** SETUP.md covers the three-folder convention, workspace.yaml, and multi-project scaling.
-- **Role entry points.** All four AI roles (Orchestrator, Architect, Tech Lead, Developer) have entry points in `roles/`.
+- **Role entry points.** Four AI roles (Architect, Tech Lead, Developer, Navigator) have entry points in `roles/`, plus a shared foundation in `roles/common.md`.
 - **One example flow.** FLOWS.md has a solo goal walkthrough.
 - **Session flexibility.** Role separation reframed as a cognitive framing technique with compression as the default (March 2026 revision).
+- **Distributed upkeep model.** Orchestrator replaced with common.md (shared responsibilities for all roles) + Navigator (lightweight advisory). Journal, insights, and STATUS.md are now every role's responsibility. Human Lead reviews insights directly (March 2026 revision).
 
 ## Known Gaps — Will Be Addressed
 

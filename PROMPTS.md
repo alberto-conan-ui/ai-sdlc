@@ -75,7 +75,7 @@ Every Developer session ends by producing a session receipt — a structured sum
 
 The **state changes** field is the most important. It captures the delta between the codebase the Tech Lead last saw and the codebase the next prompt will encounter. Without it, the Tech Lead is guessing — and guessing is how prompt assumptions go stale.
 
-The receipt is not a journal entry (that's the Orchestrator's job). It's a context bridge from one prompt to the next.
+The receipt serves as both a journal contribution and a context bridge from one prompt to the next.
 
 ---
 

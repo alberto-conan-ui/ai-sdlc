@@ -42,7 +42,7 @@ Small, self-contained markdown files in `roles/`. One per AI role. Each is 60–
 
 1. **Identity** — Who the role is, in one or two sentences. Not a job description — a stance. "You design systems and push back on assumptions" is a stance. "You are responsible for phase specs, CONTEXT.md updates, and design rationale" is a job description. The identity sets the AI's posture.
 
-2. **Files to load** — The specific project files this role needs. Not a generic table — the entry point names the files. The Orchestrator further refines this per session ("skip the project KEY_INSIGHTS.md — nothing new. But load the phase 2 spec instead").
+2. **Files to load** — The specific project files this role needs. Not a generic table — the entry point names the files. The Navigator can further refine this per session ("skip the project KEY_INSIGHTS.md — nothing new. But load the phase 2 spec instead").
 
 3. **Responsibilities** — What the role produces. Concrete deliverables, not abstract duties.
 
@@ -59,33 +59,34 @@ Small, self-contained markdown files in `roles/`. One per AI role. Each is 60–
 
 ### The constraint that makes this work
 
-Entry points reference **project artefacts** (STATUS.md, phase specs, source code), never **other entry points**. The Orchestrator doesn't say "the Architect should load X." It says "the next session should load these files: [list]." The Human Lead maps that advice to the right role. This keeps roles genuinely isolated — they share a project state (via STATUS.md), not a process state (via each other).
+Entry points reference **project artefacts** (STATUS.md, phase specs, source code), never **other entry points**. The Navigator doesn't say "the Architect should load X." It says "the next session should load these files: [list]." The Human Lead maps that advice to the right role. This keeps roles genuinely isolated — they share a project state (via STATUS.md), not a process state (via each other).
 
 ---
 
-## The Orchestrator — Orientation, Not Overhead
+## The Navigator — Advisory, Not Overhead
 
-The Orchestrator is the lightest role. Its job is orientation and tracking — where are we, what's next, what needs logging. In many workflows, the Human Lead handles these duties themselves or asks the active role to do them.
+The Navigator is the lightest role. It's purely advisory — it helps the Human Lead see the big picture and decide what to do next. It doesn't own any upkeep. Journal writing, insight management, and STATUS.md updates are shared responsibilities handled by every role via `roles/common.md`.
 
-**When the Orchestrator earns a dedicated session:**
+**When the Navigator earns a dedicated invocation:**
 
 ```
-Long break / lost context → Orchestrator briefs you
-Resuming a paused action → Orchestrator checks what's changed
-Complex promotion (task → epic) → Orchestrator bridges context
+Long break / lost context → Navigator briefs you
+Resuming a paused action → Navigator checks what's changed
+Complex promotion (task → epic) → Navigator bridges context
+Fresh session needed → Navigator generates the handoff prompt
 ```
 
-**When the Orchestrator's duties run inline:**
+**When Navigator duties run inline:**
 
 ```
 Start of work day (context is fresh) → ask current role "where are we?"
-Simple phase handover → update STATUS.md and journal directly
-Quick tracking update → any role can do this at your request
+Simple phase handover → active role updates STATUS.md per common.md
+Quick tracking update → any role can do this
 ```
 
-**The Orchestrator's most valuable output is the handoff prompt.** When the Human Lead decides to open a fresh session for a role, the Orchestrator generates the exact prompt to paste in — entry point, files to load, context summary, session goal. This eliminates the information loss when the human relays context between sessions manually. If you're not opening separate sessions, you don't need handoff prompts, and the Orchestrator's value shrinks to tracking and orientation.
+**The Navigator's most valuable output is the handoff prompt.** When the Human Lead decides to open a fresh session for a role, the Navigator generates the exact prompt to paste in — entry point, files to load, context summary, session goal. This eliminates the information loss when the human relays context between sessions manually. If you're not opening separate sessions, you don't need handoff prompts, and the Navigator's value is limited to cold-context briefings and promotion bridging.
 
-**The Orchestrator bridges promotions.** When an action is promoted (task → epic, epic → goal), the Orchestrator carries context forward — whether via a handoff prompt (separate sessions) or a context summary (same session). This is the append-forward principle in practice.
+**The Navigator bridges promotions.** When an action is promoted (task → epic, epic → goal), the Navigator carries context forward — whether via a handoff prompt (separate sessions) or a context summary (same session). This is the append-forward principle in practice.
 
 ---
 
@@ -107,11 +108,11 @@ Role separation serves three purposes. How well each is achieved depends on whet
 
 Regardless of how you manage sessions — one persistent conversation or many separate ones — every piece of state is written down: STATUS.md tracks where you are, the journal tracks what happened, phase specs track the plan, session receipts track what the Developer did. The methodology never relies on an AI role's memory of previous interactions. It relies on written artefacts that any session can read.
 
-**Tools with persistent sessions** benefit from continuity — the Architect's discussion informs the Tech Lead's prompts naturally, and the Orchestrator's duties can be handled inline. The trade-off is role bleed (the model carries all prior context).
+**Tools with persistent sessions** benefit from continuity — the Architect's discussion informs the Tech Lead's prompts naturally, and upkeep duties (journal, insights, STATUS.md) are handled by the active role per common.md. The trade-off is role bleed (the model carries all prior context).
 
-**Tools with stateless sessions** benefit from clean role separation — each role starts fresh with exactly the right context. The trade-off is information loss at handoffs, which the Orchestrator's handoff prompts exist to mitigate.
+**Tools with stateless sessions** benefit from clean role separation — each role starts fresh with exactly the right context. The trade-off is information loss at handoffs, which the Navigator's handoff prompts exist to mitigate.
 
-**Most modern tools (2025+) offer persistence within a session and reset between sessions.** The practical approach: use a single session for Architect + Tech Lead (shared context helps), a fresh session for the Developer on complex work (clean context helps), and handle Orchestrator duties inline unless context has gone cold. Adjust based on what you see in the output.
+**Most modern tools (2025+) offer persistence within a session and reset between sessions.** The practical approach: use a single session for Architect + Tech Lead (shared context helps), a fresh session for the Developer on complex work (clean context helps), and invoke the Navigator only when context has gone cold. Adjust based on what you see in the output.
 
 ---
 
@@ -120,24 +121,24 @@ Regardless of how you manage sessions — one persistent conversation or many se
 ### In separate sessions (stateless tools or when you want clean isolation)
 
 1. **Load the entry point** at session start — it's the role's boot sequence.
-2. **The entry point tells the role what project files to load.** Follow it, but adjust based on the Orchestrator's advice if you have one.
+2. **The entry point tells the role what project files to load.** Follow it, but adjust based on the Navigator's advice if you have one.
 3. **Session receipts bridge between sessions.** The Developer's receipt feeds the Tech Lead's next prompt.
 
 ### As mode switches (persistent tools or when you want continuity)
 
 1. **Paste the entry point as a framing instruction** — "Switch to this role. Here are your responsibilities and boundaries."
 2. **The model carries prior context.** This helps for Architect → Tech Lead transitions (shared understanding). It hurts for anything → Developer transitions (role pollution). Adjust accordingly.
-3. **You can ask the active role to handle Orchestrator duties** — update STATUS.md, log in the journal, check what's next.
+3. **Every role handles its own upkeep per common.md** — update STATUS.md, log in the journal, write key insights. The Navigator is only needed when context has gone cold.
 
 ### Choosing a role
 
 | Situation | Role | Session advice |
 |---|---|---|
-| "I don't know where we are" | Orchestrator | Inline or dedicated — depends on how cold the context is |
+| "I don't know where we are" | Navigator (or any role) | Navigator if context is cold; otherwise ask the active role |
 | "I need to design the next phase" | Architect | Continue or fresh — your call |
 | "I need prompts for an approved spec" | Tech Lead | Usually same session as Architect |
 | "I need to execute a prompt" | Developer | Fresh session recommended for complex work |
-| "Phase is done, what's next?" | Orchestrator | Inline is usually fine |
+| "Phase is done, what's next?" | Navigator (or active role) | Inline is usually fine |
 
 ---
 
