@@ -66,13 +66,14 @@ The process scales through the tier system, not through mode switches. A bug fix
 
 | File | What it covers |
 |---|---|
+| [ROADMAP.md](./ROADMAP.md) | Where this methodology stands — known gaps, deferred work, what's next |
 | [FLOWS.md](./FLOWS.md) | Practical walkthroughs — start here to see the process in action |
 | [PROCESS.md](./PROCESS.md) | The full methodology — actions, tiers, workflow, roles, scaling, anti-patterns (human-facing) |
-| [MECHANICS.md](./MECHANICS.md) | Context isolation architecture — why AI roles use entry points, not PROCESS.md |
+| [MECHANICS.md](./MECHANICS.md) | Context isolation and role framing — entry points, session management, trade-offs |
 | [PROMPTS.md](./PROMPTS.md) | How to write effective implementation prompts for Developer sessions |
 | [SETUP.md](./SETUP.md) | Workspace setup — the three-folder convention |
 | [TEMPLATES.md](./TEMPLATES.md) | File templates, naming conventions, project journal structure |
-| [roles/](./roles/) | AI role entry points — one file per role, loaded at session start |
+| [roles/](./roles/) | AI role entry points — one file per role, loaded at session start or as mode switches |
 
 ## Quick Start
 
