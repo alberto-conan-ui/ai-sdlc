@@ -10,6 +10,14 @@
 
 ---
 
+> **Fair warning.** This methodology is deliberately demanding. It will ask more of you than unstructured AI-assisted development, not less. You will review plans, specs, prompts, code, journal entries, insights, and status updates — every session, every phase. The cognitive load is real and sustained. This is not a way to make coding with AI easier. It is a way to make it *reliably productive* over weeks and months — but the price is disciplined, critical attention at every review gate.
+>
+> If that sounds like too much overhead, you should know that now rather than three weeks in. The payoff is back-loaded: early sessions feel expensive, but by session ten the compound knowledge base means the AI starts producing useful output in minutes instead of spending half an hour re-learning your project. The first few sessions pay for the next fifty. But only if you do the work — actually reading, actually reviewing, actually engaging with what the AI produces. Rubber-stamping the artefacts gives you all the overhead with none of the returns.
+>
+> This process is not meant to be easy. It is not meant to be fun. It is meant to be *incredibly productive* for those willing to pay the mental tax. If that's not the trade-off you want, keep vibe coding — no judgement. But if you've felt the pain of AI sessions that forget everything, code that degrades over time, and plans that dissolve on contact with reality, this is the discipline that fixes it.
+
+---
+
 ## The Foundational Insight
 
 Traditional software development resisted upfront planning for a good reason: humans can't hold enough context to plan accurately. By the time you've read the codebase, traced the dependencies, considered the edge cases, and mapped the existing patterns, you've already forgotten the first half. Waterfall failed because it demanded detailed plans from people who couldn't realistically produce them — so the industry moved to iterative discovery. Write code, see what breaks, adjust.
