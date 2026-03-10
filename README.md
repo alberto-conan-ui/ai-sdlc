@@ -24,7 +24,7 @@ This methodology fixes that. The core mechanism: structured context that persist
 
 3. **Planning is now cheap — so plan aggressively.** LLMs can hold an entire codebase in context and produce a detailed plan in minutes. The cognitive bottleneck that made upfront planning impractical for humans doesn't apply to AI. This isn't waterfall — the plans are disposable and get revised constantly. The discipline of producing them is what matters.
 
-4. **Five AI stances, one practitioner.** This is a solo framework. You shift the AI between cognitive stances: the Architect designs and pushes back, the Tech Lead writes implementation prompts, the Developer writes code, the Navigator provides orientation when context is cold, and the Curator maintains the project's accumulated knowledge. A shared foundation (`roles/common.md`) gives every stance journal, insight, and tracking responsibilities. Each stance has an entry point in [`roles/`](./roles/). In practice, you'll usually stay in one session and shift stances as the conversation flows — separate sessions are the escalation path for complex work (see [MECHANICS.md](./MECHANICS.md)).
+4. **Six AI stances, one practitioner.** This is a solo framework. You shift the AI between cognitive stances: the Bootstrapper sets up new projects (used once), the Architect designs and pushes back, the Tech Lead writes implementation prompts, the Developer writes code, the Navigator provides orientation when context is cold, and the Curator maintains the project's accumulated knowledge. A shared foundation (`roles/common.md`) gives the ongoing stances journal, insight, and tracking responsibilities. Each stance has an entry point in [`roles/`](./roles/). In practice, you'll usually stay in one session and shift stances as the conversation flows — separate sessions are the escalation path for complex work (see [MECHANICS.md](./MECHANICS.md)).
 
 5. **Accumulate knowledge across sessions.** A rolling journal captures everything chronologically. Key insights are curated from the journal and placed at the right scope — project, action, or phase level. Each new session loads the relevant insights. The AI effectively gets better at your project over time.
 
@@ -66,6 +66,8 @@ The process scales through the tier system, not through mode switches. A bug fix
 
 | File | What it covers |
 |---|---|
+| [SEED-PROMPT.md](./SEED-PROMPT.md) | The prompt to paste into your AI tool to start setup |
+| [BOOTSTRAP.md](./BOOTSTRAP.md) | AI-facing entry point fetched during setup (you don't need to read this) |
 | [ROADMAP.md](./ROADMAP.md) | Where this methodology stands — known gaps, deferred work, what's next |
 | [FLOWS.md](./FLOWS.md) | Practical walkthroughs — start here to see the process in action |
 | [PROCESS.md](./PROCESS.md) | The full methodology — actions, tiers, workflow, roles, scaling, anti-patterns (human-facing) |
@@ -75,16 +77,28 @@ The process scales through the tier system, not through mode switches. A bug fix
 | [TEMPLATES.md](./TEMPLATES.md) | File templates, naming conventions, project journal structure |
 | [roles/](./roles/) | AI role entry points — one file per role, loaded at session start or as mode switches |
 
-## Quick Start
+## Getting Started
 
-1. Clone this repo
-2. Set up a workspace folder for your project (see [SETUP.md](./SETUP.md))
-3. Create a project journal repo using the templates in [TEMPLATES.md](./TEMPLATES.md)
-4. Read a flow in [FLOWS.md](./FLOWS.md) to see the process in action — this is the fastest way to understand how everything fits together
-5. Read [PROCESS.md](./PROCESS.md) for the full methodology and reference
-6. Read [MECHANICS.md](./MECHANICS.md) to understand the context isolation architecture
-7. Read [PROMPTS.md](./PROMPTS.md) before writing your first implementation prompts
-8. Point your AI tool at the workspace folder. Load a stance entry point from `roles/` — start with the [Architect](./roles/architect.md) for design work or the [Navigator](./roles/navigator.md) for orientation
+### With an AI tool (recommended)
+
+1. Create a folder for your workspace
+2. Point your AI tool (Cowork, Claude Code, or similar) at that folder
+3. Paste the seed prompt from [SEED-PROMPT.md](./SEED-PROMPT.md)
+
+The AI will fetch the bootstrap instructions, walk you through cloning repos and creating the project journal, and leave your workspace in INCEPTION mode — ready for your first session with the Architect.
+
+### Manual setup
+
+See [SETUP.md](./SETUP.md) for the full manual process.
+
+### Learn the methodology
+
+Once set up, these documents explain how things work:
+
+1. Read a flow in [FLOWS.md](./FLOWS.md) to see the process in action — the fastest way to understand how everything fits together
+2. Read [PROCESS.md](./PROCESS.md) for the full methodology and reference
+3. Read [MECHANICS.md](./MECHANICS.md) to understand the context isolation architecture
+4. Read [PROMPTS.md](./PROMPTS.md) before writing your first implementation prompts
 
 ## License
 

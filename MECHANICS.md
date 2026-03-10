@@ -134,6 +134,7 @@ Regardless of how you manage sessions — one persistent conversation or many se
 
 | Situation | Role | Session advice |
 |---|---|---|
+| "I'm setting up a new project" | Bootstrapper | Fresh session — one-time use, does not load common.md |
 | "I don't know where we are" | Navigator (or any role) | Navigator if context is cold; otherwise ask the active role |
 | "I need to design the next phase" | Architect | Continue or fresh — your call |
 | "I need prompts for an approved spec" | Tech Lead | Usually same session as Architect |

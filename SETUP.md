@@ -4,6 +4,18 @@
 
 ---
 
+## AI-Assisted Setup (recommended)
+
+If you're using an AI tool (Cowork, Claude Code, or similar), you don't need to follow the manual steps below. Instead:
+
+1. Create or choose a folder for your workspace
+2. Point your AI tool at that folder
+3. Paste the seed prompt from [SEED-PROMPT.md](./SEED-PROMPT.md)
+
+The AI will fetch the bootstrap instructions, invoke the Bootstrapper role, and walk you through everything interactively. The manual steps below document what happens under the hood.
+
+---
+
 ## The Convention
 
 Every project uses a workspace parent folder containing three siblings:
@@ -29,7 +41,8 @@ my-project-workspace/              ← AI tool points here
     ├── SETUP.md
     ├── TEMPLATES.md
     └── roles/                     ← AI stance entry points
-        ├── common.md               ← Shared responsibilities (all stances load this first)
+        ├── common.md               ← Shared responsibilities (ongoing stances load this first)
+        ├── bootstrapper.md          ← Project setup (used once, does not load common.md)
         ├── architect.md
         ├── tech-lead.md
         ├── developer.md
@@ -64,12 +77,7 @@ This is especially valuable for implementation prompts, where deep folder nestin
 
 ---
 
-## Setup
-
-### First time (ai-sdlc repo)
-
-1. Clone this repo somewhere convenient: `git clone <url> ~/repos/ai-sdlc`
-2. It ships with PROCESS.md, PROMPTS.md, SETUP.md, TEMPLATES.md
+## Manual Setup
 
 ### For each new project
 
@@ -81,10 +89,13 @@ cd ~/workspaces/my-project-workspace
 # 2. Clone or symlink the code repo
 git clone <code-repo-url> my-project
 # Or if already cloned elsewhere:
-ln -s ~/repos/my-project ./my-project
+# ln -s ~/repos/my-project ./my-project
 
-# 3. Symlink ai-sdlc (one clone shared across all projects)
-ln -s ~/repos/ai-sdlc ./ai-sdlc
+# 3. Add ai-sdlc
+# First project — clone directly:
+git clone https://github.com/alberto-conan-ui/ai-sdlc.git
+# Additional projects — symlink a shared clone instead:
+# ln -s ~/repos/ai-sdlc ./ai-sdlc
 
 # 4. Create workspace.yaml
 cat > workspace.yaml << 'EOF'
@@ -94,10 +105,16 @@ methodology: ai-sdlc
 EOF
 
 # 5. Create the project journal
-mkdir my-project-journal && cd my-project-journal && git init
+mkdir -p my-project-journal/journal my-project-journal/actions
+cd my-project-journal && git init -b main && cd ..
 
-# 6. Initialise using templates from TEMPLATES.md
-# Create: STATUS.md, KEY_INSIGHTS.md, CONTEXT.md, journal/ folder, actions/ folder
+# 6. Create the journal skeleton files
+# Use the INCEPTION templates from TEMPLATES.md to create:
+#   - STATUS.md       (mode: INCEPTION, no active action)
+#   - KEY_INSIGHTS.md (empty — populated as work begins)
+#   - CONTEXT.md      (skeleton — project name, stack, repo URL)
+#   - journal/YYYY-WNN.md (single "workspace initialised" entry)
+# See TEMPLATES.md for the exact content of each file.
 ```
 
 Then point your AI tool at `~/workspaces/my-project-workspace/`.

@@ -352,17 +352,19 @@ This is not vibe coding. Vibe coding is "give the AI a vague idea, let it genera
 
 ### Inception — Project Cold Start
 
-Inception happens once per project, when the workspace doesn't exist yet. It is not a recurring mode — it's the setup step.
+Inception happens once per project, when the workspace doesn't exist yet. It is not a recurring mode — it's the getting-ready-to-start-working step. The project stays in INCEPTION until the first action is defined.
 
-**Stance:** Architect.
+**Stance:** Bootstrapper (see [`roles/bootstrapper.md`](./roles/bootstrapper.md)).
 
 **What happens:**
 
-1. You set up the workspace (see [SETUP.md](./SETUP.md)) and create the journal structure: STATUS.md, KEY_INSIGHTS.md, CONTEXT.md, journal/ folder with the first weekly file, and the actions/ folder.
-2. The AI (in Architect stance) writes CONTEXT.md — codebase reference: repo structure, key files, existing patterns.
-3. You define the first action with the Architect — collaboratively shaping the problem, scope, and gatekeep.
+1. The Bootstrapper walks you through creating the three-folder workspace: code repo, project journal, and ai-sdlc. See [SETUP.md](./SETUP.md) for the convention.
+2. It creates the journal skeleton: STATUS.md (in INCEPTION mode), KEY_INSIGHTS.md (empty), CONTEXT.md (a few lines — project name, stack, repo URL), journal/ with a single setup entry, and the actions/ folder.
+3. The Bootstrapper verifies the structure and hands off. It does not define actions, explore the codebase deeply, or start any work.
 
-Once the project is set up, Inception is done. Every action — regardless of tier — enters at Planning.
+**What INCEPTION means in STATUS.md:** The workspace exists and the structure is in place, but no work has started. There is no active action, no roadmap, no phase. The next step is for the human to invoke the Architect, who will deepen CONTEXT.md by reading the codebase and help define the first action.
+
+Once the first action is defined, the project leaves INCEPTION and enters Planning. INCEPTION is never revisited — it is a one-time setup state.
 
 ### Two Modes
 

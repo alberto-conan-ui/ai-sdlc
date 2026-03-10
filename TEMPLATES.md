@@ -207,7 +207,45 @@ This replaces scanning the full journal. Three small, curated files instead of a
 
 ## Templates
 
-### STATUS.md
+### STATUS.md — Inception (new project)
+
+A freshly bootstrapped project has no actions, no roadmap, and no phases. The Bootstrapper creates STATUS.md using this template:
+
+```markdown
+# <Project Name> — Status
+
+> Single source of truth. Every role reads this for orientation.
+
+## Current State
+
+| Field | Value |
+|---|---|
+| **Mode** | **INCEPTION** |
+| **Active action** | None |
+| **Active phase** | — |
+| **Active prompt** | — |
+| **Next action** | Invoke the Architect to define the first action |
+
+## Actions
+
+| # | Action | Tier | Gatekeep | Status | Detail |
+|---|---|---|---|---|---|
+
+## Action History
+
+| Date | From | To | Reason |
+|---|---|---|---|
+| YYYY-MM-DD | — | Workspace initialised | Project onboarded to AI-SDLC |
+
+## Code Repository
+
+**Location:** `{code}/`
+**Branch:** `main`
+```
+
+Once the first action is defined, the Architect updates STATUS.md to Planning mode using the full template below.
+
+### STATUS.md — Active project
 
 ```markdown
 # <Project Name> — Status
@@ -252,7 +290,39 @@ This replaces scanning the full journal. Three small, curated files instead of a
 **Branch:** `<branch>`
 ```
 
-### CONTEXT.md
+### CONTEXT.md — Inception skeleton
+
+During setup, the Bootstrapper creates a minimal CONTEXT.md from a few questions asked to the user. It does not explore the codebase:
+
+```markdown
+# Codebase Reference — <Project Name>
+
+> Last updated: YYYY-MM-DD
+
+## What This Is
+
+<One or two sentences: what the project does.>
+
+## Tech Stack
+
+<A few lines: language, framework, major dependencies.>
+
+## Repo
+
+<URL>
+
+## Structure
+
+<!-- To be filled by the Architect in the first working session. -->
+
+## Key Files
+
+<!-- To be filled by the Architect in the first working session. -->
+```
+
+### CONTEXT.md — Full (populated by Architect)
+
+The Architect deepens CONTEXT.md during the first working session and updates it as the codebase evolves. This is the target shape:
 
 ```markdown
 # Codebase Reference — <Project Name>
@@ -271,6 +341,8 @@ This replaces scanning the full journal. Three small, curated files instead of a
 
 <Architecture overview. Brief. Focus on patterns the AI needs to follow.>
 ```
+
+**Guidance on depth:** CONTEXT.md deepens naturally over time. The Architect's first pass should cover the overall structure, key files, and main patterns — breadth over depth. Don't try to document everything upfront. As real work begins and the Architect encounters parts of the codebase that matter, it adds detail. For monorepos or large codebases, focus initially on the top-level structure, the dependency graph, and the 5–10 files an AI would need to understand to start working.
 
 ### TASK.md
 

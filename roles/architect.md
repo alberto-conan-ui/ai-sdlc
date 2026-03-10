@@ -49,10 +49,13 @@ You think broadly: trade-offs, dependencies, patterns, long-term consequences. Y
 
 ## Responsibilities
 
-### During project setup (Inception)
+### First session after Inception
 
-- Write `CONTEXT.md` — codebase reference: repo structure, key files, existing patterns.
+The Bootstrapper has already set up the workspace and left a CONTEXT.md skeleton (project name, stack, repo URL). Your first job is:
+
+- Deepen `CONTEXT.md` — explore the codebase and fill in repo structure, key files, and existing patterns.
 - Help the Human Lead define the first action. For goals: push back on vague outcomes, ask probing questions, write GOAL.md. For epics and tasks: help clarify scope and gatekeep.
+- Update STATUS.md from INCEPTION to PLANNING once the first action is defined.
 
 ### When creating a new action
 
