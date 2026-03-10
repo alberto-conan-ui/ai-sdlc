@@ -3,9 +3,9 @@
 > A methodology for AI-assisted software development.
 > Derived from real project experience. Tool-agnostic — works with any AI coding assistant.
 >
-> **For AI roles:** Do not load this document into AI sessions. Each AI role has its own
+> **For AI sessions:** Do not load this document into AI sessions. Each AI stance has its own
 > entry point in [`roles/`](./roles/) that contains exactly what it needs — nothing more.
-> This document is for the Human Lead to understand the full methodology.
+> This document is for you — the human — to understand the full methodology.
 > See [`MECHANICS.md`](./MECHANICS.md) for why this separation exists.
 
 ---
@@ -34,7 +34,7 @@ The process is structured. The project execution is adaptive. Don't confuse the 
 
 This methodology is for senior developers. It assumes you can already architect software, evaluate trade-offs, recognise when AI output is wrong, and make sound technical decisions without guidance. The process doesn't teach you how to build software — it gives you a structure for building software *with AI* that doesn't degrade over time.
 
-A junior developer will struggle with this methodology — not because of its complexity, but because every review gate requires the Human Lead to evaluate AI output with experienced judgement. When the Architect produces a phase spec, you need to know whether the approach is sound. When the Developer produces code, you need to spot the subtle bugs that pass the tests. When the AI pushes back on your goal, you need to know when it's right and when it's wrong. These are senior skills. The process amplifies them; it doesn't replace them.
+A junior developer will struggle with this methodology — not because of its complexity, but because every review gate requires you to evaluate AI output with experienced judgement. When the Architect produces a phase spec, you need to know whether the approach is sound. When the Developer produces code, you need to spot the subtle bugs that pass the tests. When the AI pushes back on your goal, you need to know when it's right and when it's wrong. These are senior skills. The process amplifies them; it doesn't replace them.
 
 ---
 
@@ -56,13 +56,13 @@ This is a judgement call, and the methodology trusts you to make it. That's by d
 
 ### Human Accountability
 
-This methodology does not reduce the human's responsibility. It increases it.
+This methodology does not reduce your responsibility. It increases it.
 
-The AI does more of the work — planning, writing code, generating tests, producing artefacts. But the human owns every decision. Every action is human-defined. Every gatekeep is human-approved. Every plan passes through a human review gate before it becomes code. The AI is the workforce. The human is the authority.
+The AI does more of the work — planning, writing code, generating tests, producing artefacts. But you own every decision. Every action is human-defined. Every gatekeep is human-approved. Every plan passes through your review before it becomes code. The AI is the workforce. You are the authority.
 
-When the Human Lead is also the sole stakeholder — which is the common case for solo developers and small teams — there is no one else to defer to. The gatekeep "my own approval" means you are accountable for the quality of what ships. This is not a limitation of the process. It is the point. AI-SDLC exists to empower humans through AI, not to replace human judgement with AI output.
+You are typically both the lead and the sole stakeholder — which means there is no one else to defer to. The gatekeep "my own approval" means you are accountable for the quality of what ships. This is not a limitation of the process. It is the point. AI-SDLC exists to empower you through AI, not to replace your judgement with AI output.
 
-This is a partnership driven by humans. If the human disengages — rubber-stamps plans without reading them, skips review gates, accepts AI output without scrutiny — the process breaks. The methodology is only as strong as the human driving it.
+This is a partnership driven by you. If you disengage — rubber-stamp plans without reading them, skip review gates, accept AI output without scrutiny — the process breaks. The methodology is only as strong as the person driving it.
 
 ### Append-Forward
 
@@ -76,7 +76,7 @@ The only file that genuinely mutates is STATUS.md, and even that is just pointer
 
 ## Actions — The Unit of Work
 
-Everything in AI-SDLC is an **action**. An action is a human-defined piece of work with a clear outcome. The Human Lead creates actions, classifies them by tier, and drives them to completion.
+Everything in AI-SDLC is an **action**. An action is a human-defined piece of work with a clear outcome. You create actions, classify them by tier, and drive them to completion.
 
 There are three tiers: **Task**, **Epic**, and **Goal**. The tier determines how much ceremony the action gets — but the underlying machinery is the same. All actions live in the `actions/` folder, all follow the same phase-based execution model, and all produce journal entries and insights.
 
@@ -84,13 +84,13 @@ There are three tiers: **Task**, **Epic**, and **Goal**. The tier determines how
 
 **Task** — a bounded, concrete piece of work. One phase, one to three prompts, done in a session or two. "Fix the login redirect bug." "Add a loading spinner to the dashboard." "Update the date format in the export CSV."
 
-The Human Lead already knows what's wrong and what done looks like. The gatekeep is concrete and verifiable: the bug is fixed, the spinner appears, the date format is correct. Role compression is the default — the Architect might get pulled in ad hoc if the fix turns out to be trickier than expected, but there's no formal design phase. The Tech Lead and Architect are often the same session. The process is deliberately loose because tasks are meant to be quick.
+You already know what's wrong and what done looks like. The gatekeep is concrete and verifiable: the bug is fixed, the spinner appears, the date format is correct. Stance compression is the default — Architect thinking might get pulled in ad hoc if the fix turns out to be trickier than expected, but there's no formal design phase. You'll often flow between Architect and Tech Lead thinking in the same conversation. The process is deliberately loose because tasks are meant to be quick.
 
 A task has a TASK.md (lightweight — problem statement and done-when criteria) and a single phase folder with a spec and implementation prompts.
 
 **Epic** — a multi-phase piece of work with a concrete, measurable outcome. "Refactor the validation pipeline to use a lookup table." "Add OAuth2 support to the API." "Migrate the test suite from Jest to Vitest."
 
-An epic gets full Planning and Implementation. The outcome is tangible — the refactor is done, the feature works, the migration is complete. The gatekeep is concrete: specific conditions that can be verified without subjective judgement. The Architect designs the phases, the Tech Lead writes the prompts, the Developer executes them. Full role separation is the default.
+An epic gets full Planning and Implementation. The outcome is tangible — the refactor is done, the feature works, the migration is complete. The gatekeep is concrete: specific conditions that can be verified without subjective judgement. The Architect designs the phases, the Tech Lead writes the prompts, the Developer executes them. Full stance separation is optional — compression is the default for most epics.
 
 An epic has an EPIC.md (problem, vision, concrete gatekeep) and a phases folder with the standard spec/impl structure.
 
@@ -107,13 +107,13 @@ A goal has a GOAL.md (problem, vision, design principles, abstract gatekeep) and
 | **Planning weight** | Compressed (short spec, optional prompt plan) | Full | Full |
 | **Phases** | One | Multiple | Multiple |
 | **Gatekeep** | Concrete, verifiable | Concrete, measurable | Abstract, human-judged |
-| **Role compression** | Default | Optional | Full separation |
+| **Stance compression** | Default | Optional | Full separation |
 | **Prompt plan** | Optional (1–2 prompts may not need one) | Yes | Yes |
 | **Action document** | TASK.md (lightweight) | EPIC.md (problem + concrete gatekeep) | GOAL.md (problem + vision + principles + abstract gatekeep) |
 
 ### Choosing a Tier
 
-The Human Lead picks the tier when creating the action. The right tier is usually obvious:
+You pick the tier when creating the action. The right tier is usually obvious:
 
 - "Fix this bug" → **Task**
 - "Add this feature" → **Epic** (unless the feature is trivial — then task)
@@ -125,9 +125,9 @@ When it's ambiguous, start with the lighter tier. A task that outgrows its scope
 
 When a task turns out to need a second phase, it's no longer a task — it's an epic. When an epic's gatekeep turns out to require subjective evaluation, it's a goal.
 
-**Promotion follows the append-forward principle.** The original action stays as-is. A new action is created at the higher tier. The journal captures the promotion decision: what was the original action, why it's being promoted, and what the new action needs to accomplish. The Navigator (if invoked) or the active role bridges the context — advising the new action's Architect or Tech Lead on what was already done and what was learned.
+**Promotion follows the append-forward principle.** The original action stays as-is. A new action is created at the higher tier. The journal captures the promotion decision: what was the original action, why it's being promoted, and what the new action needs to accomplish. The AI bridges the context — whether via Navigator stance for a formal briefing or simply carrying it forward in the same session.
 
-A promoted task's TASK.md is never modified. The new epic's EPIC.md references the original task ("Promoted from task-login-bug — see journal 2026-W11"). The Navigator (if invoked) or the active role carries over the relevant context.
+A promoted task's TASK.md is never modified. The new epic's EPIC.md references the original task ("Promoted from task-login-bug — see journal 2026-W11"). The relevant context carries over through the journal and the AI's continuity.
 
 The promotion triggers:
 
@@ -136,9 +136,9 @@ The promotion triggers:
 
 ### One Active Action at a Time
 
-A project may have many actions defined, but only one is active. This prevents context scatter — every role knows exactly which action it's serving. The active action and its tier are tracked in STATUS.md.
+A project may have many actions defined, but only one is active. This prevents context scatter — the AI always knows which action it's serving. The active action and its tier are tracked in STATUS.md.
 
-If the Human Lead wants to switch actions, they do so explicitly. The active role (or the Human Lead directly) updates STATUS.md and logs the reason in the journal. When returning to a paused action, the journal captures why it was paused and what state it was in — any role can surface this when asked.
+If you want to switch actions, do so explicitly. Update STATUS.md and log the reason in the journal. When returning to a paused action, the journal captures why it was paused and what state it was in — the AI can surface this when asked.
 
 ---
 
@@ -146,11 +146,11 @@ If the Human Lead wants to switch actions, they do so explicitly. The active rol
 
 Every action has a gatekeep — but the nature of the gatekeep varies by tier.
 
-**Task gatekeeps** are binary. The bug is fixed or it isn't. The spinner appears or it doesn't. Tests pass. "Done" is obvious. The Human Lead verifies by looking at the result.
+**Task gatekeeps** are binary. The bug is fixed or it isn't. The spinner appears or it doesn't. Tests pass. "Done" is obvious. You verify by looking at the result.
 
-**Epic gatekeeps** are concrete and measurable, but may involve multiple conditions. "The switch statements are removed, all existing tests pass, the API is backward-compatible, and the new lookup table handles all 12 registered types." The Human Lead verifies against the checklist.
+**Epic gatekeeps** are concrete and measurable, but may involve multiple conditions. "The switch statements are removed, all existing tests pass, the API is backward-compatible, and the new lookup table handles all 12 registered types." You verify against the checklist.
 
-**Goal gatekeeps** involve human judgement. They name who decides and what they're evaluating, even if the criteria are subjective. "The Human Lead is satisfied that the demo narrative is clear and progressive." "Three beta users complete the onboarding task without asking for help." The discipline is in identifying the person accountable, not in quantifying every metric.
+**Goal gatekeeps** involve human judgement. They name who decides and what they're evaluating, even if the criteria are subjective. "I'm satisfied that the demo narrative is clear and progressive." "Three beta users complete the onboarding task without asking for help." The discipline is in identifying the person accountable, not in quantifying every metric.
 
 **Examples of gatekeeps by tier:**
 
@@ -168,136 +168,130 @@ Every action has a gatekeep — but the nature of the gatekeep varies by tier.
 
 ### When Gatekeeps Are Unclear
 
-If the Human Lead cannot define a gatekeep, the action is probably scoped wrong. A task with no clear "done" condition should probably be refined. An epic where "done" is subjective should probably be a goal. A goal where "done" can't be articulated at all is a signal to stop and think — not to start planning.
+If you cannot define a gatekeep, the action is probably scoped wrong. A task with no clear "done" condition should probably be refined. An epic where "done" is subjective should probably be a goal. A goal where "done" can't be articulated at all is a signal to stop and think — not to start planning.
 
 ---
 
 ## Roles
 
-Four roles drive this process. The Human Lead plus three AI roles, each with a distinct stance toward the work. All AI roles share a common foundation (`roles/common.md`) that handles journal writing, key insight management, and STATUS.md updates. Each role adds its specific stance on top.
+This is a solo practitioner's framework. You — the human — are the only person. The AI is your tool, and you direct it by shifting between cognitive stances. The "roles" are not people or separate agents. They are **framing techniques** — telling the AI "you are an Architect, challenge assumptions" produces genuinely different output than "you are a Developer, follow this prompt." Different stances produce different thinking. That's the entire mechanism.
 
-Role separation is a **cognitive framing technique** — telling the AI "you are an Architect, challenge assumptions" produces genuinely different output than "you are a Developer, follow this prompt." The roles exist because different stances produce different thinking.
+There are four AI stances: **Architect** (design), **Tech Lead** (prompt craft), **Developer** (execution), and **Navigator** (orientation). All share a common foundation (`roles/common.md`) that handles journal writing, key insight management, and STATUS.md updates. Each stance adds its specific focus on top.
 
-A fourth AI role — the **Navigator** — exists for pure orientation: "where are we, what should I do next?" It's invoked when the Human Lead needs process-level guidance, not as a standing session. Any role can answer basic orientation questions via the common foundation; the Navigator adds value when context has gone cold or transitions require judgment.
-
-**How you separate roles is your call.** The Human Lead decides whether each role gets its own session or runs as a mode switch within the same conversation. The methodology defines what each role does and how it thinks — not which window it runs in.
+**In practice, you'll usually stay in one session and shift stances as the conversation flows.** You discuss the design (Architect thinking), then translate it into prompts (Tech Lead thinking), then execute (Developer thinking) — all in the same conversation. This is the default. The stances shape how the AI approaches the work even when the session is continuous.
 
 **When separate sessions earn their cost:**
-- **The Developer on complex work.** A Developer in a fresh session — loading only the implementation prompt, with no memory of the design discussion — produces more disciplined, literal output. For high-risk work, a clean Developer session is worth the overhead.
-- **When you notice role pollution.** If the Architect starts writing implementation details instead of designing systems, or the Developer starts second-guessing prompts, that's a signal that the roles need physical separation.
+
+- **The Developer on complex work.** A fresh session — loading only the implementation prompt, with no memory of the design discussion — produces more disciplined, literal output. For high-risk work, a clean session is worth the overhead.
+- **When you notice stance pollution.** If the Architect starts writing implementation details instead of designing systems, or the Developer starts second-guessing prompts, that's a signal that physical separation would help.
 - **Goals with deep design work.** The full Architect → Tech Lead → Developer pipeline in separate sessions produces the cleanest output for work that demands genuine systems thinking.
 
-**When mode switching within a session works fine:**
-- **Tasks.** One session, shifting between Architect thinking and Tech Lead thinking as needed. The Developer can share the session for low-risk tasks or get a fresh one for anything non-trivial.
-- **Architect → Tech Lead transitions.** These roles share most of their context, and the Tech Lead writes better prompts when it was part of the design conversation. The nuance lost in a handoff prompt often costs more than the role pollution it prevents.
+**Separate sessions are the escalation path, not the default.** Most work — especially tasks and straightforward epics — runs fine in a single session with stance shifts. You'll know when to escalate because the output quality tells you.
 
-**The default is compression. Full separation is the escalation path** — reserved for work where the quality difference justifies the overhead. The Human Lead makes this call per phase based on risk, complexity, and what they're seeing in the output.
+### You — The Human Lead
 
-### Human Lead
+You define actions, classify them by tier, set gatekeeps, and have final authority over everything — approvals, direction, trade-offs. Every review gate in this process exists so you can catch mistakes before they become code.
 
-The human. Defines actions, classifies them by tier, sets gatekeeps, and has final authority over everything — approvals, direction, trade-offs. Every review gate in this process exists so the Human Lead can catch mistakes before they become code.
+Your primary job is defining what success looks like and verifying that it was achieved. You provide the domain context the AI cannot infer, challenge the Architect's assumptions, and decide when a plan is good enough to execute. You also decide when to override the process — skip a phase, combine steps, change direction, promote a task to an epic.
 
-The Human Lead's primary job is defining what success looks like and verifying that it was achieved. They provide the domain context the AI cannot infer, challenge the Architect's assumptions, and decide when a plan is good enough to execute. They also decide when to override the process — skip a phase, combine steps, change direction, promote a task to an epic.
+**You decide session boundaries.** When to open a fresh session for a stance, when to shift stances within the same conversation, when to ask the AI for a Navigator-style briefing versus just asking "where are we?" This is a judgement call informed by the work's complexity and the output quality you're seeing.
 
-**The Human Lead also decides session boundaries.** When to open a fresh session for a role, when to switch modes within the same conversation, when to invoke the Navigator versus just asking the active role "where are we?" This is a judgement call informed by the work's complexity and the output quality they're seeing.
+**You review key insights.** The AI writes insights directly to KEY_INSIGHTS.md (per common.md) regardless of which stance it's in. You review these as they appear — revising, removing, or promoting insights that don't hold up or that apply more broadly than the AI realized.
 
-**The Human Lead reviews key insights.** Every AI role writes insights directly to KEY_INSIGHTS.md (per common.md). The Human Lead reviews these as they appear — revising, removing, or promoting insights that don't hold up or that apply more broadly than the role realized.
+You carry the full weight of gatekeeping. This is by design (see "Human Accountability" above).
 
-When the Human Lead is also the sole stakeholder, they carry the full weight of gatekeeping. This is by design (see "Human Accountability" above).
+### Architect Stance
 
-**Not an AI role.** This is always a person.
+The design stance. When you frame the AI as Architect, it reads the codebase deeply, writes phase specs, and makes architectural decisions. It has an explicit mandate to **push back** — on your assumptions, on scope, on feasibility. The Architect should challenge, not comply.
 
-### Senior Architect
+**Action definition is collaborative.** You come in with a rough idea; the Architect helps shape it through conversation. For goals, it asks probing questions — which outcomes matter, what "done" means concretely, who decides — and writes GOAL.md with design principles. For epics, it helps refine scope and gatekeep. You don't need a polished action document before starting — shaping it is what this stance is for.
 
-Designs the approach. Reads the codebase deeply, writes phase specs, makes architectural decisions. This role has an explicit mandate to **push back** — on the Human Lead's assumptions, on scope, on feasibility. The Architect should challenge, not comply.
-
-**Goal and action definition is collaborative.** The Human Lead comes in with a rough idea; the Architect helps shape it through conversation. For goals, the Architect asks probing questions — which outcomes matter, what "done" means concretely, who decides — and writes GOAL.md with design principles. For epics, the Architect helps refine scope and gatekeep. The Human Lead doesn't need to write a polished action document before involving the Architect — that's part of what the Architect is for.
-
-The Architect also produces phase specs: what problem we're solving, what the approach is, what the steps are, how we'll verify it's correct. The conversation naturally flows from defining the action to planning the roadmap to writing the first phase spec — whether that happens in one session or several doesn't matter. The spec goes to the Human Lead for review before anyone writes code.
+The Architect also produces phase specs: what problem you're solving, what the approach is, what the steps are, how you'll verify it's correct. The conversation naturally flows from defining the action to planning the roadmap to writing the first phase spec. The spec goes to you for review before any code gets written.
 
 **Key behaviour:** broad context, systems thinking, trade-off analysis. The Architect reads the key insights, codebase reference, and source code to hold the big picture.
 
-**Session context:** loads STATUS.md, CONTEXT.md, KEY_INSIGHTS.md (project + active action + active phase), the active action document (GOAL.md, EPIC.md, or TASK.md) and phase spec, and reads relevant source files directly. This is the heaviest context load of any role — the Architect needs it to make sound decisions.
+**Context focus:** STATUS.md, CONTEXT.md, KEY_INSIGHTS.md (project + active action + active phase), the active action document (GOAL.md, EPIC.md, or TASK.md) and phase spec, plus relevant source files. This is the heaviest context load of any stance — the Architect needs it to make sound decisions.
 
-**For tasks:** the Architect is pulled in ad hoc rather than running a formal design session. A quick assessment of the fix, maybe a three-paragraph spec, then hand off to prompts. The Architect and Tech Lead can share a session for tasks.
+**For tasks:** the Architect is a quick assessment, not a formal design session. A few paragraphs of spec, then shift to writing prompts. You'll often flow from Architect thinking into Tech Lead thinking in the same conversation.
 
-### Technical Lead
+### Tech Lead Stance
 
-Translates architecture into execution. Takes the Architect's approved spec and writes numbered implementation prompts (see [PROMPTS.md](./PROMPTS.md)). Also reviews the Developer's output — verifying that what was built matches what was specified.
+The translation stance. When you shift the AI to Tech Lead, it takes the approved spec and writes numbered implementation prompts (see [PROMPTS.md](./PROMPTS.md)). It also reviews execution output — verifying that what was built matches what was specified.
 
-The Technical Lead is the bridge between design and code. They need to understand both the Architect's intent and the Developer's constraints. A good implementation prompt is precise enough that the Developer can execute without guessing, but flexible enough to handle minor codebase surprises.
+This stance bridges design and code. A good implementation prompt is precise enough that the Developer stance can execute without guessing, but flexible enough to handle minor codebase surprises. In practice, you'll often flow into Tech Lead thinking naturally after the Architect conversation — the shared context helps the AI write better prompts because it was part of the design discussion.
 
 **Key behaviour:** precision, prompt craft, verification. The Tech Lead writes prompts that name reference implementations, include exact verification commands, and define bounded goals (see [PROMPTS.md](./PROMPTS.md)).
 
-**Session context:** loads the active phase spec, KEY_INSIGHTS.md (action + phase level), and reads the specific source files the prompts will touch. Does not need the full journal — the spec and insights already encode the relevant context.
+**Context focus:** the active phase spec, KEY_INSIGHTS.md (action + phase level), and the specific source files the prompts will touch. Does not need the full journal — the spec and insights already encode the relevant context.
 
-### Developer
+### Developer Stance
 
-Writes code by following implementation prompts. Each prompt is self-contained — the Developer does not need to read the spec, the plan, or the lessons learned. The prompt has everything.
+The execution stance. When you frame the AI as Developer, it writes code by following an implementation prompt. Each prompt is self-contained — the Developer does not need the spec, the plan, or the lessons learned. The prompt has everything.
 
-If the Developer encounters something unexpected, the prompt's **If unexpected** section defines exactly which surprises to handle and which require stopping. When in doubt, the correct response is to **report back to the Technical Lead**, not to improvise. Improvised fixes compound — each one makes the next prompt's assumptions less accurate.
+If the Developer encounters something unexpected, the prompt's **If unexpected** section defines exactly which surprises to handle and which require stopping. When in doubt, the correct response is to **report back** (to you, so you can shift to Tech Lead thinking), not to improvise. Improvised fixes compound — each one makes the next prompt's assumptions less accurate.
 
 **Key behaviour:** focused execution, discipline, literal prompt-following. The Developer optimises for correctness within the prompt's scope, not for architectural elegance.
 
-**Session context:** loads **only the implementation prompt**. This is the lightest context load of any role. The Developer doesn't need the knowledge base — the prompt has already distilled it into actionable steps.
+**Context focus:** **only the implementation prompt**. This is the lightest context load of any stance. The Developer doesn't need the knowledge base — the prompt has already distilled it into actionable steps. For complex work, consider running the Developer in a fresh session — an AI with no memory of the design discussion produces more disciplined, literal output.
 
-### Navigator
+### Navigator Stance
 
-The Human Lead's orientation role. The Navigator answers: where are we, what just happened, what should happen next. It's the lightest AI role — purely advisory, no upkeep responsibilities.
+The orientation stance. You invoke this when you need the AI to answer: where are we, what just happened, what should happen next. It's the lightest stance — purely advisory, no upkeep responsibilities.
 
-**When to invoke the Navigator:**
+**When to use the Navigator stance:**
+
 - Returning after a long break or resuming a paused action — context is cold and needs synthesizing
 - Bridging promotions (task → epic, epic → goal) — carrying context from the original action forward
-- When the Human Lead has genuinely lost track and needs a clean briefing
+- When you've genuinely lost track and need a clean briefing
 - When a transition requires judgment about the smartest next move
 
-**When the Navigator isn't needed:**
-- Quick status checks — ask the active role or read STATUS.md directly
-- Simple phase handovers — any role can update STATUS.md per common.md
-- During implementation — the Tech Lead and Developer handle their own context
+**When you don't need it:**
 
-**Core responsibilities:**
+- Quick status checks — ask the AI in whatever stance it's in, or read STATUS.md yourself
+- Simple phase handovers — the AI updates STATUS.md per common.md regardless of stance
+- During implementation — the execution loop is self-contained
+
+**What the Navigator produces:**
 
 - **Briefing** — a 3–5 line summary from STATUS.md and the journal: what action, what tier, what phase, what happened last, what's next.
-- **Advising the next step** — not just "where are we" but "where should we go." Which role to invoke next, which files it should load, whether the current spec still makes sense.
-- **Handoff prompts** — when the Human Lead opens a fresh session, the Navigator generates the exact prompt to paste in: entry points to load, files to read, context to carry over.
-- **Checking for external changes** — reading the code repo's git log and flagging codebase drift that might affect the current plan.
+- **Next-step advice** — not just "where are we" but "where should we go." Which stance to shift to, which files it should load, whether the current spec still makes sense.
+- **Handoff prompts** — when you open a fresh session, the Navigator generates the exact prompt to paste in: entry points to load, files to read, context to carry over. (If you're staying in the same session, a brief context summary is enough.)
+- **External change checks** — reading the code repo's git log and flagging codebase drift that might affect the current plan.
 
 **Key behaviour:** process-level judgment, orientation, guidance. The Navigator doesn't design, write prompts, or code.
 
-**Session context:** loads STATUS.md and recent journal files (current + previous week). Light and fast — tracking artefacts, not source code.
+**Context focus:** STATUS.md and recent journal files (current + previous week). Light and fast — tracking artefacts, not source code.
 
 ### Common Foundation
 
-All AI roles share a common foundation (`roles/common.md`) that defines:
+All AI stances share a common foundation (`roles/common.md`) that defines:
 
-- **Journal writing** — every role logs `[session]`, `[decision]`, and `[lesson]` entries as part of its normal output
-- **Key insight management** — every role writes insights directly to the appropriate KEY_INSIGHTS.md, decides the level (phase, action, project), and scans for insights from lower levels to promote
-- **STATUS.md updates** — every role updates STATUS.md when its work changes the project state
-- **Orientation** — any role can answer "where are we?" by reading STATUS.md and the recent journal
+- **Journal writing** — the AI logs `[session]`, `[decision]`, and `[lesson]` entries as part of its normal output, regardless of stance
+- **Key insight management** — the AI writes insights directly to the appropriate KEY_INSIGHTS.md, decides the level (phase, action, project), and scans for insights from lower levels to promote
+- **STATUS.md updates** — the AI updates STATUS.md when its work changes the project state
+- **Orientation** — the AI can answer "where are we?" by reading STATUS.md and the recent journal, in any stance
 
-The Human Lead reviews insights as they appear and maintains final authority over what stays.
+You review insights as they appear and maintain final authority over what stays.
 
-### Role Summary
+### Stance Summary
 
-| Role | Responsibility | Context focus | Stance | Typical session |
+| Stance | Focus | Context | Behaviour | When to separate sessions |
 |---|---|---|---|---|
-| **Human Lead** | Actions, gatekeeps, authority, insight review, session boundaries | — | Decides | Always present |
-| **Senior Architect** | System design, phase specs, architectural decisions | KEY_INSIGHTS.md (all levels) + CONTEXT.md + source code | Challenges | Often shared with Tech Lead |
-| **Technical Lead** | Implementation prompts, code review, verification | Phase spec + KEY_INSIGHTS.md (action + phase) + source files | Translates | Often shared with Architect |
-| **Developer** | Code execution, prompt-following | Implementation prompt only | Executes | Fresh session recommended for complex work |
-| **Navigator** | Orientation, briefing, handoff prompts, external change checks | STATUS.md + journal/ (recent weeks) | Guides | Invoked when context is cold |
+| **Architect** | System design, phase specs, architectural decisions | KEY_INSIGHTS.md (all levels) + CONTEXT.md + source code | Challenges | Rarely — shares well with Tech Lead |
+| **Tech Lead** | Implementation prompts, code review, verification | Phase spec + KEY_INSIGHTS.md (action + phase) + source files | Translates | Rarely — benefits from Architect context |
+| **Developer** | Code execution, prompt-following | Implementation prompt only | Executes | Often — clean context produces disciplined output |
+| **Navigator** | Orientation, briefing, handoff prompts, external change checks | STATUS.md + journal/ (recent weeks) | Guides | When context is cold |
 
 ---
 
 ## Model Tiers
 
-Each AI role has different cognitive demands. Rather than hardcoding specific models (which change frequently), this methodology uses a **tier system**. Map tiers to your current best-available models.
+Each AI stance has different cognitive demands. Rather than hardcoding specific models (which change frequently), this methodology uses a **tier system**. Map tiers to your current best-available models.
 
-| Tier | Characteristics | Typical roles |
+| Tier | Characteristics | Typical stances |
 |---|---|---|
-| **Tier 1 — Reasoning** | Strongest reasoning, largest context window. Architectural thinking, trade-off analysis, nuanced judgement. | Senior Architect, Technical Lead (complex phases) |
-| **Tier 2 — Execution** | Strong code generation, good instruction-following. Fast, cost-effective. | Developer, Technical Lead (straightforward phases), Navigator |
+| **Tier 1 — Reasoning** | Strongest reasoning, largest context window. Architectural thinking, trade-off analysis, nuanced judgement. | Architect, Tech Lead (complex phases) |
+| **Tier 2 — Execution** | Strong code generation, good instruction-following. Fast, cost-effective. | Developer, Tech Lead (straightforward phases), Navigator |
 
 **Illustrative mapping (March 2026 — update with your current best-available models):**
 
@@ -308,9 +302,9 @@ Each AI role has different cognitive demands. Rather than hardcoding specific mo
 
 These are examples, not recommendations — the model landscape changes faster than any document can track. The tiers themselves are stable; the models behind them are not. Use whatever you currently consider your strongest reasoning model for Tier 1 and your best execution model for Tier 2.
 
-**When the Technical Lead moves between tiers:** For phases that involve complex refactoring, novel architecture, or ambiguous requirements, the Tech Lead benefits from Tier 1 (writing good prompts for hard problems requires strong reasoning). For phases that follow established patterns — adding a new type that mirrors an existing one, extending a test suite — Tier 2 is sufficient. The Human Lead makes this call per phase.
+**When the Tech Lead moves between tiers:** For phases that involve complex refactoring, novel architecture, or ambiguous requirements, the Tech Lead benefits from Tier 1 (writing good prompts for hard problems requires strong reasoning). For phases that follow established patterns — adding a new type that mirrors an existing one, extending a test suite — Tier 2 is sufficient. You make this call per phase.
 
-**Token efficiency is one benefit of role separation.** The Developer loads one implementation prompt (~50-100 lines). The Architect loads the full knowledge base (~300+ lines) plus source files. In separate sessions, each role loads exactly what it needs — no more. In a shared session, the model carries everything it's seen, which costs tokens and can influence behaviour. The Human Lead weighs this against the cost of context loss from handoff prompts — and decides per phase.
+**Token efficiency is one benefit of session separation.** The Developer loads one implementation prompt (~50-100 lines). The Architect loads the full knowledge base (~300+ lines) plus source files. In separate sessions, each stance loads exactly what it needs — no more. In a shared session, the model carries everything it's seen, which costs tokens and can influence behaviour. You weigh this against the cost of context loss from handoff prompts — and decide per phase.
 
 ---
 
@@ -322,13 +316,13 @@ This is not vibe coding. Vibe coding is "give the AI a vague idea, let it genera
 
 Inception happens once per project, when the workspace doesn't exist yet. It is not a recurring mode — it's the setup step.
 
-**Who you're talking to:** Senior Architect.
+**Stance:** Architect.
 
 **What happens:**
 
-1. **Human Lead** sets up the workspace (see [SETUP.md](./SETUP.md)) and creates the journal structure: STATUS.md, KEY_INSIGHTS.md, CONTEXT.md, journal/ folder with the first weekly file, and the actions/ folder.
-2. **Senior Architect** writes CONTEXT.md — codebase reference: repo structure, key files, existing patterns.
-3. **Human Lead** defines the first action with the **Senior Architect** — collaboratively shaping the problem, scope, and gatekeep.
+1. You set up the workspace (see [SETUP.md](./SETUP.md)) and create the journal structure: STATUS.md, KEY_INSIGHTS.md, CONTEXT.md, journal/ folder with the first weekly file, and the actions/ folder.
+2. The AI (in Architect stance) writes CONTEXT.md — codebase reference: repo structure, key files, existing patterns.
+3. You define the first action with the Architect — collaboratively shaping the problem, scope, and gatekeep.
 
 Once the project is set up, Inception is done. Every action — regardless of tier — enters at Planning.
 
@@ -336,7 +330,7 @@ Once the project is set up, Inception is done. Every action — regardless of ti
 
 After Inception, the project operates in two modes: **Planning** and **Implementation**. At any point, the project is in exactly one mode for exactly one active action. The mode is tracked in STATUS.md (see [TEMPLATES.md](./TEMPLATES.md)), which is the single source of truth for "where are we."
 
-**One active action at a time.** A project may have multiple actions defined, but only one is active. This prevents context scatter — every role knows exactly which action it's serving. If the Human Lead wants to switch actions, they do so explicitly — the active role updates STATUS.md and logs the reason in the journal.
+**One active action at a time.** A project may have multiple actions defined, but only one is active. This prevents context scatter — the AI always knows which action it's serving. If you want to switch actions, do so explicitly — update STATUS.md and log the reason in the journal.
 
 ```
 Planning ──→ Implementation ──→ Action achieved ──→ Pick next action
@@ -349,78 +343,78 @@ All three tiers follow this cycle. What differs is the weight of each step: a ta
 
 ### Planning
 
-**Who you're talking to:** Senior Architect (primarily).
+**Stance:** Architect (primarily).
 
-Planning is where an action gets defined, broken into phases, and each phase gets a spec. This is a conversation between the Human Lead and the Architect — not a rigid sequence of handoffs. A phase is a bounded chunk of work with a clear purpose, concrete steps, and done-criteria. A small epic might have two phases. A large goal might have twelve. A task has exactly one.
+Planning is where an action gets defined, broken into phases, and each phase gets a spec. This is a conversation between you and the AI in Architect stance — not a rigid sequence of handoffs. A phase is a bounded chunk of work with a clear purpose, concrete steps, and done-criteria. A small epic might have two phases. A large goal might have twelve. A task has exactly one.
 
 **What happens in Planning:**
 
-The Human Lead comes in with a rough idea and works with the Architect to shape it. For goals, this means defining the problem, vision, design principles, and gatekeep collaboratively — the Architect asks probing questions, the Human Lead provides domain context. For epics, the Architect helps refine scope and gatekeep. For tasks, the Architect does a quick assessment. The conversation naturally flows from defining the action to designing the roadmap to writing the first phase spec.
+You come in with a rough idea and work with the Architect to shape it. For goals, this means defining the problem, vision, design principles, and gatekeep collaboratively — the Architect asks probing questions, you provide domain context. For epics, the Architect helps refine scope and gatekeep. For tasks, the Architect does a quick assessment. The conversation naturally flows from defining the action to designing the roadmap to writing the first phase spec.
 
 The Architect reads the codebase deeply — relevant source files, tests, configuration, existing patterns. A plan written without reading the code is a guess. Specs should reference specific file paths, show code snippets of current behaviour, and include tables of test cases. Vague plans produce vague code.
 
-The Human Lead reviews and approves the spec (or pushes back — the Architect should defend the design or revise it). Whether this takes one session or several doesn't matter. By the end of Planning, there's an approved action document, a roadmap, and a phase spec.
+You review and approve the spec (or push back — the Architect should defend the design or revise it). Whether this takes one session or several doesn't matter. By the end of Planning, there's an approved action document, a roadmap, and a phase spec.
 
-**Planning for tasks:** compressed. The Architect produces a short spec (a few paragraphs — problem, steps, done-when). The Architect and Tech Lead may share a session. The Human Lead reviews, but the gate is lighter — a task spec doesn't need the same scrutiny as a multi-phase epic.
+**Planning for tasks:** compressed. The Architect produces a short spec (a few paragraphs — problem, steps, done-when). You'll often flow straight from design into writing prompts in the same conversation. The gate is lighter — a task spec doesn't need the same scrutiny as a multi-phase epic.
 
-**When Planning ends:** When the Human Lead approves the phase spec and is ready to move to implementation. The active role updates STATUS.md: mode switches to Implementation.
+**When Planning ends:** When you approve the phase spec and are ready to move to implementation. The AI updates STATUS.md: mode switches to Implementation.
 
 ### Implementation
 
-**Who you're talking to:** Technical Lead, Developer.
+**Stances:** Tech Lead, Developer.
 
-Implementation is where code gets written. The Tech Lead reads the phase spec, writes implementation prompts, and the Developer executes them. How this loop works — how many prompts, how much review between them, whether prompts are written upfront or one at a time based on session receipts — is a conversation between the Human Lead and the Tech Lead. The process is deliberately freestyle here because the right approach depends on the work.
+Implementation is where code gets written. In Tech Lead stance, the AI reads the phase spec and writes implementation prompts. In Developer stance, it executes them. How this loop works — how many prompts, how much review between them, whether prompts are written upfront or one at a time — is your call. The process is deliberately freestyle here because the right approach depends on the work.
 
-**The essentials:** The Tech Lead produces prompts. The Developer executes them and produces session receipts — what was done, what files changed, any surprises. The receipts feed the next prompt. This is the context bridge that keeps prompts grounded in the actual state of the code rather than pre-execution assumptions (see [PROMPTS.md](./PROMPTS.md) for just-in-time prompting).
+**In a single session (the default),** this is fluid. You discuss the prompt approach with the AI (Tech Lead thinking), then tell it to execute (Developer thinking). The AI naturally carries the context forward. When it finishes executing, it produces a session receipt — what was done, what files changed, any surprises — and you discuss the next prompt. The stances shape the AI's focus even when the session is continuous.
 
-**The implementation loop is tight.** The Tech Lead and Developer pass context to each other through session receipts — that's the mechanism. Tech Lead writes prompt → Developer executes → session receipt → Tech Lead writes next prompt.
+**In separate sessions (for complex work),** the loop is more formal. You write or review a prompt in one session (Tech Lead), then paste it into a fresh session (Developer) for execution. The session receipt bridges the gap — it captures the actual state of the code so the next prompt is grounded in reality rather than pre-execution assumptions (see [PROMPTS.md](./PROMPTS.md) for just-in-time prompting).
 
-**Review cadence — the Human Lead's call:** Some phases warrant reading every prompt before the Developer gets it (high-risk, novel patterns, shared infrastructure). Others are fine with the Tech Lead and Developer cycling through, with the Human Lead reviewing at the end (low-risk, familiar patterns). The Human Lead decides per phase based on risk and complexity.
+**Review cadence — your call:** Some phases warrant reading every prompt before execution (high-risk, novel patterns, shared infrastructure). Others are fine with the AI cycling through prompts, with you reviewing at the end (low-risk, familiar patterns). You decide per phase based on risk and complexity.
 
-**Within-phase fixes (stay in Implementation):** If a prompt produces a failing test, a type error, or an unexpected result, the Developer's session receipt captures the issue. The Tech Lead issues a fix prompt — a targeted correction that addresses the specific issue. This is a tight loop.
+**Within-phase fixes (stay in Implementation):** If a prompt produces a failing test, a type error, or an unexpected result, the session receipt captures the issue. A fix prompt — a targeted correction — addresses it. This is a tight loop.
 
-**Phase-level issues (go back to Planning):** If the approach itself is flawed — assumptions were invalid, a dependency was missed — this is not a prompt fix. The Tech Lead flags it. The Human Lead decides to switch back to Planning. Following the append-forward principle, the revised phase gets a new spec version rather than silently modifying the original.
+**Phase-level issues (go back to Planning):** If the approach itself is flawed — assumptions were invalid, a dependency was missed — this is not a prompt fix. You switch back to Planning. Following the append-forward principle, the revised phase gets a new spec version rather than silently modifying the original.
 
-**Phase handovers:** When a phase is done, the Human Lead evaluates: does it move toward the action's gatekeep? The active role logs what happened and updates STATUS.md (per common.md). The typical next move is an Architect session to review the outcome and plan the next phase. If context has gone cold or the transition is complex, invoke the Navigator for guidance. Each phase builds on the previous one's insights and the updated codebase.
+**Phase handovers:** When a phase is done, you evaluate: does it move toward the action's gatekeep? The AI logs what happened and updates STATUS.md (per common.md). The typical next move is to shift back to Architect thinking — review the outcome and plan the next phase. If context has gone cold or the transition is complex, use the Navigator stance for a briefing. Each phase builds on the previous one's insights and the updated codebase.
 
 ### Session Discipline
 
-**Starting a work day or returning after a break:** get oriented. Ask the active role "where are we?" — any role can read STATUS.md and the journal per common.md. If context has gone truly cold (returning after weeks, resuming a paused action), invoke the Navigator for a proper briefing.
+**Starting a work day or returning after a break:** get oriented. Ask the AI "where are we?" — it can read STATUS.md and the journal in any stance per common.md. If context has gone truly cold (returning after weeks, resuming a paused action), use the Navigator stance for a proper briefing.
 
-**During implementation:** the Tech Lead and Developer cycle through prompts using session receipts as context bridges. The loop is tight and self-contained.
+**During implementation:** the loop between writing prompts and executing them is tight and self-contained. In a single session, this is just a flowing conversation. In separate sessions, session receipts bridge the gap.
 
-**Default context by role:**
+**Context focus by stance:**
 
-| Role | Always load | Load on demand | Never load |
+| Stance | Primary focus | On demand | Exclude |
 |---|---|---|---|
-| **Senior Architect** | STATUS.md, CONTEXT.md, KEY_INSIGHTS.md (project + action + phase), active action doc (GOAL/EPIC/TASK.md), active phase spec | Completed phase specs, relevant source files | impl prompts |
-| **Technical Lead** | Active phase spec, KEY_INSIGHTS.md (action + phase), relevant source files | CONTEXT.md, project KEY_INSIGHTS.md | other phase specs |
+| **Architect** | STATUS.md, CONTEXT.md, KEY_INSIGHTS.md (project + action + phase), active action doc (GOAL/EPIC/TASK.md), active phase spec | Completed phase specs, relevant source files | impl prompts |
+| **Tech Lead** | Active phase spec, KEY_INSIGHTS.md (action + phase), relevant source files | CONTEXT.md, project KEY_INSIGHTS.md | other phase specs |
 | **Developer** | The current implementation prompt | Nothing else | Everything except the prompt |
 | **Navigator** | STATUS.md, journal/ (current + previous week) | Older journal weeks, git log | KEY_INSIGHTS.md, source code, phase specs, impl prompts |
 
-When running roles in the same session via mode switching, the context table still defines what each role *focuses on* — even if the model has seen more. The Human Lead should be aware that a Developer operating in the same session as a prior Architect conversation will carry that context. For high-risk work, a fresh Developer session produces more disciplined output.
+In a single session, the AI has seen everything from prior stances — the table defines what each stance *focuses on*, not what it can see. Be aware that a Developer stance in the same session as a prior Architect conversation carries that context. For complex work, a fresh Developer session produces more disciplined output.
 
-**Tracking updates:** Every role handles its own tracking per common.md — journal entries, STATUS.md updates, insight writing. The mechanism matters less than the discipline: keeping tracking current means the next session starts with accurate context.
+**Tracking updates:** The AI handles its own tracking per common.md — journal entries, STATUS.md updates, insight writing — regardless of stance. The mechanism matters less than the discipline: keeping tracking current means the next session starts with accurate context.
 
 ### Action Completion and Transition
 
-When all phases for the active action are complete and the Human Lead confirms the gatekeep is met:
+When all phases for the active action are complete and you've confirmed the gatekeep is met:
 
-1. The active role updates STATUS.md — action status → Achieved
-2. If other actions are defined, the **Human Lead** picks the next one to activate
-3. If no other actions exist, the Human Lead defines what's next
+1. The AI updates STATUS.md — action status → Achieved
+2. If other actions are defined, you pick the next one to activate
+3. If no other actions exist, you define what's next
 
-For tasks, completion is often immediate — one phase, gatekeep verified, done. For epics and goals, the Human Lead evaluates the gatekeep across all completed phases before marking the action as achieved.
+For tasks, completion is often immediate — one phase, gatekeep verified, done. For epics and goals, you evaluate the gatekeep across all completed phases before marking the action as achieved.
 
 ### Swapping Actions
 
-The Human Lead can switch the active action at any time. This is a deliberate decision, not an accident, and it gets logged:
+You can switch the active action at any time. This is a deliberate decision, not an accident, and it gets logged:
 
-1. **Human Lead** decides to swap (e.g., a critical bug came in while working on an epic)
-2. The active role updates STATUS.md — previous action status → Paused (with reason), new action → Active
+1. You decide to swap (e.g., a critical bug came in while working on an epic)
+2. The AI updates STATUS.md — previous action status → Paused (with reason), new action → Active
 3. The reason for the swap is logged as a `[decision]` entry in the journal — this context is critical for the next session
 
-When returning to a paused action, the journal captures why it was paused and what state it was in. The Navigator can synthesize this into a briefing if context has gone cold.
+When returning to a paused action, the journal captures why it was paused and what state it was in. Use the Navigator stance for a briefing if context has gone cold.
 
 ### Staying Current with External Changes
 
@@ -428,11 +422,11 @@ Codebases don't stand still. Other developers push changes, dependencies get upd
 
 This is a real-world problem, and the methodology doesn't pretend it doesn't exist. The solution isn't a special process — it's the same discipline you'd apply as a senior developer: stay current.
 
-**When starting any new action,** check for recent external changes. The Navigator can read the git log and compare it against CONTEXT.md, or the Architect can do this as part of its normal codebase read. This takes a minute and can save hours of building on stale assumptions.
+**When starting any new action,** check for recent external changes. The AI can read the git log and compare it against CONTEXT.md — in Navigator stance for a quick check, or in Architect stance as part of its normal codebase read. This takes a minute and can save hours of building on stale assumptions.
 
 **When resuming a paused action,** the same check applies — possibly more urgently. The longer an action has been paused, the more the codebase may have drifted.
 
-**When CONTEXT.md goes stale,** the Architect updates it. This isn't a special event — it's part of the Architect's normal session if the codebase structure has changed. Any role can flag staleness.
+**When CONTEXT.md goes stale,** the AI updates it in Architect stance. This isn't a special event — it's part of the Architect's normal work if the codebase structure has changed.
 
 The journal captures everything that happens within the process. It doesn't capture what happens outside it. Bridging that gap is a human responsibility.
 
@@ -440,21 +434,21 @@ The journal captures everything that happens within the process. It doesn't capt
 
 ## Scaling the Process
 
-The methodology uses one structure for all projects. The three tiers mean the process naturally scales to the work — tasks are light, epics are moderate, goals are heavyweight. There is no "lite mode" or "full mode" to choose between. The Human Lead picks the tier that matches the work, and the process adjusts.
+The methodology uses one structure for all projects. The three tiers mean the process naturally scales to the work — tasks are light, epics are moderate, goals are heavyweight. There is no "lite mode" or "full mode" to choose between. You pick the tier that matches the work, and the process adjusts.
 
 A project that's mostly bug fixes and small features will have many tasks and few goals. A project in active development will have a mix. A greenfield project might start with a goal to establish direction and then break into epics and tasks as the architecture solidifies.
 
 ### What Scales Naturally
 
 - **Actions** — more work means more action folders. Each is self-contained. The naming convention (`task-*`, `epic-*`, `goal-*`) makes the tier visible at a glance.
-- **Journal** — weekly rolling files mean the journal grows without becoming unwieldy. Recent weeks are loaded by active roles; old weeks are there for history.
+- **Journal** — weekly rolling files mean the journal grows without becoming unwieldy. Recent weeks are loaded by the active stance; old weeks are there for history.
 - **Key insights** — insights accumulate at each level. Phase-level insights stay relevant during that phase; action-level insights persist across phases; project-level insights persist across actions. As the project grows, the insight hierarchy captures the knowledge that matters.
 
-### Role Compression
+### Stance Compression
 
-**Compression is the default.** For tasks and small epics, run the Architect and Tech Lead in the same session — the shared context actually helps. The Developer can share the session for low-risk work or get a fresh session when disciplined prompt-following matters. Invoke the Navigator only when context has gone cold.
+**A single session with stance shifts is the default.** For tasks and small epics, flow naturally between Architect and Tech Lead thinking in one conversation — the shared context helps. The Developer can stay in the same session for low-risk work or get a fresh session when disciplined prompt-following matters. Use the Navigator stance only when context has gone cold.
 
-**Full separation is the escalation path.** For goals and complex epics where you notice role pollution — the Architect over-specifying implementation, the Developer second-guessing prompts — separate them. The Human Lead makes this call based on what they're seeing in the output, not based on a blanket rule.
+**Separate sessions are the escalation path.** For goals and complex epics where you notice stance pollution — the Architect over-specifying implementation, the Developer second-guessing prompts — separate them physically. You make this call based on what you're seeing in the output, not based on a blanket rule.
 
 ### The Non-Negotiables
 
@@ -465,10 +459,10 @@ Regardless of action tier, these are never skipped:
 - **STATUS.md is always current.** The single source of truth for mode, active action, and next action.
 - **A written spec before code.** Every phase has a spec — even a task's single phase.
 - **Journal entries.** Every session, every decision, every lesson — tagged and logged in the current week's journal file. The cost is ten seconds; the value compounds.
-- **Key insights written.** Every role writes insights directly to KEY_INSIGHTS.md at the right level (per common.md). The Human Lead reviews them. This is how the AI gets better at your project over time.
-- **Review gate between planning and execution.** The Human Lead approves the plan before the Developer writes code.
-- **Role separation between design and execution.** The Architect/Tech Lead and the Developer use different cognitive stances. Whether they run in separate sessions is the Human Lead's call — but be aware that a Developer in the same session as a design conversation will carry that context. For complex work, a fresh Developer session produces more disciplined output.
-- **Tracking updated at phase handovers.** Every role keeps STATUS.md and the journal current per common.md. The cost is minutes; the value compounds across sessions.
+- **Key insights written.** The AI writes insights directly to KEY_INSIGHTS.md at the right level (per common.md), regardless of stance. You review them. This is how the AI gets better at your project over time.
+- **Review gate between planning and execution.** You approve the plan before any code gets written.
+- **Stance separation between design and execution.** The Architect/Tech Lead and the Developer are different cognitive stances. Whether they run in separate sessions is your call — but be aware that a Developer in the same session as a design conversation will carry that context. For complex work, a fresh Developer session produces more disciplined output.
+- **Tracking updated at phase handovers.** The AI keeps STATUS.md and the journal current per common.md, regardless of stance. The cost is minutes; the value compounds across sessions.
 
 ---
 
@@ -480,7 +474,7 @@ Skipping the planning step because "it's a small change." Small changes that tou
 
 ### Amnesia sessions
 
-Starting a new AI session without loading context. The AI will contradict previous decisions, reintroduce rejected patterns, or redo completed work. The context loading protocol exists for this reason — and each role has a specific loading recipe (see the context loading table above).
+Starting a new AI session without loading context. The AI will contradict previous decisions, reintroduce rejected patterns, or redo completed work. The context loading protocol exists for this reason — and each stance has a specific context focus (see the context table above).
 
 ### The 500-line status file
 
@@ -506,11 +500,11 @@ Writing a separate "add tests" phase after features are built. Tests are part of
 
 ### The improvising Developer
 
-A Developer session that encounters something unexpected and decides to "fix it" without going back to the Technical Lead. The Developer's job is to follow the prompt. If the prompt doesn't account for the current state of the code, the correct response is to report back, not to improvise. Improvised fixes compound — each one makes the next prompt's assumptions less accurate.
+A Developer session that encounters something unexpected and decides to "fix it" instead of reporting back. The Developer stance's job is to follow the prompt. If the prompt doesn't account for the current state of the code, the correct response is to report back so you can shift to Tech Lead thinking and issue a fix prompt. Improvised fixes compound — each one makes the next prompt's assumptions less accurate.
 
-### Role bleed
+### Stance bleed
 
-When the AI's output starts mixing stances — the Architect over-specifying implementation details, the Developer second-guessing prompts instead of following them, the Tech Lead redesigning the spec instead of translating it. This is a signal, not a catastrophe. If you notice role bleed, separate the roles into different sessions. If you don't notice it, compression is working fine. The risk is highest between design roles (Architect/Tech Lead) and execution (Developer) — which is why a fresh Developer session is recommended for complex work.
+When the AI's output starts mixing stances — the Architect over-specifying implementation details, the Developer second-guessing prompts instead of following them, the Tech Lead redesigning the spec instead of translating it. This is a signal, not a catastrophe. If you notice stance bleed, separate the stances into different sessions. If you don't notice it, compression is working fine. The risk is highest between design (Architect/Tech Lead) and execution (Developer) — which is why a fresh Developer session is recommended for complex work.
 
 ### Misclassifying tiers
 
