@@ -178,15 +178,29 @@ If the Human Lead cannot define a gatekeep, the action is probably scoped wrong.
 
 ## Roles
 
-Five roles drive this process. The Human Lead plus four AI roles, each running in a **separate session** — this is not optional. Mixing roles in a single session degrades output because each role needs different context, different instructions, and a different stance toward the work.
+Five roles drive this process. The Human Lead plus four AI roles, each with a distinct stance toward the work. Role separation is a **cognitive framing technique** — telling the AI "you are an Architect, challenge assumptions" produces genuinely different output than "you are a Developer, follow this prompt." The roles exist because different stances produce different thinking.
 
-**Exception: tasks.** For tasks (single-phase, quick work), role compression is the default. The Architect and Tech Lead can be the same session. The Developer remains separate. The Orchestrator overhead is minimal — a brief check-in before and after.
+**How you separate roles is your call.** The Human Lead decides whether each role gets its own session or runs as a mode switch within the same conversation. The methodology defines what each role does and how it thinks — not which window it runs in.
+
+**When separate sessions earn their cost:**
+- **The Developer on complex work.** A Developer in a fresh session — loading only the implementation prompt, with no memory of the design discussion — produces more disciplined, literal output. If you've spent 30 messages debating architecture and then say "now follow this prompt," the model will be primed by those 30 messages. For high-risk work, a clean Developer session is worth the overhead.
+- **When you notice role pollution.** If the Architect starts writing implementation details instead of designing systems, or the Developer starts second-guessing prompts, that's a signal that the roles need physical separation.
+- **Goals with deep design work.** The full Architect → Tech Lead → Developer pipeline in separate sessions produces the cleanest output for work that demands genuine systems thinking.
+
+**When mode switching within a session works fine:**
+- **Tasks.** One session, shifting between Architect thinking and Tech Lead thinking as needed. The Developer can share the session for low-risk tasks or get a fresh one for anything non-trivial.
+- **Architect → Tech Lead transitions.** These roles share most of their context, and the Tech Lead writes better prompts when it was part of the design conversation. The nuance lost in a handoff prompt often costs more than the role pollution it prevents.
+- **The Orchestrator's duties.** Briefing, tracking updates, and "what's next" guidance don't require a separate session. The Human Lead can ask any active role to update STATUS.md and the journal — or do it themselves in two minutes.
+
+**The default is compression. Full separation is the escalation path** — reserved for work where the quality difference justifies the overhead. The Human Lead makes this call per phase based on risk, complexity, and what they're seeing in the output.
 
 ### Human Lead
 
 The human. Defines actions, classifies them by tier, sets gatekeeps, and has final authority over everything — approvals, direction, trade-offs. Every review gate in this process exists so the Human Lead can catch mistakes before they become code.
 
 The Human Lead's primary job is defining what success looks like and verifying that it was achieved. They provide the domain context the AI cannot infer, challenge the Architect's assumptions, and decide when a plan is good enough to execute. They also decide when to override the process — skip a phase, combine steps, change direction, promote a task to an epic.
+
+**The Human Lead also decides session boundaries.** When to open a fresh session for a role, when to switch modes within the same conversation, when the Orchestrator's duties are worth a separate session versus a quick STATUS.md update. This is a judgement call informed by the work's complexity and the output quality they're seeing.
 
 When the Human Lead is also the sole stakeholder, they carry the full weight of gatekeeping. This is by design (see "Human Accountability" above).
 
@@ -228,35 +242,41 @@ If the Developer encounters something unexpected, the prompt's **If unexpected**
 
 ### Orchestrator
 
-The Human Lead's home base. The Orchestrator provides orientation and guidance: where are we, what just happened, what should happen next. It keeps tracking current, generates handoff prompts, and bridges context between phases and actions.
+The Human Lead's orientation role. The Orchestrator provides guidance: where are we, what just happened, what should happen next.
 
-**When you need the Orchestrator:** at the start of a work day (or after a break), at phase handovers, when you've lost track of where things stand, when resuming a paused action, and when the action is complete. The Orchestrator earns its place at transitions and boundaries — not within the tight loop of implementation.
+**The Orchestrator is often a mode, not a session.** For most work, the Human Lead can ask any active role "where are we?" or update STATUS.md and the journal themselves. A dedicated Orchestrator session is useful when context has gone cold — returning after a long break, resuming a paused action, or when the project state is genuinely unclear.
 
-**When you don't need the Orchestrator:** during implementation, the Tech Lead and Developer pass context to each other through session receipts. If you already know the current state and the next step, go directly to the working role. The Orchestrator is for guidance, not ceremony.
+**When the Orchestrator earns a dedicated session:**
+- Resuming after a multi-day break or a long pause
+- Complex phase handovers where multiple tracking artefacts need updating
+- Bridging promotions (task → epic, epic → goal) where context from the original action needs to be carried forward
+- When the Human Lead has lost track and needs a clean briefing from STATUS.md and the journal
 
-**Primary responsibilities:**
+**When the Orchestrator's duties can be handled inline:**
+- Quick status checks ("what phase am I on?") — ask the current role or read STATUS.md
+- Simple phase handovers — update STATUS.md and the journal directly
+- Tracking hygiene — any role can update STATUS.md at the Human Lead's request
 
-- **Briefing.** When the Human Lead starts work or returns after a break: "bring me up to speed." The Orchestrator reads the journal state and produces a 3–5 line summary: what action we're working on, what tier it is, what phase we're in, what the last session accomplished, what's pending.
-- **Guiding next steps.** The Orchestrator doesn't just say where you are — it recommends where to go. "The Architect's spec is approved. Next step: open a Tech Lead session to write prompts. It should load these files: [list]." This reduces gate fatigue — the human doesn't have to carry the process state in their head.
-- **Handoff prompts.** When the Human Lead moves between roles, the Orchestrator generates the exact prompt to paste into the next session — which entry point to load, which files to read, what just happened, what the session needs to achieve. This is the Orchestrator's most valuable output — it eliminates the information loss that happens when the human relays context between roles manually.
-- **Phase handovers.** When a phase completes, the Orchestrator logs what happened, updates STATUS.md and the journal, and suggests the next move — typically an Architect session to review the outcome and plan the next phase.
-- **Tracking hygiene.** The Orchestrator updates STATUS.md and the current week's journal file. It flags when the journal is stale, when decisions haven't been logged, and when journal entries should be promoted to KEY_INSIGHTS.md.
-- **Insight promotion.** The Orchestrator identifies journal entries that should become key insights and flags them for the Architect (project/action level) or Tech Lead (phase level) to curate.
-- **Bridging promotions.** When an action is promoted (task → epic, epic → goal), the Orchestrator carries context from the original action to the new one via handoff prompts.
+**Core responsibilities (whether in a dedicated session or handled inline):**
 
-**Key behaviour:** operational awareness, guidance, process fidelity. The Orchestrator doesn't design, write prompts, or code. It guides the human and maintains the tracking infrastructure that makes every other role effective.
+- **Briefing** — a 3–5 line summary from STATUS.md and the journal: what action, what tier, what phase, what happened last, what's next.
+- **Handoff prompts** — when the Human Lead decides to open a fresh session for a role, the Orchestrator generates the exact prompt to paste in: which entry point to load, which files to read, what context to carry over. This is the Orchestrator's most valuable output — it eliminates the information loss when moving between separate sessions.
+- **Tracking updates** — STATUS.md, journal entries, insight promotion flags.
+- **Process flags** — surfacing when the process is being skipped (no action defined, specs revised without logging, tracking gone stale). Flag clearly, then move on — the Orchestrator advises, the Human Lead decides.
 
-**Session context:** loads STATUS.md and recent journal files (current + previous week). Light and fast — the Orchestrator reads tracking artefacts, not source code.
+**Key behaviour:** operational awareness, guidance, process fidelity. The Orchestrator doesn't design, write prompts, or code.
+
+**Session context:** loads STATUS.md and recent journal files (current + previous week). Light and fast — tracking artefacts, not source code.
 
 ### Role Summary
 
-| Role | Responsibility | Session context | Stance |
-|---|---|---|---|
-| **Human Lead** | Actions, gatekeeps, authority, domain context | — | Decides |
-| **Orchestrator** | Guidance, briefing, tracking, handoff prompts, phase handovers | STATUS.md, journal/ (recent weeks) | Guides |
-| **Senior Architect** | System design, phase specs, architectural decisions | KEY_INSIGHTS.md (all levels) + CONTEXT.md + source code | Challenges |
-| **Technical Lead** | Implementation prompts, code review, verification | Phase spec + KEY_INSIGHTS.md (action + phase) + source files | Translates |
-| **Developer** | Code execution, prompt-following | Implementation prompt only | Executes |
+| Role | Responsibility | Context focus | Stance | Typical session |
+|---|---|---|---|---|
+| **Human Lead** | Actions, gatekeeps, authority, domain context, session boundaries | — | Decides | Always present |
+| **Orchestrator** | Guidance, briefing, tracking, handoff prompts | STATUS.md, journal/ (recent weeks) | Guides | Inline or dedicated — Human Lead's call |
+| **Senior Architect** | System design, phase specs, architectural decisions | KEY_INSIGHTS.md (all levels) + CONTEXT.md + source code | Challenges | Often shared with Tech Lead |
+| **Technical Lead** | Implementation prompts, code review, verification | Phase spec + KEY_INSIGHTS.md (action + phase) + source files | Translates | Often shared with Architect |
+| **Developer** | Code execution, prompt-following | Implementation prompt only | Executes | Fresh session recommended for complex work |
 
 ---
 
@@ -280,7 +300,7 @@ These are examples, not recommendations — the model landscape changes faster t
 
 **When the Technical Lead moves between tiers:** For phases that involve complex refactoring, novel architecture, or ambiguous requirements, the Tech Lead benefits from Tier 1 (writing good prompts for hard problems requires strong reasoning). For phases that follow established patterns — adding a new type that mirrors an existing one, extending a test suite — Tier 2 is sufficient. The Human Lead makes this call per phase.
 
-**Token efficiency is the reason for role separation.** The Developer loads one implementation prompt (~50-100 lines). The Architect loads the full knowledge base (~300+ lines) plus source files. If the Developer loaded Architect-level context, you'd pay for tokens that don't improve code quality. If the Architect loaded Developer-level context, it would miss the big picture. Each role loads exactly what it needs — no more.
+**Token efficiency is one benefit of role separation.** The Developer loads one implementation prompt (~50-100 lines). The Architect loads the full knowledge base (~300+ lines) plus source files. In separate sessions, each role loads exactly what it needs — no more. In a shared session, the model carries everything it's seen, which costs tokens and can influence behaviour. The Human Lead weighs this against the cost of context loss from handoff prompts — and decides per phase.
 
 ---
 
@@ -338,7 +358,7 @@ The Human Lead reviews and approves the spec (or pushes back — the Architect s
 
 ### Implementation
 
-**Who you're talking to:** Technical Lead, Developer. Orchestrator at phase handovers.
+**Who you're talking to:** Technical Lead, Developer. Orchestrator at phase handovers (dedicated or inline).
 
 Implementation is where code gets written. The Tech Lead reads the phase spec, writes implementation prompts, and the Developer executes them. How this loop works — how many prompts, how much review between them, whether prompts are written upfront or one at a time based on session receipts — is a conversation between the Human Lead and the Tech Lead. The process is deliberately freestyle here because the right approach depends on the work.
 
@@ -356,9 +376,9 @@ Implementation is where code gets written. The Tech Lead reads the phase spec, w
 
 ### Session Discipline
 
-**Starting a work day or returning after a break:** ask the Orchestrator for a briefing. It reads STATUS.md and the recent journal and tells you where things stand — which action, which phase, what was done last, what's next. If you need to open a new role session, the Orchestrator generates a **handoff prompt** — the exact prompt to paste in, pre-loaded with the right context.
+**Starting a work day or returning after a break:** get a briefing. If you're in a persistent session, ask your current role "where are we?" and it can read STATUS.md. If you're starting fresh — or the context has gone cold — open an Orchestrator session or ask it inline. Either way, the goal is orientation: which action, which phase, what was done, what's next.
 
-**During implementation:** you don't need the Orchestrator between every prompt. The Tech Lead and Developer cycle through prompts using session receipts as context bridges. Come back to the Orchestrator at phase handovers or when you need orientation.
+**During implementation:** the Tech Lead and Developer cycle through prompts using session receipts as context bridges. No Orchestrator needed between prompts. Come back to orientation at phase handovers or when you need it.
 
 **Default context by role:**
 
@@ -369,9 +389,9 @@ Implementation is where code gets written. The Tech Lead reads the phase spec, w
 | **Technical Lead** | Active phase spec, KEY_INSIGHTS.md (action + phase), relevant source files | CONTEXT.md, project KEY_INSIGHTS.md | journal/, other phase specs |
 | **Developer** | The current implementation prompt | Nothing else | Everything except the prompt |
 
-The Orchestrator refines this per session. "For this Architect session, skip the project KEY_INSIGHTS.md — nothing new since last time. But load the phase 2 spec, because this phase depends on it."
+When running roles in the same session via mode switching, the context table still defines what each role *focuses on* — even if the model has seen more. The Human Lead should be aware that a Developer operating in the same session as a prior Architect conversation will carry that context. For high-risk work, a fresh Developer session produces more disciplined output.
 
-**Tracking updates:** At phase handovers (or whenever you return to the Orchestrator), it updates tracking artefacts: STATUS.md, journal entries, insight promotion flags. The Human Lead verifies and commits. Keeping tracking current means the next session — whenever it happens — starts with accurate context.
+**Tracking updates:** At phase handovers, update tracking artefacts: STATUS.md, journal entries, insight promotion flags. This can be done by the Orchestrator, by the active role at the Human Lead's request, or by the Human Lead directly. The mechanism matters less than the discipline — keeping tracking current means the next session starts with accurate context.
 
 ### Action Completion and Transition
 
@@ -423,9 +443,9 @@ A project that's mostly bug fixes and small features will have many tasks and fe
 
 ### Role Compression
 
-For tasks and small epics (1–3 phases), the Senior Architect, Technical Lead, and Orchestrator can be the same AI session. The separation between design, prompt-writing, and tracking still happens — it's just sequential within one session. The Developer remains a separate session.
+**Compression is the default.** For tasks and small epics, run the Architect and Tech Lead in the same session — the shared context actually helps. Handle Orchestrator duties inline or do them yourself. The Developer can share the session for low-risk work or get a fresh session when disciplined prompt-following matters.
 
-For goals and complex epics, full role separation is recommended. The cognitive demands are different enough that combining roles degrades output.
+**Full separation is the escalation path.** For goals and complex epics where you notice role pollution — the Architect over-specifying implementation, the Developer second-guessing prompts — separate them. The Human Lead makes this call based on what they're seeing in the output, not based on a blanket rule.
 
 ### The Non-Negotiables
 
@@ -438,7 +458,7 @@ Regardless of action tier, these are never skipped:
 - **Journal entries.** Every session, every decision, every lesson — tagged and logged in the current week's journal file. The cost is ten seconds; the value compounds.
 - **Key insights curated.** When a journal entry proves important beyond its session, it gets promoted to KEY_INSIGHTS.md at the right level. This is how the AI gets better at your project over time.
 - **Review gate between planning and execution.** The Human Lead approves the plan before the Developer writes code.
-- **Role separation between design and execution.** The Architect/Tech Lead session and the Developer session are always separate — even for tasks.
+- **Role separation between design and execution.** The Architect/Tech Lead and the Developer use different cognitive stances. Whether they run in separate sessions is the Human Lead's call — but be aware that a Developer in the same session as a design conversation will carry that context. For complex work, a fresh Developer session produces more disciplined output.
 - **Tracking updated at phase handovers.** STATUS.md and the journal reflect what happened. The cost is minutes; the value compounds across sessions.
 
 ---
@@ -481,7 +501,7 @@ A Developer session that encounters something unexpected and decides to "fix it"
 
 ### Role bleed
 
-Running the Architect and Developer in the same session "to save time." The Architect's job is to challenge assumptions and think broadly. The Developer's job is to follow instructions precisely. These are opposing mindsets. When combined in one session, the AI either over-thinks execution (slow, over-engineered) or under-thinks design (quick, brittle). Keep them separate.
+When the AI's output starts mixing stances — the Architect over-specifying implementation details, the Developer second-guessing prompts instead of following them, the Tech Lead redesigning the spec instead of translating it. This is a signal, not a catastrophe. If you notice role bleed, separate the roles into different sessions. If you don't notice it, compression is working fine. The risk is highest between design roles (Architect/Tech Lead) and execution (Developer) — which is why a fresh Developer session is recommended for complex work.
 
 ### Misclassifying tiers
 

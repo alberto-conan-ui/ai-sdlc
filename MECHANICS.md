@@ -1,34 +1,34 @@
-# AI-SDLC: Mechanics — Context Isolation by Role
+# AI-SDLC: Mechanics — Context Isolation and Role Framing
 
-> Why AI roles don't read this methodology. How the entry-point system works.
+> How the entry-point system works, why role separation improves output, and when to use separate sessions versus mode switching.
 > This document is for the Human Lead. AI roles read their entry points in `roles/`.
 
 ---
 
 ## The Problem
 
-PROCESS.md describes the full methodology: roles, modes, workflows, anti-patterns. It's written for a human who needs the complete picture. But AI sessions are not humans reading a manual — they're workers performing a bounded job. When an AI role loads the full methodology, three things go wrong.
+PROCESS.md describes the full methodology: roles, modes, workflows, anti-patterns. It's written for a human who needs the complete picture. But AI sessions are not humans reading a manual — they're workers performing a bounded job. When an AI role loads the full methodology, two things go wrong.
 
-**Context waste.** The Developer doesn't need to know how the Architect thinks. The Orchestrator doesn't need prompt craft guidance. The Architect doesn't need the Developer's stance on unexpected failures. Every role pays the token cost of the full methodology, but most of that context is irrelevant to its task. In a context window with hard limits, irrelevant tokens displace useful ones — the source files, the phase spec, the lessons learned.
+**Context waste.** The Developer doesn't need to know how the Architect thinks. The Architect doesn't need the Developer's stance on unexpected failures. Every role pays the token cost of the full methodology, but most of that context is irrelevant to its task. In a context window with hard limits, irrelevant tokens displace useful ones — the source files, the phase spec, the lessons learned.
 
-**Role bleed.** This is the more insidious problem. An AI that knows about other roles' responsibilities starts doing their jobs. An Architect that knows the Developer's constraints over-specifies implementation details instead of designing systems. A Developer that knows the Architect's reasoning second-guesses the prompt instead of following it. An Orchestrator that knows about prompt craft starts writing prompts. Knowledge shapes behaviour — even knowledge the role shouldn't act on.
+**Role bleed.** This is the more insidious problem. An AI that knows about other roles' responsibilities starts doing their jobs. An Architect that knows the Developer's constraints over-specifies implementation details instead of designing systems. A Developer that knows the Architect's reasoning second-guesses the prompt instead of following it. Knowledge shapes behaviour — even knowledge the role shouldn't act on.
 
-**No formal boot sequence.** Without a defined entry point, context loading is manual and inconsistent. The Human Lead has to remember which files each role needs, or the AI loads everything "just in case." Both lead to the same outcome: expensive sessions with unfocused context and unpredictable behaviour.
+These problems manifest differently depending on how the Human Lead manages sessions. In separate sessions, entry points solve both problems cleanly — each role loads exactly its context, nothing more. In a shared session with mode switching, the model carries everything it's seen, which means role bleed can only be mitigated through framing instructions, not eliminated through context isolation. The Human Lead decides which trade-off is right for the work.
 
 ---
 
-## The Principle: Context Isolation
+## The Principle: Cognitive Framing Through Roles
 
-Each AI role reads **one entry-point file** from the `roles/` folder. That file is the role's entire understanding of the methodology. It tells the AI:
+Each AI role has an **entry-point file** in the `roles/` folder. That file defines the role's identity, stance, responsibilities, context to load, and explicit boundaries. The entry point contains no knowledge of other roles' internals.
 
-- What its role is (identity and stance)
-- Which project files to load (and which to ignore)
-- What its responsibilities are (specific, bounded)
-- What it must not do (explicit boundaries)
+The core insight is **cognitive framing**, not just context isolation. The same model behaves differently when given an Architect's entry point versus a Developer's entry point — even with identical project files loaded. The entry point shapes how the AI interprets the codebase, what it prioritises, and what it ignores.
 
-The entry point contains **no knowledge of other roles' internals**. The Orchestrator doesn't know how the Architect designs phase specs. The Developer doesn't know how the Tech Lead writes prompts. Each role operates within its own context boundary.
+**Entry points serve two purposes depending on how you use them:**
 
-This isn't just about saving tokens (though it does). It's about **cognitive framing**. The same model behaves differently when given an Architect's entry point versus a Developer's entry point — even with identical project files loaded. The entry point shapes how the AI interprets the codebase, what it prioritises, and what it ignores. Role separation is a behavioural tool, not just a cost optimisation.
+- **In separate sessions:** the entry point is loaded at session start. It defines the role's entire understanding of the methodology. Context isolation is physical — the Developer literally cannot see the Architect's discussion.
+- **In mode switching within a session:** the entry point is used as a framing instruction — "switch to this role, follow these responsibilities and boundaries." The model still carries prior context, but the framing instruction shifts its stance and behaviour. This is weaker isolation but preserves conversational continuity.
+
+Both approaches use the same entry-point files. The Human Lead decides which approach to use per role and per phase.
 
 ---
 
@@ -63,83 +63,81 @@ Entry points reference **project artefacts** (STATUS.md, phase specs, source cod
 
 ---
 
-## The Orchestrator — Home Base
+## The Orchestrator — Orientation, Not Overhead
 
-The Orchestrator is fundamentally different from the other roles. The Architect, Tech Lead, and Developer are workers — you open a session, they do a job, the session ends. The Orchestrator is a home base — it provides orientation and guidance when you need it.
+The Orchestrator is the lightest role. Its job is orientation and tracking — where are we, what's next, what needs logging. In many workflows, the Human Lead handles these duties themselves or asks the active role to do them.
 
-**Where the Orchestrator earns its place:**
+**When the Orchestrator earns a dedicated session:**
 
 ```
-Start of work day → Orchestrator briefs you
-    ↓
-Architect session → define goal, design roadmap, write spec
-    ↓
-Orchestrator → logs, updates tracking, hands off to Tech Lead
-    ↓
-Tech Lead + Developer loop (Orchestrator stays out)
-    ↓
-Phase done → Orchestrator → logs, suggests Architect for next phase
-    ↓
-Repeat
+Long break / lost context → Orchestrator briefs you
+Resuming a paused action → Orchestrator checks what's changed
+Complex promotion (task → epic) → Orchestrator bridges context
 ```
 
-**The key insight: the Orchestrator is for transitions, not for every interaction.** During implementation, the Tech Lead and Developer pass context to each other through session receipts. The Orchestrator adds no value between prompts — the session receipt is the context bridge. The Orchestrator earns its keep at phase handovers (logging what happened, suggesting the next move), at the start of a work day (bringing you up to speed), and when you've lost track of where things stand.
+**When the Orchestrator's duties run inline:**
 
-**The Orchestrator generates handoff prompts.** This is its most valuable output. When the Human Lead needs to start a new role session, the Orchestrator produces the exact prompt to paste in — which entry point to load, which project files to read, what just happened, what the session needs to achieve. This solves the context transfer problem: the human is normally the relay between roles, and humans are lossy relays. The handoff prompt packages everything into a ready-to-use opening for the next role, eliminating information loss.
+```
+Start of work day (context is fresh) → ask current role "where are we?"
+Simple phase handover → update STATUS.md and journal directly
+Quick tracking update → any role can do this at your request
+```
 
-**The Orchestrator is cheap.** It loads only tracking artefacts — STATUS.md and recent journal files. No source code, no specs, no prompts. Fast responses, minimal cost.
+**The Orchestrator's most valuable output is the handoff prompt.** When the Human Lead decides to open a fresh session for a role, the Orchestrator generates the exact prompt to paste in — entry point, files to load, context summary, session goal. This eliminates the information loss when the human relays context between sessions manually. If you're not opening separate sessions, you don't need handoff prompts, and the Orchestrator's value shrinks to tracking and orientation.
 
-**The Orchestrator bridges promotions.** When an action is promoted (task → epic, epic → goal), the Orchestrator carries context forward via handoff prompts — the append-forward principle in practice.
-
-**When you don't need the Orchestrator:** during implementation (Tech Lead and Developer handle their own context), and when you already know the current state and the next step. Go directly to the working role.
+**The Orchestrator bridges promotions.** When an action is promoted (task → epic, epic → goal), the Orchestrator carries context forward — whether via a handoff prompt (separate sessions) or a context summary (same session). This is the append-forward principle in practice.
 
 ---
 
-## Why Separate Sessions
+## Separate Sessions vs. Mode Switching
 
-Role separation serves three purposes, in order of importance:
+Role separation serves three purposes. How well each is achieved depends on whether roles run in separate sessions or share one.
 
-**1. Behavioural framing.** An AI given an Architect entry point thinks in systems, trade-offs, and constraints. The same AI given a Developer entry point thinks in code, verification, and literal execution. This isn't metaphor — the entry point shapes which patterns the model activates, how it interprets ambiguity, and what it considers "done." Mixing roles in one session produces an AI that's neither a good architect nor a good developer.
+**1. Behavioural framing.** An AI given an Architect entry point thinks in systems, trade-offs, and constraints. The same AI given a Developer entry point thinks in code, verification, and literal execution. The entry point shapes which patterns the model activates, how it interprets ambiguity, and what it considers "done." A fresh session provides the cleanest framing. A mode switch within the same session provides weaker but usually adequate framing — the model shifts stance but carries memory of prior roles.
 
-**2. Context efficiency.** The Developer loads one implementation prompt (~50–100 lines). The Architect loads the full knowledge base (~300+ lines) plus source files. If every session loaded Architect-level context, you'd pay for tokens that don't improve code quality. If the Architect loaded Developer-level context, it would miss the big picture. Each role loads exactly what it needs.
+**2. Context efficiency.** In separate sessions, each role loads exactly what it needs — the Developer loads ~50–100 lines, the Architect loads ~300+ lines plus source files. In a shared session, the model carries everything it's seen. This costs tokens but also means the Tech Lead benefits from the Architect discussion without a handoff prompt. The trade-off isn't always obvious — sometimes shared context helps more than clean context.
 
-**3. Clean authority boundaries.** The Developer cannot decide to go back to Planning — it follows prompts. The Tech Lead can flag a phase-level issue but cannot authorise a mode transition. Only the Human Lead switches modes. When roles are in separate sessions, these authority boundaries are physical, not just instructional.
+**3. Clean authority boundaries.** In separate sessions, the Developer physically cannot decide to go back to Planning — it doesn't know Planning exists. In a shared session, authority boundaries are instructional rather than physical, which makes them softer. The Human Lead enforces them by managing the conversation.
+
+**The practical guideline:** the more the work demands disciplined, literal execution (Developer on complex prompts), the more separate sessions help. The more the work demands continuity and shared understanding (Architect → Tech Lead transitions), the more a shared session helps. The Human Lead reads the situation and decides.
 
 ---
 
 ## Session Persistence Is in the Artefacts, Not the Tool
 
-Some AI tools maintain persistent sessions — the Orchestrator stays open across role switches and retains its full conversation history. Others reset context with every new conversation. Both work with this methodology, because persistence lives in the written artefacts, not in the AI's memory.
+Regardless of how you manage sessions — one persistent conversation or many separate ones — every piece of state is written down: STATUS.md tracks where you are, the journal tracks what happened, phase specs track the plan, session receipts track what the Developer did. The methodology never relies on an AI role's memory of previous interactions. It relies on written artefacts that any session can read.
 
-Every piece of state is written down: STATUS.md tracks where you are, the journal tracks what happened, phase specs track the plan, session receipts track what the Developer did. When the Orchestrator opens a fresh session, it loads its entry point, reads STATUS.md and the recent journal, and knows exactly where things stand — not because it remembers, but because everything was recorded.
+**Tools with persistent sessions** benefit from continuity — the Architect's discussion informs the Tech Lead's prompts naturally, and the Orchestrator's duties can be handled inline. The trade-off is role bleed (the model carries all prior context).
 
-Tools with persistent sessions get convenience: the Orchestrator doesn't need to reload context between role switches. Tools without persistent sessions get the same information, just re-read from disk. The handoff prompts the Orchestrator generates are especially valuable in stateless tools — they're the packaged context bridge that would otherwise be lost between conversations.
+**Tools with stateless sessions** benefit from clean role separation — each role starts fresh with exactly the right context. The trade-off is information loss at handoffs, which the Orchestrator's handoff prompts exist to mitigate.
 
-This is a deliberate design choice. The methodology never relies on an AI role's memory of previous interactions. It relies on written artefacts that any session can read. If your tool offers persistence, you benefit from faster Orchestrator interactions. If it doesn't, the process still works — the journal and STATUS.md are the memory.
+**Most modern tools (2025+) offer persistence within a session and reset between sessions.** The practical approach: use a single session for Architect + Tech Lead (shared context helps), a fresh session for the Developer on complex work (clean context helps), and handle Orchestrator duties inline unless context has gone cold. Adjust based on what you see in the output.
 
 ---
 
 ## How to Use the Entry Points
 
-### The typical workflow
+### In separate sessions (stateless tools or when you want clean isolation)
 
-1. **Open the Orchestrator** when you need orientation — start of day, after a break, at phase handovers.
-2. **Open working roles** based on the Orchestrator's advice (or your own judgement). Architect for planning, Tech Lead for prompts, Developer for execution.
-3. **During implementation,** the Tech Lead and Developer cycle directly — session receipts are the context bridge. No Orchestrator between prompts.
-4. **At phase handovers,** return to the Orchestrator. It logs, updates tracking, and suggests the next move.
+1. **Load the entry point** at session start — it's the role's boot sequence.
+2. **The entry point tells the role what project files to load.** Follow it, but adjust based on the Orchestrator's advice if you have one.
+3. **Session receipts bridge between sessions.** The Developer's receipt feeds the Tech Lead's next prompt.
 
-Working roles open and close as needed. The Orchestrator is there when you need it.
+### As mode switches (persistent tools or when you want continuity)
+
+1. **Paste the entry point as a framing instruction** — "Switch to this role. Here are your responsibilities and boundaries."
+2. **The model carries prior context.** This helps for Architect → Tech Lead transitions (shared understanding). It hurts for anything → Developer transitions (role pollution). Adjust accordingly.
+3. **You can ask the active role to handle Orchestrator duties** — update STATUS.md, log in the journal, check what's next.
 
 ### Choosing a role
 
-| Situation | Role |
-|---|---|
-| "I don't know where we are" | Orchestrator |
-| "What should I do next?" | Orchestrator |
-| "I need to design the next phase" | Architect |
-| "I need prompts for an approved spec" | Tech Lead |
-| "I need to execute a prompt" | Developer |
-| "I just finished with a role session" | Orchestrator |
+| Situation | Role | Session advice |
+|---|---|---|
+| "I don't know where we are" | Orchestrator | Inline or dedicated — depends on how cold the context is |
+| "I need to design the next phase" | Architect | Continue or fresh — your call |
+| "I need prompts for an approved spec" | Tech Lead | Usually same session as Architect |
+| "I need to execute a prompt" | Developer | Fresh session recommended for complex work |
+| "Phase is done, what's next?" | Orchestrator | Inline is usually fine |
 
 ---
 

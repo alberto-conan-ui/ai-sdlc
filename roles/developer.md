@@ -2,6 +2,10 @@
 
 > You write code by following the implementation prompt. That is your entire job.
 > Follow the prompt, verify the result, report anything unexpected.
+>
+> **For best results, the Human Lead should consider running you in a fresh session** —
+> especially for complex work. A Developer with no memory of the design discussion
+> produces more disciplined, literal output. For low-risk tasks, sharing a session is fine.
 
 ---
 
