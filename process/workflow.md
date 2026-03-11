@@ -28,7 +28,7 @@ The active stack tracks what you're working on. Push an action when you start it
 
 ## Inception
 
-Inception happens once per project, when the workspace doesn't exist yet. The Bootstrapper creates the three-folder workspace, the journal skeleton, STATUS.md, CONTEXT.md, and the initial knowledge tree. Once the first action is defined, the project leaves inception and never returns. See [bootstrap/README.md](../bootstrap/README.md).
+Inception happens once per project, when the workspace doesn't exist yet. The Bootstrapper creates the three-folder workspace, the journal skeleton, `action-tree/STATUS.md`, and the initial knowledge tree root at `knowledge-tree/index.spec.md`. Once the first action is defined, the project leaves inception and never returns. See [bootstrap/README.md](../bootstrap/README.md).
 
 ---
 
@@ -91,10 +91,11 @@ When a phase completes, evaluate: does it move toward the action's gatekeep? The
 When all phases are complete and the gatekeep is met:
 
 1. Review KEY_INSIGHTS.md — anything worth keeping migrates to the appropriate knowledge tree nodes
-2. The action subtree moves from `working-tree/` to `archive/`
+2. The action subtree moves from `action-tree/` to `archive/`
 3. STATUS.md updates — action popped from the active stack, status → Achieved
-4. If other actions are on the stack, resume the next one
-5. If the stack is empty, define what's next
+4. Run a Curator session to audit the memory pipeline — this is the baseline cadence for curation
+5. If other actions are on the stack, resume the next one
+6. If the stack is empty, define what's next
 
 Abandoned actions also move to `archive/` with a note in the log. The knowledge tree keeps what was learned; the archive keeps the historical record.
 
@@ -104,11 +105,11 @@ Abandoned actions also move to `archive/` with a note in the log. The knowledge 
 
 Codebases don't stand still. Other developers push changes, dependencies get updated, CI breaks things. The project memory reflects the state of the code at the time it was written, and that state can go stale.
 
-**When starting a new action,** check for recent external changes. The AI can read the git log and compare it against CONTEXT.md.
+**When starting a new action,** check for recent external changes. The AI can read the git log and compare it against `knowledge-tree/index.spec.md`.
 
 **When resuming a paused action,** the same check applies — more urgently the longer the pause.
 
-**When CONTEXT.md goes stale,** the Architect updates it as part of normal work.
+**When `knowledge-tree/index.spec.md` goes stale,** the Architect updates it as part of normal work.
 
 The journal captures what happens within the process. Bridging the gap with what happens outside it is a human responsibility.
 
@@ -116,7 +117,7 @@ The journal captures what happens within the process. Bridging the gap with what
 
 ## Session Persistence Is in the Artefacts, Not the Tool
 
-Regardless of how you manage sessions — one persistent conversation or many separate ones — every piece of state is written down: STATUS.md tracks where you are, the journal tracks what happened, phase specs track the plan, session receipts track what the Developer did. The methodology never relies on an AI role's memory of previous interactions. It relies on written artefacts that any session can read.
+Regardless of how you manage sessions — one persistent conversation or many separate ones — every piece of state is written down: STATUS.md tracks where you are, the journal tracks what happened, phase.md files track the plan, session receipt files (*.receipt.md) track what the Developer did. The methodology never relies on an AI role's memory of previous interactions. It relies on written artefacts that any session can read.
 
 Tools with persistent sessions benefit from continuity — the Architect's discussion informs the Tech Lead's prompts naturally. The trade-off is role bleed. Tools with stateless sessions benefit from clean role separation — each role starts fresh with exactly the right context. The trade-off is information loss at handoffs, which handoff prompts exist to mitigate.
 

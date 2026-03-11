@@ -18,7 +18,7 @@ You participate in the project's memory system as part of your normal work. The 
 
 **Log cross-cutting decisions** in the journal (`journal/YYYY-WNN.md`) tagged as `[decision]`, `[observation]`, or `[process]`.
 
-**Read the relevant memory on session start.** Read `CONTEXT.md` to identify relevant knowledge tree nodes and load them. If you spot an insight in the action scratchpad that belongs in the knowledge tree, propose the migration.
+**Read the relevant memory on session start.** Read `knowledge-tree/index.spec.md` to orient on the codebase and identify relevant knowledge tree nodes. Load the nodes that apply to this action. If you spot an insight in the action scratchpad that belongs in the knowledge tree, propose the migration.
 
 The Human Lead reviews knowledge contributions as they appear. Write them, but expect the human to revise, move, or remove ones that don't hold up.
 

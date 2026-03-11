@@ -1,6 +1,6 @@
 # File Templates & Conventions
 
-> Reference for the project memory structure. Each project gets its own memory repo following these templates.
+> Reference for the project memory structure. When you need to create a file, look here for the template. For detailed documentation of each file type — purpose, ownership, format, and notes — see the [File Type Catalogue](./file-types/).
 
 ---
 
@@ -8,25 +8,24 @@
 
 ```
 my-project-memory/
-├── STATUS.md                      ← Where are we now + active stack (single source of truth)
-├── CONTEXT.md                     ← Lightweight map: repo structure + pointers to knowledge
 ├── journal/                       ← Cross-cutting annotations (weekly rolling files)
 │   ├── 2026-W10.md
 │   ├── 2026-W11.md
 │   └── ...
 │
-├── knowledge-tree/                ← Knowledge tree: long-term memory (mirrors codebase)
-│   ├── index.md                   ← Project-wide patterns, cross-cutting decisions
+├── knowledge-tree/                ← Long-term memory (organised by knowledge boundaries)
+│   ├── index.spec.md              ← Project overview, repo structure, cross-cutting knowledge
 │   ├── auth/
-│   │   ├── index.md               ← Auth subsystem patterns and decisions
-│   │   └── session-handling.md    ← Deep knowledge about sessions
+│   │   ├── index.spec.md          ← Auth subsystem patterns and decisions
+│   │   └── session-handling.spec.md    ← Deep knowledge about sessions
 │   ├── api/
-│   │   ├── index.md
-│   │   └── validation.md
+│   │   ├── index.spec.md
+│   │   └── validation.spec.md
 │   └── tooling/
-│       └── index.md               ← Build, CI, testing infrastructure
+│       └── index.spec.md          ← Build, CI, testing infrastructure
 │
-├── working-tree/                  ← Working tree: short-term memory (active and pending work)
+├── action-tree/                   ← Short-term memory (active and pending work)
+│   ├── STATUS.md                  ← Single source of truth: mode, active stack, roadmap
 │   ├── auth-redesign/
 │   │   ├── gatekeep.md            ← Completion criteria (required at every node)
 │   │   ├── context.md             ← What this is about + links to knowledge tree
@@ -38,10 +37,10 @@ my-project-memory/
 │   │   │   ├── KEY_INSIGHTS.md    ← Working scratchpad → migrates to knowledge tree
 │   │   │   └── phases/
 │   │   │       └── 1-catalogue-endpoints/
-│   │   │           ├── SPEC.md
-│   │   │           └── impl/
-│   │   │               ├── PLAN.md
-│   │   │               └── 01-map-all-routes.md
+│   │   │           ├── phase.md
+│   │   │           ├── prompt-plan.md
+│   │   │           ├── 01-map-all-routes.md
+│   │   │           └── 01-map-all-routes.receipt.md
 │   │   ├── new-token-model/
 │   │   │   ├── gatekeep.md
 │   │   │   └── ...
@@ -53,8 +52,10 @@ my-project-memory/
 │       ├── log.md
 │       └── phases/
 │           └── 1-fix-format/
-│               ├── SPEC.md
-│               └── impl/
+│               ├── phase.md
+│               ├── prompt-plan.md
+│               ├── 01-fix-date-format.md
+│               └── 01-fix-date-format.receipt.md
 │
 └── archive/                       ← Completed or abandoned action subtrees
     └── fix-csv-date-format/
@@ -64,59 +65,175 @@ my-project-memory/
             └── ...
 ```
 
-One structure for all projects. Action nodes are named by the user — no required prefixes or tier labels. Active work lives in `working-tree/`; when an action is completed or abandoned, its subtree moves to `archive/`. The knowledge it produced already lives in the knowledge tree — the archived folder is the append-forward historical record. See [memory.md](./memory.md) for the full memory model that explains how these structures connect.
+For how these pieces connect: [memory.md](./memory.md) defines the full memory model, [action-tree.md](./action-tree.md) covers the action tree structure and gatekeeping, [knowledge-tree.md](./knowledge-tree.md) covers knowledge organisation and growth patterns.
 
 ---
 
-## File Purposes and Update Cadence
+## Templates
 
-### Project-level files
+### knowledge-tree/index.spec.md — Inception skeleton
 
-| File | Purpose | Updated |
-|---|---|---|
-| `STATUS.md` | Single source of truth: mode, active stack, roadmap | Every session |
-| `CONTEXT.md` | Lightweight map: repo structure, key files, pointers into `knowledge-tree/` | When code structure changes |
-| `journal/` | Cross-cutting annotations: project-level decisions, process changes, observations spanning multiple actions | When cross-cutting events occur |
-| `knowledge-tree/` | Knowledge tree (long-term memory): curated insights mirroring codebase — what we've learned about each area | Organically, as insights migrate from completed actions |
+The Bootstrapper creates a minimal root index (a knowledge spec file) from a few questions asked to the user. It does not explore the codebase:
 
-### Action node files
+```markdown
+# <Project Name>
 
-| File | Required | Purpose | Created |
+> Last updated: YYYY-MM-DD
+> This is the root of the knowledge tree. Project-wide knowledge lives here;
+> area-specific knowledge lives in sub-nodes.
+
+## What This Is
+
+<One or two sentences: what the project does.>
+
+## Tech Stack
+
+<A few lines: language, framework, major dependencies.>
+
+## Repo
+
+<URL>
+
+## Repo Structure
+
+<!-- To be filled by the Architect in the first working session. -->
+
+## Sub-areas
+
+<!-- Populated as the knowledge tree grows. -->
+
+| Node | What it covers |
+|---|---|
+| | |
+
+## Insights
+
+<!-- Project-wide cross-cutting insights go here. -->
+```
+
+### knowledge-tree/index.spec.md — Full (populated by Architect)
+
+The Architect deepens the root index during the first working session and updates it as the codebase evolves. It stays lightweight — structure and pointers, not detailed explanations. When the Architect encounters something worth documenting in depth, it goes in a sub-node, and the index maps to it.
+
+```markdown
+# <Project Name>
+
+> Last updated: YYYY-MM-DD
+
+## What This Is
+
+<One or two sentences: what the project does.>
+
+## Tech Stack
+
+<Language, framework, major dependencies.>
+
+## Repo Structure
+
+<Relevant parts of the repo tree, annotated.>
+
+## Key Files
+
+<Table of important files and their purposes.>
+
+## Sub-areas
+
+| Node | What it covers |
+|---|---|
+| [auth/](./auth/index.spec.md) | Auth flow, session handling, OAuth patterns |
+| [api/](./api/index.spec.md) | Validation pipeline, endpoint conventions |
+| [tooling/](./tooling/index.spec.md) | Build system, CI, testing infrastructure |
+
+## Insights
+
+<Project-wide cross-cutting insights — patterns, decisions, and conventions
+that apply regardless of which area you're working in.>
+```
+
+### action-tree/STATUS.md — Inception (new project)
+
+A freshly bootstrapped project has no actions, no stack, and no phases:
+
+```markdown
+# <Project Name> — Status
+
+> Single source of truth. Every role reads this for orientation.
+
+## Current State
+
+| Field | Value |
+|---|---|
+| **Mode** | **INCEPTION** |
+| **Next step** | Invoke the Architect to define the first action |
+
+## Active Stack
+
+*Empty — no active work.*
+
+## Action Tree
+
+*No actions defined yet.*
+
+## Code Repository
+
+**Location:** `{code}/`
+**Branch:** `main`
+```
+
+Once the first action is defined, the Architect updates STATUS.md to Planning mode. Roadmap references should point to the new flat phase structure with `phase.md` files instead of nested `SPEC.md`.
+
+### action-tree/STATUS.md — Active project
+
+```markdown
+# <Project Name> — Status
+
+> Single source of truth. Every role reads this for orientation.
+
+## Current State
+
+| Field | Value |
+|---|---|
+| **Mode** | **PLANNING** / **IMPLEMENTATION** |
+| **Active phase** | Phase N — <name> (Implementation mode only) |
+| **Active prompt** | Prompt NN (Implementation mode only) |
+| **Next step** | <what to do next> |
+
+## Active Stack
+
+| # | Action | Status | Detail |
 |---|---|---|---|
-| `gatekeep.md` | **Yes** | Completion criteria for this node | When creating the action |
-| `context.md` | No | What this action is about + links to relevant knowledge tree nodes | When the action touches multiple codebase areas |
-| `index.md` | No | Maps child actions — what each covers, how they relate | When a node gets children (becomes a branch) |
-| `log.md` | No | Session-by-session record of what happened | When work begins on this action |
-| `KEY_INSIGHTS.md` | No | Working scratchpad: insights that will migrate to knowledge tree on completion | As insights emerge during work |
-| `phases/` | No | Implementation structure (SPEC.md, impl/) | When the action has implementable work |
+| → | auth-redesign/new-token-model | Implementing phase 2 | [context](./auth-redesign/new-token-model/context.md) |
+| | auth-redesign | Children in progress | [context](./auth-redesign/context.md) |
 
-### Phase-level files
+*→ marks the current top of stack.*
 
-| File | Purpose | Created |
-|---|---|---|
-| `SPEC.md` | Phase plan: steps, test cases, done criteria | Before phase begins |
-| `impl/PLAN.md` | Prompt plan: sequence of bounded goals with dependencies | After spec is approved |
-| `impl/NN-*.md` | Numbered implementation prompts for the Developer | Just in time, per the prompt plan |
+## Action Tree
 
----
+| Action | Gatekeep | Status | Detail |
+|---|---|---|---|
+| auth-redesign | All sub-actions complete + integration clean | Active | [gatekeep](./auth-redesign/gatekeep.md) |
+| ∟ audit-endpoints | All endpoints catalogued with auth patterns | Achieved | [archive](../archive/audit-endpoints/) |
+| ∟ new-token-model | Token refresh works, all tests pass | Active | [gatekeep](./auth-redesign/new-token-model/gatekeep.md) |
+| ∟ migrate-sessions | Existing sessions migrated without downtime | Pending | [gatekeep](./auth-redesign/migrate-sessions/gatekeep.md) |
+| fix-csv-date-format | CSV dates match ISO 8601 | Achieved | [archive](../archive/fix-csv-date-format/) |
 
-## The Journal
+## Roadmap — <Active Action Name>
 
-The journal is a folder of weekly rolling files. It captures cross-cutting annotations — things that don't belong to a specific action node. It also serves as the Curator's primary audit trail for verifying the memory pipeline. See [memory.md](./memory.md) for the journal's role in the memory model.
+| Phase | Name | One-liner | Detail | Status |
+|---|---|---|---|---|
+| 1 | Token schema | Define the new token structure | [phase.md](...) | ✅ Complete |
+| 2 | Refresh flow | Implement token refresh endpoint | [phase.md](...) | 🔨 Implementing |
+| 3 | Client integration | Update client SDK | | ❌ Not planned yet |
 
-### Journal file naming
+## Code Repository
 
-Files are named by ISO week: `YYYY-WNN.md` (e.g., `2026-W10.md`). A new file is created at the start of each week. Old files are never modified — they are the historical record.
+**Location:** `{code}/`
+**Branch:** `<branch>`
+```
 
-### Journal entry types
+### Journal — Weekly file
 
-Every entry is tagged with one of three types:
-
-- `[decision]` — a non-trivial project-level decision with context and reasoning
-- `[observation]` — something noticed that spans multiple actions or affects the project broadly
-- `[process]` — a change to how the team works, tooling updates, methodology adjustments
-
-### Weekly journal file template
+Files are named by ISO week: `YYYY-WNN.md` (e.g., `2026-W10.md`). Entries are tagged `[decision]`, `[observation]`, or `[process]`. See [memory.md](./memory.md) for the journal's role in the memory model.
 
 ```markdown
 # Journal — Week of YYYY-MM-DD
@@ -148,13 +265,7 @@ Every entry is tagged with one of three types:
 **Reason:** <Why the change was made.>
 ```
 
----
-
-## The Action Log
-
-Each action node can have a `log.md` that captures the session-by-session history of work on that action. Logs live at the nodes where work happens. See [memory.md](./memory.md) for how action logs fit into the memory pipeline.
-
-### Action log template
+### Action log (log.md)
 
 ```markdown
 # Log — <Action Name>
@@ -177,157 +288,6 @@ Each action node can have a `log.md` that captures the session-by-session histor
 
 ...
 ```
-
----
-
-## Knowledge Tree
-
-The `knowledge-tree/` folder is the project's long-term memory. See [knowledge-tree.md](./knowledge-tree.md) for the full structural guide — how to organise nodes, growth patterns, monorepo layouts, and file formats. See [memory.md](./memory.md) for how it fits into the broader memory model.
-
----
-
-## Templates
-
-### STATUS.md — Inception (new project)
-
-A freshly bootstrapped project has no actions, no stack, and no phases. The Bootstrapper creates STATUS.md using this template:
-
-```markdown
-# <Project Name> — Status
-
-> Single source of truth. Every role reads this for orientation.
-
-## Current State
-
-| Field | Value |
-|---|---|
-| **Mode** | **INCEPTION** |
-| **Next step** | Invoke the Architect to define the first action |
-
-## Active Stack
-
-*Empty — no active work.*
-
-## Working Tree
-
-*No actions defined yet.*
-
-## Code Repository
-
-**Location:** `{code}/`
-**Branch:** `main`
-```
-
-Once the first action is defined, the Architect updates STATUS.md to Planning mode using the full template below.
-
-### STATUS.md — Active project
-
-```markdown
-# <Project Name> — Status
-
-> Single source of truth. Every role reads this for orientation.
-
-## Current State
-
-| Field | Value |
-|---|---|
-| **Mode** | **PLANNING** / **IMPLEMENTATION** |
-| **Active phase** | Phase N — <name> (Implementation mode only) |
-| **Active prompt** | Prompt NN (Implementation mode only) |
-| **Next step** | <what to do next> |
-
-## Active Stack
-
-| # | Action | Status | Detail |
-|---|---|---|---|
-| → | auth-redesign/new-token-model | Implementing phase 2 | [context](./working-tree/auth-redesign/new-token-model/context.md) |
-| | auth-redesign | Children in progress | [context](./working-tree/auth-redesign/context.md) |
-
-*→ marks the current top of stack.*
-
-## Working Tree
-
-| Action | Gatekeep | Status | Detail |
-|---|---|---|---|
-| auth-redesign | All sub-actions complete + integration clean | Active | [gatekeep](./working-tree/auth-redesign/gatekeep.md) |
-| ∟ audit-endpoints | All endpoints catalogued with auth patterns | Achieved | [archive](./archive/audit-endpoints/) |
-| ∟ new-token-model | Token refresh works, all tests pass | Active | [gatekeep](./working-tree/auth-redesign/new-token-model/gatekeep.md) |
-| ∟ migrate-sessions | Existing sessions migrated without downtime | Pending | [gatekeep](./working-tree/auth-redesign/migrate-sessions/gatekeep.md) |
-| fix-csv-date-format | CSV dates match ISO 8601 | Achieved | [archive](./archive/fix-csv-date-format/) |
-
-## Roadmap — <Active Action Name>
-
-| Phase | Name | One-liner | Detail | Status |
-|---|---|---|---|---|
-| 1 | Token schema | Define the new token structure | [SPEC.md](...) | ✅ Complete |
-| 2 | Refresh flow | Implement token refresh endpoint | [SPEC.md](...) | 🔨 Implementing |
-| 3 | Client integration | Update client SDK | | ❌ Not planned yet |
-
-## Code Repository
-
-**Location:** `{code}/`
-**Branch:** `<branch>`
-```
-
-### CONTEXT.md — Inception skeleton
-
-During setup, the Bootstrapper creates a minimal CONTEXT.md from a few questions asked to the user. It does not explore the codebase:
-
-```markdown
-# Codebase Reference — <Project Name>
-
-> Last updated: YYYY-MM-DD
-> This file is a lightweight map. Deep knowledge lives in knowledge-tree/.
-
-## What This Is
-
-<One or two sentences: what the project does.>
-
-## Tech Stack
-
-<A few lines: language, framework, major dependencies.>
-
-## Repo
-
-<URL>
-
-## Structure
-
-<!-- To be filled by the Architect in the first working session. -->
-
-## Knowledge Map
-
-<!-- Populated as the knowledge tree grows. Points to knowledge-tree/ nodes. -->
-```
-
-### CONTEXT.md — Full (populated by Architect)
-
-The Architect deepens CONTEXT.md during the first working session and updates it as the codebase evolves. CONTEXT.md is a map, not an encyclopedia — it describes the repo structure and points into the knowledge tree for deeper understanding.
-
-```markdown
-# Codebase Reference — <Project Name>
-
-> Last updated: YYYY-MM-DD
-> This file is a lightweight map. Deep knowledge lives in knowledge-tree/.
-
-## Repo Structure
-
-<Relevant parts of the repo tree, annotated.>
-
-## Key Files
-
-<Table of important files and their purposes.>
-
-## Knowledge Map
-
-| Area | Knowledge node | What it covers |
-|---|---|---|
-| Authentication | [knowledge-tree/auth/](../knowledge-tree/auth/index.md) | Auth flow, session handling, OAuth patterns |
-| API layer | [knowledge-tree/api/](../knowledge-tree/api/index.md) | Validation pipeline, endpoint conventions |
-| Tooling | [knowledge-tree/tooling/](../knowledge-tree/tooling/index.md) | Build system, CI, testing infrastructure |
-```
-
-**Guidance on depth:** CONTEXT.md stays lightweight — structure and pointers, not detailed explanations. When the Architect encounters something worth documenting in depth, it goes in the knowledge tree at the right node, and CONTEXT.md gets a pointer. For monorepos or large codebases, focus initially on the top-level structure and the knowledge map. Detail lives in the tree.
 
 ### gatekeep.md
 
@@ -367,7 +327,7 @@ to understand the work without reading everything else.>
 
 | Area | Node | Why it matters here |
 |---|---|---|
-| <area> | [knowledge-tree/<path>](../../knowledge-tree/<path>/index.md) | <how this knowledge applies> |
+| <area> | [knowledge-tree/<path>](../../knowledge-tree/<path>/index.spec.md) | <how this knowledge applies> |
 
 ## Scope
 
@@ -387,7 +347,9 @@ to understand the work without reading everything else.>
 | <name> | <one-line gatekeep> | Active / Achieved / Pending |
 ```
 
-### Phase SPEC.md
+### phase.md
+
+The phase design document sits flat in the phase folder (not in a subfolder).
 
 ```markdown
 # Phase N — <Name>
@@ -422,12 +384,12 @@ Action evaluation:
 - [ ] Human Lead confirms this phase moves toward the action's gatekeep
 ```
 
-### Prompt Plan
+### prompt-plan.md
 
-The Tech Lead produces a prompt plan before writing the first detailed prompt. See [prompts.md](./prompts.md) for the full just-in-time prompting model. For simple actions with 1–2 prompts, the plan is optional — the prompts themselves are sufficient.
+The prompt plan sits flat in the phase folder alongside phase.md. The Tech Lead produces it before writing the first detailed prompt. See [prompts.md](./prompts.md) for the full just-in-time prompting model. For simple actions with 1–2 prompts, the plan is optional.
 
 ```markdown
-## Prompt Plan — Phase N
+# Prompt Plan — Phase N
 
 | # | Goal | Dependencies | Risk |
 |---|---|---|---|
@@ -436,9 +398,9 @@ The Tech Lead produces a prompt plan before writing the first detailed prompt. S
 | 03 | <bounded goal> | 02 complete | <risk> |
 ```
 
-### Implementation Prompt
+### NN-description.md (Implementation Prompt)
 
-See [prompts.md](./prompts.md) for the full guide on writing effective prompts.
+Implementation prompts sit flat in the phase folder with no `impl/` subfolder prefix. See [prompts.md](./prompts.md) for the full guide on writing effective prompts.
 
 ```markdown
 # Prompt NN — <Short Description>
@@ -471,10 +433,13 @@ See [prompts.md](./prompts.md) for the full guide on writing effective prompts.
 - [ ] <criterion>
 ```
 
-### Session Receipt (produced by Developer after each prompt)
+### NN-description.receipt.md (Session Receipt)
+
+Session receipts are formal files paired with each implementation prompt by name. They sit flat in the phase folder alongside the prompts.
 
 ```markdown
-## Session Receipt
+# Session Receipt — NN-description
+
 - **Role:** Developer
 - **Prompt:** NN — <Short Description>
 - **Status:** Complete / Partial / Blocked
@@ -496,9 +461,7 @@ See [prompts.md](./prompts.md) for the full guide on writing effective prompts.
 - Implementation prompts: `NN-kebab-case-description.md` (e.g., `01-test-infrastructure.md`)
 - Journal files: `YYYY-WNN.md` (e.g., `2026-W10.md`)
 
-### Status indicators
-
-Use in STATUS.md roadmap tables:
+### Phase status indicators
 
 - `✅ Complete` — done and verified
 - `🔨 Implementing` — prompts being executed
@@ -507,8 +470,6 @@ Use in STATUS.md roadmap tables:
 - `⏸️ Paused` — work stopped, reason logged
 
 ### Action status indicators
-
-Use in STATUS.md working tree table:
 
 - `Active` — currently being worked on (on the active stack)
 - `Achieved` — gatekeep met, work complete

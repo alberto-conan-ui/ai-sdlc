@@ -26,7 +26,7 @@ You think broadly: trade-offs, dependencies, patterns, long-term consequences. Y
 **Always load:**
 
 - `STATUS.md` — current mode, active stack, active phase
-- `CONTEXT.md` — codebase reference, repo structure, key files, patterns
+- `knowledge-tree/index.spec.md` — project overview, repo structure, key files, pointers to sub-area knowledge
 - The active action's `gatekeep.md` — what "done" means
 - The active action's `context.md` — what the action is about + links to relevant knowledge tree nodes
 - The active action's `KEY_INSIGHTS.md` — working scratchpad for this action
@@ -52,9 +52,9 @@ You think broadly: trade-offs, dependencies, patterns, long-term consequences. Y
 
 ### First session after Inception
 
-The Bootstrapper has already set up the workspace and left a CONTEXT.md skeleton (project name, stack, repo URL). Your first job is:
+The Bootstrapper has already set up the workspace and left a `knowledge-tree/index.spec.md` skeleton (project name, stack, repo URL). Your first job is:
 
-- Deepen `CONTEXT.md` — explore the codebase and fill in repo structure, key files, and existing patterns.
+- Deepen `knowledge-tree/index.spec.md` — explore the codebase and fill in repo structure, key files, and existing patterns.
 - Help the Human Lead define the first action. Push back on vague outcomes, ask probing questions, write `gatekeep.md` and `context.md` together. Help shape the scope — whether it's a simple leaf action or needs decomposition into children.
 - Update STATUS.md from INCEPTION to PLANNING once the first action is defined.
 
@@ -73,7 +73,7 @@ The conversation naturally flows from defining the action to designing the roadm
 
 - Read the codebase deeply — relevant source files, tests, configuration, existing patterns.
 - Write the roadmap in `STATUS.md` — phases with status, each referencing the active action.
-- Write phase specs. Each spec is self-contained — a new reader should understand it without reading other files. A spec includes: problem/goal (what this phase achieves, referencing the action it serves), numbered concrete steps (file paths, code references, specific changes), test cases with specific inputs and expected outputs, and done criteria covering both technical completion (tests pass, type-checker clean) and action evaluation (Human Lead confirms progress toward the gatekeep).
+- Write phase.md files. Each spec is self-contained — a new reader should understand it without reading other files. A spec includes: problem/goal (what this phase achieves, referencing the action it serves), numbered concrete steps (file paths, code references, specific changes), test cases with specific inputs and expected outputs, and done criteria covering both technical completion (tests pass, type-checker clean) and action evaluation (Human Lead confirms progress toward the gatekeep).
 - Specs must reference specific file paths, show code snippets of current behaviour, and include test case tables. Vague plans produce vague code.
 
 **For simple leaf actions:** the spec can be lightweight — a few paragraphs covering the problem, the fix approach, and verification steps. Sharing a session with the Tech Lead is the default for simple work — and often works well for moderately complex actions too, since the Tech Lead benefits from having been part of the design conversation.

@@ -88,7 +88,7 @@ Helps the Human Lead see the big picture and decide what to do next. The Navigat
 
 Audits the memory pipeline. In dedicated sessions, the Curator reads the full journal, action logs, and KEY_INSIGHTS.md files, then proposes editorial actions — promote, demote, retire, rewrite, or add insights in the knowledge tree. The journal is the Curator's primary audit trail.
 
-**When you reach for it:** Periodically — after completing a major action, after a week of active work, or when you suspect the knowledge tree has drifted from reality. Not as part of regular work.
+**When you reach for it:** At minimum, every time an action is archived — this is the baseline cadence. Also after a week of active work across multiple actions, or when you suspect the knowledge tree has drifted from reality. Not as part of regular work.
 
 **Entry point:** [`roles/curator.md`](../roles/curator.md)
 
@@ -96,7 +96,7 @@ Audits the memory pipeline. In dedicated sessions, the Curator reads the full jo
 
 ## One-Time — Bootstrapper
 
-The Bootstrapper sets up a new project workspace — creating the three-folder structure, the journal skeleton, STATUS.md, CONTEXT.md, and the initial knowledge tree. It runs once during project inception and is never used again.
+The Bootstrapper sets up a new project workspace — creating the three-folder structure, the journal skeleton, `action-tree/STATUS.md`, and the initial knowledge tree root at `knowledge-tree/index.spec.md`. It runs once during project inception and is never used again.
 
 **Entry point:** [`roles/bootstrapper.md`](../roles/bootstrapper.md)
 

@@ -33,9 +33,9 @@ The only file that genuinely mutates is STATUS.md, and even that is just pointer
 
 ## The Memory Model
 
-The methodology maintains persistent memory through two complementary trees — the **working tree** (short-term memory) and the **knowledge tree** (long-term memory) — with a **journal** that bridges them and serves as the audit trail.
+The methodology maintains persistent memory through two complementary trees — the **action tree** (short-term memory) and the **knowledge tree** (long-term memory) — with a **journal** that bridges them and serves as the audit trail.
 
-The working tree (`working-tree/`) holds the work in progress: session logs, working insights, and links to relevant knowledge. The knowledge tree (`knowledge-tree/`) holds curated, durable insights organised by codebase area. The journal (`journal/`) captures cross-cutting decisions and observations — it's both the bridge between the two trees and the Curator's primary audit input for verifying the memory pipeline works correctly.
+The action tree (`action-tree/`) holds the work in progress: session logs, working insights, and links to relevant knowledge. The knowledge tree (`knowledge-tree/`) holds curated, durable insights organised by codebase area. The journal (`journal/`) captures cross-cutting decisions and observations — it's both the bridge between the two trees and the Curator's primary audit input for verifying the memory pipeline works correctly.
 
 Work produces logs and insights → insights migrate to the knowledge tree on action completion → the Curator audits using the journal to verify nothing was lost or misplaced.
 

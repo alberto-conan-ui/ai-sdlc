@@ -13,13 +13,12 @@ Every project uses a workspace parent folder containing three siblings:
 my-project-workspace/              ← AI tool points here
 ├── my-project/                    ← Code repo (git clone)
 ├── my-project-memory/             ← Project memory (its own git repo)
-│   ├── STATUS.md
-│   ├── CONTEXT.md
 │   ├── journal/
 │   │   └── YYYY-WNN.md
 │   ├── knowledge-tree/
 │   │   └── index.md
-│   ├── working-tree/                   ← Working tree: active and pending work
+│   ├── action-tree/                    ← Action tree: active and pending work
+│   │   ├── STATUS.md
 │   │   └── refactor-validation/
 │   └── archive/                   ← Completed or abandoned action subtrees
 │       ├── fix-login-bug/
@@ -68,7 +67,7 @@ Use the `workspace.yaml` shorthand in all documents and prompts:
 
 ```
 {code}/src/services/auth.ts
-{memory}/working-tree/refactor-validation/phases/1-baseline-tests/SPEC.md
+{memory}/action-tree/refactor-validation/phases/1-baseline-tests/phase.md
 {methodology}/roles/architect.md
 ```
 
@@ -94,20 +93,19 @@ my-project-workspace/
 └── my-project/        ← code repo (clone)
 ```
 
-**Fully bootstrapped (INCEPTION)** — The memory folder, workspace.yaml, and skeleton files are in place. STATUS.md shows INCEPTION mode. The workspace is ready for real work — the next step is to invoke the Architect to define the first action.
+**Fully bootstrapped (INCEPTION)** — The memory folder, workspace.yaml, and skeleton files are in place. `action-tree/STATUS.md` shows INCEPTION mode. The workspace is ready for real work — the next step is to invoke the Architect to define the first action.
 
 ```
 my-project-workspace/
 ├── ai-sdlc/
 ├── my-project/
 ├── my-project-memory/  ← memory (its own git repo)
-│   ├── STATUS.md
-│   ├── CONTEXT.md
 │   ├── journal/
 │   │   └── YYYY-WNN.md
 │   ├── knowledge-tree/
 │   │   └── index.md
-│   ├── working-tree/
+│   ├── action-tree/
+│   │   └── STATUS.md
 │   └── archive/
 └── workspace.yaml       ← folder mapping
 ```

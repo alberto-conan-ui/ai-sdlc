@@ -10,22 +10,17 @@ This document is the single reference for how memory works. Every role participa
 
 The project memory holds two trees. They serve different purposes and follow different rules, but they feed each other continuously.
 
-### The Working Tree — Short-Term Memory
+### The Action Tree — Short-Term Memory
 
-The working tree (`working-tree/`) holds the work in progress. It is the project's short-term memory — what's happening *right now*. Each action node carries files that capture the live state of the work:
+The action tree (`action-tree/`) holds the work in progress. It is the project's short-term memory — what's happening *right now*. Each action node carries files that capture the live state of the work: `log.md` (session history), `KEY_INSIGHTS.md` (working scratchpad for insights), `context.md` (links to relevant knowledge), and `gatekeep.md` (completion criteria). The action tree is temporary by design — when an action completes, its insights migrate to the knowledge tree and the action subtree moves to `archive/`.
 
-- **`log.md`** — the session-by-session record. What was accomplished, what was decided, what's pending. This tells the next session where the previous one left off.
-- **`KEY_INSIGHTS.md`** — a working scratchpad for insights that emerge during the work. Patterns discovered, pitfalls encountered, decisions that might matter beyond this action. This is temporary — when the action completes, anything worth keeping migrates to the knowledge tree.
-- **`context.md`** — what this action is about and which knowledge tree nodes are relevant. This is the bridge between "what I'm doing" and "what I know."
-- **`gatekeep.md`** — the completion criteria. Every node has one. See [working-tree.md](./working-tree.md).
-
-The working tree is temporary by design. When an action completes, its insights migrate to the knowledge tree, and the action subtree moves to `archive/`. The working tree serves the current work and then gets out of the way.
+See [action-tree.md](./action-tree.md) for the full tree structure, node files, gatekeeping model, and the active stack.
 
 ### The Knowledge Tree — Long-Term Memory
 
-The knowledge tree (`knowledge-tree/`) is a folder hierarchy that mirrors your codebase. Each node holds curated insights about that area of the code — patterns to follow, pitfalls to avoid, architectural decisions that constrain future work.
+The knowledge tree (`knowledge-tree/`) is a folder hierarchy organised by the boundaries where different knowledge applies — typically mirroring your codebase, but also accommodating cross-cutting concerns. Each node holds curated insights as knowledge specs (`.spec.md` files) — patterns to follow, pitfalls to avoid, architectural decisions that constrain future work.
 
-Unlike the working tree, the knowledge tree is permanent and living. Insights get added, refined, moved to a different node, or retired when they're no longer relevant. The tree grows organically as work takes you into different areas of the codebase — you don't scaffold it upfront.
+Unlike the action tree, the knowledge tree is permanent and living. Insights get added, refined, moved to a different node, or retired when they're no longer relevant. The tree grows organically as work takes you into different areas of the codebase — you don't scaffold it upfront.
 
 See [knowledge-tree.md](./knowledge-tree.md) for the full structural guide — how to organise nodes, growth patterns, monorepo layouts, and what belongs at each level.
 
@@ -57,7 +52,7 @@ The two trees and the journal form a pipeline. Work produces raw material; the p
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                     WORKING TREE                        │
+│                     ACTION TREE                         │
 │                                                         │
 │  Sessions produce:                                      │
 │    • log.md entries (what happened)                     │
@@ -165,13 +160,13 @@ Memory maintenance is not a separate activity — it's woven into every role's n
 
 - Specific to this action's work → **`KEY_INSIGHTS.md`** at the action node
 - About a specific area of the codebase → **knowledge tree** node matching that area
-- Cross-cutting, project-wide → **knowledge tree** root `knowledge-tree/index.md`
+- Cross-cutting, project-wide → **knowledge tree** root `knowledge-tree/index.spec.md`
 
 If you're unsure about placement, propose it and let the Human Lead confirm or redirect.
 
 **Log cross-cutting decisions.** Things that affect the project beyond the current action go in the journal (`journal/YYYY-WNN.md`) tagged as `[decision]`, `[observation]`, or `[process]`.
 
-**Read the relevant memory on session start.** Read `CONTEXT.md` to identify relevant knowledge tree nodes and load them. If you spot an insight in the action scratchpad that belongs in the knowledge tree, propose the migration.
+**Read the relevant memory on session start.** Read `knowledge-tree/index.spec.md` to orient on the codebase and identify relevant knowledge tree nodes. Load the nodes that apply to this action. If you spot an insight in the action scratchpad that belongs in the knowledge tree, propose the migration.
 
 ### The Developer exception
 
@@ -185,8 +180,6 @@ See [curator.md](../roles/curator.md) for the full audit process.
 
 ---
 
-## CONTEXT.md — The Map
+## Project-Level Map
 
-`CONTEXT.md` sits alongside the two trees. It's a lightweight file that describes the repo structure and points into the knowledge tree. It tells the AI "here's the shape of the codebase, and here's where to find deeper knowledge about each area."
-
-CONTEXT.md is not the knowledge — it's the map to the knowledge. When the codebase structure changes, the Architect updates CONTEXT.md. When the Curator notices drift between CONTEXT.md and reality, they flag it for the Architect.
+`knowledge-tree/index.spec.md` serves as the project-level map alongside the two trees. It's a lightweight file that describes repo structure and points into knowledge tree nodes for deeper insight by area. It tells the AI "here's the shape of the codebase, and here's where to find deeper knowledge about each area." When the codebase structure changes, the Architect updates `knowledge-tree/index.spec.md`. When the Curator notices drift, they flag it for the Architect.

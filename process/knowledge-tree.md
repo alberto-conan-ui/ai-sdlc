@@ -1,33 +1,33 @@
 # The Knowledge Tree
 
-The knowledge tree (`knowledge-tree/`) is the project's long-term memory. It's a folder hierarchy that mirrors your codebase, where each node holds curated, actionable insights about that area of the code — patterns to follow, pitfalls to avoid, architectural decisions that constrain future work.
+The knowledge tree (`knowledge-tree/`) is the project's long-term memory. It's a folder hierarchy where each node holds curated, actionable insights about an area of your project — patterns to follow, pitfalls to avoid, architectural decisions that constrain future work. The tree typically mirrors your codebase structure, but the organising principle is **the boundaries where different knowledge applies**, not the file system itself. Cross-cutting concerns (testing strategy, deployment patterns, error handling philosophy) get their own nodes even when they don't map to a single folder in the code.
 
 The knowledge tree is what makes session 10 cheaper than session 1. When the AI loads the relevant nodes for the area it's about to work in, it starts with everything previous sessions have learned — without re-reading the codebase, re-discovering the constraints, or re-learning the patterns.
 
-For how the knowledge tree fits into the broader memory model — including how insights flow from the working tree, how the journal bridges the two, and the Curator's audit process — see [memory.md](./memory.md).
+For how the knowledge tree fits into the broader memory model — including how insights flow from the action tree, how the journal bridges the two, and the Curator's audit process — see [memory.md](./memory.md).
 
 ---
 
 ## Structure
 
-The tree mirrors your codebase. Each node is a folder with an `index.md` that maps what's there. Leaf files hold deep knowledge about a specific concern. The structure tells the AI where to look — loading `knowledge-tree/api/index.md` is enough to orient it on API patterns without loading the entire tree.
+The tree typically follows your codebase's meaningful boundaries — but it's organised by where different knowledge applies, not by file paths. Each node is a folder with an `index.spec.md` that maps what's there. Leaf files hold deep knowledge about a specific concern and use the `.spec.md` extension to mark them as knowledge specs. The structure tells the AI where to look — loading `knowledge-tree/api/index.spec.md` is enough to orient it on API patterns without loading the entire tree.
 
 ```
 knowledge-tree/
-├── index.md                ← project-wide: cross-cutting patterns, architectural decisions
+├── index.spec.md                ← project-wide: cross-cutting patterns, architectural decisions
 ├── auth/
-│   ├── index.md            ← how auth works, key patterns, session model
-│   └── session-handling.md ← deep knowledge about session lifecycle
+│   ├── index.spec.md            ← how auth works, key patterns, session model
+│   └── session-handling.spec.md ← deep knowledge about session lifecycle
 ├── api/
-│   ├── index.md            ← API design patterns, endpoint conventions
-│   └── validation.md       ← validation pipeline specifics
+│   ├── index.spec.md            ← API design patterns, endpoint conventions
+│   └── validation.spec.md       ← validation pipeline specifics
 └── tooling/
-    └── index.md            ← build system, CI, testing infrastructure
+    └── index.spec.md            ← build system, CI, testing infrastructure
 ```
 
-### The index.md at each level
+### The index.spec.md at each level
 
-Every node has an `index.md`. It serves two purposes: orienting the reader on what this area covers, and mapping the sub-areas so the AI knows whether to go deeper.
+Every node has an `index.spec.md` (a knowledge spec file). It serves two purposes: orienting the reader on what this area covers, and mapping the sub-areas so the AI knows whether to go deeper.
 
 ```markdown
 # <Area>
@@ -43,8 +43,8 @@ who hasn't worked here before.>
 
 | Node | What it covers |
 |---|---|
-| [<child>/](./child/index.md) | <one-line description> |
-| [<specific>.md](./specific.md) | <one-line description> |
+| [<child>/](./child/index.spec.md) | <one-line description> |
+| [<specific>.spec.md](./specific.spec.md) | <one-line description> |
 
 ## Insights
 
@@ -52,11 +52,13 @@ who hasn't worked here before.>
 for a sub-area file, but important for anyone working here.>
 ```
 
-The root `knowledge-tree/index.md` is the project-wide level: cross-cutting patterns, architectural decisions, conventions that apply everywhere.
+The root `knowledge-tree/index.spec.md` is the project-wide level: cross-cutting patterns, architectural decisions, conventions that apply everywhere.
 
 ### Leaf files
 
-When a specific concern accumulates enough knowledge to warrant its own file, it gets one. `auth/session-handling.md` exists because sessions are complex enough that their knowledge doesn't fit neatly in `auth/index.md`. The threshold is judgement — if the index is getting long or mixing concerns, split.
+When a specific concern accumulates enough knowledge to warrant its own file, it gets one. `auth/session-handling.spec.md` exists because sessions are complex enough that their knowledge doesn't fit neatly in `auth/index.spec.md`. The threshold is judgement — if the index is getting long or mixing concerns, split.
+
+For detailed documentation of each knowledge tree file type, see the [File Type Catalogue](./file-types/) — specifically [knowledge-index](./file-types/knowledge-index.md) and [knowledge-spec](./file-types/knowledge-spec.md).
 
 ---
 
@@ -64,13 +66,13 @@ When a specific concern accumulates enough knowledge to warrant its own file, it
 
 The tree grows organically. You don't scaffold a deep hierarchy upfront — you start with what you know and let the structure emerge from the work.
 
-**A new project starts almost empty.** The Bootstrapper creates `knowledge-tree/index.md` and nothing else. The tree is a blank slate.
+**A new project starts almost empty.** The Bootstrapper creates `knowledge-tree/index.spec.md` and nothing else. The tree is a blank slate.
 
 **Nodes appear as work touches new areas.** When the Architect works on authentication for the first time, `knowledge-tree/auth/` gets created. When a second action touches auth and produces different insights, the node grows. The structure follows the work, not a predetermined taxonomy.
 
-**Depth follows complexity.** An area that's been worked on once might have just an `index.md` with two insights. An area that's been worked on across ten actions might have an index, three sub-area files, and a dozen curated insights. Both are correct — the tree reflects what the project has learned, not what it might learn.
+**Depth follows complexity.** An area that's been worked on once might have just an `index.spec.md` with two insights. An area that's been worked on across ten actions might have an index, three sub-area files, and a dozen curated insights. Both are correct — the tree reflects what the project has learned, not what it might learn.
 
-**Splitting is a sign of health.** When `api/index.md` grows to the point where validation patterns and error handling patterns are interleaved and hard to scan, split them into `api/validation.md` and `api/error-handling.md`. The index becomes a map; the detail moves to dedicated files.
+**Splitting is a sign of health.** When `api/index.spec.md` grows to the point where validation patterns and error handling patterns are interleaved and hard to scan, split them into `api/validation.spec.md` and `api/error-handling.spec.md`. The index becomes a map; the detail moves to dedicated files.
 
 ---
 
@@ -82,41 +84,41 @@ For larger codebases, the knowledge tree mirrors the structural boundaries that 
 
 ```
 knowledge-tree/
-├── index.md                    ← cross-cutting patterns, shared conventions
+├── index.spec.md                    ← cross-cutting patterns, shared conventions
 ├── packages/
-│   ├── index.md                ← how packages relate, shared infrastructure
+│   ├── index.spec.md                ← how packages relate, shared infrastructure
 │   ├── core/
-│   │   ├── index.md            ← core library patterns
-│   │   └── state-management.md
+│   │   ├── index.spec.md            ← core library patterns
+│   │   └── state-management.spec.md
 │   ├── ui/
-│   │   ├── index.md            ← component patterns, styling conventions
-│   │   └── accessibility.md
+│   │   ├── index.spec.md            ← component patterns, styling conventions
+│   │   └── accessibility.spec.md
 │   └── api-client/
-│       └── index.md            ← API client patterns, caching, error handling
+│       └── index.spec.md            ← API client patterns, caching, error handling
 ├── infrastructure/
-│   └── index.md                ← CI/CD, deployment, environment config
+│   └── index.spec.md                ← CI/CD, deployment, environment config
 └── testing/
-    └── index.md                ← test patterns, fixtures, shared utilities
+    └── index.spec.md                ← test patterns, fixtures, shared utilities
 ```
 
 ### Service-oriented architecture
 
 ```
 knowledge-tree/
-├── index.md                    ← cross-service patterns, communication contracts
+├── index.spec.md                    ← cross-service patterns, communication contracts
 ├── services/
-│   ├── index.md                ← service boundaries, shared patterns
+│   ├── index.spec.md                ← service boundaries, shared patterns
 │   ├── auth-service/
-│   │   └── index.md
+│   │   └── index.spec.md
 │   ├── billing-service/
-│   │   └── index.md
+│   │   └── index.spec.md
 │   └── notification-service/
-│       └── index.md
+│       └── index.spec.md
 ├── shared/
-│   ├── index.md                ← shared libraries, common utilities
-│   └── event-schema.md         ← event contracts between services
+│   ├── index.spec.md                ← shared libraries, common utilities
+│   └── event-schema.spec.md         ← event contracts between services
 └── infrastructure/
-    └── index.md                ← deployment, orchestration, observability
+    └── index.spec.md                ← deployment, orchestration, observability
 ```
 
 ### What to mirror and what to flatten
@@ -163,11 +165,11 @@ Good: "The validation API silently swallows errors when passed an empty array �
 
 Not every insight belongs in the knowledge tree, and not every knowledge tree insight belongs at the same level.
 
-**Project-wide** (`knowledge-tree/index.md`) — patterns and decisions that apply everywhere. Naming conventions, error handling philosophy, testing strategy, architectural constraints. If it matters regardless of which area you're working in, it's project-wide.
+**Project-wide** (`knowledge-tree/index.spec.md`) — patterns and decisions that apply everywhere. Naming conventions, error handling philosophy, testing strategy, architectural constraints. If it matters regardless of which area you're working in, it's project-wide.
 
-**Area-level** (`knowledge-tree/<area>/index.md`) — patterns specific to that area. How auth tokens are structured, what the API validation pipeline expects, how the build system resolves dependencies. If it matters when working in this area but not elsewhere, it's area-level.
+**Area-level** (`knowledge-tree/<area>/index.spec.md`) — patterns specific to that area. How auth tokens are structured, what the API validation pipeline expects, how the build system resolves dependencies. If it matters when working in this area but not elsewhere, it's area-level.
 
-**Deep knowledge** (`knowledge-tree/<area>/<specific>.md`) — detailed knowledge about a narrow concern within an area. Session lifecycle edge cases, the specific validation rules for user input, a complex migration pattern. If the area index is getting crowded, the detail moves here.
+**Deep knowledge** (`knowledge-tree/<area>/<specific>.spec.md`) — detailed knowledge about a narrow concern within an area. Session lifecycle edge cases, the specific validation rules for user input, a complex migration pattern. If the area index is getting crowded, the detail moves here.
 
 **Not in the knowledge tree** — insights that are specific to a single action and won't apply to future work. These stay in the action's `KEY_INSIGHTS.md` during the work and get discarded on completion. The working scratchpad is for working; the knowledge tree is for what endures.
 

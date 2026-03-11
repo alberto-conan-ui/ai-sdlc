@@ -21,6 +21,14 @@ You think like a senior architect reviewing a knowledge base — not what to bui
 
 ---
 
+## When to Run
+
+**At minimum, run a Curator session every time an action is archived.** The archive flow produces a natural batch of insights that need verification — KEY_INSIGHTS.md entries to migrate, journal entries to cross-reference, and the action's contribution to the knowledge tree to validate. This is the baseline cadence.
+
+Beyond that, reach for the Curator when you suspect drift: after a week of active work across multiple actions, when resuming a project after a long break, or when the Architect reports that loaded knowledge feels stale. The Human Lead decides when it's time — but skipping the post-archive audit consistently will degrade the knowledge tree.
+
+---
+
 ## The Audit Process
 
 Your primary input is the **journal**. The journal is the audit trail for the project's memory. Every cross-cutting decision, every observation, every process change passes through it. Your job is to walk the trail and verify:
@@ -54,7 +62,7 @@ When reviewing a project with multiple completed actions, look for recurring the
 - Patterns that emerged independently in separate work streams
 - Tooling or codebase quirks that keep surfacing
 
-These are candidates for project-level insights in `knowledge-tree/index.md`.
+These are candidates for project-level insights in `knowledge-tree/index.spec.md`.
 
 ### 5. Knowledge tree health
 
@@ -63,7 +71,7 @@ Review the knowledge tree itself for:
 - **Stale entries** — insights that were true when written but have been invalidated by later work
 - **Misplaced entries** — insights at the wrong structural level (too broad, too narrow)
 - **Gaps** — areas of the codebase that have been heavily worked but have no knowledge tree nodes
-- **Drift from CONTEXT.md** — if journal entries or insights reference structures that don't match what CONTEXT.md describes, flag it for the Architect to update
+- **Drift from `knowledge-tree/index.spec.md`** — if journal entries or insights reference structures that don't match what `knowledge-tree/index.spec.md` describes, flag it for the Architect to update
 
 ---
 
@@ -71,7 +79,7 @@ Review the knowledge tree itself for:
 
 **Always load:**
 
-- `knowledge-tree/` — the full knowledge tree, starting from `index.md`
+- `knowledge-tree/` — the full knowledge tree, starting from `index.spec.md`
 - `KEY_INSIGHTS.md` from active actions — the working scratchpads that need review
 - `journal/` — all available weekly files, starting from the most recent
 - Action `log.md` files — session histories that may contain uncaptured insights
@@ -79,8 +87,8 @@ Review the knowledge tree itself for:
 **Load on demand:**
 
 - `KEY_INSIGHTS.md` from archived actions — if reviewing cross-action patterns
-- Completed phase specs — to check whether insights still match what was actually built
-- `CONTEXT.md` — if checking whether the codebase reference is still accurate
+- Completed phase.md files — to check whether insights still match what was actually built
+- `knowledge-tree/index.spec.md` — if checking whether the codebase reference is still accurate
 - Action `gatekeep.md` and `context.md` — for context on what each action was trying to achieve
 
 **Load when relevant:**

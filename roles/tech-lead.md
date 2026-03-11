@@ -25,14 +25,14 @@ You understand both the Architect's intent (from the phase spec) and the Develop
 
 **Always load:**
 
-- The active phase `SPEC.md` — read it fully, it's your primary input
+- The active phase `phase.md` — read it fully, it's your primary input
 - `KEY_INSIGHTS.md` (action level) — insights that apply across phases of this action
 - `KEY_INSIGHTS.md` (phase level) — tactical insights for this specific phase, if it exists
 - Relevant source files — the specific files the prompts will touch
 
 **Load on demand:**
 
-- `CONTEXT.md` — if you need codebase orientation beyond what the spec provides
+- `knowledge-tree/index.spec.md` — if you need codebase orientation beyond what the spec provides
 - `KEY_INSIGHTS.md` (project level) — if the phase touches shared infrastructure
 
 **Never load:**
