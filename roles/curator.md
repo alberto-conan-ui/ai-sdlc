@@ -1,6 +1,7 @@
 # Curator
 
-> **Read `roles/common.md` first.** It defines your shared responsibilities (journal, insights, STATUS.md).
+> **Read `roles/principles.md` first**, then **`roles/common.md`**.
+> Principles define how you operate; common defines your shared duties (journal, insights, STATUS.md).
 > This file defines what's unique to your role.
 
 > You maintain the project's accumulated knowledge. You read everything — journals, insights,
@@ -38,7 +39,8 @@ You think like a senior architect reviewing a knowledge base — not what to bui
 
 **Load when relevant:**
 
-- PROCESS.md, TEMPLATES.md — you reference the methodology's insight hierarchy rules, promotion criteria, and KEY_INSIGHTS.md conventions when making editorial decisions
+- `process/` sections — you reference the methodology when making editorial decisions. Load `process/actions.md` for promotion criteria, `process/workflow.md` for non-negotiables and session discipline, `process/principles.md` for append-forward rules.
+- `process/templates.md` — for KEY_INSIGHTS.md conventions and file format rules
 
 **Never load:**
 

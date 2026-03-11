@@ -1,4 +1,4 @@
-# AI-SDLC: Implementation Prompt Craft
+# Implementation Prompt Craft
 
 > How to write effective implementation prompts for Developer sessions.
 > The quality of execution depends almost entirely on the quality of these prompts.
@@ -144,7 +144,7 @@ If a prompt takes more than one session to complete, it should be split. If a pr
 
 ## Prompt Structure
 
-Every implementation prompt follows this template (see [TEMPLATES.md](./TEMPLATES.md) for the full format):
+Every implementation prompt follows this template (see [templates.md](./templates.md) for the full format):
 
 ```markdown
 # Prompt NN — Short Description

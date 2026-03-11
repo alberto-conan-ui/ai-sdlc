@@ -1,4 +1,4 @@
-# AI-SDLC: Mechanics — Context Isolation and Role Framing
+# Context Isolation and Role Framing
 
 > How the entry-point system works, why role separation improves output, and when to use separate sessions versus mode switching.
 > This document is for the Human Lead. AI roles read their entry points in `roles/`.
@@ -7,7 +7,7 @@
 
 ## The Problem
 
-PROCESS.md describes the full methodology: roles, modes, workflows, anti-patterns. It's written for a human who needs the complete picture. But AI sessions are not humans reading a manual — they're workers performing a bounded job. When an AI role loads the full methodology, two things go wrong.
+The full methodology describes roles, modes, workflows, and anti-patterns. It's written for a human who needs the complete picture. But AI sessions are not humans reading a manual — they're workers performing a bounded job. When an AI role loads the full methodology, two things go wrong.
 
 **Context waste.** The Developer doesn't need to know how the Architect thinks. The Architect doesn't need the Developer's stance on unexpected failures. Every role pays the token cost of the full methodology, but most of that context is irrelevant to its task. In a context window with hard limits, irrelevant tokens displace useful ones — the source files, the phase spec, the lessons learned.
 
@@ -52,7 +52,7 @@ Small, self-contained markdown files in `roles/`. One per AI role. Each is 60–
 
 ### What they do not contain
 
-- The full methodology (that's PROCESS.md, for humans)
+- The full methodology (that's `process/`, for humans)
 - Other roles' responsibilities or boundaries
 - The rationale for why roles are separated (that's this document)
 - Cross-references to other entry points
@@ -152,6 +152,6 @@ The entry points work identically regardless of project size or action tier. A t
 
 ## Maintaining Entry Points
 
-Entry points evolve with the methodology. When a role's responsibilities change in PROCESS.md, its entry point must be updated to match. The Human Lead owns this alignment — it's part of maintaining the ai-sdlc repo.
+Entry points evolve with the methodology. When a role's responsibilities change in the process documentation, its entry point must be updated to match. The Human Lead owns this alignment — it's part of maintaining the ai-sdlc repo.
 
-The test for a well-maintained entry point: **does the AI produce the right behaviour without reading PROCESS.md?** If the answer is no, the entry point is missing something. If the entry point exceeds 120 lines, it's absorbing scope that belongs elsewhere.
+The test for a well-maintained entry point: **does the AI produce the right behaviour without reading the process documentation?** If the answer is no, the entry point is missing something. If the entry point exceeds 120 lines, it's absorbing scope that belongs elsewhere.

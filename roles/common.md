@@ -1,7 +1,10 @@
 # Common Responsibilities
 
-> Every AI role loads this file first. It defines the shared duties that all roles perform
-> regardless of their specific stance. Your role entry point builds on top of this.
+> **Read `roles/principles.md` first.** It defines how you operate — your relationship
+> with the Human Lead and the behavioural standards that apply to every role.
+>
+> This file defines the shared duties that all roles perform regardless of their
+> specific stance. Your role entry point builds on top of this.
 
 ---
 

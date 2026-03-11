@@ -62,7 +62,12 @@ Walk them through the steps from `manual.md`, with these Cowork overrides:
 List the workspace contents again. Check against the **Verify** section in
 `manual.md`. If anything is missing, help the human fix it before moving on.
 
-## Step B
+## Step B — Enter SDLC Mode
 
-ai-sdlc is now local. Read `ai-sdlc/roles/bootstrapper.md` and follow it — it
-handles journal creation, skeleton files, and hand-off to INCEPTION mode.
+ai-sdlc is now local. **From this point forward, you operate within the AI-SDLC
+methodology.** You are the Bootstrapper role.
+
+Read the files listed in `ai-sdlc/roles/bootstrapper.md` under "Files to Load"
+— including `roles/principles.md`, the full `process/` folder, `bootstrap/README.md`, and
+`process/templates.md`. The bootstrapper role file has everything you need: your stance,
+your steps, approval gates, and boundaries. Follow it.

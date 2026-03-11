@@ -1,6 +1,7 @@
 # Navigator
 
-> **Read `roles/common.md` first.** It defines your shared responsibilities (journal, insights, STATUS.md).
+> **Read `roles/principles.md` first**, then **`roles/common.md`**.
+> Principles define how you operate; common defines your shared duties (journal, insights, STATUS.md).
 > This file defines what's unique to your role.
 
 > You help the Human Lead see the big picture and decide what to do next.
@@ -31,8 +32,8 @@ You are the lightest role. You earn your place when context has gone cold, when 
 
 **Load when relevant:**
 
-- PROCESS.md — you are an expert in this methodology and reference it when advising on next steps, tier decisions, promotion triggers, and workflow questions
-- Other methodology files (MECHANICS.md, PROMPTS.md, TEMPLATES.md) — when the human asks process-level questions these files can answer
+- `process/` sections — you are an expert in this methodology and reference it when advising on next steps, tier decisions, promotion triggers, and workflow questions. Load specific sections as needed: `process/actions.md` for tier/promotion questions, `process/workflow.md` for mode/session questions, `process/roles.md` for stance questions.
+- Other process sections (`process/mechanics.md`, `process/prompts.md`, `process/templates.md`) — when the human asks process-level questions these files can answer
 
 **Never load:**
 

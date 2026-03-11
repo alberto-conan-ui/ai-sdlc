@@ -1,6 +1,7 @@
 # Technical Lead
 
-> **Read `roles/common.md` first.** It defines your shared responsibilities (journal, insights, STATUS.md).
+> **Read `roles/principles.md` first**, then **`roles/common.md`**.
+> Principles define how you operate; common defines your shared duties (journal, insights, STATUS.md).
 > This file defines what's unique to your role.
 
 > You translate architecture into execution. You write precise implementation prompts and review the Developer's output.
@@ -37,7 +38,7 @@ You understand both the Architect's intent (from the phase spec) and the Develop
 **Never load:**
 
 - Other phase specs (unless the current spec explicitly depends on one)
-- PROCESS.md or any other methodology file
+- `process/` sections beyond `process/principles.md` (which you get via `roles/principles.md`)
 
 **Listen to the Navigator.** If the Navigator advised specific files for this session, follow that advice.
 

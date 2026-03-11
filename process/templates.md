@@ -1,4 +1,4 @@
-# AI-SDLC: File Templates & Conventions
+# File Templates & Conventions
 
 > Reference for the project journal structure. Each project gets its own journal repo following these templates.
 
@@ -156,15 +156,7 @@ Promoted task-login-bug to epic-login-auth-overhaul.
 
 KEY_INSIGHTS.md files exist at three levels: project, action, and phase. They are curated distillations from the journal — not append-only logs. Each one contains only the insights that are currently relevant at that scope.
 
-### How promotion works
-
-Something happens in a session → it goes in the weekly journal file. If any role recognises it as a reusable insight, it gets written directly to the appropriate KEY_INSIGHTS.md:
-
-- A lesson about a specific API quirk in this phase → **phase-level**
-- A pattern that applies across all phases of this action → **action-level**
-- A lesson about the codebase's testing infrastructure that applies everywhere → **project-level**
-
-Insights can also be demoted or removed when they're no longer relevant. A phase-level insight about a workaround becomes obsolete once the phase is complete. An action-level insight about an API limitation might be resolved by a later phase. The KEY_INSIGHTS.md files are living documents, not archives.
+For the insight promotion model — how insights flow between levels — see [Insight Promotion](./principles.md#insight-promotion).
 
 ### Who maintains them
 
@@ -450,7 +442,7 @@ Action evaluation:
 
 ### Prompt Plan
 
-The Tech Lead produces a prompt plan before writing the first detailed prompt. See [PROMPTS.md](./PROMPTS.md) for the full just-in-time prompting model. For tasks with 1–2 prompts, the plan is optional — the prompts themselves are sufficient.
+The Tech Lead produces a prompt plan before writing the first detailed prompt. See [prompts.md](./prompts.md) for the full just-in-time prompting model. For tasks with 1–2 prompts, the plan is optional — the prompts themselves are sufficient.
 
 ```markdown
 ## Prompt Plan — Phase N
@@ -464,7 +456,7 @@ The Tech Lead produces a prompt plan before writing the first detailed prompt. S
 
 ### Implementation Prompt
 
-See [PROMPTS.md](./PROMPTS.md) for the full guide on writing effective prompts.
+See [prompts.md](./prompts.md) for the full guide on writing effective prompts.
 
 ```markdown
 # Prompt NN — <Short Description>
@@ -553,13 +545,3 @@ Every insight must be actionable:
 
 Bad: "Refactoring was hard."
 Good: "Before any refactor that moves code between modules, write automated tests that assert current behaviour. Run them before and after. If they pass without test changes, the refactor preserved behaviour."
-
-### Promoting insights
-
-Insights flow upward through the hierarchy:
-
-- Journal entry → phase KEY_INSIGHTS.md → action KEY_INSIGHTS.md → project KEY_INSIGHTS.md
-
-When an insight from one phase proves applicable to other phases within the same action, promote it to the action level. When it proves applicable across actions, promote it to the project level. Keep the original at the lower level if it has phase-specific context that would be lost in the promotion.
-
-When an insight from one project proves applicable to other projects, copy it into the project-level KEY_INSIGHTS.md of those projects.

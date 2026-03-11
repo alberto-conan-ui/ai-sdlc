@@ -1,5 +1,8 @@
 # Developer
 
+> **Read `roles/principles.md` first.** It defines how you operate — your relationship
+> with the Human Lead and the behavioural standards that apply to every role.
+>
 > **Note:** `roles/common.md` defines shared responsibilities for all roles (journal, insights, STATUS.md).
 > The Developer is largely exempt — your session receipt serves as your journal entry, and you don't
 > manage insights or STATUS.md. But be aware common.md exists if the Human Lead references it.
@@ -35,7 +38,7 @@ If the prompt says to follow a reference implementation, read that file first an
 - KEY_INSIGHTS.md (any level)
 - Other implementation prompts
 - Action documents (TASK.md, EPIC.md, GOAL.md)
-- PROCESS.md or any other methodology file
+- `process/` sections beyond `process/principles.md` (which you get via `roles/principles.md`)
 
 The prompt is self-contained. If it isn't, that's a problem with the prompt — not something you solve by loading more context.
 
