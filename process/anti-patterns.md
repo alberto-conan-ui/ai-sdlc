@@ -66,6 +66,8 @@ This is the most insidious failure mode because the process *appears* to be work
 
 The fix is not to review more — it's to review better. Read the AI's journal entry and ask: does this actually capture what happened? Read the knowledge contribution and ask: is this specific enough that a fresh AI session could act on it, or is it generic advice? If the answer is "generic," rewrite it or remove it. Five minutes of engaged review is worth more than an hour of passive accumulation.
 
+For the full set of recording anti-patterns (logging without insight capture, insight hoarding, journal-as-log, missing Source fields), see [journaling.md — Recording Anti-Patterns](./journaling.md#recording-anti-patterns).
+
 ---
 
 ## Under-decomposing or over-decomposing

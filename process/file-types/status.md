@@ -17,7 +17,7 @@ Single source of truth for project orientation. Every role reads this first. It 
 
 ## Sections
 
-- **Current State** — mode (Inception / Planning / Implementation), active phase, active prompt, next step
+- **Current State** — engagement mode (Shaping / Working), action mode (Inception / Planning / Implementation), active phase, active prompt, next step. See [workflow.md — Engagement Modes](../workflow.md#engagement-modes)
 - **Active Stack** — push/pop stack of actions currently being worked on
 - **Action Tree** — full table of all actions with gatekeep summaries and status
 - **Roadmap** — phase breakdown for the currently active action
@@ -36,6 +36,7 @@ Single source of truth for project orientation. Every role reads this first. It 
 
 | Field | Value |
 |---|---|
+| **Engagement** | **SHAPING** |
 | **Mode** | **INCEPTION** |
 | **Next step** | Invoke the Architect to define the first action |
 

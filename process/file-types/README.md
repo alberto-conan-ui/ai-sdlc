@@ -2,7 +2,7 @@
 
 Every file in the project memory has a defined type. This catalogue documents each one — what it's for, where it lives, who creates it, and what it looks like.
 
-For the overall memory structure diagram and conventions, see [templates.md](../templates.md).
+For the overall memory structure diagram and conventions, see [templates.md](../templates.md). For the recording system — when to write each file, who writes it, the flow between files, and the session checklist — see [journaling.md](../journaling.md).
 
 ---
 

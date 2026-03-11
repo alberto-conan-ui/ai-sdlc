@@ -64,4 +64,5 @@ Weekly rolling files keep it manageable. Detailed session history lives in each 
 - Files are named by ISO week: `YYYY-WNN.md`.
 - Entries are never edited or deleted (append-forward principle).
 - The journal is the Curator's primary audit input. If the journal says a decision was made but the knowledge tree doesn't reflect it, something was missed.
-- See [memory.md](../memory.md) for the journal's role in the memory pipeline.
+- See [journaling.md — Journal Entries](../journaling.md#journal-entries) for when to write, triggers, and how the journal fits into the recording pipeline.
+- See [memory.md](../memory.md) for the broader memory model.

@@ -1,6 +1,6 @@
 # File Templates & Conventions
 
-> Reference for the project memory structure. When you need to create a file, look here for the template. For detailed documentation of each file type — purpose, ownership, format, and notes — see the [File Type Catalogue](./file-types/).
+> Reference for the project memory structure. When you need to create a file, look here for the template. For detailed documentation of each file type — purpose, ownership, format, and notes — see the [File Type Catalogue](./file-types/). For the recording system (logs, insights, journal, receipts) — when to write, who writes, the flow, and the session checklist — see [journaling.md](./journaling.md).
 
 ---
 
@@ -163,6 +163,7 @@ A freshly bootstrapped project has no actions, no stack, and no phases:
 
 | Field | Value |
 |---|---|
+| **Engagement** | **SHAPING** |
 | **Mode** | **INCEPTION** |
 | **Next step** | Invoke the Architect to define the first action |
 
@@ -180,7 +181,7 @@ A freshly bootstrapped project has no actions, no stack, and no phases:
 **Branch:** `main`
 ```
 
-Once the first action is defined, the Architect updates STATUS.md to Planning mode. Roadmap references should point to the new flat phase structure with `phase.md` files instead of nested `SPEC.md`.
+Once the first action is defined, the Architect updates STATUS.md to Planning mode. The Engagement field stays as SHAPING until the Human Lead declares the switch to WORKING (see [workflow.md — Engagement Modes](./workflow.md#engagement-modes)).
 
 ### action-tree/STATUS.md — Active project
 
@@ -193,6 +194,7 @@ Once the first action is defined, the Architect updates STATUS.md to Planning mo
 
 | Field | Value |
 |---|---|
+| **Engagement** | **SHAPING** / **WORKING** |
 | **Mode** | **PLANNING** / **IMPLEMENTATION** |
 | **Active phase** | Phase N — <name> (Implementation mode only) |
 | **Active prompt** | Prompt NN (Implementation mode only) |
@@ -233,7 +235,7 @@ Once the first action is defined, the Architect updates STATUS.md to Planning mo
 
 ### Journal — Weekly file
 
-Files are named by ISO week: `YYYY-WNN.md` (e.g., `2026-W10.md`). Entries are tagged `[decision]`, `[observation]`, or `[process]`. See [memory.md](./memory.md) for the journal's role in the memory model.
+Files are named by ISO week: `YYYY-WNN.md` (e.g., `2026-W10.md`). Entries are tagged `[decision]`, `[observation]`, or `[process]`. See [journaling.md — Journal Entries](./journaling.md#journal-entries) for when to write, entry types, and rules.
 
 ```markdown
 # Journal — Week of YYYY-MM-DD
@@ -266,6 +268,8 @@ Files are named by ISO week: `YYYY-WNN.md` (e.g., `2026-W10.md`). Entries are ta
 ```
 
 ### Action log (log.md)
+
+See [journaling.md — Action Log](./journaling.md#action-log) for when to write and behavioural rules.
 
 ```markdown
 # Log — <Action Name>
@@ -435,7 +439,7 @@ Implementation prompts sit flat in the phase folder with no `impl/` subfolder pr
 
 ### NN-description.receipt.md (Session Receipt)
 
-Session receipts are formal files paired with each implementation prompt by name. They sit flat in the phase folder alongside the prompts.
+Session receipts are formal files paired with each implementation prompt by name. They sit flat in the phase folder alongside the prompts. See [journaling.md — Session Receipts](./journaling.md#session-receipts) for when to write and behavioural rules.
 
 ```markdown
 # Session Receipt — NN-description
@@ -478,12 +482,9 @@ Session receipts are formal files paired with each implementation prompt by name
 
 ### Key insights format
 
-Every insight must be actionable:
+Every insight must be actionable. See [journaling.md — Key Insights](./journaling.md#key-insights) for the full lifecycle, placement rules, and format.
 
 - **Title:** short, imperative (e.g., "Baseline every code path the refactor touches")
 - **Context:** the specific situation or pattern
 - **Insight:** what to do or avoid, stated prescriptively
 - **Source:** link to the action log or journal entry for full context
-
-Bad: "Refactoring was hard."
-Good: "Before any refactor that moves code between modules, write automated tests that assert current behaviour. Run them before and after. If they pass without test changes, the refactor preserved behaviour."

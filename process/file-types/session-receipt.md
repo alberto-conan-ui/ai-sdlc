@@ -41,7 +41,7 @@ Mirrors its implementation prompt: if the prompt is `01-map-all-routes.md`, the 
 
 ## Notes
 
-- The Developer is largely exempt from memory maintenance — the receipt is its primary contribution to the memory pipeline.
+- The Developer is largely exempt from memory maintenance — the receipt is its sole contribution to the recording pipeline. See [journaling.md — Session Receipts](../journaling.md#session-receipts) for the full context.
 - **State changes** is the most important field for subsequent prompts: it tells the Tech Lead what actually changed in the codebase structure.
 - **Open issues** captures anything the Developer adapted, flagged, or stopped on per the "If unexpected" rules.
 - See [prompts.md](../prompts.md) for how receipts feed the just-in-time prompting loop.

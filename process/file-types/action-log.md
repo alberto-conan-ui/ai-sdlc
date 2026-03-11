@@ -49,4 +49,5 @@ Logs live at the nodes where work happens. The Human Lead and the active role lo
 - Keep entries concise. The log is a trail, not a report.
 - The Developer doesn't write log entries — its session receipt serves as its contribution.
 - Detailed session history lives here, not in the journal. The journal captures what transcends individual actions.
-- See [memory.md](../memory.md) for how the log fits into the memory pipeline.
+- See [journaling.md — Action Log](../journaling.md#action-log) for when to write, who writes, and how the log fits into the recording pipeline.
+- See [memory.md](../memory.md) for the broader memory model.

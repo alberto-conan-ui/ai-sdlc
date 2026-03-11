@@ -44,9 +44,21 @@ This methodology is for senior developers. It assumes you can already architect 
 
 ---
 
+## Engagement Modes — Shaping and Working
+
+At any given moment, the project is in one of two engagement modes. The mode is a project-level declaration by the Human Lead that changes what the system focuses on, which stances are primary, and how recording behaves.
+
+**Shaping** — the system is oriented around the knowledge tree and the structure of the action tree. You're reading the codebase, designing approaches, defining actions and gatekeeps, curating knowledge, structuring roadmaps. The primary stances are Architect, Navigator, and Curator. Recording is focused on decisions and knowledge: journal entries, knowledge tree contributions, and design rationale. The output is clarity — specs, gatekeeps, phase designs, curated insights. You don't write code in shaping mode.
+
+**Working** — the system is oriented around the action tree's active stack. You're executing phases, writing prompts, producing code. The primary stances are Tech Lead and Developer. Recording is focused on execution: log entries, session receipts, and implementation insights. The output is code and verified behaviour. You don't restructure the action tree or redefine gatekeeps in working mode — if you need to, that's a signal to switch back to shaping.
+
+The mode lives in STATUS.md and gates the system's behaviour. The detailed rules — what changes per mode, when to switch, and how recording adapts — are defined in [workflow.md](./process/workflow.md#engagement-modes).
+
+---
+
 ## The Core Ideas
 
-**Memory** is the central mechanism. The project memory holds an **action tree** (short-term — work in progress), a **knowledge tree** (long-term — curated insights by codebase area), and a **journal** (the bridge and audit trail). Work produces insights; insights migrate to the knowledge tree; the Curator audits the pipeline. See [memory.md](./process/memory.md).
+**Memory** is the central mechanism. The project memory holds an **action tree** (short-term — work in progress), a **knowledge tree** (long-term — curated insights by codebase area), and a **journal** (the bridge and audit trail). Work produces insights; insights migrate to the knowledge tree; the Curator audits the pipeline. See [memory.md](./process/memory.md). The recording system that feeds this memory — logs, insights, journal entries, session receipts — is defined in [journaling.md](./process/journaling.md).
 
 **Actions** are how you organise work. Everything is an action — nested in a tree, named however you want, with a `gatekeep.md` at every node that defines "done." Simple fixes are single nodes; complex work decomposes into children. See [action-tree.md](./process/action-tree.md).
 
@@ -55,6 +67,8 @@ This methodology is for senior developers. It assumes you can already architect 
 **Prompt craft** determines code quality. Plan the sequence, detail each prompt just in time, use session receipts to keep subsequent prompts grounded. See [prompts.md](./process/prompts.md).
 
 **Human accountability** is non-negotiable. Every plan, every insight, every gatekeep passes through your review. The AI generates volume; you supply the judgement. See [principles.md](./process/principles.md).
+
+**The AI anchors the process.** You flow freely — the AI formalises. When your direction implies a mode switch, a stance change, or a new action, the AI pauses and confirms before proceeding. This bridges your flexibility with the process's discipline. See [principles.md — Formalise the Implicit](./process/principles.md#formalise-the-implicit).
 
 ---
 
@@ -71,14 +85,15 @@ Each file is self-contained, but they build on each other.
 | # | File | What it covers |
 |---|---|---|
 | 1 | [principles.md](./process/principles.md) | Human accountability, append-forward, and the memory model overview |
-| 2 | [memory.md](./process/memory.md) | **The memory model** — action tree, knowledge tree, journal, KEY_INSIGHTS lifecycle, every role's memory responsibilities |
-| 3 | [action-tree.md](./process/action-tree.md) | The action tree — hierarchical actions, gatekeeping at every level, the active stack |
-| 4 | [knowledge-tree.md](./process/knowledge-tree.md) | The knowledge tree — structure, growth patterns, monorepo layouts, what belongs at each level |
-| 5 | [roles.md](./process/roles.md) | The Human Lead and AI stances, model tiers, when to separate sessions |
-| 6 | [workflow.md](./process/workflow.md) | Inception, planning, implementation, session discipline |
-| 7 | [prompts.md](./process/prompts.md) | How to write effective implementation prompts for Developer sessions |
-| 8 | [templates.md](./process/templates.md) | File templates, naming conventions, journal and knowledge tree structure |
-| 9 | [anti-patterns.md](./process/anti-patterns.md) | Common failure modes and how to avoid them |
+| 2 | [memory.md](./process/memory.md) | **The memory model** — action tree, knowledge tree, journal, how they connect |
+| 3 | [journaling.md](./process/journaling.md) | **The recording system** — all four recording files, when to write, who writes, the flow, session checklist |
+| 4 | [action-tree.md](./process/action-tree.md) | The action tree — hierarchical actions, gatekeeping at every level, the active stack |
+| 5 | [knowledge-tree.md](./process/knowledge-tree.md) | The knowledge tree — structure, growth patterns, monorepo layouts, what belongs at each level |
+| 6 | [roles.md](./process/roles.md) | The Human Lead and AI stances, model tiers, when to separate sessions |
+| 7 | [workflow.md](./process/workflow.md) | Inception, planning, implementation, session discipline |
+| 8 | [prompts.md](./process/prompts.md) | How to write effective implementation prompts for Developer sessions |
+| 9 | [templates.md](./process/templates.md) | File templates, naming conventions, knowledge tree structure |
+| 10 | [anti-patterns.md](./process/anti-patterns.md) | Common failure modes and how to avoid them |
 
 ## AI Role Entry Points
 

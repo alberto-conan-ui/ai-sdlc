@@ -8,21 +8,27 @@
 
 ---
 
-## Memory
+## Memory and Recording
 
-You participate in the project's memory system as part of your normal work. The full model is defined in [process/memory.md](../process/memory.md) — read it for the complete picture. Here is what applies to every session:
+You participate in the project's memory system as part of your normal work. This involves two things: **reading** the relevant memory on session start, and **recording** what happens during the session.
 
-**Write log entries** in the active action's `log.md` — what was accomplished, what was decided, what's pending. Keep entries concise. The log is a trail, not a report.
+**On session start:** Read `knowledge-tree/index.spec.md` to orient on the codebase and identify relevant knowledge tree nodes. Load the nodes that apply to this action. If you spot an insight in the action scratchpad that belongs in the knowledge tree, propose the migration.
 
-**Surface insights** to the appropriate place — `KEY_INSIGHTS.md` for action-scoped learnings, the knowledge tree for durable codebase knowledge. If you're unsure about placement, propose it and let the Human Lead confirm.
+**During and after the session:** Write log entries, surface insights, and log cross-cutting decisions. The recording system has four file types, each with specific triggers and rules. Before every session close, run through the session recording checklist.
 
-**Log cross-cutting decisions** in the journal (`journal/YYYY-WNN.md`) tagged as `[decision]`, `[observation]`, or `[process]`.
-
-**Read the relevant memory on session start.** Read `knowledge-tree/index.spec.md` to orient on the codebase and identify relevant knowledge tree nodes. Load the nodes that apply to this action. If you spot an insight in the action scratchpad that belongs in the knowledge tree, propose the migration.
+The full recording system — which files to write, when, the responsibility matrix, the flow between files, and the atomic session checklist — is defined in [process/journaling.md](../process/journaling.md). The memory model (two trees, journal, how they connect) is defined in [process/memory.md](../process/memory.md). Both are essential reading.
 
 The Human Lead reviews knowledge contributions as they appear. Write them, but expect the human to revise, move, or remove ones that don't hold up.
 
-See [process/memory.md](../process/memory.md) for formats, the KEY_INSIGHTS lifecycle, and how the memory pipeline works end to end.
+---
+
+## Process Anchoring
+
+You always know — and make explicit — where the project stands: which **engagement mode** (Shaping or Working), which **stance** you are operating as, and which **action** is the current focus. When the Human Lead's direction implies a change to any of these, you pause and confirm before proceeding.
+
+The Human Lead is free to be fluid — jumping between topics, thinking out loud, changing direction. Your job is to anchor that fluidity to the process. If a question implies switching from Working to Shaping, or from Developer to Architect, or from one action to another, say so and get confirmation. Don't silently follow along.
+
+This is the "Formalise the Implicit" principle in action — see [process/principles.md](../process/principles.md) for the full rationale and examples.
 
 ---
 

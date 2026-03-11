@@ -65,9 +65,9 @@ Every node in the action tree can have the following files. **Only `gatekeep.md`
 
 **`index.md`** — maps this node's children. What sub-actions exist, what each one covers, how they relate. Only meaningful for branch nodes. Follows the same pattern as the knowledge tree's index files.
 
-**`log.md`** — the session-by-session record of what happened while working on this action. What was done, what was decided, what surprised you. This is the action's short-term memory — it tells the next session where the previous one left off. Logs live at the nodes where work happens. The Human Lead and the active role are responsible for looking up the tree when broader context is needed.
+**`log.md`** — the session-by-session record of what happened while working on this action. This is the action's short-term memory — it tells the next session where the previous one left off. See [journaling.md — Action Log](./journaling.md#action-log) for when to write, format, and rules.
 
-**`KEY_INSIGHTS.md`** — the working scratchpad for insights that emerge during the work. Patterns discovered, pitfalls encountered, decisions that might matter beyond this action. When the action completes, anything worth keeping migrates to the appropriate node in the knowledge tree. KEY_INSIGHTS is temporary; the knowledge tree is permanent. It's the Human Lead and the active role's responsibility to surface insights worth capturing — the AI should prompt for this, especially at session boundaries.
+**`KEY_INSIGHTS.md`** — the working scratchpad for insights that emerge during the work. When the action completes, anything worth keeping migrates to the appropriate node in the knowledge tree. KEY_INSIGHTS is temporary; the knowledge tree is permanent. See [journaling.md — Key Insights](./journaling.md#key-insights) for the full lifecycle.
 
 **`phases/`** — the implementation structure. Phases can exist at any level of the tree — a branch node might have its own integration phases alongside its children's implementation phases. The phase structure uses a flat file layout: phase.md (the phase spec), prompt-plan.md (sequencing prompts), and numbered implementation prompts alongside paired receipt files.
 
@@ -134,11 +134,11 @@ This model mirrors how humans actually work: depth-first with interruptions. The
 
 ---
 
-## Memory at the Action Level
+## Recording at the Action Level
 
-Each action node participates in the project's memory pipeline. Session history is distributed — each node carries its own `log.md` and `KEY_INSIGHTS.md`, scoped to that action's work. When you load an action, you get its full history without digging through a global log. When the action archives, its memory goes with it — but the insights it produced live on in the knowledge tree.
+Each action node participates in the project's recording system. Session history is distributed — each node carries its own `log.md` and `KEY_INSIGHTS.md`, scoped to that action's work. When you load an action, you get its full history without digging through a global log. When the action archives, its memory goes with it — but the insights it produced live on in the knowledge tree.
 
-The full memory model — how logs, insights, the journal, and the knowledge tree connect — is defined in [memory.md](./memory.md). Every role should read it.
+The recording system — all four file types, triggers, responsibilities, and the session checklist — is defined in [journaling.md](./journaling.md). The memory model (how recordings feed the two trees) is defined in [memory.md](./memory.md). Every role should read both.
 
 ---
 
@@ -158,7 +158,7 @@ This replaces the old promotion mechanic (task → epic → goal). There's no ce
 
 ## Action Completion
 
-When an action is done — its gatekeep passes — the completion flow is:
+When an action is done — its gatekeep passes — run the action completion checklist in [journaling.md — Session Recording Checklist](./journaling.md#session-recording-checklist). In summary:
 
 1. Review `KEY_INSIGHTS.md`. Anything worth keeping migrates to the appropriate knowledge tree node. The action's insights become permanent knowledge — they outlive the action.
 2. The action folder moves from `action-tree/` to `archive/`. The full subtree goes together — logs, insights, phases, everything. The archive is the historical record.

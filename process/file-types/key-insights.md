@@ -42,4 +42,5 @@ Working scratchpad for insights that emerge during the work. Patterns discovered
 
 - Insights must be prescriptive, not descriptive. Bad: "Refactoring was hard." Good: "Before any refactor that moves code between modules, write automated tests that assert current behaviour."
 - The **Source** field is what makes the Curator's audit possible.
-- See [memory.md](../memory.md) for the full KEY_INSIGHTS lifecycle.
+- See [journaling.md — Key Insights](../journaling.md#key-insights) for the full lifecycle, placement rules, and how insights fit into the recording pipeline.
+- See [memory.md](../memory.md) for the broader memory model.
