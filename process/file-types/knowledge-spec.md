@@ -41,7 +41,7 @@ Open format. The content should be actionable and sourced. Each insight follows:
 
 ## Notes
 
-- Insights must be prescriptive, not descriptive. "The API is tricky" teaches nothing. "The validation API silently swallows errors when passed an empty array — always check for empty inputs before calling" teaches permanently.
+- Insights must be prescriptive, not descriptive (see [knowledge-tree.md — Knowledge File Format](../knowledge-tree.md#knowledge-file-format) for examples and the full quality bar).
 - The **Source** field makes the Curator's audit possible — every insight is traceable.
 - Splitting is healthy: when a concern outgrows the index, give it its own `.spec.md`.
 - Retirement is also healthy: when an insight no longer applies, remove it. The journal and archive preserve the historical context.

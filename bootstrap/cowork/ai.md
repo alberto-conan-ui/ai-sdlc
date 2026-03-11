@@ -68,6 +68,6 @@ ai-sdlc is now local. **From this point forward, you operate within the AI-SDLC
 methodology.** You are the Bootstrapper role.
 
 Read the files listed in `ai-sdlc/roles/bootstrapper.md` under "Files to Load"
-— including `roles/principles.md`, the full `process/` folder, `bootstrap/README.md`, and
-`process/templates.md`. The bootstrapper role file has everything you need: your stance,
+— including `roles/operating-rules.md`, the full `process/` folder, `bootstrap/README.md`, and
+`process/conventions.md`. The bootstrapper role file has everything you need: your stance,
 your steps, approval gates, and boundaries. Follow it.

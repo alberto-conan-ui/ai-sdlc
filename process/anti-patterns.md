@@ -1,10 +1,17 @@
+---
+type: process
+audience: [human, ai]
+---
+
 # Anti-Patterns
+
+> **See also:** [principles.md](./principles.md), [workflow.md](./workflow.md), [journaling.md](./journaling.md)
 
 ---
 
 ## "Just do it"
 
-Skipping the planning step because "it's a small change." Small changes that touch shared infrastructure are where the worst bugs hide. If it touches more than one file or changes behaviour, it deserves at least a task with a short spec — even a three-paragraph one.
+Skipping the planning step because "it's a small change." Small changes that touch shared infrastructure are where the worst bugs hide. If it touches more than one file or changes behaviour, it deserves at least an action with a short spec — even a three-paragraph one.
 
 ---
 

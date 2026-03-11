@@ -16,7 +16,7 @@ my-project-workspace/              ← AI tool points here
 │   ├── journal/
 │   │   └── YYYY-WNN.md
 │   ├── knowledge-tree/
-│   │   └── index.md
+│   │   └── index.spec.md
 │   ├── action-tree/                    ← Action tree: active and pending work
 │   │   ├── STATUS.md
 │   │   └── refactor-validation/
@@ -103,7 +103,7 @@ my-project-workspace/
 │   ├── journal/
 │   │   └── YYYY-WNN.md
 │   ├── knowledge-tree/
-│   │   └── index.md
+│   │   └── index.spec.md
 │   ├── action-tree/
 │   │   └── STATUS.md
 │   └── archive/

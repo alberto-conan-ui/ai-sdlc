@@ -4,8 +4,9 @@
 **File:** `phase.md`
 **Location:** `action-tree/<action>/phases/N-name/phase.md`
 **Required:** Yes — one per phase
-**Created by:** Tech Lead
+**Created by:** Architect
 **Maintained by:** Tech Lead updates as understanding evolves; Human Lead approves
+**Engagement mode:** Created in Shaping (Architect designs the phase spec), consumed in Working (Tech Lead and Developer execute against it)
 
 ---
 

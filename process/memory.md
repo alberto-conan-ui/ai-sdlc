@@ -1,8 +1,18 @@
+---
+type: process
+audience: [human, ai]
+depends_on: [principles.md]
+---
+
 # The Memory Model
 
 AI-SDLC gives your project a durable memory through two complementary trees and a journal that bridges them. This is the central mechanism — everything else in the methodology serves it. Without persistent memory, every AI session starts from zero. With it, session 10 benefits from every lesson learned in sessions 1 through 9.
 
 This document is the single reference for how memory works. Every role participates in maintaining it. The [Curator](../roles/curator.md) audits it. The Human Lead owns it.
+
+> **Depends on:** [principles.md](./principles.md)
+> **Extended by:** [journaling.md](./journaling.md) (recording pipelines), [file-types/key-insights.md](./file-types/key-insights.md) (KEY_INSIGHTS lifecycle)
+> **See also:** [action-tree.md](./action-tree.md), [knowledge-tree.md](./knowledge-tree.md)
 
 ---
 
@@ -30,7 +40,7 @@ See [knowledge-tree.md](./knowledge-tree.md) for the full structural guide — h
 
 The journal (`journal/`) captures cross-cutting annotations — project-level decisions, observations spanning multiple actions, process changes. It sits between the two trees and serves two purposes: as a **bridge** (capturing what transcends individual actions) and as an **audit trail** (letting the Curator verify the memory pipeline). Detailed session history lives in each action's `log.md`, not in the journal.
 
-For the journal's format, entry types, triggers, and rules, see [journaling.md — Journal Entries](./journaling.md#journal-entries).
+For the journal's format, entry types, triggers, and rules, see [file-types/journal-entry.md](./file-types/journal-entry.md).
 
 ---
 
@@ -82,7 +92,7 @@ The two trees and the journal form a pipeline. Work produces raw material; the p
 
 The flow is continuous, not ceremonial. It happens as part of normal work — during sessions (log entries, insights, journal entries), during the work (early migration of durable insights), on action completion (KEY_INSIGHTS review and migration), and periodically via Curator audits.
 
-For the detailed flow, session recording checklist, and atomic checkpoints that ensure nothing is missed, see [journaling.md — How Recording Flows](./journaling.md#how-recording-flows) and [journaling.md — Session Recording Checklist](./journaling.md#session-recording-checklist).
+For the detailed flow and session recording checklists that ensure nothing is missed, see [journaling.md — Recording by Engagement Mode](./journaling.md#recording-by-engagement-mode) and [journaling.md — Session Recording Checklists](./journaling.md#session-recording-checklists).
 
 ---
 
@@ -90,7 +100,7 @@ For the detailed flow, session recording checklist, and atomic checkpoints that 
 
 KEY_INSIGHTS.md is the scratchpad that bridges the gap between "something was learned" and "the knowledge tree reflects it." Understanding its lifecycle prevents insights from being lost or accumulating as noise.
 
-The full lifecycle — when to write, format, migration triggers, placement rules, and when to discard — is defined in [journaling.md — Key Insights](./journaling.md#key-insights).
+The full lifecycle — when to write, format, migration triggers, placement rules, and when to discard — is defined in [file-types/key-insights.md](./file-types/key-insights.md).
 
 ---
 
@@ -98,7 +108,7 @@ The full lifecycle — when to write, format, migration triggers, placement rule
 
 Memory maintenance is not a separate activity — it's woven into every role's normal work. The specifics differ by stance, but the core responsibilities are shared. Every role also reads the relevant memory on session start: `knowledge-tree/index.spec.md` for orientation, plus the knowledge tree nodes that apply to the current action.
 
-For the full responsibility matrix (who writes which file), the Developer exception, the Curator's audit role, and the session recording checklist, see [journaling.md — Who Writes What](./journaling.md#who-writes-what) and [journaling.md — Session Recording Checklist](./journaling.md#session-recording-checklist).
+For the full responsibility matrix (who writes which file), the Developer exception, the Curator's audit role, and the session recording checklist, see [journaling.md — Who Writes What](./journaling.md#who-writes-what) and [journaling.md — Session Recording Checklists](./journaling.md#session-recording-checklists).
 
 See [curator.md](../roles/curator.md) for the full Curator audit process.
 

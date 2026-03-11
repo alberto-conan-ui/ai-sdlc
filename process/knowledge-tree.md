@@ -1,3 +1,9 @@
+---
+type: process
+audience: [human, ai]
+depends_on: [memory.md]
+---
+
 # The Knowledge Tree
 
 The knowledge tree (`knowledge-tree/`) is the project's long-term memory. It's a folder hierarchy where each node holds curated, actionable insights about an area of your project — patterns to follow, pitfalls to avoid, architectural decisions that constrain future work. The tree typically mirrors your codebase structure, but the organising principle is **the boundaries where different knowledge applies**, not the file system itself. Cross-cutting concerns (testing strategy, deployment patterns, error handling philosophy) get their own nodes even when they don't map to a single folder in the code.
@@ -5,6 +11,10 @@ The knowledge tree (`knowledge-tree/`) is the project's long-term memory. It's a
 The knowledge tree is what makes session 10 cheaper than session 1. When the AI loads the relevant nodes for the area it's about to work in, it starts with everything previous sessions have learned — without re-reading the codebase, re-discovering the constraints, or re-learning the patterns.
 
 For how the knowledge tree fits into the broader memory model — including how insights flow from the action tree, how the journal bridges the two, and the Curator's audit process — see [memory.md](./memory.md).
+
+> **Depends on:** [memory.md](./memory.md)
+> **Extended by:** [file-types/knowledge-index.md](./file-types/knowledge-index.md), [file-types/knowledge-spec.md](./file-types/knowledge-spec.md)
+> **See also:** [action-tree.md](./action-tree.md), [roles/curator.md](../roles/curator.md)
 
 ---
 

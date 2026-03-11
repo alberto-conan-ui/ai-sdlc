@@ -6,6 +6,7 @@
 **Required:** Yes — one per prompt executed
 **Created by:** Developer (produced at the end of each implementation session)
 **Maintained by:** Read by Tech Lead to inform the next prompt
+**Engagement mode:** Working only.
 
 ---
 
@@ -13,7 +14,15 @@
 
 Formal record of what a Developer session actually produced, paired with its implementation prompt by name. The receipt bridges consecutive prompts: the Tech Lead reads it before writing the next prompt, and the next prompt's preamble references it. This keeps the chain of implementation grounded in reality rather than plans.
 
+The session receipt is the Developer's sole contribution to the recording system. The Developer is exempt from all other recording duties — no log entries, no KEY_INSIGHTS, no journal entries, no STATUS.md updates. This isolation is by design — it keeps the Developer focused on literal execution.
+
 Sits flat in the phase folder alongside its paired prompt file.
+
+---
+
+## When to Write
+
+At the end of every Developer session — no exceptions. If the Developer executed a prompt, it produces a receipt.
 
 ---
 
@@ -41,7 +50,6 @@ Mirrors its implementation prompt: if the prompt is `01-map-all-routes.md`, the 
 
 ## Notes
 
-- The Developer is largely exempt from memory maintenance — the receipt is its sole contribution to the recording pipeline. See [journaling.md — Session Receipts](../journaling.md#session-receipts) for the full context.
 - **State changes** is the most important field for subsequent prompts: it tells the Tech Lead what actually changed in the codebase structure.
 - **Open issues** captures anything the Developer adapted, flagged, or stopped on per the "If unexpected" rules.
-- See [prompts.md](../prompts.md) for how receipts feed the just-in-time prompting loop.
+- See [prompts.md](../prompts.md) for how receipts feed the just-in-time prompting loop. See [journaling.md](../journaling.md) for how recording flows per engagement mode.

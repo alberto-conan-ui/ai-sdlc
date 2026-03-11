@@ -6,6 +6,7 @@
 **Required:** Yes — one per prompt in the plan
 **Created by:** Tech Lead (writes just-in-time, not all upfront)
 **Maintained by:** Tech Lead; the Developer executes it
+**Engagement mode:** Working only (Tech Lead writes, Developer executes)
 
 ---
 

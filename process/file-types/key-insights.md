@@ -3,15 +3,38 @@
 **Type name:** key-insights
 **File:** `KEY_INSIGHTS.md`
 **Location:** Action nodes in `action-tree/`
-**Required:** No — created when insights emerge during the work
+**Required:** No — created when insights emerge during implementation
 **Created by:** Any role (except Developer) during active work
 **Maintained by:** All roles contribute; reviewed on action completion; Curator audits
+**Engagement mode:** Working only. In Shaping, insights go directly to the knowledge tree — there is no need for the intermediate scratchpad.
 
 ---
 
 ## Purpose
 
-Working scratchpad for insights that emerge during the work. Patterns discovered, pitfalls encountered, decisions that might matter beyond this action. When the action completes, anything worth keeping migrates to the appropriate knowledge tree node. KEY_INSIGHTS.md is temporary; the knowledge tree is permanent.
+Working scratchpad for insights that emerge during implementation. Patterns discovered, pitfalls encountered, decisions that might matter beyond this action. KEY_INSIGHTS.md exists because knowledge tree curation is not permitted in Working mode, so insights need a place to accumulate until the next Shaping session. When the action completes, anything worth keeping migrates to the appropriate knowledge tree node. KEY_INSIGHTS.md is temporary; the knowledge tree is permanent.
+
+---
+
+## When to Write
+
+Write immediately when you encounter something during implementation that matters beyond the current session. Don't wait to see if it'll matter; write it and let review sort it out. The cost of writing a transient insight is low. The cost of losing a durable one is high.
+
+---
+
+## Lifecycle
+
+1. **Write immediately** when the insight surfaces during Working mode.
+2. **Review on action completion** — switch to Shaping. Everything still in KEY_INSIGHTS.md gets evaluated: keep (migrate to knowledge tree), discard (turned out to be transient), or revise (needs sharpening).
+3. **Discard is fine** — the scratchpad is for working. The action's `log.md` preserves historical context if needed.
+
+### Where insights go
+
+- Specific to this action's work → stays in `KEY_INSIGHTS.md` until completion review
+- About a specific area of the codebase → knowledge tree node matching that area
+- Cross-cutting, project-wide → `knowledge-tree/index.spec.md`
+
+If you're unsure about placement, propose it and let the Human Lead confirm or redirect.
 
 ---
 
@@ -29,18 +52,8 @@ Working scratchpad for insights that emerge during the work. Patterns discovered
 
 ---
 
-## Lifecycle
-
-1. **Write immediately** when you encounter something that matters beyond the current session. Don't wait to see if it'll matter.
-2. **Migrate early** if the insight is clearly about a specific codebase area and is durable — propose placing it in the knowledge tree. Human Lead confirms.
-3. **Review on completion** — everything still in KEY_INSIGHTS.md gets evaluated: keep (migrate), discard (transient), or revise (needs sharpening).
-4. **Discard is fine** — the scratchpad is for working. The action's `log.md` preserves historical context if needed.
-
----
-
 ## Notes
 
-- Insights must be prescriptive, not descriptive. Bad: "Refactoring was hard." Good: "Before any refactor that moves code between modules, write automated tests that assert current behaviour."
-- The **Source** field is what makes the Curator's audit possible.
-- See [journaling.md — Key Insights](../journaling.md#key-insights) for the full lifecycle, placement rules, and how insights fit into the recording pipeline.
-- See [memory.md](../memory.md) for the broader memory model.
+- Insights must be prescriptive, not descriptive (see [knowledge-tree.md — Knowledge File Format](../knowledge-tree.md#knowledge-file-format) for examples and the full quality bar).
+- The **Source** field links the insight back to where it was learned. This is what makes the Curator's audit possible. Every insight in the knowledge tree must be traceable to its origin.
+- See [memory.md](../memory.md) for the broader memory model. See [journaling.md](../journaling.md) for how recording flows per engagement mode.

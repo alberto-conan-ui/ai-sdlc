@@ -1,7 +1,15 @@
+---
+type: process
+audience: [human, ai]
+---
+
 # Core Principles
 
 > These principles govern how the methodology operates. They are non-negotiable
 > regardless of role, tier, or tooling.
+
+> **Extended by:** [roles/operating-rules.md](../roles/operating-rules.md) (AI-specific operating rules)
+> **See also:** [memory.md](./memory.md), [journaling.md](./journaling.md), [workflow.md](./workflow.md)
 
 ---
 
@@ -50,9 +58,9 @@ When any of these changes, the AI confirms with the Human Lead before proceeding
 
 ## Append-Forward
 
-The project memory moves forward, never backward. When a plan changes, the new plan is a new artefact. The old plan stays as the record of what was believed at the time. When a task outgrows its scope, the task stays as-is and a new epic or goal is created to continue the work. Promotion, revision, and abandonment are all forward moves — new entries, new files, new journal notes.
+The project memory moves forward, never backward. When a plan changes, the new plan is a new artefact. The old plan stays as the record of what was believed at the time. When an action outgrows its scope, the action stays as-is and children continue the work. Promotion, revision, and abandonment are all forward moves — new entries, new files, new journal notes.
 
-This principle exists because rewriting history breaks the context chain. If a spec gets silently edited, the journal entries that reference it no longer make sense. If a task folder gets renamed or restructured, references go stale. By always moving forward — creating new artefacts rather than mutating old ones — every past reference remains valid, and the journal tells a truthful story.
+This principle exists because rewriting history breaks the context chain. If a spec gets silently edited, the journal entries that reference it no longer make sense. If an action folder gets renamed or restructured, references go stale. By always moving forward — creating new artefacts rather than mutating old ones — every past reference remains valid, and the journal tells a truthful story.
 
 The only file that genuinely mutates is STATUS.md, and even that is just pointer updates: which action is active, which phase, which prompt, and which engagement mode. Everything else is append-only.
 
@@ -60,10 +68,6 @@ The only file that genuinely mutates is STATUS.md, and even that is just pointer
 
 ## The Memory Model
 
-The methodology maintains persistent memory through two complementary trees — the **action tree** (short-term memory) and the **knowledge tree** (long-term memory) — with a **journal** that bridges them and serves as the audit trail.
+The methodology maintains persistent memory through two complementary trees and a journal. This is the central mechanism — everything else serves it. Without persistent memory, every AI session starts from zero. With it, session 10 benefits from every lesson learned in sessions 1 through 9.
 
-The action tree (`action-tree/`) holds the work in progress: session logs, working insights, and links to relevant knowledge. The knowledge tree (`knowledge-tree/`) holds curated, durable insights organised by codebase area. The journal (`journal/`) captures cross-cutting decisions and observations — it's both the bridge between the two trees and the Curator's primary audit input for verifying the memory pipeline works correctly.
-
-Work produces logs and insights → insights migrate to the knowledge tree on action completion → the Curator audits using the journal to verify nothing was lost or misplaced.
-
-**The full memory model — including the flow between trees and the Curator's audit process — is defined in [memory.md](./memory.md).** The recording system — all four recording file types, when to write, who writes, the flow, and the session checklist — is defined in [journaling.md](./journaling.md). All roles should read both. This is the most important mechanism in the methodology.
+**The full memory model — including the two trees, the journal, the flow between them, and the Curator's audit process — is defined in [memory.md](./memory.md).** The recording system — file types, pipelines, session checklists — is defined in [journaling.md](./journaling.md). All roles should read both.

@@ -1,7 +1,17 @@
+---
+type: process
+audience: [human, ai]
+depends_on: [workflow.md, roles.md]
+---
+
 # Implementation Prompt Craft
 
 > How to write effective implementation prompts for Developer sessions.
 > The quality of execution depends almost entirely on the quality of these prompts.
+
+> **Depends on:** [workflow.md](./workflow.md), [roles.md](./roles.md)
+> **Extended by:** [file-types/implementation-prompt.md](./file-types/implementation-prompt.md), [file-types/session-receipt.md](./file-types/session-receipt.md), [file-types/prompt-plan.md](./file-types/prompt-plan.md)
+> **See also:** [roles/tech-lead.md](../roles/tech-lead.md)
 
 ---
 
@@ -9,7 +19,7 @@
 
 The role separation is the backbone of this methodology. The Architect designs the approach, the Tech Lead translates it into prompts, and the Developer writes the code. The implementation prompt is the interface between the Technical Lead and the Developer. A good prompt produces correct code on the first attempt. A bad prompt produces confident, plausible, wrong code — and the Developer won't know it's wrong because it doesn't have the architectural context to judge.
 
-This applies regardless of action tier. Even a task with a single prompt benefits from precision — the difference between "fix the redirect" and a properly structured prompt with verification commands is the difference between a fix that works and a fix that introduces a new bug.
+This applies regardless of action tier. Even a simple action with a single prompt benefits from precision — the difference between "fix the redirect" and a properly structured prompt with verification commands is the difference between a fix that works and a fix that introduces a new bug.
 
 Every minute spent writing a precise prompt saves ten minutes debugging the Developer's misinterpretation.
 
@@ -27,7 +37,7 @@ The Tech Lead and Human Lead discuss the approach for each phase. Some phases be
 
 **When a prompt plan helps:** complex phases with dependencies between prompts, phases where the Human Lead wants visibility into the full sequence before code is written, or high-risk work that warrants upfront planning. The prompt plan is a sequencing tool — the full sequence of bounded goals, with dependencies noted. Each entry is 1–3 lines.
 
-**When to skip the prompt plan:** tasks with one or two prompts, phases that follow established patterns, exploratory work where the next step depends heavily on what the previous prompt reveals. Write prompts directly, one at a time, informed by the Developer's session receipts.
+**When to skip the prompt plan:** simple actions with one or two prompts, phases that follow established patterns, exploratory work where the next step depends heavily on what the previous prompt reveals. Write prompts directly, one at a time, informed by the Developer's session receipts.
 
 When a prompt plan exists, the Human Lead reviews it alongside the first detailed prompt. When there's no plan, the Human Lead reviews prompts at whatever cadence they've agreed on with the Tech Lead.
 
@@ -64,7 +74,7 @@ Every Developer session ends by producing a session receipt — a structured sum
 
 The **state changes** field is the most important. It captures the delta between the codebase the Tech Lead last saw and the codebase the next prompt will encounter. Without it, the Tech Lead is guessing — and guessing is how prompt assumptions go stale.
 
-For the receipt format, rules, and how it fits into the full recording pipeline, see [journaling.md — Session Receipts](./journaling.md#session-receipts).
+For the receipt format and rules, see [file-types/session-receipt.md](./file-types/session-receipt.md). For how it fits into the recording pipeline, see [journaling.md](./journaling.md).
 
 ---
 
@@ -133,7 +143,7 @@ If a prompt takes more than one session to complete, it should be split. If a pr
 
 ## Prompt Structure
 
-Every implementation prompt follows this template (see [templates.md](./templates.md) for the full format):
+Every implementation prompt follows this template (see [conventions.md](./conventions.md) for the full format):
 
 ```markdown
 # Prompt NN — Short Description

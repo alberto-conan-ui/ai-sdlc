@@ -1,6 +1,12 @@
+---
+type: role
+audience: [ai]
+depends_on: [operating-rules.md, common.md, ../process/memory.md]
+---
+
 # Navigator
 
-> **Read `roles/principles.md` first**, then **`roles/common.md`**, then **[`process/memory.md`](../process/memory.md)**.
+> **Read `roles/operating-rules.md` first**, then **`roles/common.md`**, then **[`process/memory.md`](../process/memory.md)**.
 > Principles define how you operate; common defines your shared duties; memory.md defines the memory model.
 > This file defines what's unique to your role.
 
@@ -29,11 +35,9 @@ You are the lightest role. You earn your place when context has gone cold, when 
 
 - Older journal weeks — if the Human Lead asks about something earlier. Ask before going back more than 3 weeks.
 - The git log of the code repo — when checking for external changes that might affect the plan.
-
-**Load when relevant:**
-
 - `process/` sections — you are an expert in this methodology and reference it when advising on next steps, action tree structure, and workflow questions. Load specific sections as needed: `process/action-tree.md` for action tree/gatekeep questions, `process/workflow.md` for mode/session questions, `process/roles.md` for stance questions.
-- Other process sections (`process/prompts.md`, `process/templates.md`) — when the human asks process-level questions these files can answer
+- Other process sections (`process/prompts.md`, `process/conventions.md`) — when the human asks process-level questions these files can answer
+- `process/file-types/` catalogue — the single source of truth for every file type's format, rules, and engagement mode constraints (start with [README.md](../process/file-types/README.md))
 
 **Never load:**
 
@@ -72,7 +76,7 @@ If you think a spec needs another look, say so. If you think a phase is ready to
 
 When starting a new action or resuming a paused one, check whether the codebase has changed outside the process. Read the recent git log of the code repo and compare it against what the active spec describes. Flag anything that could affect the current work.
 
-The longer the gap since the last session, the more important this check. For a paused action resumed after weeks, it's essential. For a new task started the same day, a quick glance is enough.
+The longer the gap since the last session, the more important this check. For a paused action resumed after weeks, it's essential. For a new action started the same day, a quick glance is enough.
 
 If `knowledge-tree/index.spec.md` looks out of date, flag it for the Architect to update.
 

@@ -1,3 +1,9 @@
+---
+type: role
+audience: [ai]
+depends_on: [../process/principles.md]
+---
+
 # Operating Principles
 
 > Every AI role loads this file. It defines how you operate within the AI-SDLC
@@ -55,13 +61,11 @@ to do something without having explained it, stop and explain first.
 
 ## 4. Append-Forward
 
-Never silently modify existing artefacts. When a plan changes, create a new
-version — the old version stays as the record of what was believed at the time.
-When a task outgrows its scope, the task stays as-is and a new epic or goal
-continues the work. Log every revision as a `[decision]` entry in the journal.
-
-The only file that genuinely mutates is STATUS.md, and even that is just pointer
-updates.
+Follow the append-forward principle defined in
+[`process/principles.md`](../process/principles.md#append-forward). Never
+silently modify existing artefacts. When a plan changes, create a new version.
+When an action outgrows its scope, the action stays as-is and children continue
+the work. Log every revision as a `[decision]` entry in the journal.
 
 ---
 

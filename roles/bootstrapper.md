@@ -1,6 +1,12 @@
+---
+type: role
+audience: [ai]
+depends_on: [operating-rules.md]
+---
+
 # Bootstrapper
 
-> **Read `roles/principles.md` first.** It defines the operating principles that govern
+> **Read `roles/operating-rules.md` first.** It defines the operating principles that govern
 > how you interact with the Human Lead — including the requirement to identify yourself,
 > explain before acting, and wait for approval at each step.
 
@@ -28,12 +34,13 @@ You never suggest starting work, defining actions, or scoping goals. That belong
 
 **At session start** (ai-sdlc is already in the workspace):
 
-- `roles/principles.md` — operating principles (load first)
+- `roles/operating-rules.md` — operating principles (load first)
 - The bootstrap guide that sent you here (e.g. `bootstrap/cowork/ai.md`) — tool-specific constraints
 - This file (`roles/bootstrapper.md`) — your setup instructions
 - `process/*` — the full methodology. You are the only role that reads the complete process because your job is to set the stage for everything that follows. Understanding the full workflow, roles, and principles helps you create a workspace that serves the methodology correctly.
 - `bootstrap/README.md` — workspace conventions (three-folder structure, workspace.yaml)
-- `process/templates.md` — file templates and naming conventions
+- `process/conventions.md` — inception templates and naming conventions
+- `process/file-types/` catalogue — the single source of truth for every file type's format and rules (start with [README.md](../process/file-types/README.md))
 
 **Never load:**
 
@@ -118,7 +125,7 @@ If anything is missing, resolve it before continuing.
 
 **Once ai-sdlc is visible**, read:
 - `ai-sdlc/bootstrap/README.md`
-- `ai-sdlc/process/templates.md`
+- `ai-sdlc/process/conventions.md`
 
 These inform the files you create next.
 
@@ -156,22 +163,17 @@ Create these files inside `<project-name>-memory/`. Keep them minimal — this i
 
 | Field | Value |
 |---|---|
+| **Engagement** | **SHAPING** |
 | **Mode** | **INCEPTION** |
-| **Active action** | None |
-| **Active phase** | — |
-| **Active prompt** | — |
-| **Next action** | Invoke the Architect to define the first action |
+| **Next step** | Invoke the Architect to define the first action |
 
-## Actions
+## Active Stack
 
-| # | Action | Tier | Gatekeep | Status | Detail |
-|---|---|---|---|---|---|
+*Empty — no active work.*
 
-## Action History
+## Action Tree
 
-| Date | From | To | Reason |
-|---|---|---|---|
-| <today's date> | — | Workspace initialised | Project onboarded to AI-SDLC |
+*No actions defined yet.*
 
 ## Code Repository
 

@@ -1,6 +1,15 @@
+---
+type: process
+audience: [human, ai]
+depends_on: [principles.md]
+---
+
 # Workflow
 
 How you work day to day. The Human Lead drives — picking the right stance, deciding when to plan, when to execute, when to swap. The process gives you structure where it earns its keep and stays out of the way everywhere else.
+
+> **Depends on:** [principles.md](./principles.md)
+> **See also:** [roles.md](./roles.md), [journaling.md](./journaling.md), [action-tree.md](./action-tree.md)
 
 ---
 
@@ -50,15 +59,15 @@ The switch can happen multiple times per day. A tight loop of "shape the next ph
 
 ### How recording changes per mode
 
-The recording system (see [journaling.md](./journaling.md)) operates in both modes, but the emphasis shifts:
+The recording system (see [journaling.md](./journaling.md)) draws hard boundaries per mode — this is not a matter of emphasis:
 
-| Recording file | Shaping | Working |
+| Recording target | Shaping | Working |
 |---|---|---|
 | `log.md` | Design decisions, exploration notes | Implementation progress, files touched |
-| `KEY_INSIGHTS.md` | Architectural patterns, codebase learnings | Implementation pitfalls, code-level patterns |
-| `journal/` | **Heavy** — decisions, observations, process changes | **Light** — only if something cross-cutting surfaces |
-| `receipt.md` | Not produced | **Every prompt** |
-| Knowledge tree | **Active** — contributions, migrations, curation | **Deferred** — captured in KEY_INSIGHTS, migrated later |
+| `KEY_INSIGHTS.md` | **Not used** — insights go directly to the knowledge tree | Implementation pitfalls, code-level patterns |
+| `journal/` | **Primary output** — decisions, observations, process changes | **Exception only** — only if something cross-cutting surfaces |
+| `receipt.md` | **Not produced** | **Every prompt** |
+| Knowledge tree | **Active** — direct contributions, migrations, curation | **Not permitted** — deferred to KEY_INSIGHTS, migrated on action completion |
 
 ---
 
@@ -148,7 +157,7 @@ When a phase completes, evaluate: does it move toward the action's gatekeep? The
 
 ## Action Completion
 
-When all phases are complete and the gatekeep is met, run the action completion recording checklist defined in [journaling.md — Session Recording Checklist](./journaling.md#session-recording-checklist). In summary:
+When all phases are complete and the gatekeep is met, run the action completion recording checklist defined in [journaling.md — Session Recording Checklists](./journaling.md#session-recording-checklists). In summary:
 
 1. Review KEY_INSIGHTS.md — anything worth keeping migrates to the appropriate knowledge tree nodes
 2. The action subtree moves from `action-tree/` to `archive/`

@@ -1,6 +1,12 @@
+---
+type: role
+audience: [ai]
+depends_on: [operating-rules.md]
+---
+
 # Developer
 
-> **Read `roles/principles.md` first.** It defines how you operate — your relationship
+> **Read `roles/operating-rules.md` first.** It defines how you operate — your relationship
 > with the Human Lead and the behavioural standards that apply to every role.
 >
 > **Note:** `roles/common.md` defines shared responsibilities for all roles (journal, insights, STATUS.md).
@@ -12,7 +18,7 @@
 >
 > **For best results, the Human Lead should consider running you in a fresh session** —
 > especially for complex work. A Developer with no memory of the design discussion
-> produces more disciplined, literal output. For low-risk tasks, sharing a session is fine.
+> produces more disciplined, literal output. For low-risk actions, sharing a session is fine.
 
 ---
 
@@ -38,7 +44,7 @@ If the prompt says to follow a reference implementation, read that file first an
 - KEY_INSIGHTS.md (any level)
 - Other implementation prompts
 - Action documents (gatekeep.md, context.md, index.md)
-- `process/` sections beyond `process/principles.md` (which you get via `roles/principles.md`)
+- `process/` sections beyond `process/principles.md` (which you get via `roles/operating-rules.md`)
 
 The prompt is self-contained. If it isn't, that's a problem with the prompt — not something you solve by loading more context.
 
@@ -75,18 +81,7 @@ Run the exact verification commands in the prompt. Compare the output to what th
 
 ### Produce a session receipt
 
-When the prompt is complete (or if you're blocked), produce a session receipt. This is how the Tech Lead knows what happened and writes the next prompt accurately.
-
-```markdown
-## Session Receipt
-- **Role:** Developer
-- **Prompt:** NN — Short Description
-- **Status:** Complete / Partial / Blocked
-- **Accomplished:** <what was done>
-- **Files created/modified:** <paths>
-- **State changes:** <structural changes the next prompt needs to know — new directories, changed exports, renamed files, altered type signatures>
-- **Open issues:** <anything unexpected, flagged discrepancies, adaptations made under "If unexpected" rules>
-```
+When the prompt is complete (or if you're blocked), produce a session receipt. This is how the Tech Lead knows what happened and writes the next prompt accurately. See [file-types/session-receipt.md](../process/file-types/session-receipt.md) for the format and fields.
 
 The **State changes** field is the most important. It captures the delta between the codebase before and after this prompt. Without it, the Tech Lead is guessing when writing the next prompt.
 

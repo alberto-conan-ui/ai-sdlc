@@ -6,6 +6,7 @@
 **Required:** No — created when cross-cutting annotations arise
 **Created by:** Any role (except Developer)
 **Maintained by:** Append-only; Curator uses it as primary audit input
+**Engagement modes:** Both — primary recording output in Shaping, exception path in Working (only when something genuinely cross-cutting surfaces during implementation)
 
 ---
 
@@ -14,6 +15,20 @@
 Captures cross-cutting annotations — project-level decisions, observations spanning multiple actions, and process changes. The journal sits between the action tree and the knowledge tree and serves as both a bridge (capturing what transcends individual actions) and an audit trail (letting the Curator verify the memory pipeline).
 
 Weekly rolling files keep it manageable. Detailed session history lives in each action's `log.md`, not here.
+
+---
+
+## When to Write
+
+Write a journal entry when you make or encounter something that crosses action boundaries:
+
+- A non-trivial project-level decision (e.g., choosing a new dependency, changing an architectural pattern)
+- An observation that spans multiple actions (e.g., a recurring issue across different areas)
+- A process change (e.g., adjusting how phases are structured, updating tooling)
+
+If it's scoped to the current action, it belongs in the [action log](./action-log.md). If it transcends any single action, it belongs here.
+
+In Working mode, journal entries should be rare. If you're writing frequent journal entries during implementation, you may be doing design work that belongs in Shaping.
 
 ---
 
@@ -59,10 +74,14 @@ Weekly rolling files keep it manageable. Detailed session history lives in each 
 
 ---
 
+## Naming
+
+Files are named by ISO week: `YYYY-WNN.md`. One file per week, multiple entries per file.
+
+---
+
 ## Notes
 
-- Files are named by ISO week: `YYYY-WNN.md`.
 - Entries are never edited or deleted (append-forward principle).
 - The journal is the Curator's primary audit input. If the journal says a decision was made but the knowledge tree doesn't reflect it, something was missed.
-- See [journaling.md — Journal Entries](../journaling.md#journal-entries) for when to write, triggers, and how the journal fits into the recording pipeline.
-- See [memory.md](../memory.md) for the broader memory model.
+- See [memory.md](../memory.md) for the broader memory model. See [journaling.md](../journaling.md) for how recording flows per engagement mode.

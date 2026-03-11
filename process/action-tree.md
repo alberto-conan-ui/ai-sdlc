@@ -1,8 +1,18 @@
+---
+type: process
+audience: [human, ai]
+depends_on: [memory.md]
+---
+
 # The Action Tree
 
 Everything in AI-SDLC is an **action**. An action is a human-defined piece of work with a clear outcome. Actions live in a tree — nested however you want, named whatever you want, structured to match how you think about the work.
 
 The action tree is the project's **short-term memory** — one half of the memory model defined in [memory.md](./memory.md). It captures what you're doing *right now*: the work in progress, the session-by-session log of what happened, the insights accumulating as you go. When an action completes, its insights migrate to the **knowledge tree** (long-term memory) and the action archives. The action tree is where work lives while it's alive.
+
+> **Depends on:** [memory.md](./memory.md)
+> **Extended by:** [file-types/](./file-types/) (node file type definitions)
+> **See also:** [knowledge-tree.md](./knowledge-tree.md), [workflow.md](./workflow.md)
 
 ---
 
@@ -65,11 +75,11 @@ Every node in the action tree can have the following files. **Only `gatekeep.md`
 
 **`index.md`** — maps this node's children. What sub-actions exist, what each one covers, how they relate. Only meaningful for branch nodes. Follows the same pattern as the knowledge tree's index files.
 
-**`log.md`** — the session-by-session record of what happened while working on this action. This is the action's short-term memory — it tells the next session where the previous one left off. See [journaling.md — Action Log](./journaling.md#action-log) for when to write, format, and rules.
+**`log.md`** — the session-by-session record of what happened while working on this action. This is the action's short-term memory — it tells the next session where the previous one left off. Used in both engagement modes. See [file-types/action-log.md](./file-types/action-log.md).
 
-**`KEY_INSIGHTS.md`** — the working scratchpad for insights that emerge during the work. When the action completes, anything worth keeping migrates to the appropriate node in the knowledge tree. KEY_INSIGHTS is temporary; the knowledge tree is permanent. See [journaling.md — Key Insights](./journaling.md#key-insights) for the full lifecycle.
+**`KEY_INSIGHTS.md`** — the working scratchpad for insights that emerge during implementation (Working mode only). When the action completes, anything worth keeping migrates to the appropriate node in the knowledge tree. In Shaping mode, insights go directly to the knowledge tree. See [file-types/key-insights.md](./file-types/key-insights.md).
 
-**`phases/`** — the implementation structure. Phases can exist at any level of the tree — a branch node might have its own integration phases alongside its children's implementation phases. The phase structure uses a flat file layout: phase.md (the phase spec), prompt-plan.md (sequencing prompts), and numbered implementation prompts alongside paired receipt files.
+**`phases/`** — the implementation structure. Phases can exist at any level of the tree — a branch node might have its own integration phases alongside its children's implementation phases. The phase structure uses a flat file layout: [phase.md](./file-types/phase.md) (the phase spec), [prompt-plan.md](./file-types/prompt-plan.md) (sequencing prompts), and numbered [implementation prompts](./file-types/implementation-prompt.md) alongside paired [receipt files](./file-types/session-receipt.md).
 
 ---
 
@@ -158,7 +168,7 @@ This replaces the old promotion mechanic (task → epic → goal). There's no ce
 
 ## Action Completion
 
-When an action is done — its gatekeep passes — run the action completion checklist in [journaling.md — Session Recording Checklist](./journaling.md#session-recording-checklist). In summary:
+When an action is done — its gatekeep passes — run the action completion checklist in [journaling.md — Session Recording Checklists](./journaling.md#session-recording-checklists). In summary:
 
 1. Review `KEY_INSIGHTS.md`. Anything worth keeping migrates to the appropriate knowledge tree node. The action's insights become permanent knowledge — they outlive the action.
 2. The action folder moves from `action-tree/` to `archive/`. The full subtree goes together — logs, insights, phases, everything. The archive is the historical record.

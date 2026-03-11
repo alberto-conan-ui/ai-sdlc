@@ -1,6 +1,12 @@
+---
+type: role
+audience: [ai]
+depends_on: [operating-rules.md, ../process/memory.md, ../process/journaling.md]
+---
+
 # Common Responsibilities
 
-> **Read `roles/principles.md` first.** It defines how you operate — your relationship
+> **Read `roles/operating-rules.md` first.** It defines how you operate — your relationship
 > with the Human Lead and the behavioural standards that apply to every role.
 >
 > This file defines the shared duties that all roles perform regardless of their
@@ -10,13 +16,18 @@
 
 ## Memory and Recording
 
-You participate in the project's memory system as part of your normal work. This involves two things: **reading** the relevant memory on session start, and **recording** what happens during the session.
+You participate in the project's memory system as part of your normal work. This involves two things: **reading** the relevant memory on session start, and **recording** what happens during the session. What you read and record depends on the **engagement mode** — Shaping or Working — which defines hard boundaries on which files you use.
 
-**On session start:** Read `knowledge-tree/index.spec.md` to orient on the codebase and identify relevant knowledge tree nodes. Load the nodes that apply to this action. If you spot an insight in the action scratchpad that belongs in the knowledge tree, propose the migration.
+**On session start:** Read `knowledge-tree/index.spec.md` to orient on the codebase and identify relevant knowledge tree nodes. Load the nodes that apply to the current action.
 
-**During and after the session:** Write log entries, surface insights, and log cross-cutting decisions. The recording system has four file types, each with specific triggers and rules. Before every session close, run through the session recording checklist.
+**During and after the session:** Record what happens. The recording files, their triggers, and the rules for each engagement mode are defined in the [file-types catalogue](../process/file-types/README.md) — that catalogue is the single source of truth for every file type. Before every session close, run through the session recording checklist in [process/journaling.md](../process/journaling.md).
 
-The full recording system — which files to write, when, the responsibility matrix, the flow between files, and the atomic session checklist — is defined in [process/journaling.md](../process/journaling.md). The memory model (two trees, journal, how they connect) is defined in [process/memory.md](../process/memory.md). Both are essential reading.
+**Mode matters:**
+
+- **Shaping mode** — you work on the knowledge tree directly. Write log entries (design notes, exploration results) and journal entries (cross-cutting decisions). KEY_INSIGHTS.md is not used in Shaping — insights go straight to the knowledge tree.
+- **Working mode** — you write log entries (implementation progress) and surface insights to `KEY_INSIGHTS.md`. The knowledge tree is not curated in Working mode — that's what KEY_INSIGHTS exists for. Journal entries are the exception path (only for genuinely cross-cutting observations).
+
+The full recording system — recording flows per mode, the responsibility matrix, and session checklists — is defined in [process/journaling.md](../process/journaling.md). The memory model (two trees, journal, how they connect) is defined in [process/memory.md](../process/memory.md). Both are essential reading.
 
 The Human Lead reviews knowledge contributions as they appear. Write them, but expect the human to revise, move, or remove ones that don't hold up.
 

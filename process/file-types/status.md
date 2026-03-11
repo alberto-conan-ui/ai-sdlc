@@ -56,7 +56,7 @@ Single source of truth for project orientation. Every role reads this first. It 
 
 ## Template — Active project
 
-See [templates.md](../templates.md) for the full active-project template with example data.
+See [conventions.md](../conventions.md) for the full active-project template with example data.
 
 ---
 

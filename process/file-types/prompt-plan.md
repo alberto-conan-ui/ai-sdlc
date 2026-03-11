@@ -6,6 +6,7 @@
 **Required:** No — optional for simple actions with 1-2 prompts
 **Created by:** Tech Lead
 **Maintained by:** Tech Lead updates as the sequence evolves
+**Engagement mode:** Working only (Tech Lead produces before writing the first detailed prompt)
 
 ---
 

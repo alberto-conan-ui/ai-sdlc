@@ -1,8 +1,17 @@
+---
+type: process
+audience: [human, ai]
+depends_on: [principles.md, workflow.md]
+---
+
 # Roles
 
 This is a solo practitioner's framework. You — the human — are the only person. The AI is your tool, and you direct it by shifting between cognitive stances. The "roles" are not people or separate agents. They are **framing techniques** — telling the AI "you are an Architect, challenge assumptions" produces genuinely different output than "you are a Developer, follow this prompt." Different stances produce different thinking. That's the entire mechanism.
 
 The Human Lead picks the right stance as the work demands it. There is no prescribed sequence or ceremony for switching — you shift when the conversation needs a different kind of thinking.
+
+> **Depends on:** [principles.md](./principles.md), [workflow.md](./workflow.md)
+> **See also:** Individual role files in [roles/](../roles/)
 
 ---
 

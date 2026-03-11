@@ -20,9 +20,9 @@ LLMs change this equation. An AI can read an entire codebase, hold it in context
 
 The biggest problem with AI-assisted development isn't the AI's ability to write code — it's the AI's inability to remember anything. Every new session starts from zero. Without intervention, session 10 is as expensive as session 1.
 
-AI-SDLC fixes this with a **memory model** built on two complementary trees and a journal. The **action tree** captures what's happening now (short-term memory). The **knowledge tree** captures what you've learned (long-term memory) as knowledge specs (`.spec.md` files). The **journal** bridges them and serves as the audit trail. Work produces insights → insights migrate to the knowledge tree → the Curator audits the pipeline using the journal. Each new session loads the relevant knowledge — not everything, just what applies to the current work — and starts producing useful output in minutes instead of re-learning the project.
+AI-SDLC fixes this with a **memory model** built on two complementary trees and a journal. Each new session loads the relevant knowledge — not everything, just what applies to the current work — and starts producing useful output in minutes instead of re-learning the project.
 
-The compound curve is real but not instant. For a two-session task, the overhead barely pays for itself. For a five-phase epic spanning three weeks, the difference is dramatic. And it only works if the human reviews what the AI writes — refining vague insights, correcting inaccurate summaries, removing noise. The AI populates the memory. Your review makes it trustworthy. **The full memory model is defined in [process/memory.md](./process/memory.md).**
+The compound curve is real but not instant. For a two-session action, the overhead barely pays for itself. For a five-phase action spanning three weeks, the difference is dramatic. And it only works if the human reviews what the AI writes — refining vague insights, correcting inaccurate summaries, removing noise. The AI populates the memory. Your review makes it trustworthy. **The full memory model is defined in [process/memory.md](./process/memory.md).**
 
 ### Cognitive framing produces different output
 
@@ -46,19 +46,15 @@ This methodology is for senior developers. It assumes you can already architect 
 
 ## Engagement Modes — Shaping and Working
 
-At any given moment, the project is in one of two engagement modes. The mode is a project-level declaration by the Human Lead that changes what the system focuses on, which stances are primary, and how recording behaves.
+At any given moment, the project is in one of two engagement modes. **Shaping** orients the system around the knowledge tree and action tree structure — you're designing, not coding. **Working** orients it around executing the active stack — you're coding against a defined plan.
 
-**Shaping** — the system is oriented around the knowledge tree and the structure of the action tree. You're reading the codebase, designing approaches, defining actions and gatekeeps, curating knowledge, structuring roadmaps. The primary stances are Architect, Navigator, and Curator. Recording is focused on decisions and knowledge: journal entries, knowledge tree contributions, and design rationale. The output is clarity — specs, gatekeeps, phase designs, curated insights. You don't write code in shaping mode.
-
-**Working** — the system is oriented around the action tree's active stack. You're executing phases, writing prompts, producing code. The primary stances are Tech Lead and Developer. Recording is focused on execution: log entries, session receipts, and implementation insights. The output is code and verified behaviour. You don't restructure the action tree or redefine gatekeeps in working mode — if you need to, that's a signal to switch back to shaping.
-
-The mode lives in STATUS.md and gates the system's behaviour. The detailed rules — what changes per mode, when to switch, and how recording adapts — are defined in [workflow.md](./process/workflow.md#engagement-modes).
+The mode lives in STATUS.md and gates which stances are primary, what recording looks like, and what activities are appropriate. The detailed rules — what changes per mode, when to switch, and how recording adapts — are defined in [workflow.md](./process/workflow.md#engagement-modes).
 
 ---
 
 ## The Core Ideas
 
-**Memory** is the central mechanism. The project memory holds an **action tree** (short-term — work in progress), a **knowledge tree** (long-term — curated insights by codebase area), and a **journal** (the bridge and audit trail). Work produces insights; insights migrate to the knowledge tree; the Curator audits the pipeline. See [memory.md](./process/memory.md). The recording system that feeds this memory — logs, insights, journal entries, session receipts — is defined in [journaling.md](./process/journaling.md).
+**Memory** is the central mechanism. Two trees and a journal give the project durable memory across sessions. See [memory.md](./process/memory.md) for the model and [journaling.md](./process/journaling.md) for the recording system that feeds it.
 
 **Actions** are how you organise work. Everything is an action — nested in a tree, named however you want, with a `gatekeep.md` at every node that defines "done." Simple fixes are single nodes; complex work decomposes into children. See [action-tree.md](./process/action-tree.md).
 
@@ -76,7 +72,7 @@ The mode lives in STATUS.md and gates the system's behaviour. The detailed rules
 
 1. Set up your workspace — see [bootstrap/README.md](./bootstrap/README.md) for the three-folder convention and step-by-step guides
 2. Read the methodology — the reading order below
-3. Flows (practical walkthroughs) — TBC, being rewritten to align with the reorganised methodology
+3. Flows (practical walkthroughs) — coming soon
 
 ## Reading Order
 
@@ -92,12 +88,12 @@ Each file is self-contained, but they build on each other.
 | 6 | [roles.md](./process/roles.md) | The Human Lead and AI stances, model tiers, when to separate sessions |
 | 7 | [workflow.md](./process/workflow.md) | Inception, planning, implementation, session discipline |
 | 8 | [prompts.md](./process/prompts.md) | How to write effective implementation prompts for Developer sessions |
-| 9 | [templates.md](./process/templates.md) | File templates, naming conventions, knowledge tree structure |
+| 9 | [conventions.md](./process/conventions.md) | Naming conventions, status indicators, and bootstrapper templates |
 | 10 | [anti-patterns.md](./process/anti-patterns.md) | Common failure modes and how to avoid them |
 
 ## AI Role Entry Points
 
-The `roles/` folder contains one file per AI stance, loaded at session start or when switching stances. Each role loads [principles.md](./roles/principles.md) first, then [common.md](./roles/common.md) for shared duties, then its own entry point.
+The `roles/` folder contains one file per AI stance, loaded at session start or when switching stances. Each role loads [operating-rules.md](./roles/operating-rules.md) first, then [common.md](./roles/common.md) for shared duties, then its own entry point.
 
 **Core flow:** [architect.md](./roles/architect.md) → [tech-lead.md](./roles/tech-lead.md) → [developer.md](./roles/developer.md)
 **Situational:** [navigator.md](./roles/navigator.md), [curator.md](./roles/curator.md)

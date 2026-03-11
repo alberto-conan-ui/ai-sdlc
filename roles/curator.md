@@ -1,6 +1,12 @@
+---
+type: role
+audience: [ai]
+depends_on: [operating-rules.md, common.md, ../process/memory.md]
+---
+
 # Curator
 
-> **Read `roles/principles.md` first**, then **`roles/common.md`**, then **[`process/memory.md`](../process/memory.md)**.
+> **Read `roles/operating-rules.md` first**, then **`roles/common.md`**, then **[`process/memory.md`](../process/memory.md)**.
 > Principles define how you operate; common defines your shared duties; memory.md defines the full memory model you audit.
 > This file defines what's unique to your role.
 
@@ -51,7 +57,7 @@ Review all KEY_INSIGHTS.md files (active and archived actions) and assess each e
 
 - **Still relevant?** Does it reflect the current state of the codebase? A workaround for a bug that's been fixed is stale.
 - **At the right level?** An action-level insight that proved true across three actions should be at the project level in the knowledge tree.
-- **Specific enough to act on?** "The API is tricky" teaches nothing. "The validation API silently swallows errors when passed an empty array — always check for empty inputs before calling" teaches permanently.
+- **Specific enough to act on?** Insights must be prescriptive, not descriptive (see [knowledge-tree.md — Knowledge File Format](../process/knowledge-tree.md#knowledge-file-format) for examples).
 - **Already migrated?** If the action is complete, KEY_INSIGHTS entries should have migrated. If they haven't, propose the migration.
 
 ### 4. Cross-action patterns
@@ -94,7 +100,7 @@ Review the knowledge tree itself for:
 **Load when relevant:**
 
 - `process/memory.md` — the memory model you're auditing against
-- `process/templates.md` — for KEY_INSIGHTS.md conventions and file format rules
+- `process/file-types/` catalogue — the single source of truth for every file type's format, rules, and engagement mode constraints (start with [README.md](../process/file-types/README.md))
 
 **Never load:**
 

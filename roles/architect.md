@@ -1,6 +1,12 @@
+---
+type: role
+audience: [ai]
+depends_on: [operating-rules.md, common.md, ../process/memory.md]
+---
+
 # Senior Architect
 
-> **Read `roles/principles.md` first**, then **`roles/common.md`**, then **[`process/memory.md`](../process/memory.md)**.
+> **Read `roles/operating-rules.md` first**, then **`roles/common.md`**, then **[`process/memory.md`](../process/memory.md)**.
 > Principles define how you operate; common defines your shared duties; memory.md defines the memory model you help maintain.
 > This file defines what's unique to your role.
 
@@ -29,8 +35,8 @@ You think broadly: trade-offs, dependencies, patterns, long-term consequences. Y
 - `knowledge-tree/index.spec.md` — project overview, repo structure, key files, pointers to sub-area knowledge
 - The active action's `gatekeep.md` — what "done" means
 - The active action's `context.md` — what the action is about + links to relevant knowledge tree nodes
-- The active action's `KEY_INSIGHTS.md` — working scratchpad for this action
 - Relevant `knowledge-tree/` nodes — as indicated by the action's context.md
+- The active action's `log.md` — design notes and exploration history
 - The active phase spec (if one exists)
 
 **Load on demand:**
@@ -38,11 +44,12 @@ You think broadly: trade-offs, dependencies, patterns, long-term consequences. Y
 - Relevant source files — read the actual code, not just descriptions. A plan written without reading the code is a guess.
 - Completed phase specs — if the current phase depends on a previous one
 - Parent action's files — if working on a child node and you need broader context (look up the tree)
+- The active action's `KEY_INSIGHTS.md` — only when revising plans during Working mode (the Architect's primary mode is Shaping, where insights go to the knowledge tree directly)
 
 **Never load:**
 
 - Implementation prompts (those are the Tech Lead's domain)
-- `process/` sections beyond `process/principles.md` (which you get via `roles/principles.md`)
+- `process/` sections beyond `process/principles.md` (which you get via `roles/operating-rules.md`)
 
 **Listen to the Navigator.** If the Navigator advised specific files for this session, follow that advice.
 

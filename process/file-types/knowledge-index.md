@@ -44,6 +44,6 @@ for a sub-area file, but important for anyone working here.>
 
 ## Notes
 
-- The root index additionally includes **What This Is**, **Tech Stack**, **Repo Structure**, **Key Files**, alongside Sub-areas and Insights. See [templates.md](../templates.md) for the inception and full root templates.
+- The root index additionally includes **What This Is**, **Tech Stack**, **Repo Structure**, **Key Files**, alongside Sub-areas and Insights. See [conventions.md](../conventions.md) for the inception and full root templates.
 - `index.spec.md` is always the minimum — a knowledge tree node can't exist without one.
 - See [knowledge-tree.md](../knowledge-tree.md) for growth patterns, splitting guidance, and what belongs at each level.
