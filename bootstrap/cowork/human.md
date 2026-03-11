@@ -1,14 +1,14 @@
 # Bootstrap with Cowork
 
-> No prerequisites — just an empty folder and a prompt.
+> The folder you select in Cowork **is** your workspace. No need to create one.
 
 ---
 
 ## How to Start
 
-1. Create an empty folder for your workspace (or use an existing one).
-2. Point Cowork at that folder.
-3. Paste this into a new session:
+1. Select your workspace folder in Cowork. This can be an empty folder or one
+   where you've already cloned repos.
+2. Paste this into a new session:
 
 ```
 I'm setting up a new project under the AI-SDLC methodology.
@@ -19,5 +19,6 @@ https://raw.githubusercontent.com/alberto-conan-ui/ai-sdlc/refs/heads/main/boots
 Read the full document, then follow its steps.
 ```
 
-Cowork will guide you from there — telling you what to clone and when, creating
-the project journal, and leaving everything in INCEPTION mode.
+Cowork will check what's already in the folder, ask for your code repo URL if
+needed, tell you which `git clone` commands to run **in the folder you
+selected**, create the project journal, and leave everything in INCEPTION mode.

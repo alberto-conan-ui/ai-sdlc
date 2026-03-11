@@ -6,29 +6,38 @@
 
 ---
 
-## Steps
+## 1. Set up the workspace folder
+
+> **Cowork users — skip this.** Your selected folder is already the workspace.
 
 ```bash
-# 1. Create the workspace
-mkdir ~/workspaces/my-project-workspace
-cd ~/workspaces/my-project-workspace
+mkdir <path-to-your-workspace>
+cd <path-to-your-workspace>
+```
 
-# 2. Add ai-sdlc
+## 2. Add ai-sdlc
+
+```bash
 # First project — clone directly:
 git clone https://github.com/alberto-conan-ui/ai-sdlc.git
 # Additional projects — symlink a shared clone instead:
 # ln -s ~/repos/ai-sdlc ./ai-sdlc
+```
 
-# 3. Clone the code repo
+## 3. Clone the code repo
+
+```bash
 git clone <code-repo-url> my-project
 # Or if already cloned elsewhere:
 # ln -s ~/repos/my-project ./my-project
 ```
 
+## Verify
+
 You should now have:
 
 ```
-my-project-workspace/
+<workspace>/
 ├── ai-sdlc/
 └── my-project/
 ```
@@ -40,20 +49,3 @@ my-project-workspace/
 Step A is done. Continue with **Step B** in [README.md](./README.md) — point your
 AI tool at the workspace folder and let the bootstrapper role handle the rest.
 
----
-
-## Multiple Projects
-
-Each project gets its own workspace and journal. The methodology is shared via symlink:
-
-```
-~/workspaces/
-├── project-a-workspace/
-│   ├── project-a/
-│   ├── project-a-journal/
-│   └── ai-sdlc/          ← symlink → ~/repos/ai-sdlc
-├── project-b-workspace/
-│   ├── project-b/
-│   ├── project-b-journal/
-│   └── ai-sdlc/          ← symlink → ~/repos/ai-sdlc
-```
