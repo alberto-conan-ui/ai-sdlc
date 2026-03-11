@@ -20,12 +20,10 @@ You never suggest starting work, defining actions, or scoping goals. That belong
 
 ## Files to Load
 
-**Before setup (fetched via URL):**
+**At session start** (ai-sdlc is already in the workspace):
 
-- This file (`roles/bootstrapper.md`) — your instructions
-
-**After ai-sdlc is cloned and visible:**
-
+- The bootstrap guide that sent you here (e.g. `bootstrap/cowork/ai.md`) — tool-specific constraints
+- This file (`roles/bootstrapper.md`) — your setup instructions
 - `SETUP.md` — workspace conventions (three-folder structure, workspace.yaml)
 - `TEMPLATES.md` — file templates and naming conventions
 
@@ -45,11 +43,9 @@ Before doing anything, establish these facts by asking the user:
 
 1. **What is the code repo?** — Name and URL (or path if already cloned locally).
 
-2. **Is the code repo private?** — If yes, you may not be able to clone it. The user will need to confirm whether your environment has SSH/credential access, or clone it themselves.
+2. **Is the code repo already cloned into this workspace?** — Check by listing the workspace contents. If not, you'll give the user the clone command to run in their own terminal.
 
-3. **Is this their first ai-sdlc project?** — If yes, you'll clone ai-sdlc directly. If no, they may want to symlink a shared clone.
-
-4. **A few words about the project** — What does it do? What's the main tech stack? This goes into the CONTEXT.md skeleton.
+3. **A few words about the project** — What does it do? What's the main tech stack? This goes into the CONTEXT.md skeleton.
 
 Collect all answers before proceeding. Do not start creating files until the picture is clear.
 
@@ -57,27 +53,30 @@ Collect all answers before proceeding. Do not start creating files until the pic
 
 ### 2. Get the Three Folders in Place
 
-You run all commands directly. The workspace folder is already mounted — everything you create here appears on the user's machine.
+The workspace folder is already mounted. Check what's present and guide the user to fill in what's missing.
 
-**ai-sdlc** (if not already present):
+**ai-sdlc** — should already be present (since you're reading this file). If somehow missing, give the user this command to run in their terminal:
 
-```bash
-# First project — clone directly:
+```
 git clone https://github.com/alberto-conan-ui/ai-sdlc.git
-
-# Additional projects — symlink a shared clone instead:
-# ln -s <path-to-existing-ai-sdlc-clone> ./ai-sdlc
 ```
 
-**Code repo** (if not already cloned):
+If this is not their first ai-sdlc project, suggest symlinking instead:
 
-```bash
+```
+ln -s <path-to-existing-ai-sdlc-clone> ./ai-sdlc
+```
+
+**Code repo** — check if a folder matching the project name exists. If not, the repo needs to be cloned. **Check the bootstrap guide that sent you here** for whether to clone directly or guide the user. When in doubt, give the user the exact command to run in their own terminal — this is always the safe option:
+
+```
+cd <workspace-path>
 git clone <code-repo-url> <project-name>
 ```
 
-If cloning fails (private repo, SSH not available), ask the user to clone it manually into the workspace folder and confirm when done.
+Wait for the repo to be present before proceeding.
 
-**Project journal:**
+**Project journal** — this one you create directly (it's a new local repo, no credentials needed):
 
 ```bash
 mkdir -p <project-name>-journal/journal <project-name>-journal/actions

@@ -66,8 +66,7 @@ The process scales through the tier system, not through mode switches. A bug fix
 
 | File | What it covers |
 |---|---|
-| [SEED-PROMPT.md](./SEED-PROMPT.md) | The prompt to paste into your AI tool to start setup |
-| [BOOTSTRAP.md](./BOOTSTRAP.md) | AI-facing entry point fetched during setup (you don't need to read this) |
+| [bootstrap/](./bootstrap/) | Setup flows — choose how to bootstrap a new project |
 | [ROADMAP.md](./ROADMAP.md) | Where this methodology stands — known gaps, deferred work, what's next |
 | [FLOWS.md](./FLOWS.md) | Practical walkthroughs — start here to see the process in action |
 | [PROCESS.md](./PROCESS.md) | The full methodology — actions, tiers, workflow, roles, scaling, anti-patterns (human-facing) |
@@ -79,17 +78,7 @@ The process scales through the tier system, not through mode switches. A bug fix
 
 ## Getting Started
 
-### With an AI tool (recommended)
-
-1. Create a folder for your workspace
-2. Point your AI tool (Cowork, Claude Code, or similar) at that folder
-3. Paste the seed prompt from [SEED-PROMPT.md](./SEED-PROMPT.md)
-
-The AI will fetch the bootstrap instructions, walk you through cloning repos and creating the project journal, and leave your workspace in INCEPTION mode — ready for your first session with the Architect.
-
-### Manual setup
-
-See [SETUP.md](./SETUP.md) for the full manual process.
+See [bootstrap/](./bootstrap/) to get started — manual steps or AI-guided flows.
 
 ### Learn the methodology
 
