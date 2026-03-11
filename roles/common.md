@@ -33,15 +33,17 @@ Keep entries concise. The journal is a log, not a report.
 
 ---
 
-## Key Insights
+## Knowledge
 
-When you produce or encounter something that matters beyond this session, write it directly to the appropriate `KEY_INSIGHTS.md` file. Don't flag it for someone else — write it yourself.
+When you produce or encounter something that matters beyond this session, propose it for the knowledge tree or the current action's `KEY_INSIGHTS.md` scratchpad.
 
-**Decide the level:**
+**Decide where it belongs:**
 
-- This will matter for the rest of this phase → **phase-level** `KEY_INSIGHTS.md`
-- This applies across phases of this action → **action-level** `KEY_INSIGHTS.md`
-- This applies across all actions in this project → **project-level** `KEY_INSIGHTS.md`
+- Specific to this action's work → **action-level** `KEY_INSIGHTS.md` (working scratchpad — migrates to the knowledge tree when the action completes)
+- About a specific area of the codebase → **knowledge tree** node matching that area (e.g., `knowledge/auth/index.md`)
+- Cross-cutting, project-wide → **knowledge tree** root `knowledge/index.md`
+
+Write the insight directly. If you're unsure about placement, propose it and let the Human Lead confirm or redirect.
 
 **Format:**
 
@@ -53,9 +55,9 @@ When you produce or encounter something that matters beyond this session, write 
 **Source:** journal/YYYY-WNN.md, YYYY-MM-DD
 ```
 
-**When starting a session**, scan the KEY_INSIGHTS.md files relevant to your role's scope. If you spot an insight from a lower level that applies more broadly, promote it — copy it to the higher level with its source intact.
+**When starting a session**, read `CONTEXT.md` to identify relevant knowledge tree nodes and load them. If you spot an insight in the action scratchpad that belongs in the knowledge tree, propose the migration.
 
-**The Human Lead reviews insights as they appear.** Write them, but expect the human to revise or remove ones that don't hold up.
+**The Human Lead reviews knowledge contributions as they appear.** Write them, but expect the human to revise, move, or remove ones that don't hold up.
 
 ---
 

@@ -7,7 +7,7 @@
 
 ## Why This Matters
 
-The role separation is the backbone of this methodology. The Senior Architect designs the approach, the Technical Lead translates it into prompts, and the Developer writes the code. The implementation prompt is the interface between the Technical Lead and the Developer. A good prompt produces correct code on the first attempt. A bad prompt produces confident, plausible, wrong code — and the Developer won't know it's wrong because it doesn't have the architectural context to judge.
+The role separation is the backbone of this methodology. The Architect designs the approach, the Tech Lead translates it into prompts, and the Developer writes the code. The implementation prompt is the interface between the Technical Lead and the Developer. A good prompt produces correct code on the first attempt. A bad prompt produces confident, plausible, wrong code — and the Developer won't know it's wrong because it doesn't have the architectural context to judge.
 
 This applies regardless of action tier. Even a task with a single prompt benefits from precision — the difference between "fix the redirect" and a properly structured prompt with verification commands is the difference between a fix that works and a fix that introduces a new bug.
 

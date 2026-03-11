@@ -60,11 +60,11 @@ When the AI's output starts mixing stances — the Architect over-specifying imp
 
 ## The rubber stamp
 
-The AI writes a journal entry — you glance at it, looks fine, move on. The AI writes a key insight — seems reasonable, leave it. The AI updates STATUS.md — sure, whatever. The tracking artefacts accumulate, all technically present, none actually reviewed. Three weeks later, the AI loads insights that are too vague to be actionable, journal entries that mischaracterise what happened, and a STATUS.md that doesn't reflect the real state. The knowledge base looks complete but teaches nothing.
+The AI writes a journal entry — you glance at it, looks fine, move on. The AI proposes a knowledge contribution — seems reasonable, leave it. The AI updates STATUS.md — sure, whatever. The artefacts accumulate, all technically present, none actually reviewed. Three weeks later, the AI loads knowledge tree nodes that are too vague to be actionable, journal entries that mischaracterise what happened, and a STATUS.md that doesn't reflect the real state. The knowledge tree looks complete but teaches nothing.
 
-This is the most insidious failure mode because the process *appears* to be working. All the artefacts exist. All the non-negotiables are technically satisfied. But the human review that gives those artefacts their value never happened. The AI generates volume; only your critical attention makes that volume trustworthy. If you're approving tracking output without engaging with it, you're paying the overhead cost without getting the compound returns.
+This is the most insidious failure mode because the process *appears* to be working. All the artefacts exist. But the human review that gives those artefacts their value never happened. The AI generates volume; only your critical attention makes that volume trustworthy.
 
-The fix is not to review more — it's to review better. Read the AI's journal entry and ask: does this actually capture what happened, or is it a plausible-sounding summary? Read the key insight and ask: is this specific enough that a fresh AI session could act on it, or is it generic advice? If the answer is "generic," rewrite it or remove it. Five minutes of engaged review at session end is worth more than an hour of passive accumulation.
+The fix is not to review more — it's to review better. Read the AI's journal entry and ask: does this actually capture what happened? Read the knowledge contribution and ask: is this specific enough that a fresh AI session could act on it, or is it generic advice? If the answer is "generic," rewrite it or remove it. Five minutes of engaged review is worth more than an hour of passive accumulation.
 
 ---
 

@@ -21,4 +21,4 @@ Read the full document, then follow its steps.
 
 Cowork will check what's already in the folder, ask for your code repo URL if
 needed, tell you which `git clone` commands to run **in the folder you
-selected**, create the project journal, and leave everything in INCEPTION mode.
+selected**, create the project memory, and leave everything in INCEPTION mode.

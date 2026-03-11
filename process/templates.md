@@ -1,55 +1,59 @@
 # File Templates & Conventions
 
-> Reference for the project journal structure. Each project gets its own journal repo following these templates.
+> Reference for the project memory structure. Each project gets its own memory repo following these templates.
 
 ---
 
-## Project Journal Structure
+## Project Memory Structure
 
 ```
-my-project-journal/
+my-project-memory/
 ├── STATUS.md                      ← Where are we now + roadmap (single source of truth)
-├── KEY_INSIGHTS.md                ← Project-level insights (curated, universal to this project)
-├── CONTEXT.md                     ← Codebase reference (repo structure, key files, patterns)
+├── CONTEXT.md                     ← Lightweight map: repo structure + pointers to knowledge
 ├── journal/                       ← Raw chronological log (weekly rolling files)
 │   ├── 2026-W10.md
 │   ├── 2026-W11.md
 │   └── ...
 │
-└── actions/
+├── knowledge/                     ← Curated knowledge tree (mirrors codebase structure)
+│   ├── index.md                   ← Project-wide patterns, cross-cutting decisions
+│   ├── auth/
+│   │   ├── index.md               ← Auth subsystem patterns and decisions
+│   │   └── session-handling.md    ← Deep knowledge about sessions
+│   ├── api/
+│   │   ├── index.md
+│   │   └── validation.md
+│   └── tooling/
+│       └── index.md               ← Build, CI, testing infrastructure
+│
+├── actions/                       ← Active and pending actions only
+│   └── epic-refactor-validation/
+│       ├── EPIC.md                ← Problem + vision + concrete gatekeep
+│       ├── KEY_INSIGHTS.md        ← Working scratchpad
+│       └── phases/
+│           ├── 1-baseline-tests/
+│           │   ├── SPEC.md
+│           │   ├── KEY_INSIGHTS.md ← Phase-level scratchpad
+│           │   └── impl/
+│           │       ├── PLAN.md
+│           │       ├── 01-test-infrastructure.md
+│           │       └── 02-assertion-coverage.md
+│           └── 2-lookup-table/
+│               ├── SPEC.md
+│               └── impl/
+│
+└── archive/                       ← Completed, promoted, or abandoned actions
     ├── task-fix-login-bug/
-    │   ├── TASK.md                ← Lightweight: problem + done-when
-    │   ├── KEY_INSIGHTS.md        ← Action-level insights (if any emerge)
+    │   ├── TASK.md
     │   └── phases/
-    │       └── 1-fix/
-    │           ├── SPEC.md
-    │           ├── KEY_INSIGHTS.md
-    │           └── impl/
-    │               └── 01-fix-redirect.md
-    │
-    ├── epic-refactor-validation/
-    │   ├── EPIC.md                ← Problem + vision + concrete gatekeep
-    │   ├── KEY_INSIGHTS.md        ← Action-level insights
-    │   └── phases/
-    │       ├── 1-baseline-tests/
-    │       │   ├── SPEC.md
-    │       │   ├── KEY_INSIGHTS.md
-    │       │   └── impl/
-    │       │       ├── PLAN.md
-    │       │       ├── 01-test-infrastructure.md
-    │       │       └── 02-assertion-coverage.md
-    │       └── 2-lookup-table/
-    │           ├── SPEC.md
-    │           └── impl/
-    │
+    │       └── ...
     └── goal-plugin-architecture/
-        ├── GOAL.md                ← Problem + vision + principles + abstract gatekeep
-        ├── KEY_INSIGHTS.md        ← Action-level insights
+        ├── GOAL.md
         └── phases/
-            └── ...                ← Same structure as epic
+            └── ...
 ```
 
-One structure for all projects. The tier prefix (`task-`, `epic-`, `goal-`) makes the action type visible at a glance without opening any files.
+One structure for all projects. The tier prefix (`task-`, `epic-`, `goal-`) makes the action type visible at a glance without opening any files. Active work lives in `actions/`; when an action is achieved, promoted, or abandoned, it moves to `archive/`. The knowledge it produced already lives in the knowledge tree — the archived folder is the append-forward historical record.
 
 ---
 
@@ -60,9 +64,9 @@ One structure for all projects. The tier prefix (`task-`, `epic-`, `goal-`) make
 | File | Purpose | Updated |
 |---|---|---|
 | `STATUS.md` | Single source of truth: mode, active action, active phase, next action, roadmap | Every session |
-| `KEY_INSIGHTS.md` | Curated insights applicable across all actions — promoted from journal entries | When insights are identified or become obsolete |
-| `CONTEXT.md` | Codebase reference: repo structure, key files, patterns | When code structure changes |
+| `CONTEXT.md` | Lightweight map: repo structure, key files, pointers into `knowledge/` | When code structure changes |
 | `journal/` | Raw chronological log: sessions, decisions, lessons — everything that happens | Every session (current week's file) |
+| `knowledge/` | Curated knowledge tree mirroring codebase — what we've learned about each area | Organically, as insights emerge from work |
 
 ### Action-level files
 
@@ -71,14 +75,14 @@ One structure for all projects. The tier prefix (`task-`, `epic-`, `goal-`) make
 | `TASK.md` | Task definition: problem statement, done-when criteria | When creating a task |
 | `EPIC.md` | Epic definition: problem, vision, concrete gatekeep | When creating an epic |
 | `GOAL.md` | Goal definition: problem, vision, design principles, abstract gatekeep | When creating a goal |
-| `KEY_INSIGHTS.md` | Curated insights applicable across all phases of this action | When insights are identified |
+| `KEY_INSIGHTS.md` | Working scratchpad: insights during the action, migrates to knowledge/ when done | As insights emerge |
 
 ### Phase-level files
 
 | File | Purpose | Created |
 |---|---|---|
 | `SPEC.md` | Phase plan: steps, test cases, done criteria | Before phase begins |
-| `KEY_INSIGHTS.md` | Tactical insights specific to this phase | When insights are identified |
+| `KEY_INSIGHTS.md` | Working scratchpad: tactical insights for this phase | As insights emerge |
 | `impl/PLAN.md` | Prompt plan: sequence of bounded goals with dependencies | After spec is approved |
 | `impl/NN-*.md` | Numbered implementation prompts for the Developer | Just in time, per the prompt plan |
 
@@ -152,25 +156,29 @@ Promoted task-login-bug to epic-login-auth-overhaul.
 
 ---
 
-## Key Insights
+## Knowledge Tree
 
-KEY_INSIGHTS.md files exist at three levels: project, action, and phase. They are curated distillations from the journal — not append-only logs. Each one contains only the insights that are currently relevant at that scope.
+The `knowledge/` folder is a hierarchy that mirrors your codebase. Each node contains markdown files with curated insights about that area — patterns, decisions, pitfalls, conventions. See [principles.md](./principles.md) for the full model.
 
-For the insight promotion model — how insights flow between levels — see [Insight Promotion](./principles.md#insight-promotion).
+### Structure
 
-### Who maintains them
+The tree grows organically. You don't scaffold it upfront. When work takes you into a new area of the codebase, the Architect creates the relevant node. An `index.md` at each level maps the sub-areas.
 
-The AI writes insights directly to the appropriate KEY_INSIGHTS.md per `roles/common.md`, regardless of stance. The **Architect** typically writes project-level and action-level insights (broadest context). The **Tech Lead** typically writes phase-level insights (tactical details). The **Curator** periodically audits all levels and proposes promotions, demotions, and retirements. You review insights as they appear and maintain final authority over what stays.
+```
+knowledge/
+├── index.md                ← project-wide: cross-cutting patterns, architectural decisions
+├── <area>/
+│   ├── index.md            ← area overview: how it works, key patterns
+│   └── <specific>.md       ← deep knowledge about a specific subsystem or concern
+└── ...
+```
 
-### KEY_INSIGHTS.md template
-
-The same template is used at all three levels. The scope line changes.
+### Knowledge file format
 
 ```markdown
-# Key Insights — <Scope Name>
+# <Area or Topic>
 
-> Scope: Project / Action (<tier>) — <name> / Phase N
-> Curated from journal entries. Remove when no longer relevant.
+> Last updated: YYYY-MM-DD
 
 ## <Insight title — imperative, actionable>
 
@@ -185,15 +193,17 @@ The same template is used at all three levels. The scope line changes.
 
 The **Source** field links back to the journal entry for full context. The insight itself is a distillation — short enough to scan, specific enough to act on.
 
+### Who maintains the knowledge tree
+
+The Human Lead and the Architect build the tree together through conversation. The Architect proposes where an insight belongs and drafts the content. The Human Lead confirms, redirects, or refines. The **Curator** periodically audits the tree and proposes editorial changes — promotions, retirements, reorganisation. You maintain final authority over what stays.
+
 ### What the Architect loads
 
-When starting a session, the Architect loads KEY_INSIGHTS.md at three levels:
+When starting a session, the Architect reads `CONTEXT.md` to identify which knowledge nodes are relevant, then loads those nodes. This replaces scanning the full journal — a few curated files instead of a growing chronological log.
 
-1. Project-level `KEY_INSIGHTS.md` — always
-2. Active action's `KEY_INSIGHTS.md` — always
-3. Active phase's `KEY_INSIGHTS.md` — if one exists
+### Working scratchpads (action and phase KEY_INSIGHTS.md)
 
-This replaces scanning the full journal. Three small, curated files instead of a growing chronological log.
+During an action, `KEY_INSIGHTS.md` files at the action and phase level serve as working scratchpads — accumulating learnings as they emerge. These are temporary. When an action completes, anything worth keeping migrates to the appropriate node in the knowledge tree. The action folder becomes a historical record; the knowledge lives on in the tree.
 
 ---
 
@@ -290,6 +300,7 @@ During setup, the Bootstrapper creates a minimal CONTEXT.md from a few questions
 # Codebase Reference — <Project Name>
 
 > Last updated: YYYY-MM-DD
+> This file is a lightweight map. Deep knowledge lives in knowledge/.
 
 ## What This Is
 
@@ -307,19 +318,20 @@ During setup, the Bootstrapper creates a minimal CONTEXT.md from a few questions
 
 <!-- To be filled by the Architect in the first working session. -->
 
-## Key Files
+## Knowledge Map
 
-<!-- To be filled by the Architect in the first working session. -->
+<!-- Populated as the knowledge tree grows. Points to knowledge/ nodes. -->
 ```
 
 ### CONTEXT.md — Full (populated by Architect)
 
-The Architect deepens CONTEXT.md during the first working session and updates it as the codebase evolves. This is the target shape:
+The Architect deepens CONTEXT.md during the first working session and updates it as the codebase evolves. CONTEXT.md is a map, not an encyclopedia — it describes the repo structure and points into the knowledge tree for deeper understanding.
 
 ```markdown
 # Codebase Reference — <Project Name>
 
 > Last updated: YYYY-MM-DD
+> This file is a lightweight map. Deep knowledge lives in knowledge/.
 
 ## Repo Structure
 
@@ -329,12 +341,16 @@ The Architect deepens CONTEXT.md during the first working session and updates it
 
 <Table of important files and their purposes.>
 
-## How Things Work
+## Knowledge Map
 
-<Architecture overview. Brief. Focus on patterns the AI needs to follow.>
+| Area | Knowledge node | What it covers |
+|---|---|---|
+| Authentication | [knowledge/auth/](../knowledge/auth/index.md) | Auth flow, session handling, OAuth patterns |
+| API layer | [knowledge/api/](../knowledge/api/index.md) | Validation pipeline, endpoint conventions |
+| Tooling | [knowledge/tooling/](../knowledge/tooling/index.md) | Build system, CI, testing infrastructure |
 ```
 
-**Guidance on depth:** CONTEXT.md deepens naturally over time. The Architect's first pass should cover the overall structure, key files, and main patterns — breadth over depth. Don't try to document everything upfront. As real work begins and the Architect encounters parts of the codebase that matter, it adds detail. For monorepos or large codebases, focus initially on the top-level structure, the dependency graph, and the 5–10 files an AI would need to understand to start working.
+**Guidance on depth:** CONTEXT.md stays lightweight — structure and pointers, not detailed explanations. When the Architect encounters something worth documenting in depth, it goes in the knowledge tree at the right node, and CONTEXT.md gets a pointer. For monorepos or large codebases, focus initially on the top-level structure and the knowledge map. Detail lives in the tree.
 
 ### TASK.md
 
@@ -508,7 +524,7 @@ See [prompts.md](./prompts.md) for the full guide on writing effective prompts.
 
 ### Naming
 
-- Project journal repo: `<project-name>-journal/` (e.g., `formforge-journal/`)
+- Project memory repo: `<project-name>-memory/` (e.g., `formforge-memory/`)
 - Action folders: `<tier>-kebab-case-name/` (e.g., `task-fix-login-bug/`, `epic-refactor-validation/`, `goal-plugin-architecture/`)
 - Phase folders: `N-kebab-case-name/` (e.g., `1-baseline-tests/`)
 - Implementation prompts: `NN-kebab-case-description.md` (e.g., `01-test-infrastructure.md`)

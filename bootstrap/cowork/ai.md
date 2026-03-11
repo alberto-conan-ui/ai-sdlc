@@ -11,7 +11,7 @@ Bootstrap is a two-step process (see `bootstrap/README.md`):
 
 - **Step A** — Get ai-sdlc and the code repo into the workspace. This is what
   you're guiding now.
-- **Step B** — Add the journal, skeleton files, workspace.yaml. This is handled
+- **Step B** — Add the project memory, skeleton files, workspace.yaml. This is handled
   by the bootstrapper role once ai-sdlc is readable locally.
 
 ## Cowork constraints

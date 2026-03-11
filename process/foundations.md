@@ -26,13 +26,21 @@ The process is structured. The project execution is adaptive. Don't confuse the 
 
 The biggest problem with AI-assisted development isn't the AI's ability to write code — it's the AI's inability to remember anything. Every new session starts from zero. The AI doesn't know why decisions were made, which approaches were tried and rejected, or what patterns your codebase follows. Without intervention, you pay the same teaching cost every session: re-explaining the architecture, re-discovering the constraints, re-learning the patterns. Session 10 is as expensive as session 1.
 
-AI-SDLC fixes this with a structured knowledge base that persists across sessions. A rolling journal captures everything chronologically — decisions, lessons, session outcomes. Key insights are curated from the journal and placed at the right scope: project-level insights that apply everywhere, action-level insights that apply across phases of the current work, and phase-level insights that apply to the immediate task.
+AI-SDLC fixes this with two layers of persistent memory:
 
-Each new session loads the relevant insights. The AI reads what was learned in sessions 1 through 9 before producing anything in session 10. It avoids every mistake already caught, follows every pattern already established, and starts producing useful output in minutes instead of spending the first half-hour re-learning the project.
+**The Journal** is the tactical layer. A rolling chronological log — weekly files, append-only — that captures what happened: sessions, decisions, lessons learned. It is the raw, honest record of the work. Nothing gets edited, nothing gets deleted. When something changes, a new entry explains why. The journal answers "what did we do?" and "why did we decide that?"
 
-The compound curve is real but not instant. For a two-session task, the overhead barely pays for itself. For a five-phase epic spanning three weeks, the difference is dramatic. The overhead per session stays roughly constant — a few minutes of review — but the value it delivers grows with every session that contributes to the knowledge base.
+**The Knowledge Tree** is the curated layer. A folder hierarchy that mirrors your codebase, where each node holds what you've learned about that area of the code. Unlike the journal, the knowledge tree is a living resource — insights get added, refined, promoted to broader scope, or retired when they're no longer relevant. It answers "what do we know about this part of the system?"
 
-This is the core mechanism that turns individual sessions into cumulative progress. And it only works if the human reviews what the AI writes — refining vague insights, correcting inaccurate summaries, removing noise. The AI generates the knowledge base. Your review makes it trustworthy.
+The two layers serve different purposes. The journal is for continuity — making sure the next session knows what just happened. The knowledge tree is for compound learning — making sure session 10 benefits from everything sessions 1 through 9 discovered, not just what happened yesterday.
+
+The flow between them is organic, not ceremonial. Work produces journal entries. Conversation between you and the AI surfaces insights worth keeping. Those insights land in the knowledge tree at the right structural node. There's no formal "write-back step" — it happens naturally as part of the work, whenever something comes up that matters beyond the current session.
+
+Each new session loads the relevant nodes from the knowledge tree — not the entire thing, just the parts that apply to the area of the codebase being touched. The AI reads what was learned and starts producing useful output in minutes instead of spending the first half-hour re-learning the project.
+
+The compound curve is real but not instant. For a two-session task, the overhead barely pays for itself. For a five-phase epic spanning three weeks, the difference is dramatic. The overhead per session stays roughly constant — a few minutes of review — but the value it delivers grows with every session that contributes to the knowledge tree.
+
+This is the core mechanism that turns individual sessions into cumulative progress. And it only works if the human reviews what the AI writes — refining vague insights, correcting inaccurate summaries, removing noise. The AI populates the journal and proposes knowledge. Your review makes it trustworthy.
 
 ---
 

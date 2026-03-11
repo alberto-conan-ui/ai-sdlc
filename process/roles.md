@@ -24,7 +24,7 @@ Your primary job is defining what success looks like and verifying that it was a
 
 **You decide session boundaries.** When to open a fresh session for a stance, when to shift stances within the same conversation, when to ask the AI for a Navigator-style briefing versus just asking "where are we?" This is a judgement call informed by the work's complexity and the output quality you're seeing.
 
-**You review key insights.** The AI writes insights directly to KEY_INSIGHTS.md (per common.md) regardless of which stance it's in. You review these as they appear — revising, removing, or promoting insights that don't hold up or that apply more broadly than the AI realized.
+**You review knowledge contributions.** The AI proposes insights for the knowledge tree and action-level scratchpads (per common.md) regardless of which stance it's in. You review these as they appear — confirming placement, revising what's vague, removing what's wrong, redirecting to a better node in the tree.
 
 You carry the full weight of gatekeeping. This is by design (see [Principles](./principles.md) — Human Accountability).
 
@@ -51,11 +51,11 @@ All stances share a common foundation defined in [`roles/common.md`](../roles/co
 All AI stances share a common foundation (`roles/common.md`) that defines:
 
 - **Journal writing** — the AI logs `[session]`, `[decision]`, and `[lesson]` entries as part of its normal output, regardless of stance
-- **Key insight management** — the AI writes insights directly to the appropriate KEY_INSIGHTS.md, decides the level (phase, action, project), and scans for insights from lower levels to promote
+- **Knowledge contributions** — the AI proposes insights for the knowledge tree or action-level scratchpads, and you confirm placement and quality through conversation
 - **STATUS.md updates** — the AI updates STATUS.md when its work changes the project state
 - **Orientation** — the AI can answer "where are we?" by reading STATUS.md and the recent journal, in any stance
 
-You review insights as they appear and maintain final authority over what stays.
+You review knowledge contributions as they appear and maintain final authority over what stays and where it goes.
 
 ---
 
@@ -63,11 +63,11 @@ You review insights as they appear and maintain final authority over what stays.
 
 | Stance | Focus | Context | Behaviour | When to separate sessions |
 |---|---|---|---|---|
-| **Architect** | System design, phase specs, architectural decisions | KEY_INSIGHTS.md (all levels) + CONTEXT.md + source code | Challenges | Rarely — shares well with Tech Lead |
-| **Tech Lead** | Implementation prompts, code review, verification | Phase spec + KEY_INSIGHTS.md (action + phase) + source files | Translates | Rarely — benefits from Architect context |
+| **Architect** | System design, phase specs, architectural decisions | CONTEXT.md + relevant knowledge/ nodes + source code | Challenges | Rarely — shares well with Tech Lead |
+| **Tech Lead** | Implementation prompts, code review, verification | Phase spec + relevant knowledge/ nodes + source files | Translates | Rarely — benefits from Architect context |
 | **Developer** | Code execution, prompt-following | Implementation prompt only | Executes | Often — clean context produces disciplined output |
 | **Navigator** | Orientation, briefing, handoff prompts, external change checks | STATUS.md + journal/ (recent weeks) | Guides | When context is cold |
-| **Curator** | Knowledge maintenance, insight audit, journal distillation | KEY_INSIGHTS.md (all levels) + journal/ (all weeks) + completed specs | Curates | Dedicated session recommended |
+| **Curator** | Knowledge maintenance, tree audit, journal distillation | knowledge/ (full tree) + journal/ (all weeks) + completed specs | Curates | Dedicated session recommended |
 
 ---
 
@@ -92,4 +92,4 @@ These are examples, not recommendations — the model landscape changes faster t
 
 **When the Tech Lead moves between tiers:** For phases that involve complex refactoring, novel architecture, or ambiguous requirements, the Tech Lead benefits from Tier 1 (writing good prompts for hard problems requires strong reasoning). For phases that follow established patterns — adding a new type that mirrors an existing one, extending a test suite — Tier 2 is sufficient. You make this call per phase.
 
-**Token efficiency is one benefit of session separation.** The Developer loads one implementation prompt (~50-100 lines). The Architect loads the full knowledge base (~300+ lines) plus source files. In separate sessions, each stance loads exactly what it needs — no more. In a shared session, the model carries everything it's seen, which costs tokens and can influence behaviour. You weigh this against the cost of context loss from handoff prompts — and decide per phase.
+**Token efficiency is one benefit of session separation.** The Developer loads one implementation prompt (~50-100 lines). The Architect loads relevant knowledge tree nodes (~300+ lines) plus source files. In separate sessions, each stance loads exactly what it needs — no more. In a shared session, the model carries everything it's seen, which costs tokens and can influence behaviour. You weigh this against the cost of context loss from handoff prompts — and decide per phase.

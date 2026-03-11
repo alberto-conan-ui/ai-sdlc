@@ -10,17 +10,51 @@ A methodology for AI-assisted software development. Tool-agnostic, derived from 
 
 AI coding assistants are powerful executors but unreliable architects. They don't remember previous sessions, don't know why decisions were made, and will happily contradict earlier choices. Left unsupervised, they produce code that works locally but accumulates debt globally.
 
-This methodology fixes that. The core mechanism: structured context that persists across sessions. Session 10 benefits from every mistake caught in sessions 1 through 9 — not through model fine-tuning, but through a knowledge base the AI reads at the start of each session.
+This methodology fixes that through two mechanisms: a **journal** that captures what happens, and a **knowledge tree** that captures what you've learned. Together, they give the AI a durable memory that compounds across sessions — session 10 benefits from every mistake caught in sessions 1 through 9.
 
 **This is a human-driven process for senior developers.** AI-SDLC exists to empower humans through AI, not to replace human judgement with AI output. The AI does more of the work — planning, coding, testing. But the human defines every action, sets every gatekeep, and approves every plan. Every review gate requires experienced judgement. If the human disengages, the process breaks.
 
 **Use it for the right work.** Not everything needs this process. A one-line fix, a config change, a dependency bump — just do it. AI-SDLC earns its keep when the work has dependencies, touches shared state, or requires decisions that constrain future work. The test: would you benefit from a written plan before coding this? If yes, create an action. If not, skip the process.
 
-> **Fair warning.** This methodology is deliberately demanding. It will ask more of you than unstructured AI-assisted development, not less. You will review plans, specs, prompts, code, journal entries, insights, and status updates — every session, every phase. The cognitive load is real and sustained. This is not a way to make coding with AI easier. It is a way to make it *reliably productive* over weeks and months — but the price is disciplined, critical attention at every review gate.
+> **Fair warning.** This methodology is deliberately demanding. It will ask more of you than unstructured AI-assisted development, not less. The cognitive load is real and sustained. This is not a way to make coding with AI easier. It is a way to make it *reliably productive* over weeks and months — but the price is disciplined, critical attention at every review gate.
 >
-> If that sounds like too much overhead, you should know that now rather than three weeks in. The payoff is back-loaded: early sessions feel expensive, but by session ten the compound knowledge base means the AI starts producing useful output in minutes instead of spending half an hour re-learning your project. The first few sessions pay for the next fifty. But only if you do the work — actually reading, actually reviewing, actually engaging with what the AI produces. Rubber-stamping the artefacts gives you all the overhead with none of the returns.
->
-> This process is not meant to be easy. It is not meant to be fun. It is meant to be *incredibly productive* for those willing to pay the mental tax. If that's not the trade-off you want, keep vibe coding — no judgement. But if you've felt the pain of AI sessions that forget everything, code that degrades over time, and plans that dissolve on contact with reality, this is the discipline that fixes it.
+> The payoff is back-loaded: early sessions feel expensive, but by session ten the compound knowledge tree means the AI starts producing useful output in minutes instead of spending half an hour re-learning your project. The first few sessions pay for the next fifty. But only if you do the work — actually reading, actually reviewing, actually engaging with what the AI produces. Rubber-stamping the artefacts gives you all the overhead with none of the returns.
+
+---
+
+## The Core Ideas
+
+AI-SDLC rests on a small number of concepts. The process documents elaborate on each, but this is the conceptual map.
+
+### Memory — Journal and Knowledge
+
+This is the central mechanism. Everything else serves it. The project memory (`<project-name>-memory/`) holds two complementary systems:
+
+**The Journal** is tactical and chronological. It captures what happened: sessions, decisions, lessons learned. Weekly rolling files, append-only, tagged by type. It answers "what did we do?" and "why did we decide that?" The journal is the raw material — honest, unfiltered, complete. See [principles.md](./process/principles.md) for the append-forward model, [templates.md](./process/templates.md) for the format.
+
+**The Knowledge Tree** is curated and structural. It mirrors your codebase — a folder hierarchy where each node holds what the team has learned about that area of the code. An `index.md` at each level maps the sub-areas. It answers "what do we know about this part of the system?" Knowledge is distilled from the journal, placed at the right structural location, and maintained as a living resource — updated, promoted, demoted, or retired as the codebase evolves. See [principles.md](./process/principles.md) for the knowledge model, [templates.md](./process/templates.md) for the tree structure.
+
+The flow is natural: work produces journal entries → conversation between you and the AI surfaces insights worth keeping → those insights land in the knowledge tree at the right node. There is no formal "write-back ceremony." It happens organically as part of the work.
+
+`CONTEXT.md` sits between the two — a lightweight map that describes the repo structure and points into the knowledge tree. It tells the AI where to look, not what to know.
+
+When an action is completed, its insights migrate to the knowledge tree and the action folder moves to `archive/` — keeping the active workspace clean while preserving the full historical record.
+
+### Actions — The Unit of Work
+
+Everything you build is an **action**: a human-defined piece of work with a clear outcome. Actions come in three tiers — **Task** (bounded, one phase), **Epic** (multi-phase, concrete outcome), and **Goal** (abstract, human-judged outcome). The tier determines how much planning the action gets, but the underlying machinery is the same. See [actions.md](./process/actions.md).
+
+### Roles — Cognitive Framing for the AI
+
+You direct the AI by shifting between cognitive stances: **Architect** (design), **Tech Lead** (prompt craft), **Developer** (execution), **Navigator** (orientation), **Curator** (knowledge maintenance). These aren't separate agents — they're framing techniques that shape how the AI approaches the work. In practice, you'll usually stay in one session and shift stances as the conversation flows. Separate sessions are the escalation path for complex work. See [roles.md](./process/roles.md), [mechanics.md](./process/mechanics.md).
+
+### Prompt Craft — The Execution Interface
+
+The quality of AI-generated code depends almost entirely on the quality of the prompts that produce it. The methodology defines a just-in-time prompting model: plan the sequence, detail each prompt only when its turn comes, use session receipts to keep subsequent prompts grounded in reality. See [prompts.md](./process/prompts.md).
+
+### Human Accountability — The Governance Model
+
+The AI generates volume. You supply the judgement that makes the volume valuable. Every plan passes through your review. Every insight gets your scrutiny. Every gatekeep requires your judgement. This is a partnership driven by you — if you disengage, the process breaks. See [principles.md](./process/principles.md).
 
 ---
 
@@ -30,20 +64,20 @@ This methodology fixes that. The core mechanism: structured context that persist
 2. Read the methodology — the reading order below
 3. Flows (practical walkthroughs) — TBC, being rewritten to align with the reorganised methodology
 
-## The Methodology
+## Reading Order
 
-Read in this order. Each file is self-contained, but they build on each other.
+Each file is self-contained, but they build on each other.
 
 | # | File | What it covers |
 |---|---|---|
-| 1 | [foundations.md](./process/foundations.md) | Why this methodology exists — the foundational insight, who it's for, when to use it |
-| 2 | [principles.md](./process/principles.md) | Human accountability, append-forward, insight promotion — the non-negotiable operating model |
+| 1 | [foundations.md](./process/foundations.md) | The three insights that make AI-SDLC possible — cheap planning, compound knowledge, cognitive framing |
+| 2 | [principles.md](./process/principles.md) | Human accountability, append-forward, and the journal → knowledge model |
 | 3 | [actions.md](./process/actions.md) | The unit of work — tiers (task, epic, goal), gatekeeping, promotion |
-| 4 | [roles.md](./process/roles.md) | The Human Lead and AI stances (Architect, Tech Lead, Developer, Navigator, Curator), model tiers |
-| 5 | [workflow.md](./process/workflow.md) | Inception, planning, implementation, session discipline, scaling, non-negotiables |
+| 4 | [roles.md](./process/roles.md) | The Human Lead and AI stances, model tiers, when to separate sessions |
+| 5 | [workflow.md](./process/workflow.md) | Inception, planning, implementation, session discipline |
 | 6 | [mechanics.md](./process/mechanics.md) | Context isolation, role framing, entry points, session management trade-offs |
 | 7 | [prompts.md](./process/prompts.md) | How to write effective implementation prompts for Developer sessions |
-| 8 | [templates.md](./process/templates.md) | File templates, naming conventions, project journal structure |
+| 8 | [templates.md](./process/templates.md) | File templates, naming conventions, journal and knowledge tree structure |
 | 9 | [anti-patterns.md](./process/anti-patterns.md) | Common failure modes and how to avoid them |
 
 ## AI Role Entry Points
@@ -63,32 +97,31 @@ The methodology is being written and refined. The core documents describe the fu
 
 ### What's Done
 
-- **Core process defined.** The process guide covers actions, tiers, gatekeeping, roles, workflow, scaling, and anti-patterns.
-- **Context isolation architecture.** The mechanics document explains why roles use entry points, how cognitive framing works, and the trade-offs between separate sessions and mode switching.
-- **Prompt craft guide.** The prompts document covers the four principles, just-in-time prompting, session receipts, and common failures.
-- **Templates and conventions.** The templates document defines the full project journal structure, file templates, naming conventions, and insight promotion model.
-- **Workspace setup.** The bootstrap guide covers the three-folder convention, workspace.yaml, and multi-project scaling.
-- **Role entry points.** Five AI roles (Architect, Tech Lead, Developer, Navigator, Curator) have entry points in `roles/`, plus a shared foundation in `roles/common.md`.
-- **One example flow.** The flows folder has a solo goal walkthrough.
-- **Session flexibility.** Role separation reframed as a cognitive framing technique with compression as the default (March 2026 revision).
-- **Distributed upkeep model.** Orchestrator replaced with common.md (shared responsibilities for all roles) + Navigator (lightweight advisory). Journal, insights, and STATUS.md are now every role's responsibility. Human Lead reviews insights directly (March 2026 revision).
-- **Curator stance.** Dedicated knowledge maintenance stance that audits insights, distills journals, and proposes editorial changes to the insight hierarchy (March 2026 addition).
-- **Overhead discipline framing.** Explicit section in the workflow making the honest case for why the tracking overhead compounds in value over sessions (March 2026 addition).
+- **Core process defined.** Actions, tiers, gatekeeping, roles, workflow, scaling, and anti-patterns.
+- **Two-layer memory model.** Journal (tactical, chronological) and knowledge tree (curated, structural) with organic flow between them.
+- **Context isolation architecture.** Role entry points, cognitive framing, trade-offs between separate sessions and mode switching.
+- **Prompt craft guide.** Four principles, just-in-time prompting, session receipts, common failures.
+- **Templates and conventions.** Journal structure, knowledge tree layout, file templates, naming conventions.
+- **Workspace setup.** Three-folder convention, workspace.yaml, multi-project scaling.
+- **Role entry points.** Five AI stances plus shared foundation in `roles/common.md`.
+- **Session flexibility.** Role separation reframed as cognitive framing with compression as the default.
+- **Distributed upkeep model.** Journal, insights, and STATUS.md are every role's responsibility. Human Lead reviews directly.
+- **Curator stance.** Dedicated knowledge maintenance stance for auditing and distilling.
 
 ### Known Gaps — Will Be Addressed
 
-- **First-impression weight.** The documents are comprehensive but read as heavy. A quick-start guide ("tasks in 5 minutes") would give newcomers an entry point that doesn't require reading the full process first. Deferred until the core methodology stabilizes.
-- **More flows.** Only a solo goal walkthrough exists. Task and epic flows are the most common daily scenarios and are needed. Deferred because the goal flow covers the most moving parts — simpler flows are subsets of it.
-- **Version control guidance.** Nothing about branching strategy, commit cadence, or how to handle AI-generated code that needs multiple iterations before it's commit-worthy. Will be added based on practical patterns.
-- **Cost management.** No discussion of when Tier 1 models aren't worth the cost, or how to manage token budgets across a multi-phase epic. Will be informed by real usage data.
-- **Project-level failure recovery.** The append-forward principle handles phase-level revisions well, but there's no guidance on when to abandon an epic entirely and start over. Will be addressed as edge cases emerge.
-- **Model tier table freshness.** The illustrative model mapping in the roles document will go stale. Consider removing specific model names and keeping only the tier characteristics.
+- **First-impression weight.** A quick-start guide ("tasks in 5 minutes") would help newcomers. Deferred until core stabilizes.
+- **More flows.** Only a solo goal walkthrough exists. Task and epic flows are needed.
+- **Version control guidance.** Branching strategy, commit cadence, AI-generated code iteration patterns.
+- **Cost management.** When Tier 1 models aren't worth the cost, token budget management.
+- **Project-level failure recovery.** When to abandon an epic and start over.
+- **Model tier table freshness.** Specific model names will go stale — consider keeping only tier characteristics.
 
 ### Known Concerns — Acknowledged, Not Yet Validated
 
-- **Insight curation durability.** The three-level KEY_INSIGHTS.md hierarchy (project, action, phase) is theoretically sound but may be too much editorial overhead in practice. The Curator stance offloads the editorial labor to the AI — it reads all journals and insights, proposes promotions/demotions/retirements, and the human approves. This should reduce curation lapses, but needs real-world validation.
-- **Context window limits.** As projects accumulate insights, CONTEXT.md, three levels of KEY_INSIGHTS.md, and a phase spec may push useful context limits for smaller models. No data yet on where the practical ceiling is.
-- **Process-as-procrastination.** The methodology could become a way to avoid shipping — endlessly refining specs, curating insights, and updating STATUS.md while writing no code. No anti-pattern for this yet because the right framing hasn't been found.
+- **Knowledge tree curation durability.** The tree structure is theoretically sound but needs real-world validation of the maintenance effort. The Curator stance offloads editorial labor to the AI, but the Human Lead's engaged review is what makes it trustworthy.
+- **Context window limits.** As knowledge accumulates, loading the right subset matters. The tree structure helps (load only relevant nodes), but practical ceilings aren't known yet.
+- **Process-as-procrastination.** The methodology could become a way to avoid shipping — endlessly refining specs and curating knowledge while writing no code.
 
 ---
 

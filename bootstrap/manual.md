@@ -1,7 +1,7 @@
 # Bootstrap: Manual (Step A)
 
 > Get ai-sdlc and the code repo into the workspace folder. That's it.
-> Step B (journal, skeleton files) is handled by the bootstrapper role —
+> Step B (project memory, skeleton files) is handled by the bootstrapper role —
 > see [README.md](./README.md).
 
 ---

@@ -84,19 +84,19 @@ git clone <code-repo-url> <project-name>
 
 Wait for the repo to be present before proceeding.
 
-**Project journal** — before creating, check if a journal folder already exists. Look for a folder matching `*-journal/` or any folder containing `STATUS.md`, `journal/`, and `actions/`.
+**Project memory** — before creating, check if a memory folder already exists. Look for a folder matching `*-memory/` or `*-journal/` (legacy naming) or any folder containing `STATUS.md`, `journal/`, and `actions/`.
 
-If a journal folder exists:
+If a memory folder exists:
 
 - Tell the Human Lead what you found.
-- Ask: do they want to keep the existing journal, create a fresh one (and what to do with the old one — rename, archive), or skip journal creation entirely?
+- Ask: do they want to keep the existing memory, create a fresh one (and what to do with the old one — rename, archive), or skip memory creation entirely?
 - Wait for their answer before proceeding.
 
-If no journal exists, present the creation command and explain why, then wait for approval:
+If no memory folder exists, present the creation command and explain why, then wait for approval:
 
 ```bash
-mkdir -p <project-name>-journal/journal <project-name>-journal/actions
-cd <project-name>-journal && git init -b main && cd ..
+mkdir -p <project-name>-memory/journal <project-name>-memory/knowledge <project-name>-memory/actions <project-name>-memory/archive
+cd <project-name>-memory && git init -b main && cd ..
 ```
 
 ---
@@ -111,7 +111,7 @@ ls
 
 You should see:
 - `<project-name>/` — the code repo
-- `<project-name>-journal/` — the journal (with `journal/` and `actions/` dirs)
+- `<project-name>-memory/` — the project memory (with `journal/`, `knowledge/`, and `actions/` dirs)
 - `ai-sdlc/` — the methodology
 
 If anything is missing, resolve it before continuing.
@@ -126,20 +126,20 @@ These inform the files you create next.
 
 ### 4. Create workspace.yaml
 
-Present the contents to the Human Lead and explain this file maps folder names so all documents can use `{code}`, `{journal}`, and `{methodology}` shorthand. Wait for approval, then create `workspace.yaml` at the workspace root:
+Present the contents to the Human Lead and explain this file maps folder names so all documents can use `{code}`, `{memory}`, and `{methodology}` shorthand. Wait for approval, then create `workspace.yaml` at the workspace root:
 
 ```yaml
 # workspace.yaml — single source of truth for folder names
 code: <project-name>
-journal: <project-name>-journal
+memory: <project-name>-memory
 methodology: ai-sdlc
 ```
 
 ---
 
-### 5. Populate the Journal Skeleton
+### 5. Populate the Memory Skeleton
 
-Create these files inside `<project-name>-journal/`. Keep them minimal — this is scaffolding, not documentation.
+Create these files inside `<project-name>-memory/`. Keep them minimal — this is scaffolding, not documentation.
 
 **Present each file's contents to the Human Lead for review before writing.** You can present them as a group — but wait for approval before creating them.
 
@@ -185,6 +185,7 @@ Use the answers from step 1 to write a minimal skeleton:
 # Codebase Reference — <Project Name>
 
 > Last updated: <today's date>
+> This file is a lightweight map. Deep knowledge lives in knowledge/.
 
 ## What This Is
 
@@ -202,20 +203,20 @@ Use the answers from step 1 to write a minimal skeleton:
 
 <!-- To be filled by the Architect in the first working session. -->
 
-## Key Files
+## Knowledge Map
 
-<!-- To be filled by the Architect in the first working session. -->
+<!-- Populated as the knowledge tree grows. Points to knowledge/ nodes. -->
 ```
 
-Do not explore the codebase. Do not attempt to fill the Structure or Key Files sections. That is the Architect's job when real work begins.
+Do not explore the codebase. Do not attempt to fill the Structure or Knowledge Map sections. That is the Architect's job when real work begins.
 
-#### KEY_INSIGHTS.md
+#### knowledge/index.md
 
 ```markdown
-# Key Insights — <Project Name>
+# Knowledge — <Project Name>
 
-> Scope: Project
-> Curated from journal entries. Remove when no longer relevant.
+> Project-wide insights and cross-cutting patterns.
+> This tree grows organically as work progresses.
 
 <!-- No insights yet — this file will be populated as work begins. -->
 ```
@@ -235,7 +236,7 @@ Workspace initialised for <Project Name> under AI-SDLC methodology.
 
 **Detail:**
 - **Action:** None — setup session
-- **Files created:** workspace.yaml, STATUS.md, KEY_INSIGHTS.md, CONTEXT.md, this journal entry
+- **Files created:** workspace.yaml, STATUS.md, CONTEXT.md, knowledge/index.md, this journal entry
 - **Open threads:** Workspace is in INCEPTION mode. Invoke the Architect to define the first action.
 ```
 
@@ -248,13 +249,15 @@ Confirm the final workspace structure:
 ```
 <workspace-root>/
 ├── <project-name>/              ← code repo
-├── <project-name>-journal/      ← project journal (git repo)
+├── <project-name>-memory/       ← project memory (git repo)
 │   ├── STATUS.md
-│   ├── KEY_INSIGHTS.md
 │   ├── CONTEXT.md
 │   ├── journal/
 │   │   └── <YYYY>-W<NN>.md
-│   └── actions/
+│   ├── knowledge/
+│   │   └── index.md
+│   ├── actions/
+│   └── archive/
 ├── ai-sdlc/                     ← methodology
 └── workspace.yaml               ← folder mapping
 ```

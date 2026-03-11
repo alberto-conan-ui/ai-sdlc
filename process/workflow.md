@@ -12,8 +12,8 @@ Inception happens once per project, when the workspace doesn't exist yet. It is 
 
 **What happens:**
 
-1. The Bootstrapper walks you through creating the three-folder workspace: code repo, project journal, and ai-sdlc. See [bootstrap/](../bootstrap/) for the convention.
-2. It creates the journal skeleton: STATUS.md (in INCEPTION mode), KEY_INSIGHTS.md (empty), CONTEXT.md (a few lines — project name, stack, repo URL), journal/ with a single setup entry, and the actions/ folder.
+1. The Bootstrapper walks you through creating the three-folder workspace: code repo, project memory, and ai-sdlc. See [bootstrap/](../bootstrap/) for the convention.
+2. It creates the journal skeleton: STATUS.md (in INCEPTION mode), CONTEXT.md (a few lines — project name, stack, repo URL), journal/ with a single setup entry, the knowledge/ folder (with a root index.md), and the actions/ folder.
 3. The Bootstrapper verifies the structure and hands off. It does not define actions, explore the codebase deeply, or start any work.
 
 **What INCEPTION means in STATUS.md:** The workspace exists and the structure is in place, but no work has started. There is no active action, no roadmap, no phase. The next step is for the human to invoke the Architect, who will deepen CONTEXT.md by reading the codebase and help define the first action.
@@ -89,15 +89,15 @@ Implementation is where code gets written. In Tech Lead stance, the AI reads the
 
 | Stance | Primary focus | On demand | Exclude |
 |---|---|---|---|
-| **Architect** | STATUS.md, CONTEXT.md, KEY_INSIGHTS.md (project + action + phase), active action doc (GOAL/EPIC/TASK.md), active phase spec | Completed phase specs, relevant source files | impl prompts |
-| **Tech Lead** | Active phase spec, KEY_INSIGHTS.md (action + phase), relevant source files | CONTEXT.md, project KEY_INSIGHTS.md | other phase specs |
+| **Architect** | STATUS.md, CONTEXT.md, relevant knowledge/ nodes, active action doc (GOAL/EPIC/TASK.md), active phase spec | Completed phase specs, relevant source files | impl prompts |
+| **Tech Lead** | Active phase spec, action KEY_INSIGHTS.md scratchpad, relevant knowledge/ nodes, source files | CONTEXT.md | other phase specs |
 | **Developer** | The current implementation prompt | Nothing else | Everything except the prompt |
-| **Navigator** | STATUS.md, journal/ (current + previous week) | Older journal weeks, git log | KEY_INSIGHTS.md, source code, phase specs, impl prompts |
-| **Curator** | KEY_INSIGHTS.md (all levels), journal/ (all weeks), completed action docs and specs | CONTEXT.md | Source code, impl prompts |
+| **Navigator** | STATUS.md, journal/ (current + previous week) | Older journal weeks, git log | knowledge/, source code, phase specs, impl prompts |
+| **Curator** | knowledge/ (full tree), journal/ (all weeks), completed action docs and specs, action KEY_INSIGHTS.md scratchpads | CONTEXT.md | Source code, impl prompts |
 
 In a single session, the AI has seen everything from prior stances — the table defines what each stance *focuses on*, not what it can see. Be aware that a Developer stance in the same session as a prior Architect conversation carries that context. For complex work, a fresh Developer session produces more disciplined output.
 
-**Tracking updates:** The AI handles its own tracking per common.md — journal entries, STATUS.md updates, insight writing — regardless of stance. Your job is not to produce these artefacts but to verify them: scan the journal entry for accuracy, check that STATUS.md reflects reality, review insights for specificity. The mechanism matters less than the discipline: keeping tracking current *and accurate* means the next session starts with trustworthy context.
+**Tracking updates:** The AI handles its own tracking per common.md — journal entries, STATUS.md updates, knowledge contributions — regardless of stance. Your job is not to produce these artefacts but to verify them: scan the journal entry for accuracy, check that STATUS.md reflects reality, review knowledge contributions for specificity and placement. The mechanism matters less than the discipline: keeping things current *and accurate* means the next session starts with trustworthy context.
 
 ---
 
@@ -105,11 +105,15 @@ In a single session, the AI has seen everything from prior stances — the table
 
 When all phases for the active action are complete and you've confirmed the gatekeep is met:
 
-1. The AI updates STATUS.md — action status → Achieved
-2. If other actions are defined, you pick the next one to activate
-3. If no other actions exist, you define what's next
+1. Any insights worth keeping migrate from the action's KEY_INSIGHTS.md scratchpad to the appropriate knowledge tree nodes
+2. The action folder moves from `actions/` to `archive/`
+3. The AI updates STATUS.md — action status → Achieved, links updated to `archive/`
+4. If other actions are defined, you pick the next one to activate
+5. If no other actions exist, you define what's next
 
-For tasks, completion is often immediate — one phase, gatekeep verified, done. For epics and goals, you evaluate the gatekeep across all completed phases before marking the action as achieved.
+For tasks, completion is often immediate — one phase, gatekeep verified, archive, done. For epics and goals, you evaluate the gatekeep across all completed phases before marking the action as achieved.
+
+The same applies to promoted or abandoned actions — they move to `archive/` with a journal entry explaining why. The knowledge tree keeps what was learned; the archive keeps the historical record.
 
 ---
 
@@ -127,7 +131,7 @@ When returning to a paused action, the journal captures why it was paused and wh
 
 ## Staying Current with External Changes
 
-Codebases don't stand still. Other developers push changes, dependencies get updated, CI breaks things, PRs get merged. The project journal — STATUS.md, CONTEXT.md, phase specs — reflects the state of the code at the time it was written, and that state can go stale.
+Codebases don't stand still. Other developers push changes, dependencies get updated, CI breaks things, PRs get merged. The project memory — STATUS.md, CONTEXT.md, phase specs — reflects the state of the code at the time it was written, and that state can go stale.
 
 This is a real-world problem, and the methodology doesn't pretend it doesn't exist. The solution isn't a special process — it's the same discipline you'd apply as a senior developer: stay current.
 
@@ -149,9 +153,9 @@ A project that's mostly bug fixes and small features will have many tasks and fe
 
 ### What Scales Naturally
 
-- **Actions** — more work means more action folders. Each is self-contained. The naming convention (`task-*`, `epic-*`, `goal-*`) makes the tier visible at a glance.
+- **Actions** — more work means more action folders. Completed actions move to `archive/`, keeping `actions/` clean. The naming convention (`task-*`, `epic-*`, `goal-*`) makes the tier visible at a glance.
 - **Journal** — weekly rolling files mean the journal grows without becoming unwieldy. Recent weeks are loaded by the active stance; old weeks are there for history.
-- **Key insights** — insights accumulate at each level. Phase-level insights stay relevant during that phase; action-level insights persist across phases; project-level insights persist across actions. As the project grows, the insight hierarchy captures the knowledge that matters.
+- **Knowledge tree** — the tree grows organically as work touches new areas of the codebase. Each session loads only the relevant nodes, not the entire tree. Completed actions contribute their insights to the tree before archiving — the knowledge outlives the action that produced it.
 
 ### Stance Compression
 
@@ -159,36 +163,32 @@ A project that's mostly bug fixes and small features will have many tasks and fe
 
 **Separate sessions are the escalation path.** For goals and complex epics where you notice stance pollution — the Architect over-specifying implementation, the Developer second-guessing prompts — separate them physically. You make this call based on what you're seeing in the output, not based on a blanket rule.
 
-### The Non-Negotiables
+### What Matters
 
-Regardless of action tier, these are never skipped:
+The process has ceremony — specs, journals, knowledge, status tracking. But the ceremony exists to serve a small number of principles. If you understand the principles, you'll know when to follow the ceremony closely and when to keep it light.
 
-- **An action defined before work starts.** Every piece of work has a TASK.md, EPIC.md, or GOAL.md — even if it's three lines.
-- **A gatekeep for every action.** Tasks get concrete verification. Epics get measurable conditions. Goals get human-judged criteria. But every action has a definition of done.
-- **STATUS.md is always current.** The single source of truth for mode, active action, and next action.
-- **A written spec before code.** Every phase has a spec — even a task's single phase.
-- **Journal entries.** Every session, every decision, every lesson — tagged and logged in the current week's journal file. The AI writes them (per common.md). You verify they're accurate. The cost is seconds; the value compounds.
-- **Key insights written and reviewed.** The AI writes insights directly to KEY_INSIGHTS.md at the right level (per common.md), regardless of stance. You actively review them — revising what's vague, removing what's wrong, promoting what applies more broadly. This is how the AI gets better at your project over time, and your review is what makes the insights trustworthy.
-- **Review gate between planning and execution.** You approve the plan before any code gets written.
-- **Stance separation between design and execution.** The Architect/Tech Lead and the Developer are different cognitive stances. Whether they run in separate sessions is your call — but be aware that a Developer in the same session as a design conversation will carry that context. For complex work, a fresh Developer session produces more disciplined output.
-- **Tracking updated at phase handovers.** The AI keeps STATUS.md and the journal current per common.md, regardless of stance. You verify the updates are accurate — especially after complex phases where the AI may mischaracterise what happened. The cost is minutes; the value compounds across sessions.
+**Define the work before starting it.** Every piece of work has an action document (TASK.md, EPIC.md, or GOAL.md) and a gatekeep — a definition of done. Even three lines counts. The point is clarity of intent, not documentation for its own sake.
 
-### The Overhead Discipline
+**Plan before you code.** Every phase has a spec. The spec can be short — a task's spec might be a few paragraphs. But the discipline of writing down what you're about to do catches problems that thinking alone misses.
 
-Reading those nine non-negotiables, you might think: this is a lot of overhead for someone who just wants to ship code. But notice what the list actually asks of you: review, verify, approve. Not write, not track, not update. The AI does the production. You do the thinking.
+**Keep the journal honest.** Every session, every non-trivial decision, every lesson — logged in the current week's journal file. The AI writes the entries. You verify they're accurate. This takes seconds and compounds over weeks.
 
-This is a critical distinction. The AI writes journal entries, updates STATUS.md, writes insights, produces session receipts — all per common.md. You never stare at a blank journal file wondering what to write. But the methodology demands something harder than writing: it demands that you actually read what the AI wrote and verify it's correct. That you catch the insight that's too vague to be useful. That you notice when a STATUS.md update mischaracterises the phase outcome. That you push back on a spec that looks plausible but misses the real constraint.
+**Grow the knowledge tree.** When insights emerge from the work that matter beyond the current session, capture them in the knowledge tree at the right node. This happens through conversation — the AI proposes, you confirm or redirect. No formal write-back ceremony; just the discipline of noticing what's worth keeping.
 
-**The process demands more from you, not less.** Without this methodology, you'd write code, review code, ship code. With it, you review plans, review specs, review prompts, review code, review journal entries, review insights, review status updates. Every artefact the AI produces passes through your judgement. The AI's throughput is high — it will generate more artefacts in a day than you'd produce in a week. Your job is to make sure that volume is accurate, specific, and trustworthy. That's harder than writing it yourself, because it requires you to think critically about someone else's output at speed.
+**Review what the AI produces.** Plans, specs, journal entries, knowledge — the AI generates volume. Your engaged review is what makes the volume trustworthy. Rubber-stamping gives you all the overhead with none of the returns.
 
-Here's why it's worth it.
+**Keep STATUS.md current.** It's the single source of truth for where the project is. The AI updates it; you verify it reflects reality.
 
-**Session 1 is the most expensive session you'll ever run.** The AI knows nothing about your project. It reads source files, makes wrong assumptions, produces plans you have to correct, and writes code that doesn't match your patterns. Every correction is a lesson — but without the journal and insight files, that lesson evaporates when the session ends. Session 2 starts from zero again. So does session 3. You're paying the same teaching cost every time.
+**Separate design from execution.** The Architect/Tech Lead and the Developer are different cognitive stances. Whether they run in separate sessions is your call — but be aware that shared context affects the Developer's discipline. For complex work, a fresh Developer session helps.
 
-**The tracking overhead is the mechanism that makes sessions get cheaper.** When the AI loads KEY_INSIGHTS.md and reads "Never use direct DOM manipulation in this codebase — the framework's reactivity system breaks" — that's a lesson you taught it once, in session 4, and it carries forward into every session after. When STATUS.md says "Phase 2 complete, phase 3 specced, the lookup table approach worked but watch for the type narrowing issue in registry.ts" — that's ten minutes of orientation that would otherwise cost thirty minutes of re-reading code and re-discovering context. But those insights are only as good as your review. An AI-written insight that says "the refactor was complex" teaches nothing. One that you refined to say "before moving validators between modules, write assertion tests for current behaviour first" teaches permanently. The AI writes the first draft. Your review turns it into durable knowledge.
+### Why the Overhead Pays Off
 
-**The compound curve is real but not instant.** For a two-session task, the overhead barely pays for itself — you'd have been fine without it. For a five-phase epic spanning three weeks, the difference is dramatic. Session 12 loads the insights from sessions 1–11, avoids every mistake already caught, follows every pattern already established, and starts producing useful output in minutes instead of spending the first half-hour re-learning the project. The overhead per session stays roughly constant (a few minutes of review), but the value it delivers grows with every session that contributes to the knowledge base.
+The process asks you to review a lot — plans, specs, journal entries, knowledge, status updates. None of that is busywork, but it's worth understanding why.
 
-**This is why the methodology requires discipline, not enthusiasm.** You don't need to enjoy reviewing journal entries. You need to review them anyway, because the version of you that comes back after a two-week break — or the AI that opens a fresh session tomorrow — will depend on them being accurate. The journal is not documentation for its own sake. It is the mechanism that turns individual sessions into cumulative progress. And your review is what makes it trustworthy.
+**Session 1 is the most expensive session you'll ever run.** The AI knows nothing about your project. Without the journal and knowledge tree, every correction evaporates when the session ends. Session 2 starts from zero again.
 
-If you find the overhead isn't paying off, check two things: Are you actually reading the AI's tracking output at session end and the insights at session start? And when you read them, are you engaging critically — refining vague insights, correcting inaccurate summaries, removing noise? The discipline is not in producing the artefacts. The AI handles that. The discipline is in the quality of your attention to what the AI produces.
+**The journal and knowledge tree make sessions get cheaper.** When the AI loads a knowledge node and reads "Never use direct DOM manipulation in this codebase — the framework's reactivity system breaks" — that's a lesson you taught it once, in session 4, and it carries forward permanently. But only if you reviewed it. An AI-written insight that says "the refactor was complex" teaches nothing. One that you refined to say "before moving validators between modules, write assertion tests for current behaviour first" teaches permanently.
+
+**The compound curve is real but not instant.** For a two-session task, the overhead barely pays for itself. For a five-phase epic spanning three weeks, session 12 loads everything from sessions 1–11, avoids every mistake already caught, and starts producing useful output in minutes. The overhead per session stays roughly constant; the value grows with every session.
+
+If you find the overhead isn't paying off, check: are you actually engaging with the AI's output — refining vague insights, correcting inaccurate journal entries, removing noise from the knowledge tree? The discipline is not in producing the artefacts. The AI handles that. The discipline is in the quality of your attention.

@@ -22,7 +22,7 @@ An epic has an EPIC.md (problem, vision, concrete gatekeep) and a phases folder 
 
 **Goal** — an abstract, outcome-oriented aspiration. "Users should be able to register without understanding the type system." "Onboarding a new developer to the DX layer should take hours, not days."
 
-A goal gets full Planning and Implementation with the heaviest ceremony. The gatekeep involves human judgement — not just whether the code works, but whether the outcome was achieved. The Senior Architect helps refine the goal, writes GOAL.md with design principles, and plans the roadmap. This is the heavyweight tier, appropriate for work that shapes the product's direction.
+A goal gets full Planning and Implementation with the heaviest ceremony. The gatekeep involves human judgement — not just whether the code works, but whether the outcome was achieved. The Architect helps refine the goal, writes GOAL.md with design principles, and plans the roadmap. This is the heavyweight tier, appropriate for work that shapes the product's direction.
 
 A goal has a GOAL.md (problem, vision, design principles, abstract gatekeep) and a phases folder with the standard structure.
 
