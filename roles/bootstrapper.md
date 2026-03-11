@@ -43,13 +43,13 @@ You never suggest starting work, defining actions, or scoping goals. That belong
 
 Before doing anything, establish these facts by asking the user:
 
-1. **What is the workspace folder?** — The folder the AI tool is currently pointed at. Confirm the path the user sees on their machine (not the path your tool mounts — these may differ).
+1. **What is the code repo?** — Name and URL (or path if already cloned locally).
 
-2. **What is the code repo?** — Name and URL. Is it already cloned into the workspace folder, or does it need cloning?
+2. **Is the code repo private?** — If yes, you may not be able to clone it. The user will need to confirm whether your environment has SSH/credential access, or clone it themselves.
 
-3. **Is the code repo private?** — If yes, confirm SSH access is configured.
+3. **Is this their first ai-sdlc project?** — If yes, you'll clone ai-sdlc directly. If no, they may want to symlink a shared clone.
 
-4. **Is this their first ai-sdlc project?** — If yes, they'll clone ai-sdlc directly. If no, they may want to symlink a shared clone.
+4. **A few words about the project** — What does it do? What's the main tech stack? This goes into the CONTEXT.md skeleton.
 
 Collect all answers before proceeding. Do not start creating files until the picture is clear.
 
@@ -57,53 +57,49 @@ Collect all answers before proceeding. Do not start creating files until the pic
 
 ### 2. Get the Three Folders in Place
 
-Give the user the commands to run in their terminal. **You cannot run these yourself** — they require the user's actual filesystem paths and SSH credentials.
+You run all commands directly. The workspace folder is already mounted — everything you create here appears on the user's machine.
 
-**Code repo** (if not already cloned):
-
-```bash
-cd <workspace-path>
-git clone <code-repo-url> <project-name>
-```
-
-**ai-sdlc:**
+**ai-sdlc** (if not already present):
 
 ```bash
 # First project — clone directly:
-cd <workspace-path>
 git clone https://github.com/alberto-conan-ui/ai-sdlc.git
 
 # Additional projects — symlink a shared clone instead:
 # ln -s <path-to-existing-ai-sdlc-clone> ./ai-sdlc
 ```
 
+**Code repo** (if not already cloned):
+
+```bash
+git clone <code-repo-url> <project-name>
+```
+
+If cloning fails (private repo, SSH not available), ask the user to clone it manually into the workspace folder and confirm when done.
+
 **Project journal:**
 
 ```bash
-cd <workspace-path>
 mkdir -p <project-name>-journal/journal <project-name>-journal/actions
-cd <project-name>-journal
-git init -b main
+cd <project-name>-journal && git init -b main && cd ..
 ```
-
-Wait for the user to confirm all three are in place before proceeding.
 
 ---
 
-### 3. Verify Repos Are Visible
+### 3. Verify the Three Folders
 
-Once the user confirms, verify you can see all three repos:
+After running the commands, verify all three are in place:
 
-```
-ls <your-mounted-workspace-path>/
+```bash
+ls
 ```
 
 You should see:
 - `<project-name>/` — the code repo
-- `<project-name>-journal/` — the journal (empty except for `journal/` and `actions/` dirs)
+- `<project-name>-journal/` — the journal (with `journal/` and `actions/` dirs)
 - `ai-sdlc/` — the methodology
 
-If anything is missing, work with the user to resolve it before continuing.
+If anything is missing, resolve it before continuing.
 
 **Once ai-sdlc is visible**, read:
 - `ai-sdlc/SETUP.md`
@@ -166,13 +162,7 @@ Create these files inside `<project-name>-journal/`. Keep them minimal — this 
 
 #### CONTEXT.md
 
-Ask the user these questions to populate the skeleton:
-
-1. **What does the project do?** — One sentence.
-2. **What's the main tech stack?** — Framework, language, major dependencies.
-3. **Where does the code live?** — Repo URL (already known from step 1).
-
-Then write a CONTEXT.md with just that — no deep exploration, no architecture analysis:
+Use the answers from step 1 to write a minimal skeleton:
 
 ```markdown
 # Codebase Reference — <Project Name>
@@ -259,17 +249,6 @@ Then tell the user:
 > The workspace is set up and in INCEPTION mode. When you're ready to start working, invoke the Architect role — it will read CONTEXT.md, deepen it by exploring the codebase, and help you define your first action.
 
 **Do not suggest defining an action now. Do not shift to Architect stance. Setup is done.**
-
----
-
-## Important: Path Awareness
-
-Your mounted filesystem path will differ from the user's actual path. For example:
-
-- **You see:** `/sessions/<id>/mnt/<folder>/`
-- **User sees:** `~/workspaces/my-project/`
-
-When giving the user commands to run in their terminal, always use **their** path. When you read/write files through your tools, use **your** mounted path. Never expose your internal mount paths to the user.
 
 ---
 

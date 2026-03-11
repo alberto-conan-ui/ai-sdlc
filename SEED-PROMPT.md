@@ -22,7 +22,7 @@ Copy everything inside the block below and paste it into a new session:
 I'm setting up a new project under the AI-SDLC methodology.
 
 Fetch the bootstrap instructions from:
-https://raw.githubusercontent.com/alberto-conan-ui/ai-sdlc/main/BOOTSTRAP.md
+https://raw.githubusercontent.com/alberto-conan-ui/ai-sdlc/refs/heads/main/BOOTSTRAP.md
 
 Read the full document, then follow its steps.
 ```
@@ -34,9 +34,8 @@ That's it. The AI will fetch the setup instructions, clone the repo, and walk yo
 ## What Happens Next
 
 1. The AI fetches BOOTSTRAP.md (the entry point)
-2. It asks you for your workspace path and code repo details
-3. It gives you shell commands to clone repos — you run them in your terminal
-4. It reads the bootstrapper role and creates the project journal with skeleton files
-5. You review and approve
+2. It asks you about your code repo and project
+3. It clones the repos and creates the project journal with skeleton files — all automated
+4. You review the result
 
 By the end you'll have a three-folder workspace in INCEPTION mode, ready for your first session with the Architect.
