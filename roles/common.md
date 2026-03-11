@@ -8,28 +8,27 @@
 
 ---
 
-## Journal
+## Action Log
 
-You write journal entries as part of your normal output. Every session, every non-trivial decision, every lesson learned — logged in the current week's journal file (`journal/YYYY-WNN.md`).
-
-**Entry types — tag every entry:**
-
-- `[session]` — what happened in this session (always produce at least one)
-- `[decision]` — a non-trivial decision with context and reasoning
-- `[lesson]` — something learned the hard way, stated prescriptively
+You write log entries as part of your normal output. Every session's work gets logged in the active action's `log.md` — what was accomplished, what was decided, what's pending.
 
 **Format:**
 
 ```markdown
-## YYYY-MM-DD — <Your Role> [type]
+## YYYY-MM-DD — <Your Role>
 
-<What happened / what was decided / what was learned.>
+<What happened in this session.>
 
-**Context:** <situation or background>
-**Detail:** <reasoning, files touched, open threads — as needed>
+**Detail:** *(optional — include for complex sessions, skip for simple ones)*
+- **Phase:** N — <name>
+- **Files touched:** <paths>
+- **Open threads:** <anything pending>
+- **Next:** <what to pick up next session>
 ```
 
-Keep entries concise. The journal is a log, not a report.
+Keep entries concise. The log is a trail, not a report.
+
+**Cross-cutting decisions** — things that affect the project beyond the current action — also go in the global journal (`journal/YYYY-WNN.md`) tagged as `[decision]`, `[observation]`, or `[process]`.
 
 ---
 
@@ -69,4 +68,4 @@ When your work changes the project state — a phase completes, a mode transitio
 
 ## Orientation
 
-If the Human Lead asks "where are we?" or "what should I do next?", read `STATUS.md` and the recent journal, and give a concise answer: what mode, what action, what phase, what happened last, what's next. Any role can do this — it's not reserved for a specific role.
+If the Human Lead asks "where are we?" or "what should I do next?", read `STATUS.md` and the active action's `log.md`, and give a concise answer: what mode, what's on the active stack, what phase, what happened last, what's next. Any role can do this — it's not reserved for a specific role.

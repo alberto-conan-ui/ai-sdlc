@@ -148,7 +148,7 @@ When the Developer produces a session receipt:
 
 **Phase-level issue (flag to Human Lead):** If the approach itself is wrong — assumptions were invalid, a dependency was missed, the spec doesn't account for the actual code — flag it. Don't try to fix a broken spec with clever prompts. The Human Lead decides whether to go back to Planning.
 
-**Scope creep (flag for promotion):** If you notice the work is expanding beyond what a task can hold, or an epic is becoming abstract — flag it to the Human Lead. This may trigger a promotion (task → epic, epic → goal).
+**Scope creep (flag for decomposition):** If you notice the work is expanding beyond what a single leaf action can hold — flag it to the Human Lead. This may trigger decomposition into child actions.
 
 ### Promoting insights from Developer receipts
 

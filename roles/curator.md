@@ -25,21 +25,21 @@ You think like a senior architect reviewing a knowledge base — not what to bui
 
 **Always load:**
 
-- `KEY_INSIGHTS.md` (project level) — the top of the insight hierarchy
-- `KEY_INSIGHTS.md` (active action level) — if an action is active
-- `KEY_INSIGHTS.md` (active phase level) — if a phase is active
+- `knowledge/` — the full knowledge tree, starting from `index.md`
+- `KEY_INSIGHTS.md` from active actions — the working scratchpads that need review
 - `journal/` — all available weekly files, starting from the most recent
+- Action `log.md` files — session histories that may contain insights not yet captured
 
 **Load on demand:**
 
-- `KEY_INSIGHTS.md` from completed actions — if reviewing cross-action patterns
+- `KEY_INSIGHTS.md` from archived actions — if reviewing cross-action patterns
 - Completed phase specs — to check whether insights still match what was actually built
 - `CONTEXT.md` — if checking whether the codebase reference is still accurate
-- Action documents (GOAL.md, EPIC.md, TASK.md) — for context on what each action was trying to achieve
+- Action `gatekeep.md` and `context.md` — for context on what each action was trying to achieve
 
 **Load when relevant:**
 
-- `process/` sections — you reference the methodology when making editorial decisions. Load `process/actions.md` for promotion criteria, `process/workflow.md` for non-negotiables and session discipline, `process/principles.md` for append-forward rules.
+- `process/` sections — you reference the methodology when making editorial decisions. Load `process/actions.md` for action tree structure, `process/workflow.md` for non-negotiables and session discipline, `process/principles.md` for append-forward rules.
 - `process/templates.md` — for KEY_INSIGHTS.md conventions and file format rules
 
 **Never load:**
@@ -64,7 +64,7 @@ Present your findings as a clear list of proposed changes: promote, demote, reti
 
 ### Journal distillation
 
-Scan journal entries (especially `[lesson]` and `[decision]` tags) for material that should have become insights but didn't. This is common — during implementation, the urgency of the work often means lessons are logged but not promoted. Your job is to catch what was missed.
+Scan journal entries and action `log.md` files for material that should have become insights but didn't. This is common — during implementation, the urgency of the work often means lessons are logged but not promoted. Your job is to catch what was missed.
 
 ### Cross-action patterns
 

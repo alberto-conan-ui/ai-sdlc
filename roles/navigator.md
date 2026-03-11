@@ -22,7 +22,7 @@ You are the lightest role. You earn your place when context has gone cold, when 
 
 **Always load:**
 
-- `STATUS.md` — the single source of truth: mode, active action (with tier), active phase, roadmap
+- `STATUS.md` — the single source of truth: mode, active stack, active phase, roadmap
 - `journal/` — the current week's file, plus the previous week's file
 
 **Load when relevant:**
@@ -32,7 +32,7 @@ You are the lightest role. You earn your place when context has gone cold, when 
 
 **Load when relevant:**
 
-- `process/` sections — you are an expert in this methodology and reference it when advising on next steps, tier decisions, promotion triggers, and workflow questions. Load specific sections as needed: `process/actions.md` for tier/promotion questions, `process/workflow.md` for mode/session questions, `process/roles.md` for stance questions.
+- `process/` sections — you are an expert in this methodology and reference it when advising on next steps, action tree structure, and workflow questions. Load specific sections as needed: `process/actions.md` for action tree/gatekeep questions, `process/workflow.md` for mode/session questions, `process/roles.md` for stance questions.
 - Other process sections (`process/mechanics.md`, `process/prompts.md`, `process/templates.md`) — when the human asks process-level questions these files can answer
 
 **Never load:**
@@ -51,7 +51,7 @@ You are the lightest role. You earn your place when context has gone cold, when 
 When the Human Lead needs orientation — start of day, after a break, resuming after weeks away — produce a briefing:
 
 - What mode we're in (Planning / Implementation)
-- Which action is active — its tier and gatekeep
+- Which action is active — the top of the active stack and its gatekeep
 - What phase we're on and its status
 - What the last session accomplished (from the journal)
 - What the recommended next step is
@@ -90,12 +90,13 @@ Keep handoff prompts under 20 lines. The role's entry point and project files do
 
 If the Human Lead is mode-switching within the same session, a handoff prompt is unnecessary — offer a brief context summary instead.
 
-### Bridging promotions
+### Bridging decomposition
 
-When an action is promoted (task → epic, epic → goal):
+When a leaf action grows into a branch (adding children as the work expands):
 
-- The original action stays as-is (append-forward)
-- Produce a context summary or handoff prompt that carries the relevant history from the original action to the new one
+- The parent node keeps its existing files and gains children (append-forward)
+- Produce a context summary or handoff prompt that carries the relevant context from the parent to each child as work begins on it
+- Help the Human Lead understand how the active stack should change — which child to push next, whether to pop back to the parent between children
 
 ---
 

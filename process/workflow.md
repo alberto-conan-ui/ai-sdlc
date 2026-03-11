@@ -24,18 +24,18 @@ Once the first action is defined, the project leaves INCEPTION and enters Planni
 
 ## Two Modes
 
-After Inception, the project operates in two modes: **Planning** and **Implementation**. At any point, the project is in exactly one mode for exactly one active action. The mode is tracked in STATUS.md (see [templates.md](./templates.md)), which is the single source of truth for "where are we."
+After Inception, the project operates in two modes: **Planning** and **Implementation**. At any point, the top of the active stack determines which action is being worked on and in which mode. The mode is tracked in STATUS.md (see [templates.md](./templates.md)), which is the single source of truth for "where are we."
 
-**One active action at a time.** A project may have multiple actions defined, but only one is active. This prevents context scatter — the AI always knows which action it's serving. If you want to switch actions, do so explicitly — update STATUS.md and log the reason in the journal.
+**The active stack tracks what you're working on.** You push an action onto the stack when you start it, pop it when you're done or switching. The stack tells you where you are and the path you took — including interruptions. It works across action trees. See [actions.md](./actions.md) for the full model.
 
 ```
-Planning ──→ Implementation ──→ Action achieved ──→ Pick next action
+Planning ──→ Implementation ──→ Action achieved ──→ Pop stack, pick next
     ↑               │
     └───────────────┘
   (phase-level issue)
 ```
 
-All three tiers follow this cycle. What differs is the weight of each step: a task's Planning is compressed (short spec, maybe no prompt plan), while a goal's Planning involves deep codebase analysis, multi-phase roadmaps, and formal review gates. The modes are the same — the ceremony scales with the tier.
+All actions follow this cycle regardless of complexity. What differs is the weight of each step: a simple leaf action's Planning is compressed (short spec, maybe no prompt plan), while a deeply nested action tree involves codebase analysis, multi-phase roadmaps, and formal review gates. The modes are the same — the ceremony scales with the work.
 
 ---
 
@@ -47,13 +47,13 @@ Planning is where an action gets defined, broken into phases, and each phase get
 
 **What happens in Planning:**
 
-You come in with a rough idea and work with the Architect to shape it. For goals, this means defining the problem, vision, design principles, and gatekeep collaboratively — the Architect asks probing questions, you provide domain context. For epics, the Architect helps refine scope and gatekeep. For tasks, the Architect does a quick assessment. The conversation naturally flows from defining the action to designing the roadmap to writing the first phase spec.
+You come in with a rough idea and work with the Architect to shape it. For complex actions, this means defining the problem, vision, and gatekeep collaboratively — the Architect asks probing questions, you provide domain context. For simple actions, the Architect does a quick assessment. The conversation naturally flows from defining the action to designing the roadmap to writing the first phase spec.
 
 The Architect reads the codebase deeply — relevant source files, tests, configuration, existing patterns. A plan written without reading the code is a guess. Specs should reference specific file paths, show code snippets of current behaviour, and include tables of test cases. Vague plans produce vague code.
 
 You review and approve the spec (or push back — the Architect should defend the design or revise it). Whether this takes one session or several doesn't matter. By the end of Planning, there's an approved action document, a roadmap, and a phase spec.
 
-**Planning for tasks:** compressed. The Architect produces a short spec (a few paragraphs — problem, steps, done-when). You'll often flow straight from design into writing prompts in the same conversation. The gate is lighter — a task spec doesn't need the same scrutiny as a multi-phase epic.
+**Planning for simple actions:** compressed. The Architect produces a short spec (a few paragraphs — problem, steps, done-when). You'll often flow straight from design into writing prompts in the same conversation. The gate is lighter — a single-phase action doesn't need the same scrutiny as a deeply nested action tree.
 
 **When Planning ends:** When you approve the phase spec and are ready to move to implementation. The AI updates STATUS.md: mode switches to Implementation.
 
@@ -89,11 +89,11 @@ Implementation is where code gets written. In Tech Lead stance, the AI reads the
 
 | Stance | Primary focus | On demand | Exclude |
 |---|---|---|---|
-| **Architect** | STATUS.md, CONTEXT.md, relevant knowledge/ nodes, active action doc (GOAL/EPIC/TASK.md), active phase spec | Completed phase specs, relevant source files | impl prompts |
-| **Tech Lead** | Active phase spec, action KEY_INSIGHTS.md scratchpad, relevant knowledge/ nodes, source files | CONTEXT.md | other phase specs |
+| **Architect** | STATUS.md, CONTEXT.md, relevant knowledge/ nodes, active action's gatekeep.md + context.md, active phase spec | Completed phase specs, relevant source files | impl prompts |
+| **Tech Lead** | Active phase spec, action KEY_INSIGHTS.md, relevant knowledge/ nodes, source files | CONTEXT.md | other phase specs |
 | **Developer** | The current implementation prompt | Nothing else | Everything except the prompt |
-| **Navigator** | STATUS.md, journal/ (current + previous week) | Older journal weeks, git log | knowledge/, source code, phase specs, impl prompts |
-| **Curator** | knowledge/ (full tree), journal/ (all weeks), completed action docs and specs, action KEY_INSIGHTS.md scratchpads | CONTEXT.md | Source code, impl prompts |
+| **Navigator** | STATUS.md, journal/ (current + previous week), active action's log.md | Older journal weeks, git log | knowledge/, source code, phase specs, impl prompts |
+| **Curator** | knowledge/ (full tree), journal/ (all weeks), action logs and KEY_INSIGHTS.md files, completed action specs | CONTEXT.md | Source code, impl prompts |
 
 In a single session, the AI has seen everything from prior stances — the table defines what each stance *focuses on*, not what it can see. Be aware that a Developer stance in the same session as a prior Architect conversation carries that context. For complex work, a fresh Developer session produces more disciplined output.
 
@@ -105,27 +105,27 @@ In a single session, the AI has seen everything from prior stances — the table
 
 When all phases for the active action are complete and you've confirmed the gatekeep is met:
 
-1. Any insights worth keeping migrate from the action's KEY_INSIGHTS.md scratchpad to the appropriate knowledge tree nodes
-2. The action folder moves from `actions/` to `archive/`
-3. The AI updates STATUS.md — action status → Achieved, links updated to `archive/`
-4. If other actions are defined, you pick the next one to activate
-5. If no other actions exist, you define what's next
+1. Any insights worth keeping migrate from the action's KEY_INSIGHTS.md to the appropriate knowledge tree nodes
+2. The action subtree moves from `actions/` to `archive/`
+3. The AI updates STATUS.md — action popped from the active stack, status → Achieved
+4. If other actions are on the stack, you resume the next one
+5. If the stack is empty, you define what's next
 
-For tasks, completion is often immediate — one phase, gatekeep verified, archive, done. For epics and goals, you evaluate the gatekeep across all completed phases before marking the action as achieved.
+For leaf actions, completion is often immediate — one phase, gatekeep verified, archive, done. For branch actions, you evaluate the gatekeep across all children before marking the branch as achieved.
 
-The same applies to promoted or abandoned actions — they move to `archive/` with a journal entry explaining why. The knowledge tree keeps what was learned; the archive keeps the historical record.
+Abandoned actions also move to `archive/` with a note in the action's log. The knowledge tree keeps what was learned; the archive keeps the historical record.
 
 ---
 
 ## Swapping Actions
 
-You can switch the active action at any time. This is a deliberate decision, not an accident, and it gets logged:
+You can push a new action onto the active stack at any time. This is a deliberate decision, not an accident, and it gets logged:
 
-1. You decide to swap (e.g., a critical bug came in while working on an epic)
-2. The AI updates STATUS.md — previous action status → Paused (with reason), new action → Active
-3. The reason for the swap is logged as a `[decision]` entry in the journal — this context is critical for the next session
+1. You decide to swap (e.g., a critical bug came in while working on a complex action tree)
+2. The AI updates STATUS.md — push the new action onto the stack, note the reason
+3. The reason for the swap is logged in the paused action's `log.md`
 
-When returning to a paused action, the journal captures why it was paused and what state it was in. Use the Navigator stance for a briefing if context has gone cold.
+When returning to a paused action, pop the interrupt off the stack — the paused action's `log.md` tells you where you left off. Use the Navigator stance for a briefing if context has gone cold.
 
 ---
 
@@ -147,31 +147,31 @@ The journal captures everything that happens within the process. It doesn't capt
 
 ## Scaling the Process
 
-The methodology uses one structure for all projects. The three tiers mean the process naturally scales to the work — tasks are light, epics are moderate, goals are heavyweight. There is no "lite mode" or "full mode" to choose between. You pick the tier that matches the work, and the process adjusts.
+The methodology uses one structure for all projects. The action tree naturally scales to the work — a simple fix is a single leaf node, complex work decomposes into nested branches. There is no "lite mode" or "full mode" to choose between. You shape the tree to match the work.
 
-A project that's mostly bug fixes and small features will have many tasks and few goals. A project in active development will have a mix. A greenfield project might start with a goal to establish direction and then break into epics and tasks as the architecture solidifies.
+A project that's mostly bug fixes and small features will have many shallow leaf actions. A project in active development will have a mix. A greenfield project might start with a broad action tree to establish direction and then add children as the architecture solidifies.
 
 ### What Scales Naturally
 
-- **Actions** — more work means more action folders. Completed actions move to `archive/`, keeping `actions/` clean. The naming convention (`task-*`, `epic-*`, `goal-*`) makes the tier visible at a glance.
-- **Journal** — weekly rolling files mean the journal grows without becoming unwieldy. Recent weeks are loaded by the active stance; old weeks are there for history.
-- **Knowledge tree** — the tree grows organically as work touches new areas of the codebase. Each session loads only the relevant nodes, not the entire tree. Completed actions contribute their insights to the tree before archiving — the knowledge outlives the action that produced it.
+- **The action tree** — more work means more nodes. Completed subtrees move to `archive/`, keeping `actions/` clean. The tree structure makes the decomposition visible at a glance.
+- **The journal** — weekly rolling files mean the journal grows without becoming unwieldy. The journal captures cross-cutting decisions; action-level history lives in each action's `log.md`.
+- **The knowledge tree** — grows organically as work touches new areas of the codebase. Each session loads only the relevant nodes, not the entire tree. Completed actions contribute their KEY_INSIGHTS to the tree before archiving — the knowledge outlives the action that produced it.
 
 ### Stance Compression
 
-**A single session with stance shifts is the default.** For tasks and small epics, flow naturally between Architect and Tech Lead thinking in one conversation — the shared context helps. The Developer can stay in the same session for low-risk work or get a fresh session when disciplined prompt-following matters. Use the Navigator stance only when context has gone cold.
+**A single session with stance shifts is the default.** For simple actions, flow naturally between Architect and Tech Lead thinking in one conversation — the shared context helps. The Developer can stay in the same session for low-risk work or get a fresh session when disciplined prompt-following matters. Use the Navigator stance only when context has gone cold.
 
-**Separate sessions are the escalation path.** For goals and complex epics where you notice stance pollution — the Architect over-specifying implementation, the Developer second-guessing prompts — separate them physically. You make this call based on what you're seeing in the output, not based on a blanket rule.
+**Separate sessions are the escalation path.** For complex action trees where you notice stance pollution — the Architect over-specifying implementation, the Developer second-guessing prompts — separate them physically. You make this call based on what you're seeing in the output, not based on a blanket rule.
 
 ### What Matters
 
 The process has ceremony — specs, journals, knowledge, status tracking. But the ceremony exists to serve a small number of principles. If you understand the principles, you'll know when to follow the ceremony closely and when to keep it light.
 
-**Define the work before starting it.** Every piece of work has an action document (TASK.md, EPIC.md, or GOAL.md) and a gatekeep — a definition of done. Even three lines counts. The point is clarity of intent, not documentation for its own sake.
+**Define the work before starting it.** Every piece of work has a `gatekeep.md` — a definition of done. Even three lines counts. The point is clarity of intent, not documentation for its own sake.
 
 **Plan before you code.** Every phase has a spec. The spec can be short — a task's spec might be a few paragraphs. But the discipline of writing down what you're about to do catches problems that thinking alone misses.
 
-**Keep the journal honest.** Every session, every non-trivial decision, every lesson — logged in the current week's journal file. The AI writes the entries. You verify they're accurate. This takes seconds and compounds over weeks.
+**Keep the logs honest.** Every session at an action node gets logged in that action's `log.md`. Cross-cutting decisions go in the journal. The AI writes the entries. You verify they're accurate. This takes seconds and compounds over weeks.
 
 **Grow the knowledge tree.** When insights emerge from the work that matter beyond the current session, capture them in the knowledge tree at the right node. This happens through conversation — the AI proposes, you confirm or redirect. No formal write-back ceremony; just the discipline of noticing what's worth keeping.
 

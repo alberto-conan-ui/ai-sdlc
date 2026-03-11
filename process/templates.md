@@ -8,14 +8,14 @@
 
 ```
 my-project-memory/
-├── STATUS.md                      ← Where are we now + roadmap (single source of truth)
+├── STATUS.md                      ← Where are we now + active stack (single source of truth)
 ├── CONTEXT.md                     ← Lightweight map: repo structure + pointers to knowledge
-├── journal/                       ← Raw chronological log (weekly rolling files)
+├── journal/                       ← Cross-cutting annotations (weekly rolling files)
 │   ├── 2026-W10.md
 │   ├── 2026-W11.md
 │   └── ...
 │
-├── knowledge/                     ← Curated knowledge tree (mirrors codebase structure)
+├── knowledge/                     ← Knowledge tree: long-term memory (mirrors codebase)
 │   ├── index.md                   ← Project-wide patterns, cross-cutting decisions
 │   ├── auth/
 │   │   ├── index.md               ← Auth subsystem patterns and decisions
@@ -26,34 +26,45 @@ my-project-memory/
 │   └── tooling/
 │       └── index.md               ← Build, CI, testing infrastructure
 │
-├── actions/                       ← Active and pending actions only
-│   └── epic-refactor-validation/
-│       ├── EPIC.md                ← Problem + vision + concrete gatekeep
-│       ├── KEY_INSIGHTS.md        ← Working scratchpad
+├── actions/                       ← Action tree: short-term memory (active and pending work)
+│   ├── auth-redesign/
+│   │   ├── gatekeep.md            ← Completion criteria (required at every node)
+│   │   ├── context.md             ← What this is about + links to knowledge tree
+│   │   ├── index.md               ← Maps children
+│   │   ├── audit-endpoints/
+│   │   │   ├── gatekeep.md
+│   │   │   ├── context.md
+│   │   │   ├── log.md             ← Session-by-session history for this action
+│   │   │   ├── KEY_INSIGHTS.md    ← Working scratchpad → migrates to knowledge tree
+│   │   │   └── phases/
+│   │   │       └── 1-catalogue-endpoints/
+│   │   │           ├── SPEC.md
+│   │   │           └── impl/
+│   │   │               ├── PLAN.md
+│   │   │               └── 01-map-all-routes.md
+│   │   ├── new-token-model/
+│   │   │   ├── gatekeep.md
+│   │   │   └── ...
+│   │   └── migrate-sessions/
+│   │       ├── gatekeep.md
+│   │       └── ...
+│   └── fix-csv-date-format/
+│       ├── gatekeep.md
+│       ├── log.md
 │       └── phases/
-│           ├── 1-baseline-tests/
-│           │   ├── SPEC.md
-│           │   ├── KEY_INSIGHTS.md ← Phase-level scratchpad
-│           │   └── impl/
-│           │       ├── PLAN.md
-│           │       ├── 01-test-infrastructure.md
-│           │       └── 02-assertion-coverage.md
-│           └── 2-lookup-table/
+│           └── 1-fix-format/
 │               ├── SPEC.md
 │               └── impl/
 │
-└── archive/                       ← Completed, promoted, or abandoned actions
-    ├── task-fix-login-bug/
-    │   ├── TASK.md
-    │   └── phases/
-    │       └── ...
-    └── goal-plugin-architecture/
-        ├── GOAL.md
+└── archive/                       ← Completed or abandoned action subtrees
+    └── fix-csv-date-format/
+        ├── gatekeep.md
+        ├── log.md
         └── phases/
             └── ...
 ```
 
-One structure for all projects. The tier prefix (`task-`, `epic-`, `goal-`) makes the action type visible at a glance without opening any files. Active work lives in `actions/`; when an action is achieved, promoted, or abandoned, it moves to `archive/`. The knowledge it produced already lives in the knowledge tree — the archived folder is the append-forward historical record.
+One structure for all projects. Action nodes are named by the user — no required prefixes or tier labels. Active work lives in `actions/`; when an action is completed or abandoned, its subtree moves to `archive/`. The knowledge it produced already lives in the knowledge tree — the archived folder is the append-forward historical record.
 
 ---
 
@@ -63,26 +74,27 @@ One structure for all projects. The tier prefix (`task-`, `epic-`, `goal-`) make
 
 | File | Purpose | Updated |
 |---|---|---|
-| `STATUS.md` | Single source of truth: mode, active action, active phase, next action, roadmap | Every session |
+| `STATUS.md` | Single source of truth: mode, active stack, roadmap | Every session |
 | `CONTEXT.md` | Lightweight map: repo structure, key files, pointers into `knowledge/` | When code structure changes |
-| `journal/` | Raw chronological log: sessions, decisions, lessons — everything that happens | Every session (current week's file) |
-| `knowledge/` | Curated knowledge tree mirroring codebase — what we've learned about each area | Organically, as insights emerge from work |
+| `journal/` | Cross-cutting annotations: project-level decisions, process changes, observations spanning multiple actions | When cross-cutting events occur |
+| `knowledge/` | Knowledge tree (long-term memory): curated insights mirroring codebase — what we've learned about each area | Organically, as insights migrate from completed actions |
 
-### Action-level files
+### Action node files
 
-| File | Purpose | Created |
-|---|---|---|
-| `TASK.md` | Task definition: problem statement, done-when criteria | When creating a task |
-| `EPIC.md` | Epic definition: problem, vision, concrete gatekeep | When creating an epic |
-| `GOAL.md` | Goal definition: problem, vision, design principles, abstract gatekeep | When creating a goal |
-| `KEY_INSIGHTS.md` | Working scratchpad: insights during the action, migrates to knowledge/ when done | As insights emerge |
+| File | Required | Purpose | Created |
+|---|---|---|---|
+| `gatekeep.md` | **Yes** | Completion criteria for this node | When creating the action |
+| `context.md` | No | What this action is about + links to relevant knowledge tree nodes | When the action touches multiple codebase areas |
+| `index.md` | No | Maps child actions — what each covers, how they relate | When a node gets children (becomes a branch) |
+| `log.md` | No | Session-by-session record of what happened | When work begins on this action |
+| `KEY_INSIGHTS.md` | No | Working scratchpad: insights that will migrate to knowledge tree on completion | As insights emerge during work |
+| `phases/` | No | Implementation structure (SPEC.md, impl/) | When the action has implementable work |
 
 ### Phase-level files
 
 | File | Purpose | Created |
 |---|---|---|
 | `SPEC.md` | Phase plan: steps, test cases, done criteria | Before phase begins |
-| `KEY_INSIGHTS.md` | Working scratchpad: tactical insights for this phase | As insights emerge |
 | `impl/PLAN.md` | Prompt plan: sequence of bounded goals with dependencies | After spec is approved |
 | `impl/NN-*.md` | Numbered implementation prompts for the Developer | Just in time, per the prompt plan |
 
@@ -90,7 +102,9 @@ One structure for all projects. The tier prefix (`task-`, `epic-`, `goal-`) make
 
 ## The Journal
 
-The journal is a folder of weekly rolling files. Every session, decision, and lesson goes here in chronological order. It is the single canonical record of what happened.
+The journal is a folder of weekly rolling files. It captures cross-cutting annotations — things that don't belong to a specific action node. Project-level decisions, process changes, observations that span multiple actions. The journal is also the key input for the Curator: the raw material from which long-term knowledge is distilled.
+
+Detailed session history lives in the action node's `log.md`, not in the journal.
 
 ### Journal file naming
 
@@ -100,40 +114,14 @@ Files are named by ISO week: `YYYY-WNN.md` (e.g., `2026-W10.md`). A new file is 
 
 Every entry is tagged with one of three types:
 
-- `[session]` — what happened in a work session
-- `[decision]` — a non-trivial decision with context and reasoning
-- `[lesson]` — something learned the hard way, stated prescriptively
-
-Tags enable filtering. Any role can scan for `[decision]` entries when the Human Lead asks about a past choice, or `[lesson]` entries when flagging a repeated mistake.
-
-**Promotion entries** are tagged as `[decision]` with context explaining the promotion:
-
-```markdown
-## YYYY-MM-DD — <Active Role> [decision]
-
-Promoted task-login-bug to epic-login-auth-overhaul.
-
-**Context:** The login redirect fix revealed that the entire auth flow has inconsistent redirect handling across 4 endpoints.
-**Reason:** This needs multiple phases — one per endpoint group — plus integration tests. No longer a one-phase fix.
-**Continuation:** epic-login-auth-overhaul continues the work. Original task artefacts preserved as-is.
-```
+- `[decision]` — a non-trivial project-level decision with context and reasoning
+- `[observation]` — something noticed that spans multiple actions or affects the project broadly
+- `[process]` — a change to how the team works, tooling updates, methodology adjustments
 
 ### Weekly journal file template
 
 ```markdown
 # Journal — Week of YYYY-MM-DD
-
----
-
-## YYYY-MM-DD — <Role> [session]
-
-<One-line summary: what was accomplished.>
-
-**Detail:** *(optional — include for complex sessions, skip for simple ones)*
-- **Action:** <tier> — <name>
-- **Phase:** N — <name>
-- **Files touched:** <paths>
-- **Open threads:** <anything pending>
 
 ---
 
@@ -146,19 +134,59 @@ Promoted task-login-bug to epic-login-auth-overhaul.
 
 ---
 
-## YYYY-MM-DD — <Role> [lesson]
+## YYYY-MM-DD — <Role> [observation]
 
-<Lesson title — imperative, actionable.>
+<What was noticed — cross-cutting pattern, recurring issue, something worth tracking.>
 
-**Context:** <The specific situation — what happened.>
-**Lesson:** <What to do differently — prescriptive, not descriptive.>
+**Actions affected:** <which action nodes this touches>
+**Implication:** <what this means for future work>
+
+---
+
+## YYYY-MM-DD — [process]
+
+<What changed in how we work.>
+
+**Reason:** <Why the change was made.>
+```
+
+---
+
+## The Action Log
+
+Each action node can have a `log.md` that captures the session-by-session history of work on that action. This is the action's short-term memory — it tells the next session where the previous one left off.
+
+Logs live at the nodes where work happens. The Human Lead and the active role look up the tree when broader context is needed.
+
+### Action log template
+
+```markdown
+# Log — <Action Name>
+
+---
+
+## YYYY-MM-DD — <Role>
+
+<One-line summary: what was accomplished.>
+
+**Detail:** *(optional — include for complex sessions, skip for simple ones)*
+- **Phase:** N — <name>
+- **Files touched:** <paths>
+- **Open threads:** <anything pending>
+- **Next:** <what to pick up next session>
+
+---
+
+## YYYY-MM-DD — <Role>
+
+...
 ```
 
 ---
 
 ## Knowledge Tree
 
-The `knowledge/` folder is a hierarchy that mirrors your codebase. Each node contains markdown files with curated insights about that area — patterns, decisions, pitfalls, conventions. See [principles.md](./principles.md) for the full model.
+The `knowledge/` folder is a hierarchy that mirrors your codebase. Each node contains markdown files with curated insights about that area — patterns, decisions, pitfalls, conventions. This is the project's long-term memory. See [principles.md](./principles.md) for the full model.
 
 ### Structure
 
@@ -184,26 +212,26 @@ knowledge/
 
 **Context:** <The specific situation or pattern.>
 **Insight:** <What to do or avoid — prescriptive, not descriptive.>
-**Source:** journal/YYYY-WNN.md, YYYY-MM-DD
+**Source:** <action log or journal reference for full context>
 
 ## <Another insight>
 
 ...
 ```
 
-The **Source** field links back to the journal entry for full context. The insight itself is a distillation — short enough to scan, specific enough to act on.
+The **Source** field links back to the action log or journal entry for full context. The insight itself is a distillation — short enough to scan, specific enough to act on.
 
 ### Who maintains the knowledge tree
 
-The Human Lead and the Architect build the tree together through conversation. The Architect proposes where an insight belongs and drafts the content. The Human Lead confirms, redirects, or refines. The **Curator** periodically audits the tree and proposes editorial changes — promotions, retirements, reorganisation. You maintain final authority over what stays.
+The Human Lead and the Architect build the tree together through conversation. The Architect proposes where an insight belongs and drafts the content. The Human Lead confirms, redirects, or refines. The **Curator** periodically audits the tree — reading action logs and the journal to distill insights, propose editorial changes, promotions, retirements, and reorganisation. You maintain final authority over what stays.
 
 ### What the Architect loads
 
-When starting a session, the Architect reads `CONTEXT.md` to identify which knowledge nodes are relevant, then loads those nodes. This replaces scanning the full journal — a few curated files instead of a growing chronological log.
+When starting a session, the Architect reads `CONTEXT.md` and the active action's `context.md` to identify which knowledge tree nodes are relevant, then loads those nodes. This replaces scanning logs or the journal — a few curated files instead of a growing chronological record.
 
-### Working scratchpads (action and phase KEY_INSIGHTS.md)
+### Working scratchpads (KEY_INSIGHTS.md)
 
-During an action, `KEY_INSIGHTS.md` files at the action and phase level serve as working scratchpads — accumulating learnings as they emerge. These are temporary. When an action completes, anything worth keeping migrates to the appropriate node in the knowledge tree. The action folder becomes a historical record; the knowledge lives on in the tree.
+During an action, `KEY_INSIGHTS.md` serves as a working scratchpad — accumulating learnings as they emerge. This is temporary. When an action completes, anything worth keeping migrates to the appropriate node in the knowledge tree. The action archives; the knowledge lives on in the tree.
 
 ---
 
@@ -211,7 +239,7 @@ During an action, `KEY_INSIGHTS.md` files at the action and phase level serve as
 
 ### STATUS.md — Inception (new project)
 
-A freshly bootstrapped project has no actions, no roadmap, and no phases. The Bootstrapper creates STATUS.md using this template:
+A freshly bootstrapped project has no actions, no stack, and no phases. The Bootstrapper creates STATUS.md using this template:
 
 ```markdown
 # <Project Name> — Status
@@ -223,21 +251,15 @@ A freshly bootstrapped project has no actions, no roadmap, and no phases. The Bo
 | Field | Value |
 |---|---|
 | **Mode** | **INCEPTION** |
-| **Active action** | None |
-| **Active phase** | — |
-| **Active prompt** | — |
-| **Next action** | Invoke the Architect to define the first action |
+| **Next step** | Invoke the Architect to define the first action |
 
-## Actions
+## Active Stack
 
-| # | Action | Tier | Gatekeep | Status | Detail |
-|---|---|---|---|---|---|
+*Empty — no active work.*
 
-## Action History
+## Action Tree
 
-| Date | From | To | Reason |
-|---|---|---|---|
-| YYYY-MM-DD | — | Workspace initialised | Project onboarded to AI-SDLC |
+*No actions defined yet.*
 
 ## Code Repository
 
@@ -259,32 +281,36 @@ Once the first action is defined, the Architect updates STATUS.md to Planning mo
 | Field | Value |
 |---|---|
 | **Mode** | **PLANNING** / **IMPLEMENTATION** |
-| **Active action** | <tier>: <name> (e.g., "epic: refactor-validation") |
-| **Active phase** | Phase N — <name> |
+| **Active phase** | Phase N — <name> (Implementation mode only) |
 | **Active prompt** | Prompt NN (Implementation mode only) |
-| **Next action** | <what to do next> |
+| **Next step** | <what to do next> |
 
-## Actions
+## Active Stack
 
-| # | Action | Tier | Gatekeep | Status | Detail |
-|---|---|---|---|---|---|
-| 1 | Fix login redirect | Task | Login redirects to /dashboard | Achieved | [task-fix-login-bug/](./actions/task-fix-login-bug/) |
-| 2 | Refactor validation pipeline | Epic | Switch statements removed, tests pass, API backward-compatible | Active | [epic-refactor-validation/](./actions/epic-refactor-validation/) |
-| 3 | Plugin architecture | Goal | Human Lead satisfied that third-party extensions work without core changes | Pending | [goal-plugin-architecture/](./actions/goal-plugin-architecture/) |
-
-## Action History
-
-| Date | From | To | Reason |
+| # | Action | Status | Detail |
 |---|---|---|---|
-| YYYY-MM-DD | task-fix-login-bug (Achieved) | epic-refactor-validation (Active) | Task complete, moving to next priority |
+| → | auth-redesign/new-token-model | Implementing phase 2 | [context](./actions/auth-redesign/new-token-model/context.md) |
+| | auth-redesign | Children in progress | [context](./actions/auth-redesign/context.md) |
+
+*→ marks the current top of stack.*
+
+## Action Tree
+
+| Action | Gatekeep | Status | Detail |
+|---|---|---|---|
+| auth-redesign | All sub-actions complete + integration clean | Active | [gatekeep](./actions/auth-redesign/gatekeep.md) |
+| ∟ audit-endpoints | All endpoints catalogued with auth patterns | Achieved | [archive](./archive/audit-endpoints/) |
+| ∟ new-token-model | Token refresh works, all tests pass | Active | [gatekeep](./actions/auth-redesign/new-token-model/gatekeep.md) |
+| ∟ migrate-sessions | Existing sessions migrated without downtime | Pending | [gatekeep](./actions/auth-redesign/migrate-sessions/gatekeep.md) |
+| fix-csv-date-format | CSV dates match ISO 8601 | Achieved | [archive](./archive/fix-csv-date-format/) |
 
 ## Roadmap — <Active Action Name>
 
 | Phase | Name | One-liner | Detail | Status |
 |---|---|---|---|---|
-| 1 | Baseline tests | Assert current behaviour before refactoring | [SPEC.md](./actions/epic-refactor-validation/phases/1-baseline-tests/SPEC.md) | ✅ Complete |
-| 2 | Lookup table | Replace switch with dynamic lookup | [SPEC.md](./actions/epic-refactor-validation/phases/2-lookup-table/SPEC.md) | 🔨 Implementing |
-| 3 | Migration | Move existing validators to new pattern | | ❌ Not planned yet |
+| 1 | Token schema | Define the new token structure | [SPEC.md](...) | ✅ Complete |
+| 2 | Refresh flow | Implement token refresh endpoint | [SPEC.md](...) | 🔨 Implementing |
+| 3 | Client integration | Update client SDK | | ❌ Not planned yet |
 
 ## Code Repository
 
@@ -352,73 +378,62 @@ The Architect deepens CONTEXT.md during the first working session and updates it
 
 **Guidance on depth:** CONTEXT.md stays lightweight — structure and pointers, not detailed explanations. When the Architect encounters something worth documenting in depth, it goes in the knowledge tree at the right node, and CONTEXT.md gets a pointer. For monorepos or large codebases, focus initially on the top-level structure and the knowledge map. Detail lives in the tree.
 
-### TASK.md
+### gatekeep.md
 
 ```markdown
-# Task — <Name>
+# <Action Name>
 
-> Status: Active / Achieved / Paused
-> Done when: <concrete, verifiable condition>
-
-## The Problem
-
-<What's wrong or what needs to be done. Brief — a task's problem statement should be 1-3 paragraphs.>
+> Status: Active / Achieved / Paused / Pending
 
 ## Done When
 
-- [ ] <specific, verifiable criterion>
-- [ ] <specific, verifiable criterion>
-- [ ] Tests pass
+<What "done" means for this action. Can be concrete, measurable, or subjective —
+the discipline is in writing it, not in classifying it.>
+
+- [ ] <criterion>
+- [ ] <criterion>
+
+## Branch Gatekeep (if this node has children)
+
+<What must be true BEYOND all children passing their own gatekeeps.
+Integration quality, performance, coherence across sub-actions.
+Omit this section for leaf nodes.>
 ```
 
-### EPIC.md
+### context.md (action node)
 
 ```markdown
-# Epic — <Name>
+# Context — <Action Name>
 
-> Status: Active / Achieved / Paused
-> Gatekeep: <concrete, measurable conditions>
-> Promoted from: <original action, if applicable — e.g., "task-fix-login-bug (journal 2026-W11)">
+> Last updated: YYYY-MM-DD
 
-## The Problem
+## What This Is
 
-<What problem does this epic solve? Why does it matter?>
+<What this action is about. Brief — enough for someone starting a new session
+to understand the work without reading everything else.>
 
-## The Vision
+## Knowledge
 
-<What does "done" look like? Concrete, measurable outcome.>
+| Area | Node | Why it matters here |
+|---|---|---|
+| <area> | [knowledge/<path>](../../knowledge/<path>/index.md) | <how this knowledge applies> |
 
-## Gatekeep Checklist
+## Scope
 
-- [ ] <measurable condition>
-- [ ] <measurable condition>
-- [ ] <measurable condition>
+<What's in scope and what's explicitly out of scope for this action.>
 ```
 
-### GOAL.md
+### index.md (action branch node)
 
 ```markdown
-# Goal — <Name>
+# <Action Name> — Sub-actions
 
-> Status: Active / Achieved / Paused
-> Gatekeep: <who decides it's achieved, what they're evaluating>
-> Promoted from: <original action, if applicable>
+> Parent gatekeep: <one-line summary of this node's gatekeep>
 
-## The Problem
-
-<What problem does this goal solve? Why does it matter?>
-
-## The Vision
-
-<What does "done" look like? Concrete example if possible.>
-
-## Design Principles
-
-<Numbered principles that guide decisions for this goal.>
-
-## Known Design Debts
-
-<Architectural issues to address as the work matures.>
+| Sub-action | Gatekeep summary | Status |
+|---|---|---|
+| <name> | <one-line gatekeep> | Active / Achieved / Pending |
+| <name> | <one-line gatekeep> | Active / Achieved / Pending |
 ```
 
 ### Phase SPEC.md
@@ -426,7 +441,7 @@ The Architect deepens CONTEXT.md during the first working session and updates it
 ```markdown
 # Phase N — <Name>
 
-> Action: <tier> — <name>
+> Action: <action path>
 > Status: Planning | Implementing | Complete
 > Revision: v1
 
@@ -458,7 +473,7 @@ Action evaluation:
 
 ### Prompt Plan
 
-The Tech Lead produces a prompt plan before writing the first detailed prompt. See [prompts.md](./prompts.md) for the full just-in-time prompting model. For tasks with 1–2 prompts, the plan is optional — the prompts themselves are sufficient.
+The Tech Lead produces a prompt plan before writing the first detailed prompt. See [prompts.md](./prompts.md) for the full just-in-time prompting model. For simple actions with 1–2 prompts, the plan is optional — the prompts themselves are sufficient.
 
 ```markdown
 ## Prompt Plan — Phase N
@@ -525,7 +540,7 @@ See [prompts.md](./prompts.md) for the full guide on writing effective prompts.
 ### Naming
 
 - Project memory repo: `<project-name>-memory/` (e.g., `formforge-memory/`)
-- Action folders: `<tier>-kebab-case-name/` (e.g., `task-fix-login-bug/`, `epic-refactor-validation/`, `goal-plugin-architecture/`)
+- Action folders: `kebab-case-name/` — named by the user, no required prefixes (e.g., `auth-redesign/`, `fix-csv-date-format/`, `q2-platform-work/`)
 - Phase folders: `N-kebab-case-name/` (e.g., `1-baseline-tests/`)
 - Implementation prompts: `NN-kebab-case-description.md` (e.g., `01-test-infrastructure.md`)
 - Journal files: `YYYY-WNN.md` (e.g., `2026-W10.md`)
@@ -538,17 +553,16 @@ Use in STATUS.md roadmap tables:
 - `🔨 Implementing` — prompts being executed
 - `📐 Planning` — spec being written or reviewed
 - `❌ Not planned yet` — future phase, no spec exists
-- `⏸️ Paused` — work stopped, reason logged in journal
+- `⏸️ Paused` — work stopped, reason logged
 
 ### Action status indicators
 
-Use in STATUS.md actions table:
+Use in STATUS.md action tree table:
 
-- `Active` — currently being worked on (only one at a time)
+- `Active` — currently being worked on (on the active stack)
 - `Achieved` — gatekeep met, work complete
-- `Paused` — work stopped temporarily, reason in journal
+- `Paused` — work stopped temporarily, reason in action log
 - `Pending` — defined but not yet started
-- `Promoted` — superseded by a higher-tier action (append-forward)
 
 ### Key insights format
 
@@ -557,7 +571,7 @@ Every insight must be actionable:
 - **Title:** short, imperative (e.g., "Baseline every code path the refactor touches")
 - **Context:** the specific situation or pattern
 - **Insight:** what to do or avoid, stated prescriptively
-- **Source:** link to the journal entry for full context
+- **Source:** link to the action log or journal entry for full context
 
 Bad: "Refactoring was hard."
 Good: "Before any refactor that moves code between modules, write automated tests that assert current behaviour. Run them before and after. If they pass without test changes, the refactor preserved behaviour."

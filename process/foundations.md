@@ -70,7 +70,7 @@ A junior developer will struggle with this methodology — not because of its co
 
 AI-SDLC exists to bring structure to work that's complex enough to benefit from it. Not all work qualifies.
 
-**Use this when** the work has dependencies, touches shared state, spans multiple files, or requires decisions that will constrain future work. When a mistake would be expensive to undo. When the AI needs to understand context that won't fit in a single prompt. When you'll come back to this code in three months and need to understand why decisions were made. Even a task — the lightest tier — earns its keep when the fix is non-obvious or the code is load-bearing.
+**Use this when** the work has dependencies, touches shared state, spans multiple files, or requires decisions that will constrain future work. When a mistake would be expensive to undo. When the AI needs to understand context that won't fit in a single prompt. When you'll come back to this code in three months and need to understand why decisions were made. Even a simple leaf action earns its keep when the fix is non-obvious or the code is load-bearing.
 
 **Don't use this when** the work is straightforward enough that you'd just do it. A one-line config change, a dependency bump, a typo fix, renaming a variable — if you can see the entire change in your head and there's no architectural judgement involved, skip the process and do the work directly. You can use AI to help with these — just don't route them through AI-SDLC. The methodology's value comes from structured context persistence, and trivial changes don't produce context worth persisting.
 

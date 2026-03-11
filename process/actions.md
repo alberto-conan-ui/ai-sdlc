@@ -1,105 +1,199 @@
-# Actions — The Unit of Work
+# The Action Tree
 
-Everything in AI-SDLC is an **action**. An action is a human-defined piece of work with a clear outcome. You create actions, classify them by tier, and drive them to completion.
+Everything in AI-SDLC is an **action**. An action is a human-defined piece of work with a clear outcome. Actions live in a tree — nested however you want, named whatever you want, structured to match how you think about the work.
 
-There are three tiers: **Task**, **Epic**, and **Goal**. The tier determines how much ceremony the action gets — but the underlying machinery is the same. All actions live in the `actions/` folder, all follow the same phase-based execution model, and all produce journal entries and insights.
-
----
-
-## The Three Tiers
-
-**Task** — a bounded, concrete piece of work. One phase, one to three prompts, done in a session or two. "Fix the login redirect bug." "Add a loading spinner to the dashboard." "Update the date format in the export CSV."
-
-You already know what's wrong and what done looks like. The gatekeep is concrete and verifiable: the bug is fixed, the spinner appears, the date format is correct. Stance compression is the default — Architect thinking might get pulled in ad hoc if the fix turns out to be trickier than expected, but there's no formal design phase. You'll often flow between Architect and Tech Lead thinking in the same conversation. The process is deliberately loose because tasks are meant to be quick.
-
-A task has a TASK.md (lightweight — problem statement and done-when criteria) and a single phase folder with a spec and implementation prompts.
-
-**Epic** — a multi-phase piece of work with a concrete, measurable outcome. "Refactor the validation pipeline to use a lookup table." "Add OAuth2 support to the API." "Migrate the test suite from Jest to Vitest."
-
-An epic gets full Planning and Implementation. The outcome is tangible — the refactor is done, the feature works, the migration is complete. The gatekeep is concrete: specific conditions that can be verified without subjective judgement. The Architect designs the phases, the Tech Lead writes the prompts, the Developer executes them. Full stance separation is optional — compression is the default for most epics.
-
-An epic has an EPIC.md (problem, vision, concrete gatekeep) and a phases folder with the standard spec/impl structure.
-
-**Goal** — an abstract, outcome-oriented aspiration. "Users should be able to register without understanding the type system." "Onboarding a new developer to the DX layer should take hours, not days."
-
-A goal gets full Planning and Implementation with the heaviest ceremony. The gatekeep involves human judgement — not just whether the code works, but whether the outcome was achieved. The Architect helps refine the goal, writes GOAL.md with design principles, and plans the roadmap. This is the heavyweight tier, appropriate for work that shapes the product's direction.
-
-A goal has a GOAL.md (problem, vision, design principles, abstract gatekeep) and a phases folder with the standard structure.
+The action tree is the short-term memory of your project. It captures what you're doing *right now*: the work in progress, the session-by-session log of what happened, the insights accumulating as you go. When an action completes, its insights migrate to the knowledge tree — the long-term memory — and the action archives. The action tree is where work lives while it's alive.
 
 ---
 
-## The Tier Spectrum
+## The Tree
 
-| | Task | Epic | Goal |
-|---|---|---|---|
-| **Planning weight** | Compressed (short spec, optional prompt plan) | Full | Full |
-| **Phases** | One | Multiple | Multiple |
-| **Gatekeep** | Concrete, verifiable | Concrete, measurable | Abstract, human-judged |
-| **Stance compression** | Default | Optional | Full separation |
-| **Prompt plan** | Optional (1–2 prompts may not need one) | Yes | Yes |
-| **Action document** | TASK.md (lightweight) | EPIC.md (problem + concrete gatekeep) | GOAL.md (problem + vision + principles + abstract gatekeep) |
+An action tree is a hierarchy of nodes. Each node is a folder. A node can have children (making it a branch) or stand alone (making it a leaf). You decide the shape.
+
+A single node with no children is a simple action — the equivalent of "fix this bug" or "add this feature." A node with children decomposes work into sub-actions — "redesign the auth flow" might break into "audit current endpoints," "design the new token model," and "migrate existing sessions." Those children can themselves have children. There's no depth limit and no prescribed structure.
+
+You name nodes whatever makes sense. There are no tier labels, no required prefixes, no classification system. Call it `auth-redesign` or `fix-the-damn-login` or `q2-platform-work` — the name serves you, not the process.
+
+```
+actions/
+├── auth-redesign/
+│   ├── gatekeep.md
+│   ├── context.md
+│   ├── index.md
+│   ├── audit-endpoints/
+│   │   ├── gatekeep.md
+│   │   ├── context.md
+│   │   ├── log.md
+│   │   ├── KEY_INSIGHTS.md
+│   │   └── phases/
+│   │       └── 1-catalogue-endpoints/
+│   │           ├── SPEC.md
+│   │           └── impl/
+│   ├── new-token-model/
+│   │   ├── gatekeep.md
+│   │   ├── context.md
+│   │   ├── log.md
+│   │   ├── KEY_INSIGHTS.md
+│   │   └── phases/
+│   └── migrate-sessions/
+│       ├── gatekeep.md
+│       └── ...
+└── fix-csv-date-format/
+    ├── gatekeep.md
+    ├── log.md
+    └── phases/
+        └── 1-fix-format/
+            ├── SPEC.md
+            └── impl/
+```
+
+Notice: `fix-csv-date-format` has just a `gatekeep.md`, a `log.md`, and a single phase. No `index.md` (no children to map), no `context.md` (the gatekeep says enough), no `KEY_INSIGHTS.md` (nothing worth capturing beyond the fix). A simple action is simple. Only create files you need.
 
 ---
 
-## Choosing a Tier
+## Node Structure
 
-You pick the tier when creating the action. The right tier is usually obvious:
+Every node in the action tree can have the following files. **Only `gatekeep.md` is required.** Everything else is created when it's useful — not before.
 
-- "Fix this bug" → **Task**
-- "Add this feature" → **Epic** (unless the feature is trivial — then task)
-- "Redesign how users interact with X" → **Goal**
+**`gatekeep.md`** — the completion criteria for this node. What does "done" mean here? This is the one invariant: every node, at every level, has a gatekeep. Without it, you can't answer "is this done?" See the [Gatekeeping](#gatekeeping) section.
 
-When it's ambiguous, start with the lighter tier. A task that outgrows its scope can be promoted (see below). Starting heavy and discovering you over-planned is more wasteful than starting light and promoting when needed.
+**`context.md`** — what this action is about and, critically, which knowledge tree nodes are relevant. This is the bridge between the action tree (what you're doing) and the knowledge tree (what you know). When starting work on an action, the AI loads context.md to find the right knowledge. For simple actions this might be unnecessary — the gatekeep says enough. For complex work that touches multiple areas of the codebase, context.md tells the AI where to look.
 
----
+**`index.md`** — maps this node's children. What sub-actions exist, what each one covers, how they relate. Only meaningful for branch nodes. Follows the same pattern as the knowledge tree's index files.
 
-## Promotion
+**`log.md`** — the session-by-session record of what happened while working on this action. What was done, what was decided, what surprised you. This is the action's short-term memory — it tells the next session where the previous one left off. Logs live at the nodes where work happens. The Human Lead and the active role are responsible for looking up the tree when broader context is needed.
 
-When a task turns out to need a second phase, it's no longer a task — it's an epic. When an epic's gatekeep turns out to require subjective evaluation, it's a goal.
+**`KEY_INSIGHTS.md`** — the working scratchpad for insights that emerge during the work. Patterns discovered, pitfalls encountered, decisions that might matter beyond this action. When the action completes, anything worth keeping migrates to the appropriate node in the knowledge tree. KEY_INSIGHTS is temporary; the knowledge tree is permanent. It's the Human Lead and the active role's responsibility to surface insights worth capturing — the AI should prompt for this, especially at session boundaries.
 
-**Promotion follows the append-forward principle.** The original action stays as-is. A new action is created at the higher tier. The journal captures the promotion decision: what was the original action, why it's being promoted, and what the new action needs to accomplish. The AI bridges the context — whether via Navigator stance for a formal briefing or simply carrying it forward in the same session.
-
-A promoted task's TASK.md is never modified. The new epic's EPIC.md references the original task ("Promoted from task-login-bug — see journal 2026-W11"). The relevant context carries over through the journal and the AI's continuity.
-
-The promotion triggers:
-
-- **Task → Epic:** the fix needs a second phase, or the scope touches shared architecture
-- **Epic → Goal:** the gatekeep becomes subjective, or the outcome needs abstract vision-setting
-
----
-
-## One Active Action at a Time
-
-A project may have many actions defined, but only one is active. This prevents context scatter — the AI always knows which action it's serving. The active action and its tier are tracked in STATUS.md.
-
-If you want to switch actions, do so explicitly. Update STATUS.md and log the reason in the journal. When returning to a paused action, the journal captures why it was paused and what state it was in — the AI can surface this when asked.
+**`phases/`** — the implementation structure. Phases can exist at any level of the tree — a branch node might have its own integration phases alongside its children's implementation phases. The phase structure (SPEC.md, impl/, prompt plans) is unchanged from the rest of the methodology.
 
 ---
 
 ## Gatekeeping
 
-Every action has a gatekeep — but the nature of the gatekeep varies by tier.
+Gatekeeping is the invariant that holds the action tree together. Every node has a `gatekeep.md`. At every level, you can answer "is this done?"
 
-**Task gatekeeps** are binary. The bug is fixed or it isn't. The spinner appears or it doesn't. Tests pass. "Done" is obvious. You verify by looking at the result.
+**For a leaf node,** the gatekeep is whatever "done" means for that piece of work. It can be concrete ("the date format in the CSV export matches ISO 8601") or subjective ("I'm satisfied that the new registration flow is clear"). The Human Lead decides what kind of gatekeep fits the work. There are no rules about which kind to use — the discipline is in writing one, not in classifying it.
 
-**Epic gatekeeps** are concrete and measurable, but may involve multiple conditions. "The switch statements are removed, all existing tests pass, the API is backward-compatible, and the new lookup table handles all 12 registered types." You verify against the checklist.
+**For a branch node,** the gatekeep has two parts: all children pass their own gatekeeps, AND the branch's own gatekeep passes. The branch gatekeep can be stricter than the sum of its children. "All three sub-actions work" is necessary but might not be sufficient — the branch gatekeep might add "and they integrate cleanly" or "and performance hasn't regressed." This is where the tree earns its keep: the branch gatekeep captures what the individual pieces can't.
 
-**Goal gatekeeps** involve human judgement. They name who decides and what they're evaluating, even if the criteria are subjective. "I'm satisfied that the demo narrative is clear and progressive." "Three beta users complete the onboarding task without asking for help." The discipline is in identifying the person accountable, not in quantifying every metric.
+**Writing branch gatekeeps is hard.** When you create a branch, you might not know all the children yet. The branch gatekeep needs to be abstract enough to survive children being added later, but meaningful enough to guide decisions. This is inherently difficult — it's the same challenge as defining "done" for any large piece of work. The Human Lead owns this. The Architect can help, but the judgement is yours.
 
-**Examples of gatekeeps by tier:**
+**Status is computable.** Walk the tree from the leaves up. Each leaf is either done (gatekeep passes) or not. Each branch is done when all children are done and its own gatekeep passes. The overall status of any subtree is always knowable.
 
-| Tier | Example gatekeep |
-|---|---|
-| Task | "The login redirect sends users to `/dashboard` instead of `/home`." |
-| Epic | "OAuth2 login works with Google and GitHub, existing session management is unchanged, all auth tests pass." |
-| Goal | "The Head of Product confirms the new registration flow meets the design spec." |
+### What gatekeeps are not
 
-**What gatekeeps are not:**
-
-- "It should feel right." (No one is named as the decision-maker.)
-- "Tests pass." (That's a done-criterion for a phase, not a gatekeep for an action.)
+- "It should feel right." (No decision-maker is named.)
+- "Tests pass." (That's a phase done-criterion, not an action gatekeep.)
 - "The AI says it's done." (The AI is never the gatekeeper.)
 
-### When Gatekeeps Are Unclear
+### When gatekeeps are unclear
 
-If you cannot define a gatekeep, the action is probably scoped wrong. A task with no clear "done" condition should probably be refined. An epic where "done" is subjective should probably be a goal. A goal where "done" can't be articulated at all is a signal to stop and think — not to start planning.
+If you cannot write a gatekeep, the action is probably scoped wrong. Refine the scope until "done" is articulable — even if articulable means "I'll know it when I see it, and here's roughly what I'm looking for." The discipline is in the attempt, not in the precision.
+
+---
+
+## The Active Stack
+
+The active stack replaces the "one active action at a time" rule. It's a push/pop model that tracks what you're working on and the path you took to get there.
+
+**Push** when you start working on an action — it goes on top of the stack. **Pop** when you're done with it or switching away. The stack is readable: it tells you where you are now and the order you got there. STATUS.md tracks the stack.
+
+The stack works across trees. You might be deep in `auth-redesign/new-token-model` when a critical bug comes in. Push `fix-csv-date-format` onto the stack. Fix it. Pop it. You're back where you were, with a clear record of the interruption.
+
+The stack also works within a tree. You might be working on `auth-redesign` at the branch level (planning, defining children) and then push into `audit-endpoints` to start implementation. When that child completes, you pop back to the parent level.
+
+```
+Stack (top = current):
+  → auth-redesign/new-token-model    (implementing phase 2)
+  → auth-redesign                     (planned 3 children, started first two)
+```
+
+An interrupt pushes onto the stack:
+
+```
+Stack (top = current):
+  → fix-csv-date-format              (critical bug — just came in)
+  → auth-redesign/new-token-model    (paused mid-phase)
+  → auth-redesign                     (paused — children in progress)
+```
+
+After the fix, pop back:
+
+```
+Stack (top = current):
+  → auth-redesign/new-token-model    (resuming phase 2)
+  → auth-redesign                     (children in progress)
+```
+
+This model mirrors how humans actually work: depth-first with interruptions. The stack makes the interruptions traceable instead of chaotic.
+
+---
+
+## The Log and the Journal
+
+Session history is distributed. Each action node carries its own `log.md` — the record of what happened during sessions that worked on that specific action. When you load an action, you get its full history without digging through a global log. When the action archives, its log goes with it.
+
+**`log.md` at the action node** is where detailed session history lives. What was accomplished, what was decided, what's pending. This is the action's short-term memory. It tells the next session where the previous one left off and why.
+
+**The global journal** (`journal/`) becomes the auditor's tool. It captures cross-cutting annotations — things that don't belong to a specific action. Project-level decisions, process changes, observations that span multiple actions. The journal is also the key piece for the Curator: the raw material from which long-term memories are formed. The Curator reads the journal and the action logs to distill insights into the knowledge tree.
+
+The relationship:
+
+- **Action log** = short-term memory (what's happening now, scoped to this action)
+- **Knowledge tree** = long-term memory (what we've learned, structured by codebase area)
+- **Journal** = the bridge (cross-cutting record that the Curator uses to maintain the knowledge tree)
+
+---
+
+## Growing the Tree
+
+The action tree grows organically. You don't scaffold a deep hierarchy upfront — you start with what you know and let the structure emerge.
+
+**Starting simple.** Most work starts as a single node: a folder with a `gatekeep.md` and a `phases/` directory. If the work stays simple, it stays a leaf. No overhead.
+
+**Adding children.** When a leaf outgrows its scope — the fix needs multiple independent pieces, or you realise the work decomposes naturally — you add children. The original node becomes a branch. If it already had `phases/`, those phases stay (they might represent integration work, or the initial exploration that led to decomposition). The node gets an `index.md` to map its children, and each child gets its own `gatekeep.md`.
+
+This replaces the old promotion mechanic (task → epic → goal). There's no ceremony, no "promoted from" bookkeeping. The tree *is* the record of how the work evolved. A node that started as a simple fix and grew into a three-child branch tells its own story through its structure.
+
+**Nesting deeper.** A child can itself become a branch. There's no limit. In practice, three levels deep is unusual — if you're going deeper, you might be over-decomposing. But the structure doesn't enforce a limit. Your judgement is the limit.
+
+---
+
+## Action Completion
+
+When an action is done — its gatekeep passes — the completion flow is:
+
+1. Review `KEY_INSIGHTS.md`. Anything worth keeping migrates to the appropriate knowledge tree node. The action's insights become permanent knowledge — they outlive the action.
+2. The action folder moves from `actions/` to `archive/`. The full subtree goes together — logs, insights, phases, everything. The archive is the historical record.
+3. STATUS.md updates — the action is popped from the active stack, status marked as achieved.
+4. The journal gets a brief completion note if relevant to the broader project.
+
+For branch nodes, completion means all children are done and the branch gatekeep passes. You might complete children incrementally — archiving them individually as they finish — or complete the entire subtree at once. Your call.
+
+---
+
+## Archiving
+
+Completed action subtrees move to `archive/`. This keeps the `actions/` folder clean — only active and pending work lives there. The archive preserves the full record: logs, insights, phases, specs, prompts, everything.
+
+```
+archive/
+├── fix-csv-date-format/
+│   ├── gatekeep.md
+│   ├── log.md
+│   └── phases/
+│       └── ...
+└── auth-redesign/
+    ├── gatekeep.md
+    ├── context.md
+    ├── index.md
+    ├── audit-endpoints/
+    │   └── ...
+    ├── new-token-model/
+    │   └── ...
+    └── migrate-sessions/
+        └── ...
+```
+
+The knowledge the action produced already lives in the knowledge tree — the archived folder is the append-forward historical record. If you ever need to understand why a decision was made or how a piece of work evolved, the archive and the journal together tell the full story.

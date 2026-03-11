@@ -19,11 +19,11 @@ my-project-workspace/              ← AI tool points here
 │   │   └── YYYY-WNN.md
 │   ├── knowledge/
 │   │   └── index.md
-│   ├── actions/                   ← Active and pending actions
-│   │   └── epic-refactor-validation/
-│   └── archive/                   ← Completed, promoted, or abandoned actions
-│       ├── task-fix-login-bug/
-│       └── goal-plugin-architecture/
+│   ├── actions/                   ← Action tree: active and pending work
+│   │   └── refactor-validation/
+│   └── archive/                   ← Completed or abandoned action subtrees
+│       ├── fix-login-bug/
+│       └── plugin-architecture/
 └── ai-sdlc/                      ← Methodology repo (shared across projects)
 ```
 
@@ -68,7 +68,7 @@ Use the `workspace.yaml` shorthand in all documents and prompts:
 
 ```
 {code}/src/services/auth.ts
-{memory}/actions/epic-refactor-validation/phases/1-baseline-tests/SPEC.md
+{memory}/actions/refactor-validation/phases/1-baseline-tests/SPEC.md
 {methodology}/roles/architect.md
 ```
 

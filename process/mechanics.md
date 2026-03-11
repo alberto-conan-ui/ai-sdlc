@@ -72,7 +72,7 @@ The Navigator is the lightest role. It's purely advisory — it helps the Human 
 ```
 Long break / lost context → Navigator briefs you
 Resuming a paused action → Navigator checks what's changed
-Complex promotion (task → epic) → Navigator bridges context
+Action tree decomposition → Navigator helps bridge context across nodes
 Fresh session needed → Navigator generates the handoff prompt
 ```
 
@@ -84,9 +84,9 @@ Simple phase handover → active role updates STATUS.md per common.md
 Quick tracking update → any role can do this
 ```
 
-**The Navigator's most valuable output is the handoff prompt.** When the Human Lead decides to open a fresh session for a role, the Navigator generates the exact prompt to paste in — entry point, files to load, context summary, session goal. This eliminates the information loss when the human relays context between sessions manually. If you're not opening separate sessions, you don't need handoff prompts, and the Navigator's value is limited to cold-context briefings and promotion bridging.
+**The Navigator's most valuable output is the handoff prompt.** When the Human Lead decides to open a fresh session for a role, the Navigator generates the exact prompt to paste in — entry point, files to load, context summary, session goal. This eliminates the information loss when the human relays context between sessions manually. If you're not opening separate sessions, you don't need handoff prompts, and the Navigator's value is limited to cold-context briefings and action tree navigation.
 
-**The Navigator bridges promotions.** When an action is promoted (task → epic, epic → goal), the Navigator carries context forward — whether via a handoff prompt (separate sessions) or a context summary (same session). This is the append-forward principle in practice.
+**The Navigator bridges decomposition.** When a leaf action grows into a branch (adding children as the work expands), the Navigator helps carry context between parent and children — whether via a handoff prompt (separate sessions) or a context summary (same session). This is the append-forward principle in practice.
 
 ---
 
@@ -128,7 +128,7 @@ Regardless of how you manage sessions — one persistent conversation or many se
 
 1. **Paste the entry point as a framing instruction** — "Switch to this role. Here are your responsibilities and boundaries."
 2. **The model carries prior context.** This helps for Architect → Tech Lead transitions (shared understanding). It hurts for anything → Developer transitions (role pollution). Adjust accordingly.
-3. **Every role handles its own upkeep per common.md** — update STATUS.md, log in the journal, write key insights. The Navigator is only needed when context has gone cold.
+3. **Every role handles its own upkeep per common.md** — update STATUS.md, log in the action's log.md, write key insights. The Navigator is only needed when context has gone cold.
 
 ### Choosing a role
 
@@ -146,7 +146,7 @@ Regardless of how you manage sessions — one persistent conversation or many se
 
 ## Scaling
 
-The entry points work identically regardless of project size or action tier. A task-heavy project has many small action folders; a goal-driven project has fewer, deeper ones. The roles operate the same way. The Architect loads the active action's document (TASK.md, EPIC.md, or GOAL.md) and phase SPEC.md whether there's one action or twenty. The entry point says "load the active spec" — it doesn't care about the folder structure's depth or the action's tier.
+The entry points work identically regardless of project size or action tree depth. A project with many simple fixes has many shallow leaf actions; a complex project has deeper, nested trees. The roles operate the same way. The Architect loads the active action's `gatekeep.md`, `context.md`, and phase SPEC.md whether there's one action or twenty. The entry point says "load the active spec" — it doesn't care about the tree's depth or structure.
 
 ---
 

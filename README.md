@@ -30,19 +30,23 @@ AI-SDLC rests on a small number of concepts. The process documents elaborate on 
 
 This is the central mechanism. Everything else serves it. The project memory (`<project-name>-memory/`) holds two complementary systems:
 
-**The Journal** is tactical and chronological. It captures what happened: sessions, decisions, lessons learned. Weekly rolling files, append-only, tagged by type. It answers "what did we do?" and "why did we decide that?" The journal is the raw material — honest, unfiltered, complete. See [principles.md](./process/principles.md) for the append-forward model, [templates.md](./process/templates.md) for the format.
+The project memory holds two trees and a journal:
 
-**The Knowledge Tree** is curated and structural. It mirrors your codebase — a folder hierarchy where each node holds what the team has learned about that area of the code. An `index.md` at each level maps the sub-areas. It answers "what do we know about this part of the system?" Knowledge is distilled from the journal, placed at the right structural location, and maintained as a living resource — updated, promoted, demoted, or retired as the codebase evolves. See [principles.md](./process/principles.md) for the knowledge model, [templates.md](./process/templates.md) for the tree structure.
+**The Action Tree** (`actions/`) is the short-term memory. It holds the work in progress — each action carries its own session log, working insights, and links to relevant knowledge. This is where the AI finds out what's happening *right now*. When an action completes, its insights migrate to the knowledge tree and the action subtree archives. See [actions.md](./process/actions.md).
 
-The flow is natural: work produces journal entries → conversation between you and the AI surfaces insights worth keeping → those insights land in the knowledge tree at the right node. There is no formal "write-back ceremony." It happens organically as part of the work.
+**The Knowledge Tree** (`knowledge/`) is the long-term memory. It mirrors your codebase — a folder hierarchy where each node holds what the team has learned about that area of the code. An `index.md` at each level maps the sub-areas. Knowledge is distilled from action work, placed at the right structural location, and maintained as a living resource. See [principles.md](./process/principles.md) for the knowledge model, [templates.md](./process/templates.md) for the tree structure.
 
-`CONTEXT.md` sits between the two — a lightweight map that describes the repo structure and points into the knowledge tree. It tells the AI where to look, not what to know.
+**The Journal** (`journal/`) is the bridge between the two. It captures cross-cutting annotations — project-level decisions, observations spanning multiple actions, process changes. The journal is the Curator's key input: the raw material from which long-term knowledge is distilled.
 
-When an action is completed, its insights migrate to the knowledge tree and the action folder moves to `archive/` — keeping the active workspace clean while preserving the full historical record.
+The flow is natural: work produces action logs and insights → the Curator and the Human Lead surface what's worth keeping → those insights land in the knowledge tree at the right node. There is no formal "write-back ceremony." It happens organically as part of the work.
 
-### Actions — The Unit of Work
+`CONTEXT.md` sits alongside the trees — a lightweight map that describes the repo structure and points into the knowledge tree. It tells the AI where to look, not what to know.
 
-Everything you build is an **action**: a human-defined piece of work with a clear outcome. Actions come in three tiers — **Task** (bounded, one phase), **Epic** (multi-phase, concrete outcome), and **Goal** (abstract, human-judged outcome). The tier determines how much planning the action gets, but the underlying machinery is the same. See [actions.md](./process/actions.md).
+### The Action Tree — Short-Term Memory
+
+Everything you build is an **action**. Actions live in a tree — nested however you want, named whatever you want, structured to match how you think about the work. A single node is a simple fix. A node with children decomposes complex work into sub-actions. Every node has a `gatekeep.md` that defines "done" — the status of any subtree is always computable from the leaves up.
+
+The action tree is the project's short-term memory. Each action carries its own `log.md` (session history), `KEY_INSIGHTS.md` (working scratchpad), and `context.md` (links to relevant knowledge). When an action completes, its insights migrate to the knowledge tree and the action archives. See [actions.md](./process/actions.md).
 
 ### Roles — Cognitive Framing for the AI
 
@@ -72,7 +76,7 @@ Each file is self-contained, but they build on each other.
 |---|---|---|
 | 1 | [foundations.md](./process/foundations.md) | The three insights that make AI-SDLC possible — cheap planning, compound knowledge, cognitive framing |
 | 2 | [principles.md](./process/principles.md) | Human accountability, append-forward, and the journal → knowledge model |
-| 3 | [actions.md](./process/actions.md) | The unit of work — tiers (task, epic, goal), gatekeeping, promotion |
+| 3 | [actions.md](./process/actions.md) | The action tree — hierarchical actions, gatekeeping at every level, the active stack |
 | 4 | [roles.md](./process/roles.md) | The Human Lead and AI stances, model tiers, when to separate sessions |
 | 5 | [workflow.md](./process/workflow.md) | Inception, planning, implementation, session discipline |
 | 6 | [mechanics.md](./process/mechanics.md) | Context isolation, role framing, entry points, session management trade-offs |
@@ -97,16 +101,17 @@ The methodology is being written and refined. The core documents describe the fu
 
 ### What's Done
 
-- **Core process defined.** Actions, tiers, gatekeeping, roles, workflow, scaling, and anti-patterns.
-- **Two-layer memory model.** Journal (tactical, chronological) and knowledge tree (curated, structural) with organic flow between them.
+- **Core process defined.** Action tree, gatekeeping at every level, roles, workflow, scaling, and anti-patterns.
+- **Two-tree memory model.** Action tree (short-term, work in progress) and knowledge tree (long-term, curated) with the journal as the bridge between them.
 - **Context isolation architecture.** Role entry points, cognitive framing, trade-offs between separate sessions and mode switching.
 - **Prompt craft guide.** Four principles, just-in-time prompting, session receipts, common failures.
 - **Templates and conventions.** Journal structure, knowledge tree layout, file templates, naming conventions.
 - **Workspace setup.** Three-folder convention, workspace.yaml, multi-project scaling.
 - **Role entry points.** Five AI stances plus shared foundation in `roles/common.md`.
 - **Session flexibility.** Role separation reframed as cognitive framing with compression as the default.
-- **Distributed upkeep model.** Journal, insights, and STATUS.md are every role's responsibility. Human Lead reviews directly.
+- **Distributed upkeep model.** Action logs, insights, and STATUS.md are every role's responsibility. Human Lead reviews directly.
 - **Curator stance.** Dedicated knowledge maintenance stance for auditing and distilling.
+- **Active stack.** Push/pop model replacing "one active action at a time" — supports interrupt-driven, depth-first work across trees.
 
 ### Known Gaps — Will Be Addressed
 

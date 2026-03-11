@@ -68,6 +68,6 @@ The fix is not to review more — it's to review better. Read the AI's journal e
 
 ---
 
-## Misclassifying tiers
+## Under-decomposing or over-decomposing
 
-Treating everything as a task to avoid process overhead. If the work needs multiple phases, it's an epic. If the outcome requires abstract thinking, it's a goal. Forcing heavyweight work through a lightweight tier means skipping the planning that would have caught problems early. Conversely, treating a simple bug fix as a goal wastes time on ceremony that adds no value. Pick the tier honestly.
+Keeping everything as a flat leaf action to avoid process overhead, even when the work clearly needs decomposition into sub-actions. If the gatekeep has many unrelated conditions, or the work spans multiple independent areas, break it into children. Forcing complex work through a single leaf means skipping the planning that would have caught problems early. Conversely, decomposing a simple bug fix into a three-level tree wastes time on structure that adds no value. Match the tree depth to the work's actual complexity.

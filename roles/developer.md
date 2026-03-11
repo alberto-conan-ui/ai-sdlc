@@ -37,7 +37,7 @@ If the prompt says to follow a reference implementation, read that file first an
 - journal/ files
 - KEY_INSIGHTS.md (any level)
 - Other implementation prompts
-- Action documents (TASK.md, EPIC.md, GOAL.md)
+- Action documents (gatekeep.md, context.md, index.md)
 - `process/` sections beyond `process/principles.md` (which you get via `roles/principles.md`)
 
 The prompt is self-contained. If it isn't, that's a problem with the prompt — not something you solve by loading more context.
