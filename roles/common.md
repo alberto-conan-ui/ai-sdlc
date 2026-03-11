@@ -8,55 +8,21 @@
 
 ---
 
-## Action Log
+## Memory
 
-You write log entries as part of your normal output. Every session's work gets logged in the active action's `log.md` — what was accomplished, what was decided, what's pending.
+You participate in the project's memory system as part of your normal work. The full model is defined in [process/memory.md](../process/memory.md) — read it for the complete picture. Here is what applies to every session:
 
-**Format:**
+**Write log entries** in the active action's `log.md` — what was accomplished, what was decided, what's pending. Keep entries concise. The log is a trail, not a report.
 
-```markdown
-## YYYY-MM-DD — <Your Role>
+**Surface insights** to the appropriate place — `KEY_INSIGHTS.md` for action-scoped learnings, the knowledge tree for durable codebase knowledge. If you're unsure about placement, propose it and let the Human Lead confirm.
 
-<What happened in this session.>
+**Log cross-cutting decisions** in the journal (`journal/YYYY-WNN.md`) tagged as `[decision]`, `[observation]`, or `[process]`.
 
-**Detail:** *(optional — include for complex sessions, skip for simple ones)*
-- **Phase:** N — <name>
-- **Files touched:** <paths>
-- **Open threads:** <anything pending>
-- **Next:** <what to pick up next session>
-```
+**Read the relevant memory on session start.** Read `CONTEXT.md` to identify relevant knowledge tree nodes and load them. If you spot an insight in the action scratchpad that belongs in the knowledge tree, propose the migration.
 
-Keep entries concise. The log is a trail, not a report.
+The Human Lead reviews knowledge contributions as they appear. Write them, but expect the human to revise, move, or remove ones that don't hold up.
 
-**Cross-cutting decisions** — things that affect the project beyond the current action — also go in the global journal (`journal/YYYY-WNN.md`) tagged as `[decision]`, `[observation]`, or `[process]`.
-
----
-
-## Knowledge
-
-When you produce or encounter something that matters beyond this session, propose it for the knowledge tree or the current action's `KEY_INSIGHTS.md` scratchpad.
-
-**Decide where it belongs:**
-
-- Specific to this action's work → **action-level** `KEY_INSIGHTS.md` (working scratchpad — migrates to the knowledge tree when the action completes)
-- About a specific area of the codebase → **knowledge tree** node matching that area (e.g., `knowledge/auth/index.md`)
-- Cross-cutting, project-wide → **knowledge tree** root `knowledge/index.md`
-
-Write the insight directly. If you're unsure about placement, propose it and let the Human Lead confirm or redirect.
-
-**Format:**
-
-```markdown
-## <Insight title — imperative, actionable>
-
-**Context:** <the specific situation or pattern>
-**Insight:** <what to do or avoid — prescriptive, not descriptive>
-**Source:** journal/YYYY-WNN.md, YYYY-MM-DD
-```
-
-**When starting a session**, read `CONTEXT.md` to identify relevant knowledge tree nodes and load them. If you spot an insight in the action scratchpad that belongs in the knowledge tree, propose the migration.
-
-**The Human Lead reviews knowledge contributions as they appear.** Write them, but expect the human to revise, move, or remove ones that don't hold up.
+See [process/memory.md](../process/memory.md) for formats, the KEY_INSIGHTS lifecycle, and how the memory pipeline works end to end.
 
 ---
 

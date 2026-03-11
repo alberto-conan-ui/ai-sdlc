@@ -15,7 +15,7 @@ my-project-memory/
 │   ├── 2026-W11.md
 │   └── ...
 │
-├── knowledge/                     ← Knowledge tree: long-term memory (mirrors codebase)
+├── knowledge-tree/                ← Knowledge tree: long-term memory (mirrors codebase)
 │   ├── index.md                   ← Project-wide patterns, cross-cutting decisions
 │   ├── auth/
 │   │   ├── index.md               ← Auth subsystem patterns and decisions
@@ -26,7 +26,7 @@ my-project-memory/
 │   └── tooling/
 │       └── index.md               ← Build, CI, testing infrastructure
 │
-├── actions/                       ← Action tree: short-term memory (active and pending work)
+├── working-tree/                  ← Working tree: short-term memory (active and pending work)
 │   ├── auth-redesign/
 │   │   ├── gatekeep.md            ← Completion criteria (required at every node)
 │   │   ├── context.md             ← What this is about + links to knowledge tree
@@ -64,7 +64,7 @@ my-project-memory/
             └── ...
 ```
 
-One structure for all projects. Action nodes are named by the user — no required prefixes or tier labels. Active work lives in `actions/`; when an action is completed or abandoned, its subtree moves to `archive/`. The knowledge it produced already lives in the knowledge tree — the archived folder is the append-forward historical record.
+One structure for all projects. Action nodes are named by the user — no required prefixes or tier labels. Active work lives in `working-tree/`; when an action is completed or abandoned, its subtree moves to `archive/`. The knowledge it produced already lives in the knowledge tree — the archived folder is the append-forward historical record. See [memory.md](./memory.md) for the full memory model that explains how these structures connect.
 
 ---
 
@@ -75,9 +75,9 @@ One structure for all projects. Action nodes are named by the user — no requir
 | File | Purpose | Updated |
 |---|---|---|
 | `STATUS.md` | Single source of truth: mode, active stack, roadmap | Every session |
-| `CONTEXT.md` | Lightweight map: repo structure, key files, pointers into `knowledge/` | When code structure changes |
+| `CONTEXT.md` | Lightweight map: repo structure, key files, pointers into `knowledge-tree/` | When code structure changes |
 | `journal/` | Cross-cutting annotations: project-level decisions, process changes, observations spanning multiple actions | When cross-cutting events occur |
-| `knowledge/` | Knowledge tree (long-term memory): curated insights mirroring codebase — what we've learned about each area | Organically, as insights migrate from completed actions |
+| `knowledge-tree/` | Knowledge tree (long-term memory): curated insights mirroring codebase — what we've learned about each area | Organically, as insights migrate from completed actions |
 
 ### Action node files
 
@@ -102,9 +102,7 @@ One structure for all projects. Action nodes are named by the user — no requir
 
 ## The Journal
 
-The journal is a folder of weekly rolling files. It captures cross-cutting annotations — things that don't belong to a specific action node. Project-level decisions, process changes, observations that span multiple actions. The journal is also the key input for the Curator: the raw material from which long-term knowledge is distilled.
-
-Detailed session history lives in the action node's `log.md`, not in the journal.
+The journal is a folder of weekly rolling files. It captures cross-cutting annotations — things that don't belong to a specific action node. It also serves as the Curator's primary audit trail for verifying the memory pipeline. See [memory.md](./memory.md) for the journal's role in the memory model.
 
 ### Journal file naming
 
@@ -154,9 +152,7 @@ Every entry is tagged with one of three types:
 
 ## The Action Log
 
-Each action node can have a `log.md` that captures the session-by-session history of work on that action. This is the action's short-term memory — it tells the next session where the previous one left off.
-
-Logs live at the nodes where work happens. The Human Lead and the active role look up the tree when broader context is needed.
+Each action node can have a `log.md` that captures the session-by-session history of work on that action. Logs live at the nodes where work happens. See [memory.md](./memory.md) for how action logs fit into the memory pipeline.
 
 ### Action log template
 
@@ -186,52 +182,7 @@ Logs live at the nodes where work happens. The Human Lead and the active role lo
 
 ## Knowledge Tree
 
-The `knowledge/` folder is a hierarchy that mirrors your codebase. Each node contains markdown files with curated insights about that area — patterns, decisions, pitfalls, conventions. This is the project's long-term memory. See [principles.md](./principles.md) for the full model.
-
-### Structure
-
-The tree grows organically. You don't scaffold it upfront. When work takes you into a new area of the codebase, the Architect creates the relevant node. An `index.md` at each level maps the sub-areas.
-
-```
-knowledge/
-├── index.md                ← project-wide: cross-cutting patterns, architectural decisions
-├── <area>/
-│   ├── index.md            ← area overview: how it works, key patterns
-│   └── <specific>.md       ← deep knowledge about a specific subsystem or concern
-└── ...
-```
-
-### Knowledge file format
-
-```markdown
-# <Area or Topic>
-
-> Last updated: YYYY-MM-DD
-
-## <Insight title — imperative, actionable>
-
-**Context:** <The specific situation or pattern.>
-**Insight:** <What to do or avoid — prescriptive, not descriptive.>
-**Source:** <action log or journal reference for full context>
-
-## <Another insight>
-
-...
-```
-
-The **Source** field links back to the action log or journal entry for full context. The insight itself is a distillation — short enough to scan, specific enough to act on.
-
-### Who maintains the knowledge tree
-
-The Human Lead and the Architect build the tree together through conversation. The Architect proposes where an insight belongs and drafts the content. The Human Lead confirms, redirects, or refines. The **Curator** periodically audits the tree — reading action logs and the journal to distill insights, propose editorial changes, promotions, retirements, and reorganisation. You maintain final authority over what stays.
-
-### What the Architect loads
-
-When starting a session, the Architect reads `CONTEXT.md` and the active action's `context.md` to identify which knowledge tree nodes are relevant, then loads those nodes. This replaces scanning logs or the journal — a few curated files instead of a growing chronological record.
-
-### Working scratchpads (KEY_INSIGHTS.md)
-
-During an action, `KEY_INSIGHTS.md` serves as a working scratchpad — accumulating learnings as they emerge. This is temporary. When an action completes, anything worth keeping migrates to the appropriate node in the knowledge tree. The action archives; the knowledge lives on in the tree.
+The `knowledge-tree/` folder is the project's long-term memory. See [knowledge-tree.md](./knowledge-tree.md) for the full structural guide — how to organise nodes, growth patterns, monorepo layouts, and file formats. See [memory.md](./memory.md) for how it fits into the broader memory model.
 
 ---
 
@@ -257,7 +208,7 @@ A freshly bootstrapped project has no actions, no stack, and no phases. The Boot
 
 *Empty — no active work.*
 
-## Action Tree
+## Working Tree
 
 *No actions defined yet.*
 
@@ -289,19 +240,19 @@ Once the first action is defined, the Architect updates STATUS.md to Planning mo
 
 | # | Action | Status | Detail |
 |---|---|---|---|
-| → | auth-redesign/new-token-model | Implementing phase 2 | [context](./actions/auth-redesign/new-token-model/context.md) |
-| | auth-redesign | Children in progress | [context](./actions/auth-redesign/context.md) |
+| → | auth-redesign/new-token-model | Implementing phase 2 | [context](./working-tree/auth-redesign/new-token-model/context.md) |
+| | auth-redesign | Children in progress | [context](./working-tree/auth-redesign/context.md) |
 
 *→ marks the current top of stack.*
 
-## Action Tree
+## Working Tree
 
 | Action | Gatekeep | Status | Detail |
 |---|---|---|---|
-| auth-redesign | All sub-actions complete + integration clean | Active | [gatekeep](./actions/auth-redesign/gatekeep.md) |
+| auth-redesign | All sub-actions complete + integration clean | Active | [gatekeep](./working-tree/auth-redesign/gatekeep.md) |
 | ∟ audit-endpoints | All endpoints catalogued with auth patterns | Achieved | [archive](./archive/audit-endpoints/) |
-| ∟ new-token-model | Token refresh works, all tests pass | Active | [gatekeep](./actions/auth-redesign/new-token-model/gatekeep.md) |
-| ∟ migrate-sessions | Existing sessions migrated without downtime | Pending | [gatekeep](./actions/auth-redesign/migrate-sessions/gatekeep.md) |
+| ∟ new-token-model | Token refresh works, all tests pass | Active | [gatekeep](./working-tree/auth-redesign/new-token-model/gatekeep.md) |
+| ∟ migrate-sessions | Existing sessions migrated without downtime | Pending | [gatekeep](./working-tree/auth-redesign/migrate-sessions/gatekeep.md) |
 | fix-csv-date-format | CSV dates match ISO 8601 | Achieved | [archive](./archive/fix-csv-date-format/) |
 
 ## Roadmap — <Active Action Name>
@@ -326,7 +277,7 @@ During setup, the Bootstrapper creates a minimal CONTEXT.md from a few questions
 # Codebase Reference — <Project Name>
 
 > Last updated: YYYY-MM-DD
-> This file is a lightweight map. Deep knowledge lives in knowledge/.
+> This file is a lightweight map. Deep knowledge lives in knowledge-tree/.
 
 ## What This Is
 
@@ -346,7 +297,7 @@ During setup, the Bootstrapper creates a minimal CONTEXT.md from a few questions
 
 ## Knowledge Map
 
-<!-- Populated as the knowledge tree grows. Points to knowledge/ nodes. -->
+<!-- Populated as the knowledge tree grows. Points to knowledge-tree/ nodes. -->
 ```
 
 ### CONTEXT.md — Full (populated by Architect)
@@ -357,7 +308,7 @@ The Architect deepens CONTEXT.md during the first working session and updates it
 # Codebase Reference — <Project Name>
 
 > Last updated: YYYY-MM-DD
-> This file is a lightweight map. Deep knowledge lives in knowledge/.
+> This file is a lightweight map. Deep knowledge lives in knowledge-tree/.
 
 ## Repo Structure
 
@@ -371,9 +322,9 @@ The Architect deepens CONTEXT.md during the first working session and updates it
 
 | Area | Knowledge node | What it covers |
 |---|---|---|
-| Authentication | [knowledge/auth/](../knowledge/auth/index.md) | Auth flow, session handling, OAuth patterns |
-| API layer | [knowledge/api/](../knowledge/api/index.md) | Validation pipeline, endpoint conventions |
-| Tooling | [knowledge/tooling/](../knowledge/tooling/index.md) | Build system, CI, testing infrastructure |
+| Authentication | [knowledge-tree/auth/](../knowledge-tree/auth/index.md) | Auth flow, session handling, OAuth patterns |
+| API layer | [knowledge-tree/api/](../knowledge-tree/api/index.md) | Validation pipeline, endpoint conventions |
+| Tooling | [knowledge-tree/tooling/](../knowledge-tree/tooling/index.md) | Build system, CI, testing infrastructure |
 ```
 
 **Guidance on depth:** CONTEXT.md stays lightweight — structure and pointers, not detailed explanations. When the Architect encounters something worth documenting in depth, it goes in the knowledge tree at the right node, and CONTEXT.md gets a pointer. For monorepos or large codebases, focus initially on the top-level structure and the knowledge map. Detail lives in the tree.
@@ -416,7 +367,7 @@ to understand the work without reading everything else.>
 
 | Area | Node | Why it matters here |
 |---|---|---|
-| <area> | [knowledge/<path>](../../knowledge/<path>/index.md) | <how this knowledge applies> |
+| <area> | [knowledge-tree/<path>](../../knowledge-tree/<path>/index.md) | <how this knowledge applies> |
 
 ## Scope
 
@@ -557,7 +508,7 @@ Use in STATUS.md roadmap tables:
 
 ### Action status indicators
 
-Use in STATUS.md action tree table:
+Use in STATUS.md working tree table:
 
 - `Active` — currently being worked on (on the active stack)
 - `Achieved` — gatekeep met, work complete

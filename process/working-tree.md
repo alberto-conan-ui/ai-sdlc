@@ -1,21 +1,21 @@
-# The Action Tree
+# The Working Tree
 
 Everything in AI-SDLC is an **action**. An action is a human-defined piece of work with a clear outcome. Actions live in a tree — nested however you want, named whatever you want, structured to match how you think about the work.
 
-The action tree is the short-term memory of your project. It captures what you're doing *right now*: the work in progress, the session-by-session log of what happened, the insights accumulating as you go. When an action completes, its insights migrate to the knowledge tree — the long-term memory — and the action archives. The action tree is where work lives while it's alive.
+The working tree is the project's **short-term memory** — one half of the memory model defined in [memory.md](./memory.md). It captures what you're doing *right now*: the work in progress, the session-by-session log of what happened, the insights accumulating as you go. When an action completes, its insights migrate to the **knowledge tree** (long-term memory) and the action archives. The working tree is where work lives while it's alive.
 
 ---
 
 ## The Tree
 
-An action tree is a hierarchy of nodes. Each node is a folder. A node can have children (making it a branch) or stand alone (making it a leaf). You decide the shape.
+An working tree is a hierarchy of nodes. Each node is a folder. A node can have children (making it a branch) or stand alone (making it a leaf). You decide the shape.
 
 A single node with no children is a simple action — the equivalent of "fix this bug" or "add this feature." A node with children decomposes work into sub-actions — "redesign the auth flow" might break into "audit current endpoints," "design the new token model," and "migrate existing sessions." Those children can themselves have children. There's no depth limit and no prescribed structure.
 
 You name nodes whatever makes sense. There are no tier labels, no required prefixes, no classification system. Call it `auth-redesign` or `fix-the-damn-login` or `q2-platform-work` — the name serves you, not the process.
 
 ```
-actions/
+working-tree/
 ├── auth-redesign/
 │   ├── gatekeep.md
 │   ├── context.md
@@ -53,11 +53,11 @@ Notice: `fix-csv-date-format` has just a `gatekeep.md`, a `log.md`, and a single
 
 ## Node Structure
 
-Every node in the action tree can have the following files. **Only `gatekeep.md` is required.** Everything else is created when it's useful — not before.
+Every node in the working tree can have the following files. **Only `gatekeep.md` is required.** Everything else is created when it's useful — not before.
 
 **`gatekeep.md`** — the completion criteria for this node. What does "done" mean here? This is the one invariant: every node, at every level, has a gatekeep. Without it, you can't answer "is this done?" See the [Gatekeeping](#gatekeeping) section.
 
-**`context.md`** — what this action is about and, critically, which knowledge tree nodes are relevant. This is the bridge between the action tree (what you're doing) and the knowledge tree (what you know). When starting work on an action, the AI loads context.md to find the right knowledge. For simple actions this might be unnecessary — the gatekeep says enough. For complex work that touches multiple areas of the codebase, context.md tells the AI where to look.
+**`context.md`** — what this action is about and, critically, which knowledge tree nodes are relevant. This is the bridge between the working tree (what you're doing) and the knowledge tree (what you know). When starting work on an action, the AI loads context.md to find the right knowledge. For simple actions this might be unnecessary — the gatekeep says enough. For complex work that touches multiple areas of the codebase, context.md tells the AI where to look.
 
 **`index.md`** — maps this node's children. What sub-actions exist, what each one covers, how they relate. Only meaningful for branch nodes. Follows the same pattern as the knowledge tree's index files.
 
@@ -71,7 +71,7 @@ Every node in the action tree can have the following files. **Only `gatekeep.md`
 
 ## Gatekeeping
 
-Gatekeeping is the invariant that holds the action tree together. Every node has a `gatekeep.md`. At every level, you can answer "is this done?"
+Gatekeeping is the invariant that holds the working tree together. Every node has a `gatekeep.md`. At every level, you can answer "is this done?"
 
 **For a leaf node,** the gatekeep is whatever "done" means for that piece of work. It can be concrete ("the date format in the CSV export matches ISO 8601") or subjective ("I'm satisfied that the new registration flow is clear"). The Human Lead decides what kind of gatekeep fits the work. There are no rules about which kind to use — the discipline is in writing one, not in classifying it.
 
@@ -130,25 +130,17 @@ This model mirrors how humans actually work: depth-first with interruptions. The
 
 ---
 
-## The Log and the Journal
+## Memory at the Action Level
 
-Session history is distributed. Each action node carries its own `log.md` — the record of what happened during sessions that worked on that specific action. When you load an action, you get its full history without digging through a global log. When the action archives, its log goes with it.
+Each action node participates in the project's memory pipeline. Session history is distributed — each node carries its own `log.md` and `KEY_INSIGHTS.md`, scoped to that action's work. When you load an action, you get its full history without digging through a global log. When the action archives, its memory goes with it — but the insights it produced live on in the knowledge tree.
 
-**`log.md` at the action node** is where detailed session history lives. What was accomplished, what was decided, what's pending. This is the action's short-term memory. It tells the next session where the previous one left off and why.
-
-**The global journal** (`journal/`) becomes the auditor's tool. It captures cross-cutting annotations — things that don't belong to a specific action. Project-level decisions, process changes, observations that span multiple actions. The journal is also the key piece for the Curator: the raw material from which long-term memories are formed. The Curator reads the journal and the action logs to distill insights into the knowledge tree.
-
-The relationship:
-
-- **Action log** = short-term memory (what's happening now, scoped to this action)
-- **Knowledge tree** = long-term memory (what we've learned, structured by codebase area)
-- **Journal** = the bridge (cross-cutting record that the Curator uses to maintain the knowledge tree)
+The full memory model — how logs, insights, the journal, and the knowledge tree connect — is defined in [memory.md](./memory.md). Every role should read it.
 
 ---
 
 ## Growing the Tree
 
-The action tree grows organically. You don't scaffold a deep hierarchy upfront — you start with what you know and let the structure emerge.
+The working tree grows organically. You don't scaffold a deep hierarchy upfront — you start with what you know and let the structure emerge.
 
 **Starting simple.** Most work starts as a single node: a folder with a `gatekeep.md` and a `phases/` directory. If the work stays simple, it stays a leaf. No overhead.
 
@@ -165,7 +157,7 @@ This replaces the old promotion mechanic (task → epic → goal). There's no ce
 When an action is done — its gatekeep passes — the completion flow is:
 
 1. Review `KEY_INSIGHTS.md`. Anything worth keeping migrates to the appropriate knowledge tree node. The action's insights become permanent knowledge — they outlive the action.
-2. The action folder moves from `actions/` to `archive/`. The full subtree goes together — logs, insights, phases, everything. The archive is the historical record.
+2. The action folder moves from `working-tree/` to `archive/`. The full subtree goes together — logs, insights, phases, everything. The archive is the historical record.
 3. STATUS.md updates — the action is popped from the active stack, status marked as achieved.
 4. The journal gets a brief completion note if relevant to the broader project.
 
@@ -175,7 +167,7 @@ For branch nodes, completion means all children are done and the branch gatekeep
 
 ## Archiving
 
-Completed action subtrees move to `archive/`. This keeps the `actions/` folder clean — only active and pending work lives there. The archive preserves the full record: logs, insights, phases, specs, prompts, everything.
+Completed action subtrees move to `archive/`. This keeps the `working-tree/` folder clean — only active and pending work lives there. The archive preserves the full record: logs, insights, phases, specs, prompts, everything.
 
 ```
 archive/

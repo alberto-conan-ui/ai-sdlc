@@ -84,7 +84,7 @@ git clone <code-repo-url> <project-name>
 
 Wait for the repo to be present before proceeding.
 
-**Project memory** — before creating, check if a memory folder already exists. Look for a folder matching `*-memory/` or `*-journal/` (legacy naming) or any folder containing `STATUS.md`, `journal/`, and `actions/`.
+**Project memory** — before creating, check if a memory folder already exists. Look for a folder matching `*-memory/` or `*-journal/` (legacy naming) or any folder containing `STATUS.md`, `journal/`, and `working-tree/`.
 
 If a memory folder exists:
 
@@ -111,7 +111,7 @@ ls
 
 You should see:
 - `<project-name>/` — the code repo
-- `<project-name>-memory/` — the project memory (with `journal/`, `knowledge/`, and `actions/` dirs)
+- `<project-name>-memory/` — the project memory (with `journal/`, `knowledge-tree/`, and `working-tree/` dirs)
 - `ai-sdlc/` — the methodology
 
 If anything is missing, resolve it before continuing.
@@ -185,7 +185,7 @@ Use the answers from step 1 to write a minimal skeleton:
 # Codebase Reference — <Project Name>
 
 > Last updated: <today's date>
-> This file is a lightweight map. Deep knowledge lives in knowledge/.
+> This file is a lightweight map. Deep knowledge lives in knowledge-tree/.
 
 ## What This Is
 
@@ -205,12 +205,12 @@ Use the answers from step 1 to write a minimal skeleton:
 
 ## Knowledge Map
 
-<!-- Populated as the knowledge tree grows. Points to knowledge/ nodes. -->
+<!-- Populated as the knowledge tree grows. Points to knowledge-tree/ nodes. -->
 ```
 
 Do not explore the codebase. Do not attempt to fill the Structure or Knowledge Map sections. That is the Architect's job when real work begins.
 
-#### knowledge/index.md
+#### knowledge-tree/index.md
 
 ```markdown
 # Knowledge — <Project Name>
@@ -236,7 +236,7 @@ Workspace initialised for <Project Name> under AI-SDLC methodology.
 
 **Detail:**
 - **Action:** None — setup session
-- **Files created:** workspace.yaml, STATUS.md, CONTEXT.md, knowledge/index.md, this journal entry
+- **Files created:** workspace.yaml, STATUS.md, CONTEXT.md, knowledge-tree/index.md, this journal entry
 - **Open threads:** Workspace is in INCEPTION mode. Invoke the Architect to define the first action.
 ```
 
@@ -254,9 +254,9 @@ Confirm the final workspace structure:
 │   ├── CONTEXT.md
 │   ├── journal/
 │   │   └── <YYYY>-W<NN>.md
-│   ├── knowledge/
+│   ├── knowledge-tree/
 │   │   └── index.md
-│   ├── actions/
+│   ├── working-tree/
 │   └── archive/
 ├── ai-sdlc/                     ← methodology
 └── workspace.yaml               ← folder mapping

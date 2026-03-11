@@ -17,9 +17,9 @@ my-project-workspace/              ← AI tool points here
 │   ├── CONTEXT.md
 │   ├── journal/
 │   │   └── YYYY-WNN.md
-│   ├── knowledge/
+│   ├── knowledge-tree/
 │   │   └── index.md
-│   ├── actions/                   ← Action tree: active and pending work
+│   ├── working-tree/                   ← Working tree: active and pending work
 │   │   └── refactor-validation/
 │   └── archive/                   ← Completed or abandoned action subtrees
 │       ├── fix-login-bug/
@@ -68,7 +68,7 @@ Use the `workspace.yaml` shorthand in all documents and prompts:
 
 ```
 {code}/src/services/auth.ts
-{memory}/actions/refactor-validation/phases/1-baseline-tests/SPEC.md
+{memory}/working-tree/refactor-validation/phases/1-baseline-tests/SPEC.md
 {methodology}/roles/architect.md
 ```
 
@@ -105,9 +105,9 @@ my-project-workspace/
 │   ├── CONTEXT.md
 │   ├── journal/
 │   │   └── YYYY-WNN.md
-│   ├── knowledge/
+│   ├── knowledge-tree/
 │   │   └── index.md
-│   ├── actions/
+│   ├── working-tree/
 │   └── archive/
 └── workspace.yaml       ← folder mapping
 ```

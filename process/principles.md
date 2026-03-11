@@ -31,57 +31,12 @@ The only file that genuinely mutates is STATUS.md, and even that is just pointer
 
 ---
 
-## Two Trees and a Journal
+## The Memory Model
 
-The methodology maintains persistent memory through two complementary trees and a journal that bridges them. Understanding the distinction is essential — they serve different purposes and follow different rules.
+The methodology maintains persistent memory through two complementary trees — the **working tree** (short-term memory) and the **knowledge tree** (long-term memory) — with a **journal** that bridges them and serves as the audit trail.
 
-### The Action Tree — Short-Term Memory
+The working tree (`working-tree/`) holds the work in progress: session logs, working insights, and links to relevant knowledge. The knowledge tree (`knowledge-tree/`) holds curated, durable insights organised by codebase area. The journal (`journal/`) captures cross-cutting decisions and observations — it's both the bridge between the two trees and the Curator's primary audit input for verifying the memory pipeline works correctly.
 
-The action tree (`actions/`) holds the work in progress. Each action node carries its own session log (`log.md`), working insights (`KEY_INSIGHTS.md`), and links to relevant knowledge (`context.md`). Every node has a `gatekeep.md` that defines "done." The tree is hierarchical — actions nest freely, and the status of any subtree is computable from the leaves up.
+Work produces logs and insights → insights migrate to the knowledge tree on action completion → the Curator audits using the journal to verify nothing was lost or misplaced.
 
-The action tree is where the AI finds out what's happening *right now*. When an action completes, its insights migrate to the knowledge tree and the action subtree archives. The action tree is temporary by design — it serves the current work and then gets out of the way.
-
-### The Knowledge Tree — Long-Term Memory
-
-The knowledge tree (`knowledge/`) is a folder hierarchy that mirrors your codebase. Each node holds curated insights about that area of the code — patterns to follow, pitfalls to avoid, architectural decisions that constrain future work.
-
-```
-knowledge/
-├── index.md                ← project-wide patterns, cross-cutting decisions
-├── auth/
-│   ├── index.md            ← how auth works, key patterns
-│   └── session-handling.md ← deep knowledge about a specific area
-├── api/
-│   ├── index.md            ← API design patterns, conventions
-│   └── validation.md       ← validation pipeline specifics
-└── tooling/
-    └── index.md            ← build system, CI, testing infrastructure
-```
-
-Unlike the action tree, the knowledge tree is a permanent, living resource. Insights get added, refined, moved to a different node, or retired when they're no longer relevant. The tree grows organically as work takes you into different areas of the codebase. The Human Lead and the Architect build it together through conversation: the Architect proposes where an insight belongs, the Human Lead confirms or redirects.
-
-An `index.md` at each level maps the sub-areas — what's there, when you'd need to go deeper. When starting a session, the Architect reads the relevant index files to decide which knowledge nodes to load for the current work.
-
-### The Journal — The Bridge
-
-The journal (`journal/`) captures cross-cutting annotations — project-level decisions, observations spanning multiple actions, process changes. It is the bridge between the action tree and the knowledge tree: the raw material the Curator uses to distill long-term knowledge.
-
-Journal entries are tagged by type: `[decision]` for a non-trivial project-level choice with context and reasoning, `[observation]` for cross-cutting patterns, `[process]` for changes to how the team works. The journal follows the append-forward principle: entries are never edited or deleted.
-
-Detailed session history lives in each action's `log.md`, not in the journal. The journal captures what transcends individual actions.
-
-### The Flow Between Them
-
-The action tree feeds the knowledge tree through the journal, but there's no formal ceremony for this. The flow is organic:
-
-- Work produces action logs and KEY_INSIGHTS.md scratchpads (every role contributes as part of its normal output).
-- During conversation, insights surface that matter beyond the current action.
-- Those insights land in the knowledge tree at the right structural node.
-- When an action completes, the Curator and Human Lead review KEY_INSIGHTS.md — anything worth keeping migrates to the knowledge tree.
-- The journal captures cross-cutting decisions that the Curator uses to maintain the knowledge tree over time.
-
-The key distinction: the action tree captures *what's happening now* (short-term memory). The knowledge tree captures *what's worth loading into future sessions* (long-term memory). The journal bridges the two — it's the Curator's raw material for distilling transient work into permanent knowledge.
-
-### CONTEXT.md — The Map
-
-`CONTEXT.md` sits alongside the two trees. It's a lightweight file that describes the repo structure and points into the knowledge tree. It tells the AI "here's the shape of the codebase, and here's where to find deeper knowledge about each area." CONTEXT.md is not the knowledge — it's the map to the knowledge.
+**The full memory model — including the KEY_INSIGHTS lifecycle, the flow between trees, every role's memory responsibilities, and the Curator's audit process — is defined in [memory.md](./memory.md).** All roles should read it. This is the most important mechanism in the methodology.

@@ -1,7 +1,7 @@
 # Senior Architect
 
-> **Read `roles/principles.md` first**, then **`roles/common.md`**.
-> Principles define how you operate; common defines your shared duties (journal, insights, STATUS.md).
+> **Read `roles/principles.md` first**, then **`roles/common.md`**, then **[`process/memory.md`](../process/memory.md)**.
+> Principles define how you operate; common defines your shared duties; memory.md defines the memory model you help maintain.
 > This file defines what's unique to your role.
 
 > You design the approach. You have an explicit mandate to push back — on assumptions, on scope, on feasibility.
@@ -30,7 +30,7 @@ You think broadly: trade-offs, dependencies, patterns, long-term consequences. Y
 - The active action's `gatekeep.md` — what "done" means
 - The active action's `context.md` — what the action is about + links to relevant knowledge tree nodes
 - The active action's `KEY_INSIGHTS.md` — working scratchpad for this action
-- Relevant `knowledge/` nodes — as indicated by the action's context.md
+- Relevant `knowledge-tree/` nodes — as indicated by the action's context.md
 - The active phase spec (if one exists)
 
 **Load on demand:**
