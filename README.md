@@ -60,11 +60,33 @@ This methodology is for senior developers. It assumes you can already architect 
 
 ---
 
+## Starting a Session
+
+Once your workspace is bootstrapped, every session starts the same way:
+
+```
+AUTO architect: where are we?
+```
+
+One line. The AI loads your project context, adopts the role you asked for, and responds to your task. No setup ceremony, no re-explaining what the project is, no manually loading files.
+
+This works because of two pieces: `ai_readme.md` (a file the Bootstrapper generates at your repo root that tells the AI how to orient itself) and AUTO (a Cowork skill that reads it automatically). The entry point encodes the correct loading sequence — workspace layout, memory model, role dispatch, current status — so you don't have to remember it.
+
+The pattern is `AUTO [role]: [task]`. Some examples: `AUTO navigator: catch me up`, `AUTO tech-lead: write prompts for phase 2`, or just `AUTO` to load context and decide later.
+
+In practice, a bootstrapped monorepo project ran 8+ sessions across three roles (Architect, Tech Lead, Developer) in a single day — moving a 5,200-line pipeline across libraries, resolving type conflicts, writing and executing 5 implementation prompts, and growing the knowledge tree with reusable insights. Every session started with this one-liner. No context was lost between sessions.
+
+Not using Cowork? The same `ai_readme.md` works with any AI tool — just say *"Read ai_readme.md and follow its instructions"* at the start of any session. AUTO is the shortcut; the entry point file is the mechanism.
+
+**Full walkthrough:** [flows/session-start.md](./flows/session-start.md)
+
+---
+
 ## Getting Started
 
 1. Set up your workspace — see [bootstrap/README.md](./bootstrap/README.md) for the nested convention and step-by-step guides
 2. Read the methodology — the reading order below
-3. Flows (practical walkthroughs) — coming soon
+3. [Flows](./flows/README.md) (practical walkthroughs) — start with [Starting a Session](./flows/session-start.md)
 
 ## Reading Order
 

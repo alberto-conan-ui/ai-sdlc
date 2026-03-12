@@ -7,4 +7,10 @@
 > Flows are not simplifications. They *are* the process, viewed from the practitioner's
 > perspective. The full machinery exists underneath; the flow shows you the path through it.
 
-<!-- TBC — flows need to be rewritten to align with the reorganised methodology. -->
+---
+
+## Available Flows
+
+| Flow | What it covers |
+|---|---|
+| [Starting a Session](./session-start.md) | How `ai_readme.md` and AUTO work together — from cold start to productive work in one line |
