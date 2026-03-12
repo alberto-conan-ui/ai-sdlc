@@ -115,6 +115,16 @@ The `roles/` folder contains one file per AI stance, loaded at session start or 
 
 ---
 
+## Contributing
+
+This is a personal methodology, shared because it might be useful to others. Issues and discussions are welcome. If you want to propose changes, open an issue first — let's talk about the approach before writing code.
+
+---
+
+## Version
+
+**v1.0** — March 2026. First public release.
+
 ## License
 
-MIT
+MIT — see [LICENSE](./LICENSE).

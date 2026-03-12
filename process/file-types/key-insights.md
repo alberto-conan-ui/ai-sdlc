@@ -20,6 +20,8 @@ Working scratchpad for insights that emerge during implementation. Patterns disc
 
 Write immediately when you encounter something during implementation that matters beyond the current session. Don't wait to see if it'll matter; write it and let review sort it out. The cost of writing a transient insight is low. The cost of losing a durable one is high.
 
+**KEY_INSIGHTS vs log.md:** If a future session working in the same area of the codebase would benefit from knowing this, it's an insight. If it's only relevant to understanding what happened in this session, it's a log entry.
+
 ---
 
 ## Lifecycle
@@ -49,6 +51,44 @@ If you're unsure about placement, propose it and let the Human Lead confirm or r
 **Insight:** <what to do or avoid — prescriptive, not descriptive>
 **Source:** journal/YYYY-WNN.md, YYYY-MM-DD (or action log reference)
 ```
+
+---
+
+## Real Example
+
+From a real project — a monorepo action that moved a pipeline between libraries. Names anonymised.
+
+```markdown
+# Key Insights — move-pipeline-to-shared
+
+## KT rules that name exceptions invite those exceptions
+
+**Context:** The pass-through property rule stated "No aliases, no semantic
+renaming" but then named a convenience type as a permitted exception. The
+Tech Lead read the exception as the rule and wrote a prompt preserving
+the convenience type with a mapping table — the exact pattern the rule
+was meant to prevent.
+**Insight:** When writing KT rules, don't illustrate exceptions by naming
+the very thing you want eliminated. State the rule, state what the correct
+pattern looks like, stop. Examples of the wrong approach validate that
+approach in the reader's mind.
+**Source:** log.md, 2026-03-12 (Tech Lead session)
+
+## Subtype selectors are no-ops — the matching context strips the fields they need
+
+**Context:** Precedence tests discovered that subtype selectors never match
+any widget. Their matchers filter on `d.type === 'text'` (or 'number',
+'boolean'), but the matching context only exposes `{ itemType, tags, uid }`
+— the decorator's type field is absent during matching.
+**Insight:** The matching context is deliberately minimal to avoid leaking
+the full decorator. Any selector that needs to filter on decorator data
+fields cannot work with the current architecture. This is a design gap,
+not a simple bug fix — either the matching context needs selective
+expansion, or subtype selectors need a different mechanism.
+**Source:** Prompt 03 receipt, 2026-03-12 (Developer session)
+```
+
+The first insight is a process lesson (migrated to project-level KT). The second is a technical design gap (scoped out to a separate action, documented but not migrated — the gap is unresolved).
 
 ---
 

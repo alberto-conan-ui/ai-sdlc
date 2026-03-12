@@ -72,9 +72,7 @@ The Human Lead decides the cadence per phase, based on risk and complexity. The 
 
 Every Developer session ends by producing a session receipt — a structured summary that enables the Tech Lead to write the next prompt accurately. The receipt is the Developer's sole contribution to the recording system and serves as both a recording artifact and a context bridge from one prompt to the next.
 
-The **state changes** field is the most important. It captures the delta between the codebase the Tech Lead last saw and the codebase the next prompt will encounter. Without it, the Tech Lead is guessing — and guessing is how prompt assumptions go stale.
-
-For the receipt format and rules, see [file-types/session-receipt.md](./file-types/session-receipt.md). For how it fits into the recording pipeline, see [journaling.md](./journaling.md).
+For the receipt format, rules, and which fields matter most, see [file-types/session-receipt.md](./file-types/session-receipt.md). For how it fits into the recording pipeline, see [journaling.md](./journaling.md).
 
 ---
 

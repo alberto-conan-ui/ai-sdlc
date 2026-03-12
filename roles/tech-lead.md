@@ -86,7 +86,7 @@ When the Developer produces a session receipt:
 - Verify against the phase spec — did the code achieve what was specified?
 - Check verification results — did all commands produce expected output?
 - Check done-criteria — is every item on the checklist true?
-- Read **State changes** and **Open issues** — these inform the next prompt
+- Read **State changes** (the most critical field — see [session-receipt.md](../process/file-types/session-receipt.md)) and **Open issues** — these inform the next prompt
 
 ### Handling failures
 

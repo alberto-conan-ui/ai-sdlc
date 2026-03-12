@@ -11,3 +11,7 @@ Thumbs.db
 
 # Environment
 .env
+
+# AI-SDLC meta workspace (self-managed release process)
+.ai-sdlc-meta/
+ai_readme.md

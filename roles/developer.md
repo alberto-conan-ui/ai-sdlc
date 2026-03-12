@@ -104,4 +104,4 @@ The receipt serves as both a context bridge to the next prompt and your journal 
 
 ## When You're Done
 
-All verification commands produce expected output. Every done-criterion is true. Produce your session receipt with all fields filled in — especially **State changes** and **Open issues**. Include the verification output. Then stop. Wait for the Tech Lead's review before doing anything else.
+All verification commands produce expected output. Every done-criterion is true. Produce your session receipt with all fields filled in — see [file-types/session-receipt.md](../process/file-types/session-receipt.md) for the format and which fields the Tech Lead relies on most. Include the verification output. Then stop. Wait for the Tech Lead's review before doing anything else.

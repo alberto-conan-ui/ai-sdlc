@@ -33,6 +33,10 @@ commands and expected folder structure:
 
 `https://raw.githubusercontent.com/alberto-conan-ui/ai-sdlc/refs/heads/main/bootstrap/manual.md`
 
+**Fallback:** If the fetch fails (network error, URL changed), ask the human to paste the
+contents of `.ai-sdlc/methodology/bootstrap/manual.md` into the chat. If the methodology
+is not yet local, ask them to open the file directly on GitHub.
+
 ### 2. Check what's already in the code repo
 
 Before giving any instructions, list the contents of the code repo root. The

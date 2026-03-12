@@ -31,7 +31,7 @@ to understand the work without reading everything else.>
 
 | Area | Node | Why it matters here |
 |---|---|---|
-| <area> | [knowledge-tree/<path>](../../knowledge-tree/<path>/index.spec.md) | <how this knowledge applies> |
+| <area> | [{memory}/knowledge-tree/<path>/index.spec.md]({memory}/knowledge-tree/<path>/index.spec.md) | <how this knowledge applies> |
 
 ## Scope
 

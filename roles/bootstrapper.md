@@ -142,6 +142,8 @@ Create these files inside `.ai-sdlc/memory/`. Keep them minimal — this is scaf
 
 #### action-tree/STATUS.md
 
+This is the inception template — minimal, before any action is defined. See [conventions.md](../process/conventions.md) for the active project template with action tree and roadmap sections.
+
 ```markdown
 # <Project Name> — Status
 

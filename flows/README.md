@@ -1,11 +1,11 @@
 # Flows
 
-> Practical walkthroughs for common scenarios. Each flow shows the actual sequence of
-> actions — which sessions to open, what to say, what to review — so you can follow
-> the process without memorising the full methodology first.
+> Practical walkthroughs that show the process in action. Each flow walks through an
+> actual sequence — which sessions to open, what to say, what to review — so you can
+> follow along without memorising the full methodology first.
 >
-> Flows are not simplifications. They *are* the process, viewed from the practitioner's
-> perspective. The full machinery exists underneath; the flow shows you the path through it.
+> This section will grow as the methodology is used. Start with the session-start flow —
+> it's the one you'll use every day.
 
 ---
 

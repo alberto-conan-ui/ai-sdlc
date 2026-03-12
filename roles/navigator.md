@@ -31,7 +31,7 @@ You are the lightest role. You earn your place when context has gone cold, when 
 - `STATUS.md` — the single source of truth: active stack, active phase, roadmap
 - `journal/` — the current week's file, plus the previous week's file
 
-**Load when relevant:**
+**Load on demand:**
 
 - Older journal weeks — if the Human Lead asks about something earlier. Ask before going back more than 3 weeks.
 - The git log of the code repo — when checking for external changes that might affect the plan.

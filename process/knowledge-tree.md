@@ -171,6 +171,39 @@ Good: "The validation API silently swallows errors when passed an empty array �
 
 ---
 
+## Real Example — A Knowledge Tree After One Day
+
+The following is an anonymised snapshot from a real monorepo project (a multi-framework UI component library) after its first day of active use. The project was bootstrapped and one action was completed — moving a framework-agnostic pipeline (~80 files, ~5,000 lines) from a demo app to a shared library.
+
+After one day, the tree looked like this:
+
+```
+knowledge-tree/
+├── index.spec.md              ← project-wide: repo structure, cross-cutting insights
+├── imports-exports/
+│   └── imports-exports.spec.md  ← barrel patterns, import conventions, path aliases
+├── pipeline/
+│   └── pipeline.spec.md        ← pipeline architecture, design principles, type constraints
+└── testing/
+    └── testing.spec.md          ← test runner, conventions, assertion style, gap analysis
+```
+
+The root `index.spec.md` had grown to include:
+
+- Repo structure (annotated folder tree, key files)
+- Two verification gates born from actual failures: a pre-push gate (always run lint before pushing — discovered after a CI failure from a lint rule difference between libraries) and a pre-PR gate (6-point diff audit checklist — discovered after a catch-all rename leaked into unrelated files)
+- A post-merge type-checking procedure (run tsc against downstream app configs after merging main — discovered when a type narrowing on one branch broke code on another)
+
+The `pipeline/pipeline.spec.md` node captured a design principle learned the hard way:
+
+> **Pass-through property rule:** Downstream widget prop types are authoritative. The abstraction layer does not alias, rename, or reinterpret their values. Convenience lives in function names, not in parameter values.
+
+This came from a real type conflict discovered during implementation. The journal captured the decision, the knowledge tree captured the durable rule, and every future session touching the pipeline loads this node automatically.
+
+None of this was planned upfront. The Bootstrapper created an empty tree with just `index.spec.md`. The Architect deepened the root node in the first session. The three area nodes appeared organically as the work touched those areas. By the end of the day, the AI in session 8 loaded knowledge that session 1 didn't have — not because it remembered, but because the memory model made it available.
+
+---
+
 ## What Belongs at Each Level
 
 Not every insight belongs in the knowledge tree, and not every knowledge tree insight belongs at the same level.
@@ -189,7 +222,7 @@ Not every insight belongs in the knowledge tree, and not every knowledge tree in
 
 The knowledge tree is a living resource — not a write-once archive.
 
-**Every role contributes** as part of normal work. When you encounter something worth knowing beyond the current session, propose placing it in the knowledge tree at the right node. See [memory.md](./memory.md) for the operational details.
+**Every role contributes** as part of normal work. When you load a knowledge tree node at session start and notice something stale or inaccurate, fix it or flag it — don't wait for a Curator session for obvious corrections. When you encounter something worth knowing beyond the current session, propose placing it in the knowledge tree at the right node. See [memory.md](./memory.md) for the operational details.
 
 **The Curator audits** periodically, using the journal as the audit trail. The Curator catches what was missed during the work — insights logged but never promoted, stale entries invalidated by later work, entries at the wrong structural level. See [curator.md](../roles/curator.md) for the audit process.
 

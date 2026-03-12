@@ -22,7 +22,18 @@ audience: [human, ai]
 
 ---
 
-## Phase Status Indicators
+## Status Vocabularies
+
+Actions, phases, and session receipts each track status at different granularities. All three vocabularies are listed here for reference.
+
+### Action Status
+
+- `Active` — currently being worked on (on the active stack)
+- `Achieved` — gatekeep met, work complete
+- `Paused` — work stopped temporarily, reason in action log
+- `Pending` — defined but not yet started
+
+### Phase Status
 
 - `✅ Complete` — done and verified
 - `🔨 Implementing` — prompts being executed
@@ -30,14 +41,11 @@ audience: [human, ai]
 - `❌ Not planned yet` — future phase, no spec exists
 - `⏸️ Paused` — work stopped, reason logged
 
----
+### Session Receipt Status
 
-## Action Status Indicators
-
-- `Active` — currently being worked on (on the active stack)
-- `Achieved` — gatekeep met, work complete
-- `Paused` — work stopped temporarily, reason in action log
-- `Pending` — defined but not yet started
+- `Complete` — all done-criteria met, all verification passed
+- `Partial` — some work completed, but blocked or incomplete
+- `Blocked` — cannot proceed, issue requires Tech Lead or Architect input
 
 ---
 
