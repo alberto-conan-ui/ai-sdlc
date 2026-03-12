@@ -92,7 +92,7 @@ The two trees and the journal form a pipeline. Work produces raw material; the p
 
 The flow is continuous, not ceremonial. It happens as part of normal work — during sessions (log entries, insights, journal entries), during the work (early migration of durable insights), on action completion (KEY_INSIGHTS review and migration), and periodically via Curator audits.
 
-For the detailed flow and session recording checklists that ensure nothing is missed, see [journaling.md — Recording by Engagement Mode](./journaling.md#recording-by-engagement-mode) and [journaling.md — Session Recording Checklists](./journaling.md#session-recording-checklists).
+For the detailed flow and session recording checklists that ensure nothing is missed, see [journaling.md — Recording by Role](./journaling.md#recording-by-role) and [journaling.md — Session Recording Checklists](./journaling.md#session-recording-checklists).
 
 ---
 

@@ -6,7 +6,7 @@
 **Required:** No — but expected for any action that spans more than one session
 **Created by:** The role active during the session
 **Maintained by:** All roles (except Developer) append entries
-**Engagement modes:** Both — design decisions and exploration notes in Shaping, implementation progress in Working
+**Used by:** All roles (except Developer) — design decisions and exploration notes in design sessions, implementation progress in Tech Lead sessions
 
 ---
 
@@ -24,7 +24,7 @@ Write a log entry at the end of every session that touches this action. No excep
 
 ### What belongs here vs. elsewhere
 
-The log captures what happened within this action's scope. If something transcends this action — a decision that affects the whole project, a pattern noticed across multiple actions — it goes in the [journal](./journal-entry.md), not here. In Working mode, if something was learned that might matter beyond this action, it goes in [KEY_INSIGHTS.md](./key-insights.md) alongside the log entry. In Shaping mode, durable insights go directly to the knowledge tree.
+The log captures what happened within this action's scope. If something transcends this action — a decision that affects the whole project, a pattern noticed across multiple actions — it goes in the [journal](./journal-entry.md), not here. During implementation, if something was learned that might matter beyond this action, it goes in [KEY_INSIGHTS.md](./key-insights.md) alongside the log entry. In design sessions (Architect, Curator), durable insights go directly to the knowledge tree.
 
 ---
 
@@ -59,4 +59,4 @@ The log captures what happened within this action's scope. If something transcen
 - Entries are appended chronologically — never edited after the session ends (append-forward principle).
 - Keep entries concise. The log is a trail, not a report.
 - The Developer doesn't write log entries — its session receipt serves as its contribution.
-- See [memory.md](../memory.md) for the broader memory model. See [journaling.md](../journaling.md) for how recording flows per engagement mode.
+- See [memory.md](../memory.md) for the broader memory model. See [journaling.md](../journaling.md) for how recording flows per role.

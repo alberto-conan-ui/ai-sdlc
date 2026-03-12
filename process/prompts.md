@@ -143,9 +143,12 @@ If a prompt takes more than one session to complete, it should be split. If a pr
 
 ## Prompt Structure
 
-Every implementation prompt follows this template (see [conventions.md](./conventions.md) for the full format):
+Every implementation prompt follows this template (see [file-types/implementation-prompt.md](./file-types/implementation-prompt.md) for the full format):
 
 ```markdown
+> **Role:** Developer — read `{methodology}/roles/operating-rules.md`, then execute this prompt.
+> **Receipt:** Save to `{memory}/action-tree/<action>/phases/N-name/NN-description.receipt.md`
+
 # Prompt NN — Short Description
 
 > Phase: N — Name
@@ -167,6 +170,8 @@ Exact commands. Expected output. What success looks like.
 - [ ] Specific criterion
 - [ ] Specific criterion
 ```
+
+The **entry point header** (the `> Role:` and `> Receipt:` blockquote) makes the prompt self-bootstrapping — paste it into any fresh AI session and the tool knows which role to adopt and where to save the receipt. No separate setup needed.
 
 The Goal section is for the Developer's orientation — why are we doing this? The Steps section is the work. The **If unexpected** section defines the Developer's autonomy boundary for this specific prompt (see principle 2 above). The Verify section is how both the Developer and the human know it worked. The Done-when checklist is binary — each item is either true or false, no judgement calls.
 

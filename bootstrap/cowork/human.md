@@ -22,4 +22,4 @@ Read the full document, then follow its steps.
 Cowork will check what's already in the folder, ensure `.ai-sdlc/` is set up
 with the methodology, tell you which commands to run **in the folder you
 selected**, create the project memory inside `.ai-sdlc/memory/`, and leave
-everything in INCEPTION mode.
+everything ready for the first real session.

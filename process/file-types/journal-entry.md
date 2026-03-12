@@ -6,7 +6,7 @@
 **Required:** No — created when cross-cutting annotations arise
 **Created by:** Any role (except Developer)
 **Maintained by:** Append-only; Curator uses it as primary audit input
-**Engagement modes:** Both — primary recording output in Shaping, exception path in Working (only when something genuinely cross-cutting surfaces during implementation)
+**Used by:** Design roles (primary output), implementation roles (exception path — only when something genuinely cross-cutting surfaces)
 
 ---
 
@@ -28,7 +28,7 @@ Write a journal entry when you make or encounter something that crosses action b
 
 If it's scoped to the current action, it belongs in the [action log](./action-log.md). If it transcends any single action, it belongs here.
 
-In Working mode, journal entries should be rare. If you're writing frequent journal entries during implementation, you may be doing design work that belongs in Shaping.
+During implementation, journal entries should be rare. If you're writing frequent journal entries while implementing, you may be doing design work that belongs in an Architect session.
 
 ---
 
@@ -84,4 +84,4 @@ Files are named by ISO week: `YYYY-WNN.md`. One file per week, multiple entries 
 
 - Entries are never edited or deleted (append-forward principle).
 - The journal is the Curator's primary audit input. If the journal says a decision was made but the knowledge tree doesn't reflect it, something was missed.
-- See [memory.md](../memory.md) for the broader memory model. See [journaling.md](../journaling.md) for how recording flows per engagement mode.
+- See [memory.md](../memory.md) for the broader memory model. See [journaling.md](../journaling.md) for how recording flows per role.

@@ -33,24 +33,23 @@ This is a partnership driven by you. If you disengage — rubber-stamp plans wit
 
 The Human Lead is free to be fluid. Jump between topics, think out loud, skip ahead, change direction mid-sentence. That's how humans work, and the process doesn't fight it. But the AI must always anchor that fluidity to the process.
 
-At every moment, the AI knows — and makes explicit — three things: **which engagement mode** the project is in (Shaping or Working), **which stance** the AI is operating as, and **which action** is the current focus. When the Human Lead's direction implies a change to any of these, the AI doesn't silently follow along. It pauses and confirms:
+At every moment, the AI knows — and makes explicit — two things: **which stance** the AI is operating as, and **which action** is the current focus. When the Human Lead's direction implies a change to either of these, the AI doesn't silently follow along. It pauses and confirms:
 
-*"That sounds like we're switching to shaping mode — you want to revisit the gatekeep for auth-redesign. I'll shift to Architect. Correct?"*
+*"That sounds like you want to revisit the gatekeep for auth-redesign. I'll shift to Architect. Correct?"*
 
-*"You're asking me to write an implementation prompt, which means working mode as Tech Lead on new-token-model, phase 2. Should I proceed?"*
+*"You're asking me to write an implementation prompt — that's Tech Lead on new-token-model, phase 2. Should I proceed?"*
 
 *"This question is about a different action. Should I push fix-csv-date-format onto the stack, or is this a quick aside?"*
 
-This is not pedantry — it is the mechanism that bridges the Human Lead's flexibility with the process's discipline. Without it, the AI drifts: it answers as an Architect when it should be a Developer, it redesigns a gatekeep when it should be executing a prompt, it writes to the wrong recording files. The formalisation takes seconds and prevents the most common failure modes: stance bleed, mode drift, and untracked context switches.
+This is not pedantry — it is the mechanism that bridges the Human Lead's flexibility with the process's discipline. Without it, the AI drifts: it answers as an Architect when it should be a Developer, it redesigns a gatekeep when it should be executing a prompt, it writes to the wrong recording files. The formalisation takes seconds and prevents the most common failure modes: stance bleed and untracked context switches.
 
 The Human Lead can always override: "Yes, switch" or "No, stay where you are — I'm just thinking out loud." The AI's job is to ask, not to block. But it must always ask when the implicit direction would change the process state.
 
 **What the AI tracks at all times:**
 
-- **Engagement mode** — Shaping or Working (see [workflow.md — Engagement Modes](./workflow.md#engagement-modes))
 - **Active stance** — which role the AI is currently operating as
 - **Active action** — which action node is the current focus
-- **Active phase/prompt** — where in the implementation cycle (working mode only)
+- **Active phase/prompt** — where in the implementation cycle (if executing prompts)
 
 When any of these changes, the AI confirms with the Human Lead before proceeding. STATUS.md is updated to reflect the confirmed state.
 
@@ -62,7 +61,7 @@ The project memory moves forward, never backward. When a plan changes, the new p
 
 This principle exists because rewriting history breaks the context chain. If a spec gets silently edited, the journal entries that reference it no longer make sense. If an action folder gets renamed or restructured, references go stale. By always moving forward — creating new artefacts rather than mutating old ones — every past reference remains valid, and the journal tells a truthful story.
 
-The only file that genuinely mutates is STATUS.md, and even that is just pointer updates: which action is active, which phase, which prompt, and which engagement mode. Everything else is append-only.
+The only file that genuinely mutates is STATUS.md, and even that is just pointer updates: which action is active, which phase, which prompt. Everything else is append-only.
 
 ---
 

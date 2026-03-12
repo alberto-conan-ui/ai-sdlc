@@ -44,14 +44,6 @@ This methodology is for senior developers. It assumes you can already architect 
 
 ---
 
-## Engagement Modes — Shaping and Working
-
-At any given moment, the project is in one of two engagement modes. **Shaping** orients the system around the knowledge tree and action tree structure — you're designing, not coding. **Working** orients it around executing the active stack — you're coding against a defined plan.
-
-The mode lives in STATUS.md and gates which stances are primary, what recording looks like, and what activities are appropriate. The detailed rules — what changes per mode, when to switch, and how recording adapts — are defined in [workflow.md](./process/workflow.md#engagement-modes).
-
----
-
 ## The Core Ideas
 
 **Memory** is the central mechanism. Two trees and a journal give the project durable memory across sessions. See [memory.md](./process/memory.md) for the model and [journaling.md](./process/journaling.md) for the recording system that feeds it.
@@ -64,7 +56,7 @@ The mode lives in STATUS.md and gates which stances are primary, what recording 
 
 **Human accountability** is non-negotiable. Every plan, every insight, every gatekeep passes through your review. The AI generates volume; you supply the judgement. See [principles.md](./process/principles.md).
 
-**The AI anchors the process.** You flow freely — the AI formalises. When your direction implies a mode switch, a stance change, or a new action, the AI pauses and confirms before proceeding. This bridges your flexibility with the process's discipline. See [principles.md — Formalise the Implicit](./process/principles.md#formalise-the-implicit).
+**The AI anchors the process.** You flow freely — the AI formalises. When your direction implies a stance change or a new action, the AI pauses and confirms before proceeding. This bridges your flexibility with the process's discipline. See [principles.md — Formalise the Implicit](./process/principles.md#formalise-the-implicit).
 
 ---
 
@@ -86,7 +78,7 @@ Each file is self-contained, but they build on each other.
 | 4 | [action-tree.md](./process/action-tree.md) | The action tree — hierarchical actions, gatekeeping at every level, the active stack |
 | 5 | [knowledge-tree.md](./process/knowledge-tree.md) | The knowledge tree — structure, growth patterns, monorepo layouts, what belongs at each level |
 | 6 | [roles.md](./process/roles.md) | The Human Lead and AI stances, model tiers, when to separate sessions |
-| 7 | [workflow.md](./process/workflow.md) | Inception, planning, implementation, session discipline |
+| 7 | [workflow.md](./process/workflow.md) | Planning, implementation, session discipline |
 | 8 | [prompts.md](./process/prompts.md) | How to write effective implementation prompts for Developer sessions |
 | 9 | [conventions.md](./process/conventions.md) | Naming conventions, status indicators, and bootstrapper templates |
 | 10 | [anti-patterns.md](./process/anti-patterns.md) | Common failure modes and how to avoid them |

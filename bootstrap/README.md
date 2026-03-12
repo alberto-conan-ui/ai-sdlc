@@ -23,9 +23,10 @@ my-project/                        ← IDE opens HERE — this is the workspace
 │   │   └── archive/
 │   ├── methodology/               ← ai-sdlc repo (clone or symlink)
 │   └── workspace.yaml             ← folder mapping
+├── ai_readme.md                   ← session entry point (gitignored)
 ├── src/
 ├── package.json
-└── .gitignore                     ← includes .ai-sdlc/
+└── .gitignore                     ← includes .ai-sdlc/ and ai_readme.md
 ```
 
 Three repos, three concerns, three change cadences — but all accessible from a single root:
@@ -99,7 +100,7 @@ my-project/
 └── .gitignore             ← includes .ai-sdlc/
 ```
 
-**Fully bootstrapped (INCEPTION)** — The memory folder, workspace.yaml, and skeleton files are in place. `action-tree/STATUS.md` shows INCEPTION mode. The workspace is ready for real work — the next step is to invoke the Architect to define the first action.
+**Fully bootstrapped** — The memory folder, workspace.yaml, skeleton files, and `ai_readme.md` are in place. The workspace is ready for real work — the next step is to invoke the Architect to define the first action.
 
 ```
 my-project/
@@ -114,8 +115,9 @@ my-project/
 │   │   └── archive/
 │   ├── methodology/       ← ai-sdlc
 │   └── workspace.yaml     ← folder mapping
+├── ai_readme.md           ← session entry point (gitignored)
 ├── src/
-└── .gitignore             ← includes .ai-sdlc/
+└── .gitignore             ← includes .ai-sdlc/ and ai_readme.md
 ```
 
 ### Detecting workspace state
@@ -124,7 +126,7 @@ An AI session can determine the workspace state by checking what's present:
 
 - No `.ai-sdlc/` folder → **Bare repo** (pre-Step A)
 - `.ai-sdlc/methodology/` exists but no memory folder or `workspace.yaml` → **Step A complete**
-- Memory folder exists with `STATUS.md` showing INCEPTION and no active action → **Fully bootstrapped**
+- Memory folder exists with `STATUS.md` and no active action → **Fully bootstrapped**
 - Memory folder exists with an active action in `STATUS.md` → **Active project** (past bootstrap)
 
 This detection is useful for AI tools that need to orient themselves at session start — especially in Cowork, where the AI should check workspace state before deciding how to proceed.
@@ -158,7 +160,7 @@ All guides converge here.
 
 Point your AI tool at the code repo and invoke the bootstrapper role
 ([`roles/bootstrapper.md`](../roles/bootstrapper.md)). It will create the
-memory folder, workspace.yaml, skeleton files, and leave everything in INCEPTION mode:
+memory folder, workspace.yaml, skeleton files, and `ai_readme.md`:
 
 ```
 my-project/
@@ -166,12 +168,13 @@ my-project/
 │   ├── memory/            ← Created by the bootstrapper
 │   ├── methodology/
 │   └── workspace.yaml     ← Created by the bootstrapper
+├── ai_readme.md           ← Created by the bootstrapper (session entry point)
 └── .gitignore
 ```
 
-The bootstrap is a two-step process. **Step A** gets the methodology in place — this varies by tooling (manual clone, Cowork-guided, etc.). **Step B** creates the memory folder, skeleton files, and workspace.yaml — this is handled by the Bootstrapper role (`roles/bootstrapper.md`), which operates within the SDLC methodology: it announces its role, explains each action, and waits for human approval at each step.
+The bootstrap is a two-step process. **Step A** gets the methodology in place — this varies by tooling (manual clone, Cowork-guided, etc.). **Step B** creates the memory folder, skeleton files, workspace.yaml, and `ai_readme.md` — this is handled by the Bootstrapper role (`roles/bootstrapper.md`), which operates within the SDLC methodology: it announces its role, explains each action, and waits for human approval at each step.
 
-The Bootstrapper role is invoked once and never used again — once the workspace reaches INCEPTION, all subsequent work uses the standard roles (Architect, Tech Lead, Developer, Navigator, Curator).
+The Bootstrapper role is invoked once and never used again — once the workspace is bootstrapped, all subsequent work uses the standard roles (Architect, Tech Lead, Developer, Navigator, Curator).
 
 ---
 

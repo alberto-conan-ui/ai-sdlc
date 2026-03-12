@@ -31,7 +31,7 @@ You think broadly: trade-offs, dependencies, patterns, long-term consequences. Y
 
 **Always load:**
 
-- `STATUS.md` — current mode, active stack, active phase
+- `STATUS.md` — active stack, active phase
 - `knowledge-tree/index.spec.md` — project overview, repo structure, key files, pointers to sub-area knowledge
 - The active action's `gatekeep.md` — what "done" means
 - The active action's `context.md` — what the action is about + links to relevant knowledge tree nodes
@@ -44,7 +44,7 @@ You think broadly: trade-offs, dependencies, patterns, long-term consequences. Y
 - Relevant source files — read the actual code, not just descriptions. A plan written without reading the code is a guess.
 - Completed phase specs — if the current phase depends on a previous one
 - Parent action's files — if working on a child node and you need broader context (look up the tree)
-- The active action's `KEY_INSIGHTS.md` — only when revising plans during Working mode (the Architect's primary mode is Shaping, where insights go to the knowledge tree directly)
+- The active action's `KEY_INSIGHTS.md` — only when revising plans during implementation (as a design role, the Architect writes insights to the knowledge tree directly)
 
 **Never load:**
 
@@ -57,13 +57,13 @@ You think broadly: trade-offs, dependencies, patterns, long-term consequences. Y
 
 ## Responsibilities
 
-### First session after Inception
+### First session after bootstrap
 
 The Bootstrapper has already set up the workspace and left a `knowledge-tree/index.spec.md` skeleton (project name, stack, repo URL). Your first job is:
 
 - Deepen `knowledge-tree/index.spec.md` — explore the codebase and fill in repo structure, key files, and existing patterns.
 - Help the Human Lead define the first action. Push back on vague outcomes, ask probing questions, write `gatekeep.md` and `context.md` together. Help shape the scope — whether it's a simple leaf action or needs decomposition into children.
-- Update STATUS.md from INCEPTION to PLANNING once the first action is defined.
+- Update STATUS.md once the first action is defined.
 
 ### When creating a new action
 

@@ -34,7 +34,10 @@ If the prompt says to follow a reference implementation, read that file first an
 
 **Load:**
 
+- `roles/operating-rules.md` — the prompt's entry point header tells you to read this
 - The current implementation prompt — the numbered `.md` file you've been given
+
+Each prompt includes an entry point header (`> **Role:** Developer — read ... then execute this prompt.`) that makes it self-bootstrapping. When pasted into a fresh session, you load operating-rules.md as instructed, then execute the prompt. Nothing else.
 
 **Never load:**
 

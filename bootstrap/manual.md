@@ -13,9 +13,10 @@ From your code repo root:
 ```bash
 # Add to .gitignore if not already present:
 echo '.ai-sdlc/' >> .gitignore
+echo 'ai_readme.md' >> .gitignore
 ```
 
-> **Alternatively**, add `.ai-sdlc/` to your global gitignore (`~/.gitignore_global`)
+> **Alternatively**, add `.ai-sdlc/` and `ai_readme.md` to your global gitignore (`~/.gitignore_global`)
 > if you prefer zero modifications to the code repo.
 
 ## 2. Create the .ai-sdlc folder and add the methodology

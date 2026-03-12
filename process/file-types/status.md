@@ -4,20 +4,20 @@
 **File:** `STATUS.md`
 **Location:** `action-tree/STATUS.md`
 **Required:** Yes — one per project
-**Created by:** Bootstrapper (inception skeleton), then updated by all roles
+**Created by:** Bootstrapper (initial skeleton), then updated by all roles
 **Maintained by:** Every role updates it; Navigator uses it for handoffs
 
 ---
 
 ## Purpose
 
-Single source of truth for project orientation. Every role reads this first. It answers: what mode are we in, what's on the active stack, what's the shape of the action tree, and what does the roadmap look like for the current action.
+Single source of truth for project orientation. Every role reads this first. It answers: what's on the active stack, what's the shape of the action tree, and what does the roadmap look like for the current action.
 
 ---
 
 ## Sections
 
-- **Current State** — engagement mode (Shaping / Working), action mode (Inception / Planning / Implementation), active phase, active prompt, next step. See [workflow.md — Engagement Modes](../workflow.md#engagement-modes)
+- **Current State** — active phase, active prompt, next step
 - **Active Stack** — push/pop stack of actions currently being worked on
 - **Action Tree** — full table of all actions with gatekeep summaries and status
 - **Roadmap** — phase breakdown for the currently active action
@@ -25,7 +25,7 @@ Single source of truth for project orientation. Every role reads this first. It 
 
 ---
 
-## Template — Inception (new project)
+## Template — New project
 
 ```markdown
 # <Project Name> — Status
@@ -36,8 +36,6 @@ Single source of truth for project orientation. Every role reads this first. It 
 
 | Field | Value |
 |---|---|
-| **Engagement** | **SHAPING** |
-| **Mode** | **INCEPTION** |
 | **Next step** | Invoke the Architect to define the first action |
 
 ## Active Stack

@@ -13,64 +13,6 @@ How you work day to day. The Human Lead drives — picking the right stance, dec
 
 ---
 
-## Engagement Modes
-
-At any given moment, the project is in one of two engagement modes. The mode is a project-level declaration by the Human Lead that changes what the system focuses on, which stances are primary, and how recording behaves. It lives in `STATUS.md` as the **Engagement** field.
-
-### Shaping
-
-The system is oriented around the **knowledge tree** and the **structure of the action tree**. The Human Lead and the AI are stepping back to understand, design, and organise.
-
-| Aspect | In shaping mode |
-|---|---|
-| **Focus** | Knowledge tree, action tree structure, codebase understanding |
-| **Primary stances** | Architect, Navigator, Curator |
-| **Activities** | Reading the codebase, designing approaches, defining actions and gatekeeps, writing phase specs, curating knowledge, structuring roadmaps, auditing the memory pipeline |
-| **Recording focus** | Journal entries (decisions, observations), knowledge tree contributions, design rationale in action logs |
-| **Output** | Specs, gatekeeps, phase designs, curated insights, roadmaps |
-| **Not allowed** | Writing code, executing implementation prompts, producing session receipts |
-
-Shaping is where you invest in clarity before committing to execution. A new project starts in shaping mode. Returning after a long break starts in shaping mode. Realising the approach is wrong mid-implementation means switching back to shaping mode.
-
-### Working
-
-The system is oriented around the **action tree's active stack**. The Human Lead and the AI are executing against a defined plan.
-
-| Aspect | In working mode |
-|---|---|
-| **Focus** | Active action, current phase, prompt execution |
-| **Primary stances** | Tech Lead, Developer |
-| **Activities** | Writing implementation prompts, executing prompts, producing session receipts, logging implementation progress, surfacing implementation insights |
-| **Recording focus** | Log entries (session history), session receipts, KEY_INSIGHTS.md (implementation learnings) |
-| **Output** | Code, verified behaviour, session receipts |
-| **Not allowed** | Restructuring the action tree, redefining gatekeeps, redesigning roadmaps, curating the knowledge tree |
-
-Working mode assumes the shape is defined. If something forces you to question the shape — a flawed assumption, a missing dependency, a gatekeep that no longer makes sense — that's a signal to switch back to shaping. Don't redesign in working mode; switch modes explicitly.
-
-### When to switch
-
-The Human Lead declares the switch. It's recorded in STATUS.md and journaled as a `[process]` entry when the reason is worth capturing.
-
-**Shaping → Working:** When the phase spec is approved and you're ready to implement. The Architect's design work is done (for now); the Tech Lead takes over.
-
-**Working → Shaping:** When implementation reveals something that invalidates the plan. A phase-level issue (not a within-phase fix), a gatekeep that needs redefining, or the realisation that the action tree needs restructuring. Also: when an action completes and you need to decide what's next — that decision-making is shaping, not working.
-
-The switch can happen multiple times per day. A tight loop of "shape the next phase → work it → shape the next" is normal. What matters is that the switch is explicit, not gradual. You're either shaping or working — not both at once. This prevents the most common failure mode: drifting from execution into redesign without noticing, producing code that doesn't match any plan.
-
-### How recording changes per mode
-
-The recording system (see [journaling.md](./journaling.md)) draws hard boundaries per mode — this is not a matter of emphasis:
-
-| Recording target | Shaping | Working |
-|---|---|---|
-| `log.md` | Design decisions, exploration notes | Implementation progress, files touched |
-| `KEY_INSIGHTS.md` | **Not used** — insights go directly to the knowledge tree | Implementation pitfalls, code-level patterns |
-| `journal/` | **Primary output** — decisions, observations, process changes | **Exception only** — only if something cross-cutting surfaces |
-| `receipt.md` | **Not produced** | **Every prompt** |
-| Knowledge tree | **Active** — direct contributions, migrations, curation | **Not permitted** — deferred to KEY_INSIGHTS, migrated on action completion |
-
----
-
 ## The Open Flow
 
 There is no rigid sequence of handoffs. You start with a rough idea, shape it with the Architect, translate it into prompts with the Tech Lead, execute with the Developer — often in a single conversation. The stances shape the AI's thinking; the Human Lead decides when to shift.
@@ -93,17 +35,9 @@ The active stack tracks what you're working on. Push an action when you start it
 
 ---
 
-## Inception
-
-Inception happens once per project, when the `.ai-sdlc/` folder doesn't exist yet. The Bootstrapper creates the `.ai-sdlc/` structure (memory, methodology, workspace.yaml), the journal skeleton, `action-tree/STATUS.md`, and the initial knowledge tree root at `knowledge-tree/index.spec.md`. Once the first action is defined, the project leaves inception and never returns. See [bootstrap/README.md](../bootstrap/README.md).
-
----
-
 ## The Planning-Implementation Loop
 
-This is the one structured piece, and it maps directly to the engagement modes: **Planning is shaping** (Architect stance, oriented around design). **Implementation is working** (Tech Lead + Developer stances, oriented around execution). The cycle below is the mechanism by which the Human Lead moves between the two modes.
-
-Every action — simple or complex — passes through this cycle. What differs is the weight: a simple fix compresses everything into a few minutes of conversation; a complex action gets multi-phase roadmaps and formal review gates. The cycle is the same.
+This is the one structured piece. Every action — simple or complex — passes through this cycle. What differs is the weight: a simple fix compresses everything into a few minutes of conversation; a complex action gets multi-phase roadmaps and formal review gates. The cycle is the same.
 
 ```
     ┌─────────────────────────────────────────┐

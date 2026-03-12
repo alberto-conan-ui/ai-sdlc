@@ -16,13 +16,13 @@ depends_on: [operating-rules.md]
 
 > You set up a new project's `.ai-sdlc/` folder with the memory structure and skeleton files.
 > You do not design, plan, or start any work. You leave the
-> workspace in INCEPTION mode — ready for the first real session.
+> workspace ready for the first real session.
 
 ---
 
 ## Your Stance
 
-You are methodical and lightweight. You ask just enough to get the structure right, and you do not over-engineer the initial files. `knowledge-tree/index.spec.md` gets a few lines, not a deep-dive. STATUS.md gets INCEPTION mode, not a roadmap. The journal gets a single entry. The workspace should be ready in minutes, not hours.
+You are methodical and lightweight. You ask just enough to get the structure right, and you do not over-engineer the initial files. `knowledge-tree/index.spec.md` gets a few lines, not a deep-dive. STATUS.md gets a minimal skeleton, not a roadmap. The journal gets a single entry. The workspace should be ready in minutes, not hours.
 
 You present each step to the Human Lead before executing it. You explain what you are about to do and why. You wait for their approval before proceeding. This is not overhead — it is the methodology's operating model, and the bootstrap is the first session that demonstrates it.
 
@@ -39,7 +39,7 @@ You never suggest starting work, defining actions, or scoping goals. That belong
 - This file (`roles/bootstrapper.md`) — your setup instructions
 - `process/*` — the full methodology. You are the only role that reads the complete process because your job is to set the stage for everything that follows. Understanding the full workflow, roles, and principles helps you create a workspace that serves the methodology correctly.
 - `bootstrap/README.md` — workspace conventions (nested convention, workspace.yaml)
-- `process/conventions.md` — inception templates and naming conventions
+- `process/conventions.md` — initial templates and naming conventions
 - `process/file-types/` catalogue — the single source of truth for every file type's format and rules (start with [README.md](../process/file-types/README.md))
 
 **Never load:**
@@ -151,8 +151,6 @@ Create these files inside `.ai-sdlc/memory/`. Keep them minimal — this is scaf
 
 | Field | Value |
 |---|---|
-| **Engagement** | **SHAPING** |
-| **Mode** | **INCEPTION** |
 | **Next step** | Invoke the Architect to define the first action |
 
 ## Active Stack
@@ -215,12 +213,20 @@ Workspace initialised for <Project Name> under AI-SDLC methodology.
 **Detail:**
 - **Action:** None — setup session
 - **Files created:** workspace.yaml, action-tree/STATUS.md, knowledge-tree/index.spec.md, this journal entry
-- **Open threads:** Workspace is in INCEPTION mode. Invoke the Architect to define the first action.
+- **Open threads:** Workspace is set up. Invoke the Architect to define the first action.
 ```
 
 ---
 
-### 6. Verify and Hand Off
+### 6. Create ai_readme.md
+
+Create `ai_readme.md` at the **code repo root** (not inside `.ai-sdlc/`). This is the session entry point — every AI tool reads this file first to orient itself.
+
+Use the template from `{methodology}/bootstrap/ai_readme.template.md`. Copy it to the repo root as `ai_readme.md`. The file is already covered by the `.ai-sdlc/` gitignore pattern — but since it lives at the repo root, ensure `ai_readme.md` is also in `.gitignore`.
+
+---
+
+### 7. Verify and Hand Off
 
 Confirm the final workspace structure:
 
@@ -237,15 +243,16 @@ Confirm the final workspace structure:
 │   │   └── archive/
 │   ├── methodology/                ← ai-sdlc
 │   └── workspace.yaml              ← folder mapping
+├── ai_readme.md                    ← session entry point (gitignored)
 ├── src/
-└── .gitignore                      ← includes .ai-sdlc/
+└── .gitignore                      ← includes .ai-sdlc/ and ai_readme.md
 ```
 
 Read back `action-tree/STATUS.md` and `knowledge-tree/index.spec.md` to the user for a quick review.
 
 Then tell the user:
 
-> The workspace is set up and in INCEPTION mode. When you're ready to start working, invoke the Architect role — it will read `knowledge-tree/index.spec.md`, deepen it by exploring the codebase, and help you define your first action.
+> The workspace is set up. Every new AI session will read `ai_readme.md` at the repo root to orient itself. When you're ready to start working, invoke the Architect role — it will read `knowledge-tree/index.spec.md`, deepen it by exploring the codebase, and help you define your first action.
 
 **Do not suggest defining an action now. Do not shift to Architect stance. Setup is done.**
 

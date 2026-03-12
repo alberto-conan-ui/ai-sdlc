@@ -75,9 +75,9 @@ Every node in the action tree can have the following files. **Only `gatekeep.md`
 
 **`index.md`** — maps this node's children. What sub-actions exist, what each one covers, how they relate. Only meaningful for branch nodes. Follows the same pattern as the knowledge tree's index files.
 
-**`log.md`** — the session-by-session record of what happened while working on this action. This is the action's short-term memory — it tells the next session where the previous one left off. Used in both engagement modes. See [file-types/action-log.md](./file-types/action-log.md).
+**`log.md`** — the session-by-session record of what happened while working on this action. This is the action's short-term memory — it tells the next session where the previous one left off. See [file-types/action-log.md](./file-types/action-log.md).
 
-**`KEY_INSIGHTS.md`** — the working scratchpad for insights that emerge during implementation (Working mode only). When the action completes, anything worth keeping migrates to the appropriate node in the knowledge tree. In Shaping mode, insights go directly to the knowledge tree. See [file-types/key-insights.md](./file-types/key-insights.md).
+**`KEY_INSIGHTS.md`** — the working scratchpad for insights that emerge during implementation (Tech Lead only). When the action completes, anything worth keeping migrates to the appropriate node in the knowledge tree. Design roles (Architect, Curator) write insights directly to the knowledge tree. See [file-types/key-insights.md](./file-types/key-insights.md).
 
 **`phases/`** — the implementation structure. Phases can exist at any level of the tree — a branch node might have its own integration phases alongside its children's implementation phases. The phase structure uses a flat file layout: [phase.md](./file-types/phase.md) (the phase spec), [prompt-plan.md](./file-types/prompt-plan.md) (sequencing prompts), and numbered [implementation prompts](./file-types/implementation-prompt.md) alongside paired [receipt files](./file-types/session-receipt.md).
 

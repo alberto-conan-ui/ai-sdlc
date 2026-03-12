@@ -43,9 +43,9 @@ audience: [human, ai]
 
 ## Bootstrapper Templates
 
-These templates are used once during project inception. The inception-specific STATUS.md template is also in the [file-type catalogue — status.md](./file-types/status.md); the templates below are kept here because the Bootstrapper role references this file during setup.
+These templates are used once during project setup. The initial STATUS.md template is also in the [file-type catalogue — status.md](./file-types/status.md); the templates below are kept here because the Bootstrapper role references this file during setup.
 
-### knowledge-tree/index.spec.md — Inception skeleton
+### knowledge-tree/index.spec.md — Initial skeleton
 
 The Bootstrapper creates a minimal root index from a few questions asked to the user. It does not explore the codebase:
 
@@ -135,10 +135,8 @@ that apply regardless of which area you're working in.>
 
 | Field | Value |
 |---|---|
-| **Engagement** | **SHAPING** / **WORKING** |
-| **Mode** | **PLANNING** / **IMPLEMENTATION** |
-| **Active phase** | Phase N — <name> (Implementation mode only) |
-| **Active prompt** | Prompt NN (Implementation mode only) |
+| **Active phase** | Phase N — <name> |
+| **Active prompt** | Prompt NN |
 | **Next step** | <what to do next> |
 
 ## Active Stack
@@ -174,4 +172,4 @@ that apply regardless of which area you're working in.>
 **Branch:** `<branch>`
 ```
 
-Once the first action is defined, the Architect updates STATUS.md to Planning mode. The Engagement field stays as SHAPING until the Human Lead declares the switch to WORKING (see [workflow.md — Engagement Modes](./workflow.md#engagement-modes)).
+Once the first action is defined, the Architect updates STATUS.md with the action tree and roadmap.

@@ -28,16 +28,16 @@ You are the lightest role. You earn your place when context has gone cold, when 
 
 **Always load:**
 
-- `STATUS.md` — the single source of truth: mode, active stack, active phase, roadmap
+- `STATUS.md` — the single source of truth: active stack, active phase, roadmap
 - `journal/` — the current week's file, plus the previous week's file
 
 **Load when relevant:**
 
 - Older journal weeks — if the Human Lead asks about something earlier. Ask before going back more than 3 weeks.
 - The git log of the code repo — when checking for external changes that might affect the plan.
-- `process/` sections — you are an expert in this methodology and reference it when advising on next steps, action tree structure, and workflow questions. Load specific sections as needed: `process/action-tree.md` for action tree/gatekeep questions, `process/workflow.md` for mode/session questions, `process/roles.md` for stance questions.
+- `process/` sections — you are an expert in this methodology and reference it when advising on next steps, action tree structure, and workflow questions. Load specific sections as needed: `process/action-tree.md` for action tree/gatekeep questions, `process/workflow.md` for session questions, `process/roles.md` for stance questions.
 - Other process sections (`process/prompts.md`, `process/conventions.md`) — when the human asks process-level questions these files can answer
-- `process/file-types/` catalogue — the single source of truth for every file type's format, rules, and engagement mode constraints (start with [README.md](../process/file-types/README.md))
+- `process/file-types/` catalogue — the single source of truth for every file type's format and rules (start with [README.md](../process/file-types/README.md))
 
 **Never load:**
 
@@ -54,7 +54,6 @@ You are the lightest role. You earn your place when context has gone cold, when 
 
 When the Human Lead needs orientation — start of day, after a break, resuming after weeks away — produce a briefing:
 
-- What mode we're in (Planning / Implementation)
 - Which action is active — the top of the active stack and its gatekeep
 - What phase we're on and its status
 - What the last session accomplished (from the journal)
@@ -92,7 +91,7 @@ When the Human Lead decides to open a fresh session for a role, produce the exac
 
 Keep handoff prompts under 20 lines. The role's entry point and project files do the heavy lifting; the handoff prompt fills the gaps.
 
-If the Human Lead is mode-switching within the same session, a handoff prompt is unnecessary — offer a brief context summary instead.
+If the Human Lead is switching stances within the same session, a handoff prompt is unnecessary — offer a brief context summary instead.
 
 ### Bridging decomposition
 

@@ -100,7 +100,7 @@ Review the knowledge tree itself for:
 **Load when relevant:**
 
 - `process/memory.md` — the memory model you're auditing against
-- `process/file-types/` catalogue — the single source of truth for every file type's format, rules, and engagement mode constraints (start with [README.md](../process/file-types/README.md))
+- `process/file-types/` catalogue — the single source of truth for every file type's format and rules (start with [README.md](../process/file-types/README.md))
 
 **Never load:**
 

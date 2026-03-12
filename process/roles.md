@@ -21,8 +21,6 @@ You define actions, set gatekeeps, and have final authority over everything — 
 
 Your primary job is defining what success looks like and verifying that it was achieved. You provide the domain context the AI cannot infer, challenge the Architect's assumptions, and decide when a plan is good enough to execute. You also decide when to override the process — skip a phase, combine steps, change direction.
 
-**You declare the engagement mode.** The project is always in one of two modes — **Shaping** (oriented around the knowledge tree and action tree structure) or **Working** (oriented around executing the active stack). You switch between them explicitly. The mode gates which stances are primary, what recording looks like, and what activities are appropriate. See [workflow.md — Engagement Modes](./workflow.md#engagement-modes).
-
 **You decide session boundaries.** When to open a fresh session for a stance, when to shift stances within the same conversation, when to ask the AI for a Navigator-style briefing versus just asking "where are we?" This is a judgement call informed by the work's complexity and the output quality you're seeing.
 
 **You review knowledge contributions.** The AI proposes insights for the knowledge tree and action-level scratchpads (per common.md) regardless of which stance it's in. You review these as they appear — confirming placement, revising what's vague, removing what's wrong, redirecting to a better node in the tree.
@@ -45,8 +43,6 @@ Architect ──→ Tech Lead ──→ Developer
 
 ### Architect
 
-**Engagement mode:** Shaping.
-
 Designs the approach. Reads the codebase deeply, writes phase specs, challenges assumptions, pushes back on scope. The Architect thinks broadly — trade-offs, dependencies, patterns, long-term consequences.
 
 **When you use it:** At the start of every action (defining the gatekeep, designing the roadmap), before every phase (writing the spec), and when implementation reveals the plan was wrong (revising the spec).
@@ -55,8 +51,6 @@ Designs the approach. Reads the codebase deeply, writes phase specs, challenges 
 
 ### Tech Lead
 
-**Engagement mode:** Working.
-
 Translates architecture into execution. Reads the phase spec and writes precise implementation prompts — specific file paths, code references, bounded goals. The Tech Lead thinks precisely — every noun in a prompt is a concrete reference, not a vague description.
 
 **When you use it:** After the Architect's spec is approved. The Tech Lead writes the prompt plan and each implementation prompt just in time, informed by the Developer's session receipts.
@@ -64,8 +58,6 @@ Translates architecture into execution. Reads the phase spec and writes precise 
 **Entry point:** [`roles/tech-lead.md`](../roles/tech-lead.md)
 
 ### Developer
-
-**Engagement mode:** Working.
 
 Executes prompts literally. Follows the steps, runs verification commands, produces a session receipt. The Developer doesn't design, doesn't question the architecture, doesn't improve the approach. Correctness within the prompt's scope — that's the entire job.
 
@@ -93,9 +85,7 @@ These stances serve specific needs that arise periodically, not as part of the r
 
 ### Navigator
 
-**Engagement mode:** Shaping.
-
-Helps the Human Lead see the big picture and decide what to do next. The Navigator reads STATUS.md and the recent journal, synthesises process state into actionable guidance: what mode we're in, what's on the stack, what happened last, what to do next.
+Helps the Human Lead see the big picture and decide what to do next. The Navigator reads STATUS.md and the recent journal, synthesises process state into actionable guidance: what's on the stack, what happened last, what to do next.
 
 **When you reach for it:** Start of day. After a break. Resuming paused work after days or weeks away. When you need a handoff prompt for a fresh session. When checking for external codebase changes that might affect the plan.
 
@@ -104,8 +94,6 @@ Helps the Human Lead see the big picture and decide what to do next. The Navigat
 **Entry point:** [`roles/navigator.md`](../roles/navigator.md)
 
 ### Curator
-
-**Engagement mode:** Shaping.
 
 Audits the memory pipeline. In dedicated sessions, the Curator reads the full journal, action logs, and KEY_INSIGHTS.md files (the recording system defined in [journaling.md](./journaling.md)), then proposes editorial actions — promote, demote, retire, rewrite, or add insights in the knowledge tree. The journal is the Curator's primary audit trail.
 
@@ -127,7 +115,7 @@ The Bootstrapper sets up a new project's `.ai-sdlc/` folder — creating the mem
 
 All AI stances share a common foundation ([`roles/common.md`](../roles/common.md)) that defines:
 
-- **Process anchoring** — the AI always knows and makes explicit which engagement mode, stance, and action are active. When the Human Lead's direction implies a change, the AI confirms before proceeding (see [principles.md — Formalise the Implicit](./principles.md#formalise-the-implicit))
+- **Process anchoring** — the AI always knows and makes explicit which stance and action are active. When the Human Lead's direction implies a change, the AI confirms before proceeding (see [principles.md — Formalise the Implicit](./principles.md#formalise-the-implicit))
 - **Recording responsibilities** — every role participates in the recording system as defined in [journaling.md](./journaling.md): log entries, insight surfacing, journal writing, and session receipts (Developer). The memory model that these recordings feed is defined in [memory.md](./memory.md)
 - **STATUS.md updates** — the AI updates STATUS.md when its work changes the project state
 - **Orientation** — any role can answer "where are we?" by reading STATUS.md and the active action's log

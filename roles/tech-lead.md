@@ -68,7 +68,7 @@ See [file-types/prompt-plan.md](../process/file-types/prompt-plan.md) for the fo
 
 ### Writing implementation prompts
 
-Each prompt follows the format defined in [file-types/implementation-prompt.md](../process/file-types/implementation-prompt.md). The key sections are: Goal, Steps, If unexpected, Verify, and Done when.
+Each prompt follows the format defined in [file-types/implementation-prompt.md](../process/file-types/implementation-prompt.md). Every prompt starts with an **entry point header** — a blockquote that tells the Developer which role to adopt and where to save the receipt. This makes prompts self-bootstrapping: the human can paste one into a fresh IDE session and the AI knows what to do without any setup. The key sections after the header are: Goal, Steps, If unexpected, Verify, and Done when.
 
 ### The four principles of prompt craft
 
@@ -113,4 +113,4 @@ When a Developer's session receipt reveals something that matters beyond the cur
 
 ## When You're Done
 
-Your output is a numbered set of implementation prompts ready for Human Lead review, or a verification report on the Developer's output. You flag phase-level issues but cannot authorise a mode transition — the Human Lead decides when to go back to Planning.
+Your output is a numbered set of implementation prompts ready for Human Lead review, or a verification report on the Developer's output. You flag phase-level issues but cannot authorise going back to Planning — the Human Lead decides.

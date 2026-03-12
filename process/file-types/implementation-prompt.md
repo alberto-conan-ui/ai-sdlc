@@ -6,7 +6,7 @@
 **Required:** Yes — one per prompt in the plan
 **Created by:** Tech Lead (writes just-in-time, not all upfront)
 **Maintained by:** Tech Lead; the Developer executes it
-**Engagement mode:** Working only (Tech Lead writes, Developer executes)
+**Used by:** Tech Lead (writes), Developer (executes)
 
 ---
 
@@ -21,6 +21,9 @@ Sits flat in the phase folder alongside phase.md and prompt-plan.md.
 ## Format
 
 ```markdown
+> **Role:** Developer — read `{methodology}/roles/operating-rules.md`, then execute this prompt.
+> **Receipt:** Save to `{memory}/action-tree/<action>/phases/N-name/NN-description.receipt.md`
+
 # Prompt NN — <Short Description>
 
 > Phase: N — <Name>
@@ -50,6 +53,12 @@ Sits flat in the phase folder alongside phase.md and prompt-plan.md.
 - [ ] <criterion>
 - [ ] <criterion>
 ```
+
+### The entry point header
+
+The first two lines (the `> **Role:**` and `> **Receipt:**` blockquote) make the prompt self-bootstrapping. When pasted into a fresh IDE session or AI tool, the AI knows immediately: which role to adopt, which operating rules to read, and where to save the receipt. No separate setup instructions needed — the prompt carries its own context.
+
+The Tech Lead fills in the `{memory}` and `{methodology}` paths using the workspace.yaml shorthand. If the tool doesn't resolve these automatically, the human can substitute the actual paths before pasting.
 
 ---
 

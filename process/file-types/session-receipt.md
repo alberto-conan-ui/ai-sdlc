@@ -6,7 +6,7 @@
 **Required:** Yes — one per prompt executed
 **Created by:** Developer (produced at the end of each implementation session)
 **Maintained by:** Read by Tech Lead to inform the next prompt
-**Engagement mode:** Working only.
+**Used by:** Developer (sole output)
 
 ---
 
@@ -52,4 +52,4 @@ Mirrors its implementation prompt: if the prompt is `01-map-all-routes.md`, the 
 
 - **State changes** is the most important field for subsequent prompts: it tells the Tech Lead what actually changed in the codebase structure.
 - **Open issues** captures anything the Developer adapted, flagged, or stopped on per the "If unexpected" rules.
-- See [prompts.md](../prompts.md) for how receipts feed the just-in-time prompting loop. See [journaling.md](../journaling.md) for how recording flows per engagement mode.
+- See [prompts.md](../prompts.md) for how receipts feed the just-in-time prompting loop. See [journaling.md](../journaling.md) for the recording system.
