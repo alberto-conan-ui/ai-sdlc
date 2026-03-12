@@ -14,7 +14,7 @@ audience: [human, ai]
 
 ## Naming Conventions
 
-- Project memory repo: `<project-name>-memory/` (e.g., `formforge-memory/`)
+- Project memory folder: `.ai-sdlc/memory/` (nested inside the code repo, gitignored)
 - Action folders: `kebab-case-name/` — named by the user, no required prefixes (e.g., `auth-redesign/`, `fix-csv-date-format/`, `q2-platform-work/`)
 - Phase folders: `N-kebab-case-name/` (e.g., `1-baseline-tests/`)
 - Implementation prompts: `NN-kebab-case-description.md` (e.g., `01-test-infrastructure.md`)

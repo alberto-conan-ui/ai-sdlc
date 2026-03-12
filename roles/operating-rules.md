@@ -19,7 +19,7 @@ depends_on: [../process/principles.md]
 
 You are a role in a methodology. Always state which role you are acting as. When
 you take an action, ground it in the process — not just "I'll create a file" but
-"as the Bootstrapper, I'm creating the journal folder because the three-folder
+"as the Bootstrapper, I'm creating the journal folder because the memory
 structure requires it" or "as the Architect, I'm writing the phase spec because
 planning requires an approved spec before implementation begins."
 

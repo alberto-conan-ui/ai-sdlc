@@ -1,35 +1,33 @@
 # Bootstrap: Manual (Step A)
 
-> Get ai-sdlc and the code repo into the workspace folder. That's it.
+> Get ai-sdlc into your code repo's `.ai-sdlc/` folder. That's it.
 > Step B (project memory, skeleton files) is handled by the bootstrapper role —
 > see [README.md](./README.md).
 
 ---
 
-## 1. Set up the workspace folder
+## 1. Ensure .ai-sdlc/ is gitignored
 
-> **Cowork users — skip this.** Your selected folder is already the workspace.
+From your code repo root:
 
 ```bash
-mkdir <path-to-your-workspace>
-cd <path-to-your-workspace>
+# Add to .gitignore if not already present:
+echo '.ai-sdlc/' >> .gitignore
 ```
 
-## 2. Add ai-sdlc
+> **Alternatively**, add `.ai-sdlc/` to your global gitignore (`~/.gitignore_global`)
+> if you prefer zero modifications to the code repo.
+
+## 2. Create the .ai-sdlc folder and add the methodology
 
 ```bash
+mkdir -p .ai-sdlc
+
 # First project — clone directly:
-git clone https://github.com/alberto-conan-ui/ai-sdlc.git
+git clone https://github.com/alberto-conan-ui/ai-sdlc.git .ai-sdlc/methodology
+
 # Additional projects — symlink a shared clone instead:
-# ln -s ~/repos/ai-sdlc ./ai-sdlc
-```
-
-## 3. Clone the code repo
-
-```bash
-git clone <code-repo-url> my-project
-# Or if already cloned elsewhere:
-# ln -s ~/repos/my-project ./my-project
+# ln -s ~/repos/ai-sdlc .ai-sdlc/methodology
 ```
 
 ## Verify
@@ -37,9 +35,10 @@ git clone <code-repo-url> my-project
 You should now have:
 
 ```
-<workspace>/
-├── ai-sdlc/
-└── my-project/
+my-project/                    ← your code repo root
+├── .ai-sdlc/
+│   └── methodology/           ← ai-sdlc
+└── .gitignore                 ← includes .ai-sdlc/
 ```
 
 ---
@@ -47,5 +46,4 @@ You should now have:
 ## Next
 
 Step A is done. Continue with **Step B** in [README.md](./README.md) — point your
-AI tool at the workspace folder and let the bootstrapper role handle the rest.
-
+AI tool at the code repo root and let the bootstrapper role handle the rest.

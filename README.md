@@ -70,7 +70,7 @@ The mode lives in STATUS.md and gates which stances are primary, what recording 
 
 ## Getting Started
 
-1. Set up your workspace — see [bootstrap/README.md](./bootstrap/README.md) for the three-folder convention and step-by-step guides
+1. Set up your workspace — see [bootstrap/README.md](./bootstrap/README.md) for the nested convention and step-by-step guides
 2. Read the methodology — the reading order below
 3. Flows (practical walkthroughs) — coming soon
 

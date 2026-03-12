@@ -117,7 +117,7 @@ Audits the memory pipeline. In dedicated sessions, the Curator reads the full jo
 
 ## One-Time — Bootstrapper
 
-The Bootstrapper sets up a new project workspace — creating the three-folder structure, the journal skeleton, `action-tree/STATUS.md`, and the initial knowledge tree root at `knowledge-tree/index.spec.md`. It runs once during project inception and is never used again.
+The Bootstrapper sets up a new project's `.ai-sdlc/` folder — creating the memory structure, workspace.yaml, the journal skeleton, `action-tree/STATUS.md`, and the initial knowledge tree root at `knowledge-tree/index.spec.md`. It runs once during project inception and is never used again.
 
 **Entry point:** [`roles/bootstrapper.md`](../roles/bootstrapper.md)
 

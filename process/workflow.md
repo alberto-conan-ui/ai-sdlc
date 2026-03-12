@@ -95,7 +95,7 @@ The active stack tracks what you're working on. Push an action when you start it
 
 ## Inception
 
-Inception happens once per project, when the workspace doesn't exist yet. The Bootstrapper creates the three-folder workspace, the journal skeleton, `action-tree/STATUS.md`, and the initial knowledge tree root at `knowledge-tree/index.spec.md`. Once the first action is defined, the project leaves inception and never returns. See [bootstrap/README.md](../bootstrap/README.md).
+Inception happens once per project, when the `.ai-sdlc/` folder doesn't exist yet. The Bootstrapper creates the `.ai-sdlc/` structure (memory, methodology, workspace.yaml), the journal skeleton, `action-tree/STATUS.md`, and the initial knowledge tree root at `knowledge-tree/index.spec.md`. Once the first action is defined, the project leaves inception and never returns. See [bootstrap/README.md](../bootstrap/README.md).
 
 ---
 
