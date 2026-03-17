@@ -8,8 +8,24 @@ audience: [human, ai]
 > These principles govern how the methodology operates. They are non-negotiable
 > regardless of role, tier, or tooling.
 
-> **Extended by:** [roles/operating-rules.md](../roles/operating-rules.md) (AI-specific operating rules)
-> **See also:** [memory.md](./memory.md), [journaling.md](./journaling.md), [workflow.md](./workflow.md)
+> **References**
+>
+> | Group | File |
+> |---|---|
+> | AI operating rules | [roles/operating-rules.md](../roles/operating-rules.md) |
+> | Memory model | [memory.md](./memory.md) |
+> | Recording system | [journaling.md](./journaling.md) |
+> | Workflow | [workflow.md](./workflow.md) |
+
+---
+
+## Simplicity
+
+Every piece of ceremony must earn its place. This is the most important lesson from real-world usage — the parts of the methodology that survived were the simple ones. The parts that didn't survive were the ones that asked for recording, classification, or structure that nobody needed.
+
+The process must be simple. When in doubt, leave it out. A convention that isn't followed is worse than no convention — it creates guilt without value, and it clutters the documentation that the AI loads on every session. If something consistently goes unproduced, that's a signal to remove it from the process, not to try harder.
+
+Simplicity pushes discipline onto the human lead. The human is responsible for organising hierarchies, triggering journal processing, and maintaining tree quality. This is a feature, not a cost. The process supports the human; it does not replace their judgment.
 
 ---
 
@@ -65,8 +81,23 @@ The only file that genuinely mutates is STATUS.md, and even that is just pointer
 
 ---
 
+## Tier-3 Model Requirement
+
+The process assumes and requires a tier-3 reasoning model (e.g., Claude Opus class). No fallback mode, no degraded operation for lesser models. This is a stated prerequisite, not an aspiration.
+
+The process is designed to let tier-3 models shine:
+
+- The metadata headers with labeled, ordered reference groups give the model signal about what to load and how deeply.
+- The hierarchy lets the model navigate efficiently without loading everything.
+- The unstructured journal trusts the model to extract decisions and insights without pre-classification.
+- The adaptive flow trusts the model's judgment about when to shift between cognitive stances.
+
+A smaller model will follow the ceremony without the judgment — which is worse than no methodology at all because it creates false confidence. If you don't have access to a tier-3 model, this methodology is not for you. That's an honest constraint, not an apology.
+
+---
+
 ## The Memory Model
 
-The methodology maintains persistent memory through two complementary trees and a journal. This is the central mechanism — everything else serves it. Without persistent memory, every AI session starts from zero. With it, session 10 benefits from every lesson learned in sessions 1 through 9.
+The methodology maintains persistent memory through three complementary layers: the action tree (short-term), the knowledge tree (long-term), and the journal (temporal intake and audit trail). This is the central mechanism — everything else serves it. Without persistent memory, every AI session starts from zero. With it, session 10 benefits from every lesson learned in sessions 1 through 9.
 
-**The full memory model — including the two trees, the journal, the flow between them, and the Curator's audit process — is defined in [memory.md](./memory.md).** The recording system — file types, pipelines, session checklists — is defined in [journaling.md](./journaling.md). All roles should read both.
+**The full memory model — including the three layers, the flow between them, and the archiving conventions — is defined in [memory.md](./memory.md).** The recording system — file types, pipelines, session checklists — is defined in [journaling.md](./journaling.md). All roles should read both.
