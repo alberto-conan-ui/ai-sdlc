@@ -1,12 +1,7 @@
----
-type: process
-audience: [human, ai]
----
-
 # Core Principles
 
 > These principles govern how the methodology operates. They are non-negotiable
-> regardless of role, tier, or tooling.
+> regardless of stance or tooling.
 
 > **References**
 >
@@ -63,11 +58,11 @@ The Human Lead can always override: "Yes, switch" or "No, stay where you are —
 
 **What the AI tracks at all times:**
 
-- **Active stance** — which role the AI is currently operating as
+- **Active stance** — which stance the AI is currently operating as
 - **Active action** — which action node is the current focus
 - **Active phase/prompt** — where in the implementation cycle (if executing prompts)
 
-When any of these changes, the AI confirms with the Human Lead before proceeding. STATUS.md is updated to reflect the confirmed state.
+When any of these changes, the AI confirms with the Human Lead before proceeding. `status.md` is updated to reflect the confirmed state.
 
 ---
 
@@ -77,22 +72,22 @@ The project memory moves forward, never backward. When a plan changes, the new p
 
 This principle exists because rewriting history breaks the context chain. If a spec gets silently edited, the journal entries that reference it no longer make sense. If an action folder gets renamed or restructured, references go stale. By always moving forward — creating new artefacts rather than mutating old ones — every past reference remains valid, and the journal tells a truthful story.
 
-The only file that genuinely mutates is STATUS.md, and even that is just pointer updates: which action is active, which phase, which prompt. Everything else is append-only.
+The only files that genuinely mutate are `status.md` and `action-tree.index.md`, and even those are just pointer updates: which action is active, which phase, what's next. Everything else is append-only.
 
 ---
 
-## Tier-3 Model Requirement
+## Strong Reasoning Model Requirement
 
-The process assumes and requires a tier-3 reasoning model (e.g., Claude Opus class). No fallback mode, no degraded operation for lesser models. This is a stated prerequisite, not an aspiration.
+The process assumes and requires a strong reasoning model (e.g., Claude Opus class). No fallback mode, no degraded operation for lesser models. This is a stated prerequisite, not an aspiration.
 
-The process is designed to let tier-3 models shine:
+The process is designed to let strong reasoning models shine:
 
 - The metadata headers with labeled, ordered reference groups give the model signal about what to load and how deeply.
 - The hierarchy lets the model navigate efficiently without loading everything.
 - The unstructured journal trusts the model to extract decisions and insights without pre-classification.
 - The adaptive flow trusts the model's judgment about when to shift between cognitive stances.
 
-A smaller model will follow the ceremony without the judgment — which is worse than no methodology at all because it creates false confidence. If you don't have access to a tier-3 model, this methodology is not for you. That's an honest constraint, not an apology.
+A smaller model will follow the ceremony without the judgment — which is worse than no methodology at all because it creates false confidence. If you don't have access to a strong reasoning model, this methodology is not for you. That's an honest constraint, not an apology.
 
 ---
 
@@ -100,4 +95,4 @@ A smaller model will follow the ceremony without the judgment — which is worse
 
 The methodology maintains persistent memory through three complementary layers: the action tree (short-term), the knowledge tree (long-term), and the journal (temporal intake and audit trail). This is the central mechanism — everything else serves it. Without persistent memory, every AI session starts from zero. With it, session 10 benefits from every lesson learned in sessions 1 through 9.
 
-**The full memory model — including the three layers, the flow between them, and the archiving conventions — is defined in [memory.md](./memory.md).** The recording system — file types, pipelines, session checklists — is defined in [journaling.md](./journaling.md). All roles should read both.
+**The full memory model — including the three layers, the flow between them, and the archiving conventions — is defined in [memory.md](./memory.md).** The recording system — file types, pipelines, session checklists — is defined in [journaling.md](./journaling.md). All stances should read both.

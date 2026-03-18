@@ -1,8 +1,3 @@
----
-type: process
-audience: [human, ai]
----
-
 # Anti-Patterns
 
 > **See also:** [principles.md](./principles.md), [workflow.md](./workflow.md), [journaling.md](./journaling.md)
@@ -17,19 +12,19 @@ Skipping the planning step because "it's a small change." Small changes that tou
 
 ## Amnesia sessions
 
-Starting a new AI session without loading context. The AI will contradict previous decisions, reintroduce rejected patterns, or redo completed work. The context loading protocol exists for this reason — and each stance has a specific context focus (see the context table in [Workflow](./workflow.md)).
+Starting a new AI session without loading context. The AI will contradict previous decisions, reintroduce rejected patterns, or redo completed work. The context loading protocol exists for this reason — each stance has specific files to load (see the "Files to Load" section in each stance file under [roles/](../roles/)).
 
 ---
 
 ## The 500-line status file
 
-Putting implementation detail in STATUS.md instead of phase specs. STATUS.md is for current state and the roadmap — action table, phase table, links, status. All detail lives in the phase specs and implementation prompts.
+Putting implementation detail in `status.md` or `action-tree.index.md` instead of phase specs. The status file is for current state and the active stack; the AT root index is for tree structure — not for spec-level detail. All detail lives in the phase specs (phase folder index files).
 
 ---
 
 ## Silent plan changes
 
-Revising a spec without logging what changed. The next session reads the plan assuming it's the original and misses the context for why it was revised. Follow the append-forward principle: create a new version of the spec, log the decision in the journal. The old version stays as the record of what was believed at the time.
+Revising a spec without recording what changed. The next session reads the plan assuming it's the original and misses the context for why it was revised. Follow the append-forward principle: create a new version of the spec, record the decision in the journal. The old version stays as the record of what was believed at the time.
 
 ---
 
@@ -55,7 +50,7 @@ Writing a separate "add tests" phase after features are built. Tests are part of
 
 ## The improvising Developer
 
-A Developer session that encounters something unexpected and decides to "fix it" instead of reporting back. The Developer stance's job is to follow the prompt. If the prompt doesn't account for the current state of the code, the correct response is to report back so you can shift to Tech Lead thinking and issue a fix prompt. Improvised fixes compound — each one makes the next prompt's assumptions less accurate.
+A Developer session that encounters something unexpected and decides to "fix it" instead of reporting back. The Developer stance's job is to follow the prompt literally. If the prompt doesn't account for the current state of the code, the correct response is to follow the "If unexpected" section or report back. Improvised fixes compound — each one makes the next prompt's assumptions less accurate.
 
 ---
 
@@ -67,13 +62,13 @@ When the AI's output starts mixing stances — the Architect over-specifying imp
 
 ## The rubber stamp
 
-The AI writes a journal entry — you glance at it, looks fine, move on. The AI proposes a knowledge contribution — seems reasonable, leave it. The AI updates STATUS.md — sure, whatever. The artefacts accumulate, all technically present, none actually reviewed. Three weeks later, the AI loads knowledge tree nodes that are too vague to be actionable, journal entries that mischaracterise what happened, and a STATUS.md that doesn't reflect the real state. The knowledge tree looks complete but teaches nothing.
+The AI writes a journal entry — you glance at it, looks fine, move on. The AI proposes a knowledge contribution — seems reasonable, leave it. The AI updates the AT root index — sure, whatever. The artefacts accumulate, all technically present, none actually reviewed. Three weeks later, the AI loads knowledge tree nodes that are too vague to be actionable, journal entries that mischaracterise what happened, and an AT root index that doesn't reflect the real state. The knowledge tree looks complete but teaches nothing.
 
 This is the most insidious failure mode because the process *appears* to be working. All the artefacts exist. But the human review that gives those artefacts their value never happened. The AI generates volume; only your critical attention makes that volume trustworthy.
 
 The fix is not to review more — it's to review better. Read the AI's journal entry and ask: does this actually capture what happened? Read the knowledge contribution and ask: is this specific enough that a fresh AI session could act on it, or is it generic advice? If the answer is "generic," rewrite it or remove it. Five minutes of engaged review is worth more than an hour of passive accumulation.
 
-For the full set of recording anti-patterns (logging without insight capture, insight hoarding, journal-as-log, missing Source fields), see [journaling.md — Recording Anti-Patterns](./journaling.md#recording-anti-patterns).
+For the full set of recording anti-patterns, see [journaling.md — Recording Anti-Patterns](./journaling.md#recording-anti-patterns).
 
 ---
 

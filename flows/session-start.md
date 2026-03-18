@@ -8,13 +8,13 @@
 
 Every AI session starts from zero. The AI has no memory of your project, your conventions, your current work, or where you left off. Without intervention, you spend the first five minutes of every session re-explaining context the AI already learned yesterday.
 
-This matters more than it sounds. A typical action might span 6–10 sessions across multiple roles — Architect, Tech Lead, Developer — each needing full project context. If each session starts with manual context loading, that's an hour of overhead before any real work begins.
+This matters more than it sounds. A typical action might span 6–10 sessions across multiple stances — Architect, Tech Lead, Developer — each needing full project context. If each session starts with manual context loading, that's an hour of overhead before any real work begins.
 
 ## The Solution
 
 AI-SDLC solves this with two pieces that work together:
 
-1. **`ai_readme.md`** — a file at the root of your code repo that tells the AI how to orient itself. It points to the workspace layout, the memory model, the role definitions, and the current status. The Bootstrapper creates this file during setup; you never write it from scratch.
+1. **`ai_readme.md`** — a file at the root of your code repo that tells the AI how to orient itself. It points to the workspace layout, the memory model, the stance definitions, and the current status. This file is created during setup (see [bootstrap/README.md](../bootstrap/README.md) Step B); you never write it from scratch.
 
 2. **AUTO** — a Cowork skill that reads `ai_readme.md` and follows its instructions automatically. It loads whatever the file says to load, confirms briefly, and waits for your first real task.
 
@@ -31,26 +31,25 @@ AUTO architect: where are we?
 That's it. This single line does three things:
 
 1. **AUTO** triggers the skill, which finds and reads `ai_readme.md`
-2. **architect** tells the AI which role to adopt (Architect stance)
+2. **architect** tells the AI which stance to adopt (Architect)
 3. **where are we?** is your first task — the AI orients you on the current state
 
-The AI loads the workspace mapping, reads the action tree status, loads the Architect role files, and responds with a situational briefing. No preamble, no setup ceremony, no re-explaining what the project is.
+The AI loads the workspace mapping, reads the action tree status, loads the Architect stance files, and responds with a situational briefing. No preamble, no setup ceremony, no re-explaining what the project is.
 
 ---
 
 ## Variations
 
-The pattern is always `AUTO [role]: [task]`. Some examples:
+The pattern is always `AUTO [stance]: [task]`. Some examples:
 
 | You type | What happens |
 |---|---|
 | `AUTO architect: where are we?` | Loads context, adopts Architect stance, gives you a status briefing |
 | `AUTO architect: let's plan the next action` | Loads context, Architect stance, starts planning |
-| `AUTO tech-lead: write prompts for phase 2` | Loads context, Tech Lead stance, begins prompt writing |
-| `AUTO navigator: catch me up` | Loads context, Navigator stance, gives a full orientation |
-| `AUTO curator: audit the knowledge tree` | Loads context, Curator stance, reviews knowledge completeness |
+| `AUTO tech-lead: implement phase 2` | Loads context, Tech Lead stance, begins implementation |
+| `AUTO auditor: review process health` | Loads context, Auditor stance, evaluates methodology compliance |
 
-You can also use AUTO without a role if you just want context loaded and will decide the stance later:
+You can also use AUTO without a stance if you just want context loaded and will decide later:
 
 ```
 AUTO
@@ -72,23 +71,23 @@ The workspace was bootstrapped and the first action defined in a single session.
 AUTO architect: where are we?
 ```
 
-The AI loaded the workspace layout, read the STATUS file, identified the active action and its current phase, loaded the Architect role files and knowledge tree, and responded with a situational briefing. The human never had to explain what the project was, what the monorepo structure looked like, or what was being worked on.
+The AI loaded the workspace layout, read `status.md`, identified the active action and its current phase, loaded the Architect stance files and knowledge tree, and responded with a situational briefing. The human never had to explain what the project was, what the monorepo structure looked like, or what was being worked on.
 
-### Session continuity across role switches
+### Session continuity across stance switches
 
-The action involved moving a framework-agnostic pipeline (~82 files, ~5,200 lines) from a demo app to a shared library. This required multiple roles working in sequence:
+The action involved moving a framework-agnostic pipeline (~82 files, ~5,200 lines) from a demo app to a shared library. This required multiple stances working in sequence:
 
 - **Architect sessions** — scoped the action, investigated a type conflict discovered during implementation, established a design rule, defined phases, triaged a CI failure, performed a pre-PR review
-- **Tech Lead sessions** — wrote implementation prompts for each phase, reviewed Developer receipts, updated knowledge tree rules after finding an ambiguity that caused three wasted iterations
-- **Developer sessions** — executed prompts, produced receipts with verification output
+- **Tech Lead sessions** — implemented phases directly, wrote bounded prompts for complex sections, updated knowledge tree rules after finding an ambiguity that caused three wasted iterations
+- **Developer sessions** — executed bounded prompts when the TL wrote them for complex or risky changes
 
-Each session started with the same one-liner. The AI loaded the status, saw which phase was active, which prompts were done, and what the next step was. No time was spent on orientation.
+Each session started with the same one-liner. The AI loaded `status.md`, saw which phase was active, and what the next step was. No time was spent on orientation.
 
 ### Memory accumulation across sessions
 
 By the end of the day, the project memory had grown organically:
 
-- **Action tree** — one completed action (2 phases, 5 prompts, all with receipts), one backlog item discovered during implementation and scoped out to keep the PR clean
+- **Action tree** — one completed action (2 phases, 5 prompts), one backlog item discovered during implementation and scoped out to keep the PR clean
 - **Knowledge tree** — 3 area-specific nodes (DX architecture, import/export conventions, testing patterns) plus root-level insights including pre-push and pre-PR verification gates born from actual CI failures
 - **Journal** — 5 entries capturing architectural decisions, process improvements, and a lesson about how knowledge tree rules should be written (state the rule, show the right pattern, stop — never name the prohibited pattern as an exception, because readers anchor on exceptions)
 
@@ -96,7 +95,7 @@ Every subsequent `AUTO` call loaded this accumulated knowledge. The AI in sessio
 
 ### What this means for the one-liner
 
-The one-liner isn't just a convenience. It's what makes the multi-session, multi-role workflow practical. Without it, each of those 8+ sessions would have required manually loading the status file, the relevant role, the knowledge tree nodes, and the journal. With it, every session started productive within seconds.
+The one-liner isn't just a convenience. It's what makes the multi-session, multi-stance workflow practical. Without it, each of those 8+ sessions would have required manually loading the status file, the relevant stance, the knowledge tree nodes, and the journal. With it, every session started productive within seconds.
 
 ---
 
@@ -105,13 +104,13 @@ The one-liner isn't just a convenience. It's what makes the multi-session, multi
 The `ai_readme.md` file is the session entry point. It lives at the root of your code repo (gitignored) and contains:
 
 - **Workspace layout** — where to find `.ai-sdlc/`, memory, methodology
-- **Session start protocol** — a step-by-step sequence: read status, determine role, load files, announce
-- **Role dispatch table** — maps natural language ("let's plan") to role files
+- **Session start protocol** — a step-by-step sequence: read status, determine stance, load files, announce
+- **Stance dispatch table** — maps natural language ("let's plan") to stance files
 - **Quick reference** — paths to status, knowledge tree, journal, roles
 
-The file is generated by the Bootstrapper during [Step B of bootstrap](../bootstrap/README.md) using the [ai_readme.template.md](../bootstrap/ai_readme.template.md) template. It is project-specific — the template fills in paths and structure based on your actual workspace layout.
+The file is generated during [Step B of bootstrap](../bootstrap/README.md) using the [ai_readme.template.md](../bootstrap/ai_readme.template.md) template. It is project-specific — the template fills in paths and structure based on your actual workspace layout.
 
-You should not need to edit `ai_readme.md` after bootstrap. If your workspace layout changes (rare), regenerate it by running the Bootstrapper again.
+You should not need to edit `ai_readme.md` after bootstrap. If your workspace layout changes (rare), regenerate it by re-running the setup steps in bootstrap/README.md.
 
 ---
 
@@ -135,7 +134,7 @@ Without this flow, starting a session looks like:
 
 ```
 You: "Read .ai-sdlc/workspace.yaml, then read the status file,
-      then load the architect role, then read operating-rules.md,
+      then load the architect stance, then read operating-rules.md,
       then read common.md, then read the knowledge tree index..."
 ```
 
@@ -166,7 +165,7 @@ my-project/
 └── ...
 ```
 
-If `ai_readme.md` is missing, AUTO has nothing to read. Run the Bootstrapper role to generate it.
+If `ai_readme.md` is missing, AUTO has nothing to read. Run the setup steps in [bootstrap/README.md](../bootstrap/README.md) to generate it.
 
 ---
 
@@ -175,6 +174,6 @@ If `ai_readme.md` is missing, AUTO has nothing to read. Run the Bootstrapper rol
 The AUTO skill is specific to Cowork, but `ai_readme.md` works with any AI tool. If you're using Claude Code, Cursor, or another tool:
 
 1. Point the tool at your code repo root
-2. Start the session with: *"Read ai_readme.md and follow its instructions. Then adopt the Architect role — where are we?"*
+2. Start the session with: *"Read ai_readme.md and follow its instructions. Then adopt the Architect stance — where are we?"*
 
 The effect is the same — the AI reads the entry point, loads context, and orients. AUTO just makes it a single word instead of a sentence.

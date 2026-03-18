@@ -1,8 +1,7 @@
 # Bootstrap: Manual (Step A)
 
 > Get ai-sdlc into your code repo's `.ai-sdlc/` folder. That's it.
-> Step B (project memory, skeleton files) is handled by the bootstrapper role —
-> see [README.md](./README.md).
+> Step B (project memory, skeleton files) is covered in [README.md](./README.md).
 
 ---
 
@@ -47,4 +46,4 @@ my-project/                    ← your code repo root
 ## Next
 
 Step A is done. Continue with **Step B** in [README.md](./README.md) — point your
-AI tool at the code repo root and let the bootstrapper role handle the rest.
+AI tool at the code repo root and follow the setup steps.

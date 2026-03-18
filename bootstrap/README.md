@@ -14,13 +14,16 @@ my-project/                        ← IDE opens HERE — this is the workspace
 ├── .ai-sdlc/                      ← gitignored — all AI-SDLC artefacts live here
 │   ├── memory/                    ← Project memory (its own nested git repo)
 │   │   ├── journal/
-│   │   │   └── YYYY-WNN.md
+│   │   │   ├── live/              ← current session entries
+│   │   │   └── archive/           ← processed entries
 │   │   ├── knowledge-tree/
-│   │   │   └── index.spec.md
+│   │   │   │   ├── knowledge-tree.index.md
+│   │   │   └── archive/           ← retired insights
 │   │   ├── action-tree/
-│   │   │   ├── STATUS.md
-│   │   │   └── refactor-validation/
-│   │   └── archive/
+│   │   │   ├── action-tree.index.md
+│   │   │   ├── status.md
+│   │   │   ├── 1.topic.refactor-validation/
+│   │   │   └── archive/           ← completed actions
 │   ├── methodology/               ← ai-sdlc repo (clone or symlink)
 │   └── workspace.yaml             ← folder mapping
 ├── ai_readme.md                   ← session entry point (gitignored)
@@ -64,7 +67,7 @@ memory: memory
 methodology: methodology
 ```
 
-With this file, all documents can reference paths as `{code}/src/services/auth.ts` instead of fragile relative paths. The AI resolves these references at session start by reading `workspace.yaml`. The Navigator's handoff prompts use the same shorthand.
+With this file, all documents can reference paths as `{code}/src/services/auth.ts` instead of fragile relative paths. The AI resolves these references at session start by reading `workspace.yaml`.
 
 ### Path references
 
@@ -72,7 +75,7 @@ Use the `workspace.yaml` shorthand in all documents and prompts:
 
 ```
 {code}/src/services/auth.ts
-{memory}/action-tree/refactor-validation/phases/1-baseline-tests/phase.md
+{memory}/action-tree/1.topic.refactor-validation/1.phase.baseline-tests/baseline-tests.index.md
 {methodology}/roles/architect.md
 ```
 
@@ -107,12 +110,15 @@ my-project/
 ├── .ai-sdlc/
 │   ├── memory/            ← project memory (its own nested git repo)
 │   │   ├── journal/
-│   │   │   └── YYYY-WNN.md
+│   │   │   ├── live/
+│   │   │   └── archive/
 │   │   ├── knowledge-tree/
-│   │   │   └── index.spec.md
+│   │   │   ├── knowledge-tree.index.md
+│   │   │   └── archive/
 │   │   ├── action-tree/
-│   │   │   └── STATUS.md
-│   │   └── archive/
+│   │   │   ├── action-tree.index.md
+│   │   │   ├── status.md
+│   │   │   └── archive/
 │   ├── methodology/       ← ai-sdlc
 │   └── workspace.yaml     ← folder mapping
 ├── ai_readme.md           ← session entry point (gitignored)
@@ -126,8 +132,8 @@ An AI session can determine the workspace state by checking what's present:
 
 - No `.ai-sdlc/` folder → **Bare repo** (pre-Step A)
 - `.ai-sdlc/methodology/` exists but no memory folder or `workspace.yaml` → **Step A complete**
-- Memory folder exists with `STATUS.md` and no active action → **Fully bootstrapped**
-- Memory folder exists with an active action in `STATUS.md` → **Active project** (past bootstrap)
+- Memory folder exists with `status.md` and no active action → **Fully bootstrapped**
+- Memory folder exists with an active action in `status.md` → **Active project** (past bootstrap)
 
 This detection is useful for AI tools that need to orient themselves at session start — especially in Cowork, where the AI should check workspace state before deciding how to proceed.
 
@@ -155,26 +161,105 @@ my-project/
 
 ## Step B — Add the project memory
 
-Once ai-sdlc is in place, the AI can read the full methodology locally.
-All guides converge here.
+Once ai-sdlc is in place, the AI can read the full methodology locally. All guides converge here. Point your AI tool at the code repo and ask it to set up the project memory. The AI should follow these steps, presenting each one for your approval before proceeding.
 
-Point your AI tool at the code repo and invoke the bootstrapper role
-([`roles/bootstrapper.md`](../roles/bootstrapper.md)). It will create the
-memory folder, workspace.yaml, skeleton files, and `ai_readme.md`:
+### 1. Gather project basics
 
+The AI asks you: what is the project? What's the tech stack? This information goes into the initial `knowledge-tree/knowledge-tree.index.md` skeleton. A few sentences is enough — the Architect will deepen it in the first working session.
+
+### 2. Create the memory folder structure
+
+If `.ai-sdlc/memory/` doesn't exist, create it:
+
+```bash
+mkdir -p .ai-sdlc/memory/journal/live .ai-sdlc/memory/journal/archive \
+         .ai-sdlc/memory/knowledge-tree/archive \
+         .ai-sdlc/memory/action-tree/archive
+cd .ai-sdlc/memory && git init -b main && cd ../..
 ```
-my-project/
-├── .ai-sdlc/
-│   ├── memory/            ← Created by the bootstrapper
-│   ├── methodology/
-│   └── workspace.yaml     ← Created by the bootstrapper
-├── ai_readme.md           ← Created by the bootstrapper (session entry point)
-└── .gitignore
+
+If a memory folder already exists, check what's there and ask the human how to proceed — keep the existing memory, archive it, or start fresh.
+
+### 3. Create workspace.yaml
+
+```yaml
+# workspace.yaml — single source of truth for folder names
+code: ../
+memory: memory
+methodology: methodology
 ```
 
-The bootstrap is a two-step process. **Step A** gets the methodology in place — this varies by tooling (manual clone, Cowork-guided, etc.). **Step B** creates the memory folder, skeleton files, workspace.yaml, and `ai_readme.md` — this is handled by the Bootstrapper role (`roles/bootstrapper.md`), which operates within the SDLC methodology: it announces its role, explains each action, and waits for human approval at each step.
+### 4. Create skeleton files
 
-The Bootstrapper role is invoked once and never used again — once the workspace is bootstrapped, all subsequent work uses the standard roles (Architect, Tech Lead, Developer, Navigator, Curator).
+**`action-tree/status.md`** — the live pointer, read first every session:
+
+```markdown
+# <Project Name> — Status
+
+**Process version:** v0.2
+
+> Single source of truth. Every stance reads this for orientation.
+
+## Current State
+
+| Field | Value |
+|---|---|
+| **Next step** | Invoke the Architect to define the first action |
+
+## Active Stack
+
+*Empty — no active work.*
+```
+
+**`action-tree/action-tree.index.md`** — tree structure overview:
+
+```markdown
+# <Project Name> — Action Tree
+
+> Structural overview of the action tree. For current state, see `status.md`.
+
+## Action Tree
+
+*No actions defined yet.*
+
+## Code Repository
+
+**Location:** `{code}/`
+**Branch:** `main`
+```
+
+**`knowledge-tree/knowledge-tree.index.md`** — a few lines from the project basics:
+
+```markdown
+# Knowledge — <Project Name>
+
+> Project-wide insights and cross-cutting patterns.
+> Last updated: <today's date>
+
+## What This Is
+
+<One or two sentences from the human's answer.>
+
+## Tech Stack
+
+<Language, framework, major dependencies.>
+
+## Repo
+
+<URL>
+
+## Knowledge Map
+
+<!-- Populated as the knowledge tree grows. -->
+```
+
+### 5. Create ai_readme.md
+
+Copy the template from `{methodology}/bootstrap/ai_readme.template.md` to the code repo root as `ai_readme.md`. Ensure `ai_readme.md` is in `.gitignore`.
+
+### 6. Verify
+
+The workspace should now look like the "Fully bootstrapped" diagram above. Read back `status.md`, `action-tree.index.md`, and `knowledge-tree.index.md` for the human to review. Setup is done — the next step is to invoke the Architect to define the first action.
 
 ---
 
@@ -184,7 +269,7 @@ The Bootstrapper role is invoked once and never used again — once the workspac
 Yes. The `.ai-sdlc/` folder is gitignored — it never appears in commits or pull requests. Other developers are unaffected. The only change to the code repo is one line in `.gitignore`, and even that can be added to a personal global gitignore instead if you prefer zero modifications.
 
 **Can I use multiple AI tools?**
-Yes. Everything is plain markdown. Use one tool for the Architect and Tech Lead roles (e.g., Cowork, Claude) and another for the Developer (e.g., Cursor, Windsurf, Claude Code). The role separation maps naturally to different tools. All tools point at the code repo root.
+Yes. Everything is plain markdown. Use one tool for the Architect and Tech Lead stances (e.g., Cowork, Claude) and another for the Developer (e.g., Cursor, Windsurf, Claude Code). The stance separation maps naturally to different tools. All tools point at the code repo root.
 
 **What about existing `.claude/` folders?**
 If the code repo has a `.claude/` folder, you can migrate its contents to the project memory or keep both during a transition. Be clear about which is authoritative.

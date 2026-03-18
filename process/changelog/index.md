@@ -34,6 +34,6 @@ Each version file follows this structure:
 | Version | Status | Date | Summary |
 |---|---|---|---|
 | [v0.1](./v0.1.md) | Baseline | Pre-2026-03-17 | Original process as shipped. Documented retroactively. |
-| [v0.2](./v0.2.md) | In progress | 2026-03-17 | Redesign based on nine design principles from real-world usage. |
+| [v0.2](./v0.2.md) | Released | 2026-03-18 | Redesign based on nine design principles from real-world usage. |
 
-**Current stable version:** v0.1
+**Current stable version:** v0.2

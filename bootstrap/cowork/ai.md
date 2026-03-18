@@ -11,8 +11,8 @@ Bootstrap is a two-step process (see `bootstrap/README.md`):
 
 - **Step A** — Get ai-sdlc into the code repo's `.ai-sdlc/` folder. This is what
   you're guiding now.
-- **Step B** — Add the project memory, skeleton files, workspace.yaml. This is handled
-  by the bootstrapper role once ai-sdlc is readable locally.
+- **Step B** — Add the project memory, skeleton files, workspace.yaml. Follow the
+  setup steps in `bootstrap/README.md` § Step B once ai-sdlc is readable locally.
 
 ## Cowork constraints
 
@@ -61,12 +61,12 @@ Walk them through the steps from `manual.md`, with these Cowork overrides:
 List the workspace contents again. Check against the **Verify** section in
 `manual.md`. If anything is missing, help the human fix it before moving on.
 
-## Step B — Enter SDLC Mode
+## Step B — Set up the project memory
 
-ai-sdlc is now local. **From this point forward, you operate within the AI-SDLC
-methodology.** You are the Bootstrapper role.
+ai-sdlc is now local. Read `bootstrap/README.md` § Step B for the setup steps:
+gather project basics, create the memory folder structure, create workspace.yaml,
+populate skeleton files (action-tree.index.md, knowledge-tree.index.md), and create ai_readme.md.
 
-Read the files listed in `.ai-sdlc/methodology/roles/bootstrapper.md` under "Files to Load"
-— including `roles/operating-rules.md`, the full `process/` folder, `bootstrap/README.md`, and
-`process/conventions.md`. The bootstrapper role file has everything you need: your stance,
-your steps, approval gates, and boundaries. Follow it.
+Follow those steps, presenting each one to the human for approval before proceeding.
+When setup is complete, tell the human the workspace is ready and the next step is
+to invoke the Architect to define the first action.

@@ -1,9 +1,3 @@
----
-type: process
-audience: [human, ai]
-depends_on: [memory.md, workflow.md]
----
-
 # Journaling — The Recording System
 
 > **References**
@@ -12,143 +6,124 @@ depends_on: [memory.md, workflow.md]
 > |---|---|
 > | Memory model | [memory.md](./memory.md) |
 > | Workflow | [workflow.md](./workflow.md) |
-> | File type catalogue | [file-types/](./file-types/) |
-> | Anti-patterns | [anti-patterns.md](./anti-patterns.md) |
+> | Stances | [roles.md](./roles.md) |
 
-AI-SDLC maintains a persistent record of what happened, what was learned, and what was decided. This document defines how the recording system works — the pipelines, the role-based responsibilities, and the session checklists. For the definition of each individual file type (purpose, format, ownership, rules), see the [File Type Catalogue](./file-types/).
-
----
-
-## The Journal
-
-The journal is the primary recording destination for all sessions. Every session produces a journal entry in `journal/live/`, named by date and session number (e.g., `2026-03-17_01.md`).
-
-A journal entry captures what happened during the session: decisions made, observations, progress, blockers, insights. It is a complete, unstructured narrative — not tagged, not classified, not pre-routed. The tier-3 model extracts what matters when the journal is processed; the author's job is completeness, not taxonomy.
-
-**What goes in the journal:** everything that happened in the session. Decisions, observations, design reasoning, implementation notes, process observations, blockers encountered, insights discovered.
-
-**What does NOT go in the journal:** action-scoped implementation detail that only matters for the next prompt in the same action. That stays in the action's own `log.md` (if multi-session work requires continuity between sessions on the same action).
-
-The distinction is simple: if it matters beyond this action, it's a journal entry. If it only matters for the next session on this same action, it's a log entry.
+AI-SDLC maintains a persistent record of what happened, what was learned, and what was decided. This document defines the recording system: what gets written, where it goes, and who writes it.
 
 ---
 
-## Recording by Role
+## Recording Destinations
 
-Each role has specific recording responsibilities. The boundaries are defined by the role itself — the Architect writes differently than the Developer.
+There are two places to write session narrative. The action tree holds structure; narrative goes elsewhere.
 
-### Design roles (Architect, Navigator, Auditor)
+### The journal (`journal/live/`)
 
-These roles produce the bulk of journal activity. Their work is oriented around design, curation, and decision-making.
+The project's session record — the single place for all narrative recording. Every session that produces decisions, observations, or insights writes a journal entry. Named by date and session number (e.g., `2026-03-17_01.md`). Complete, unstructured narrative — the AI extracts what matters when the journal is processed.
 
-**Recording targets:**
+**What goes in:** everything that happened during the session. Decisions, observations, design reasoning, implementation progress, files touched, blockers encountered, process notes, cross-action patterns. If something is particularly insightful and may be worth migrating to the knowledge tree later, flag it clearly in the entry (e.g., "**Insight:** ...").
 
-| Target | What it captures |
+**Action context:** Journal entries naturally reference which action and phase they're working on. When you need to reconstruct the history of a specific action, search the journal by action name.
+
+### The knowledge tree
+
+Direct contributions — insights placed at the right node. The Architect writes to the KT when an insight is immediately clear and well-placed. No intermediary needed for design work.
+
+**That's it.** All session narrative goes to the journal. The action tree holds specs, gatekeeps, and context — never narrative. This keeps the boundaries clean: the action tree is structure, the journal is narrative.
+
+---
+
+## Recording by Stance
+
+### Architect
+
+The Architect produces the bulk of project-level recording. Design sessions are where most decisions happen.
+
+| Destination | What |
 |---|---|
-| `journal/live/` | Session narrative — decisions, observations, design reasoning |
-| Knowledge tree | Direct contributions — insights placed at the right node |
-| `log.md` | Action-scoped session continuity (if multi-session work on one action) |
+| `journal/live/` | Session narrative — decisions, observations, design reasoning, action progress |
+| Knowledge tree | Direct insight contributions at the right node |
 
-Design roles write insights directly to the knowledge tree when they are immediately clear and well-placed. There is no scratchpad intermediary for design work.
+### Tech Lead
 
-### Implementation roles (Tech Lead, Developer)
+The Tech Lead is the primary executor. Recording serves execution tracking and insight capture.
 
-These roles are oriented around the action tree's active stack. Their recording serves execution tracking.
-
-**Recording targets:**
-
-| Target | What it captures |
+| Destination | What |
 |---|---|
-| `journal/live/` | Session narrative — what was implemented, issues encountered |
-| `log.md` | Implementation progress, files touched (Tech Lead) |
-| `KEY_INSIGHTS.md` | Implementation insights worth keeping beyond this action (Tech Lead) |
+| `journal/live/` | Session narrative — what was implemented, files touched, approach decisions, issues encountered. Flag insights worth keeping with **Insight:** |
+| Knowledge tree | Direct contributions when an insight is immediately clear |
 
-The Tech Lead surfaces implementation insights to `KEY_INSIGHTS.md` — a working scratchpad that gets reviewed on action completion. Worth-keeping insights migrate to the knowledge tree; the rest are discarded.
+### Developer
 
-**The Developer exception:** The Developer's sole recording output is a session receipt. The Developer is exempt from journal entries, log entries, and insight capture. This isolation keeps the Developer focused on literal prompt execution.
+The Developer is occasional and constrained. Recording is minimal.
+
+| Destination | What |
+|---|---|
+| `journal/live/` | Brief entry noting what the prompt achieved and any surprises |
+
+The Developer does not write KT contributions. The Tech Lead handles insight routing for the execution flow.
+
+### Auditor
+
+The Auditor evaluates the process, not the product. Recording serves the diagnostic.
+
+| Destination | What |
+|---|---|
+| `journal/live/` | Session narrative — findings, recommendations, migration actions |
 
 ---
 
-## Who Writes What
+## Weekly Log Rolling
 
-**Design roles** (Architect, Navigator, Auditor):
+Journal entries roll from `live/` to `archive/` on a weekly cadence. This keeps `live/` bounded — only recent entries get loaded on session start, which matters for context window efficiency.
 
-| Target | Architect | Navigator | Auditor |
-|---|---|---|---|
-| `journal/live/` | Yes | Yes | Yes |
-| Knowledge tree | Yes | No | No |
-| `log.md` | Yes | Yes | Yes |
+**How it works:**
 
-**Implementation roles** (Tech Lead, Developer):
+- At the start of each week, entries from the previous week (or earlier) that have been reviewed move to `journal/archive/`.
+- The Human Lead triggers the roll — either manually or by asking the Architect to process the journal. Processing means: review `live/`, extract insights to the trees, then move processed entries to `archive/`.
+- Entries that span the boundary (e.g., a Monday entry referencing Friday's work) are fine to archive — the action tree and knowledge tree hold the durable information. The archive preserves the historical record if you need to go back.
 
-| Target | Tech Lead | Developer |
-|---|---|---|
-| `journal/live/` | Yes | **No** |
-| `log.md` | Yes | **No** |
-| `KEY_INSIGHTS.md` | Yes | **No** |
-| Session receipt | No | **Yes** |
+**Why weekly:** Short enough that `live/` stays manageable (typically 5–15 entries). Long enough that you're not constantly processing. The cadence is a guideline — if a busy week produces 20 entries, process mid-week. If a quiet week produces 2, let them roll naturally.
 
-**The Human Lead reviews everything.** The AI writes the recording artifacts. The Human Lead verifies they captured what actually happened.
+**What every role needs to know:** When you start a session, the journal entries in `live/` are the recent context. Older entries are in `archive/` and can be loaded on demand, but `live/` is what gets read by default. If `live/` is growing unbounded, that's a signal the Human Lead needs to trigger processing.
 
 ---
 
 ## Session Checklists
 
-These checklists run at the close of every session. They ensure recording duties are met before moving on.
+Run at the close of every session. These ensure recording is complete before moving on.
 
-### Design sessions (Architect / Navigator / Auditor)
+### Architect sessions
 
-- [ ] **Journal entry written.** Does `journal/live/` have an entry for this session?
-- [ ] **Knowledge tree current.** Did this session produce insights that belong in the knowledge tree? If yes, are they placed at the appropriate nodes? (Architect only)
-- [ ] **Log entry written.** If this is multi-session work on one action, does the action's `log.md` have an entry for this session?
-- [ ] **STATUS.md current.** Does STATUS.md reflect the project state after this session?
+- [ ] Journal entry written in `journal/live/` for this session?
+- [ ] Knowledge tree current? Insights from this session placed at the right nodes?
+- [ ] `status.md` current? Does it reflect the project state after this session?
 
 ### Tech Lead sessions
 
-- [ ] **Journal entry written.** Does `journal/live/` have an entry for this session?
-- [ ] **Log entry written.** Does the active action's `log.md` have an entry?
-- [ ] **Insights captured.** Did anything emerge that matters beyond this action? If yes, is it in `KEY_INSIGHTS.md`?
-- [ ] **STATUS.md current.** Does STATUS.md reflect the project state after this session?
-
-### Developer sessions
-
-- [ ] **Session receipt written.** Does a receipt file exist for the prompt executed?
-- [ ] **State changes documented.** Does the receipt capture everything the next prompt needs to know?
+- [ ] Journal entry written in `journal/live/`? Insights flagged?
+- [ ] `status.md` current?
 
 ### On action completion
 
-- [ ] **KEY_INSIGHTS.md reviewed.** Has every entry been evaluated: keep, discard, or revise?
-- [ ] **Migrations done.** Have the "keep" insights been placed in the correct knowledge tree nodes?
-- [ ] **Journal note written.** Has a completion note been added to `journal/live/` if relevant?
-- [ ] **Action archived.** Has the action subtree moved to `action-tree/archive/`?
-- [ ] **STATUS.md updated.** Is the action marked as achieved and popped from the stack?
+- [ ] Journal entries from this action reviewed. Insights flagged as worth keeping migrated to the correct KT nodes?
+- [ ] Journal completion note written if relevant to the broader project?
+- [ ] Action subtree moved to `archive/`?
+- [ ] `status.md` and `action-tree.index.md` updated — action popped from stack, status achieved?
 
 ---
 
 ## The Append-Forward Rule
 
-All recording files follow the append-forward principle (see [principles.md — Append-Forward](./principles.md#append-forward)). Entries are never edited or deleted after they're written. The only file that genuinely mutates is `STATUS.md`.
+All recording files follow the append-forward principle (see [principles.md](./principles.md)). Entries are never edited or deleted after they're written. The only files that genuinely mutate are `status.md` and `action-tree.index.md`.
 
 ---
 
 ## Recording Anti-Patterns
 
-### The rubber stamp
+**The rubber stamp.** Review the AI's journal entries and knowledge contributions as they appear. Five minutes of engaged review is worth more than an hour of passive accumulation.
 
-See [anti-patterns.md — The rubber stamp](./anti-patterns.md#the-rubber-stamp). In the recording context: review the AI's journal entries and knowledge contributions as they appear. Five minutes of engaged review is worth more than an hour of passive accumulation.
+**Journaling without flagging insights.** You write journal entries during implementation but never flag what's insightful. The journal grows; the knowledge tree stays empty after action completion. When something is worth keeping, mark it.
 
-### Logging without insight capture
+**Skipping journal processing.** Entries accumulate in `live/` but the human never triggers processing. The journal becomes write-only. Processing is a human responsibility — trigger it at least weekly.
 
-You write log entries diligently during implementation but never surface insights to `KEY_INSIGHTS.md`. The log grows; the knowledge tree stays empty after action completion because there was nothing to migrate. The log is for history — what happened when. Insights are for learning — what to do differently next time. Both are needed.
-
-### Insight hoarding
-
-KEY_INSIGHTS.md accumulates entries across sessions but nothing ever migrates to the knowledge tree on action completion. The scratchpad becomes a graveyard. Review on completion is not optional — it is where short-term memory feeds long-term memory.
-
-### Journal as log
-
-Using the journal for action-scoped implementation detail. If it only matters for the next session on this same action, it belongs in that action's `log.md`. The journal is for what matters beyond a single action.
-
-### Skipping journal processing
-
-Journal entries accumulate in `live/` but the human never triggers processing. The journal becomes a write-only archive. Processing is a human responsibility — the Architect can't extract insights from entries nobody asks it to review.
+**Unbounded live/.** The `live/` folder grows past 15–20 entries. This wastes context window on every session start and makes processing harder. Roll to `archive/` weekly.
