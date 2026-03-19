@@ -84,11 +84,11 @@ Not using Cowork? The same `ai_readme.md` works with any AI tool — just say *"
 |---|---|---|
 | 1 | [principles.md](./process/principles.md) | Human accountability, append-forward, simplicity, strong model requirement |
 | 2 | [memory.md](./process/memory.md) | **The memory model** — three layers, the index as navigation primitive, the typed file system |
-| 3 | [action-tree.md](./process/action-tree.md) | Goals/topics, phases, steps, and tasks — four node types, gatekeeping, the active stack |
+| 3 | [action-tree.md](./process/action-tree.md) | Goals/topics, phases, steps, and tasks — five node types, gatekeeping, the active stack |
 | 4 | [knowledge-tree.md](./process/knowledge-tree.md) | Structure, growth patterns, what belongs at each level |
 | 5 | [journaling.md](./process/journaling.md) | **The recording system** — journal folders, the handover, session close protocol |
 | 6 | [roles.md](./process/roles.md) | Stances, the Human Lead, model selection |
-| 7 | [workflow.md](./process/workflow.md) | Planning, implementation, the active stack |
+| 7 | [workflow.md](./process/workflow.md) | Design, implementation, the active stack |
 | 8 | [conventions.md](./process/conventions.md) | Naming conventions and status indicators |
 | 9 | [anti-patterns.md](./process/anti-patterns.md) | Common failure modes and how to avoid them |
 

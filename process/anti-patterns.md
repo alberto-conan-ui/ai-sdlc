@@ -6,7 +6,7 @@
 
 ## "Just do it"
 
-Skipping the planning step because "it's a small change." Small changes that touch shared infrastructure are where the worst bugs hide. If it touches more than one file or changes behaviour, it deserves at least an action with a short spec — even a three-paragraph one.
+Skipping the design step because "it's a small change." Small changes that touch shared infrastructure are where the worst bugs hide. If it touches more than one file or changes behaviour, it deserves at least an action with a short spec — even a three-paragraph one.
 
 ---
 
@@ -74,4 +74,4 @@ For the full set of recording anti-patterns, see [journaling.md — Recording An
 
 ## Under-decomposing or over-decomposing
 
-Keeping everything as a flat leaf action to avoid process overhead, even when the work clearly needs decomposition into sub-actions. If the gatekeep has many unrelated conditions, or the work spans multiple independent areas, break it into children. Forcing complex work through a single leaf means skipping the planning that would have caught problems early. Conversely, decomposing a simple bug fix into a three-level tree wastes time on structure that adds no value. Match the tree depth to the work's actual complexity.
+Keeping everything as a flat leaf action to avoid process overhead, even when the work clearly needs decomposition into sub-actions. If the gatekeep has many unrelated conditions, or the work spans multiple independent areas, break it into children. Forcing complex work through a single leaf means skipping the design work that would have caught problems early. Conversely, decomposing a simple bug fix into a three-level tree wastes time on structure that adds no value. Match the tree depth to the work's actual complexity.

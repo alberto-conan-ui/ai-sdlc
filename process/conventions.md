@@ -26,28 +26,18 @@ Naming conventions, status indicators, and structural rules. For file type defin
 
 ---
 
-## Status Vocabularies
+## Status Vocabulary
 
-### Action Status
+One vocabulary for all node types. The interaction mode (Planning or Executing — see [principles.md — Interaction Modes](./principles.md#interaction-modes)) tells you how to interpret artifacts; the status tells you where the work stands.
 
-- `Planning` — actively being shaped; artifacts are provisional (see [principles.md — Interaction Modes](./principles.md#interaction-modes))
-- `Executing` — approved plan being implemented; artifacts are authoritative
-- `Achieved` — gatekeep met, work complete
-- `Paused` — work stopped temporarily, reason in journal
-- `Pending` — defined but not yet started
+- `Pending` — defined, not started
+- `Active` — work in progress. The interaction mode says whether the work is being shaped (Planning) or executed (Executing).
+- `Paused` — stopped temporarily, reason in journal
+- `Review` — work complete, awaiting Human Lead assessment
+- `Done` — Human Lead confirmed (ungatkept nodes: steps, tasks)
+- `Achieved` — Human Lead confirmed, gatekeep passed (gatekept nodes: goals, topics, phases)
 
-### Phase Status
-
-- `Complete` — done and verified
-- `Implementing` — Tech Lead working on it
-- `Planning` — spec being written or reviewed
-- `Not planned yet` — future phase, no spec exists
-- `Paused` — work stopped, reason in journal
-
-### Task Status
-
-- `Done` — completed
-- `Pending` — not yet started
+**The rule:** no node transitions to Done or Achieved without an explicit Human Lead decision. The AI can move things to Review. Only the Human Lead moves things past Review. This enforces Human Accountability at the status vocabulary level.
 
 ---
 

@@ -23,7 +23,7 @@ Read `.ai-sdlc/workspace.yaml` to resolve `{code}`, `{memory}`, `{methodology}` 
 
 ### 1. Orient
 
-Read `{memory}/action-tree/status.md`. It tells you: SDLC version, active stack, and what to do next.
+Read `{memory}/action-tree/status.md`. It tells you: current mode (Planning or Executing), active stack, relevant journal sessions, and what to do next. Then read the handover(s) linked from the Relevant Journal field — the handover tells you where work was left and how to interpret artifacts.
 
 ### 2. Determine the stance
 
@@ -53,7 +53,7 @@ The **Developer** loads only `operating-rules.md` and the implementation prompt 
 
 ### 4. Announce
 
-State which stance you are operating as and confirm the active action. Then proceed with the human's request.
+State which stance you are operating as, confirm the active mode (Planning or Executing), the active action, and the next step from `status.md`. Then proceed with the human's request.
 
 ---
 

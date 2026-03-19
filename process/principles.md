@@ -77,7 +77,7 @@ The process has two modes: **Planning** and **Executing**. The mode governs how 
 
 **The transition from Planning to Executing is always an explicit human decision.** The Human Lead reviews the work, decides it's ready, and authorises execution. There is no implicit transition — the AI never assumes an artifact is authoritative just because it exists. The reverse transition (Executing → Planning) happens when the AI flags that the plan doesn't hold up; the Human Lead confirms the mode switch.
 
-**Modes are orthogonal to stances and workflow stages.** A Tech Lead can be in Planning mode — sketching an approach, exploring trade-offs, proposing how to structure the implementation. A Tech Lead in Executing mode follows the approved spec and implements. Same stance, different mode. Similarly, the workflow's planning stage (writing specs with the Architect — see [workflow.md](./workflow.md)) is not the same as the Planning interaction mode. You can be in Executing mode while writing a phase spec, if the overall goal's plan is approved and you're executing within its scope.
+**Modes are orthogonal to stances and workflow stages.** A Tech Lead can be in Planning mode — sketching an approach, exploring trade-offs, proposing how to structure the implementation. A Tech Lead in Executing mode follows the approved spec and implements. Same stance, different mode. Similarly, the workflow's design stage (writing specs with the Architect — see [workflow.md](./workflow.md)) is not the same as the Planning interaction mode. You can be in Executing mode while writing a phase spec, if the overall goal's plan is approved and you're executing within its scope.
 
 ---
 
@@ -91,23 +91,18 @@ The only files that genuinely mutate are `status.md` and `action-tree.index.md`,
 
 ---
 
-## Strong Reasoning Model Requirement
+## Prerequisites
 
-The process assumes and requires a strong reasoning model (e.g., Claude Opus class). No fallback mode, no degraded operation for lesser models. This is a stated prerequisite, not an aspiration.
+### Strong Reasoning Model
 
-The process is designed to let strong reasoning models shine:
+The process assumes and requires a strong reasoning model (e.g., Claude Opus class). No fallback mode, no degraded operation for lesser models.
 
-- The metadata headers with labeled, ordered reference groups give the model signal about what to load and how deeply.
-- The hierarchy lets the model navigate efficiently without loading everything.
-- The unstructured journal trusts the model to extract decisions and insights without pre-classification.
-- The adaptive flow trusts the model's judgment about when to shift between cognitive stances.
+The process is designed to let strong reasoning models shine: labeled reference groups give the model signal about what to load and how deeply, the hierarchy lets it navigate efficiently, the unstructured journal trusts it to extract decisions without pre-classification, and the adaptive flow trusts its judgment about when to shift stances.
 
-A smaller model will follow the ceremony without the judgment — which is worse than no methodology at all because it creates false confidence. If you don't have access to a strong reasoning model, this methodology is not for you. That's an honest constraint, not an apology.
+A smaller model will follow the ceremony without the judgment — which is worse than no methodology at all because it creates false confidence. If you don't have access to a strong reasoning model, this methodology is not for you.
 
----
+### The Memory Model
 
-## The Memory Model
+The methodology maintains persistent memory through three complementary layers: the action tree (short-term), the knowledge tree (long-term), and the journal (temporal intake and audit trail). This is the central mechanism — everything else serves it.
 
-The methodology maintains persistent memory through three complementary layers: the action tree (short-term), the knowledge tree (long-term), and the journal (temporal intake and audit trail). This is the central mechanism — everything else serves it. Without persistent memory, every AI session starts from zero. With it, session 10 benefits from every lesson learned in sessions 1 through 9.
-
-**The full memory model — including the three layers, the flow between them, and the archiving conventions — is defined in [memory.md](./memory.md).** The recording system — file types, pipelines, session checklists — is defined in [journaling.md](./journaling.md). All stances should read both.
+**The full memory model** is defined in [memory.md](./memory.md). **The recording system** is defined in [journaling.md](./journaling.md). All stances should read both.

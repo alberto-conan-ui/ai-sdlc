@@ -117,13 +117,21 @@ Every file in the memory system follows one naming convention: **`[name].[type].
 
 ### Naming in the Action Tree
 
-The action tree uses typed names to distinguish topics, phases, and tasks:
+The action tree uses typed names to distinguish all five node types — goals, topics, phases, steps, and tasks:
 
 ```
 action-tree/
 ├── action-tree.index.md
 ├── status.md
-├── 1.topic.auth-redesign/
+├── 1.goal.v021-release/
+│   ├── v021-release.index.md
+│   ├── v021-release.gatekeep.md
+│   ├── 1.step.interaction-modes/
+│   │   └── interaction-modes.index.md
+│   ├── 2.step.index-architecture/
+│   │   └── index-architecture.index.md
+│   └── 3.task.version-bump.md
+├── 2.topic.auth-redesign/
 │   ├── auth-redesign.index.md
 │   ├── auth-redesign.gatekeep.md
 │   ├── auth-redesign.context.md
@@ -131,13 +139,11 @@ action-tree/
 │   │   └── audit-endpoints.index.md
 │   ├── 2.phase.new-token-model/
 │   │   └── new-token-model.index.md
-│   ├── 3.phase.migrate-sessions/
-│   │   └── migrate-sessions.index.md
-│   └── 4.task.update-env-docs.md
+│   └── 3.task.update-env-docs.md
 └── archive/
 ```
 
-Order prefixes (`1.`, `2.`) are local to the folder — no cascading parent prefixes. The type (`topic`, `phase`, or `task`) is declared in the name. Folders contain files following `[name].[type].md`. Tasks are single files — no folder needed.
+Order prefixes (`1.`, `2.`) are local to the folder — no cascading parent prefixes. The type (`goal`, `topic`, `phase`, `step`, or `task`) is declared in the name. Folders contain files following `[name].[type].md`. Tasks are single files — no folder needed.
 
 ### What about simple actions?
 

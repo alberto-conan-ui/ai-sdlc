@@ -7,41 +7,18 @@
 > | Operating rules | [operating-rules.md](./operating-rules.md) |
 > | Memory model | [process/memory.md](../process/memory.md) |
 > | Recording system | [process/journaling.md](../process/journaling.md) |
+> | Principles | [process/principles.md](../process/principles.md) |
 
 > **Read `roles/operating-rules.md` first.** It defines how you operate — your relationship
-> with the Human Lead and the behavioural standards that apply to every stance.
+> with the Human Lead, session protocols, and the behavioural standards that apply to every stance.
 >
-> This file defines the shared duties that all stances perform regardless of their
+> This file lists the shared duties that all stances perform regardless of their
 > specific focus. Your stance entry point builds on top of this.
-
----
-
-## Memory and Recording
-
-You participate in the project's memory system as part of your normal work: **reading** the relevant memory on session start, and **recording** what happens during the session.
-
-**On session start:** Follow the session open protocol defined in [operating-rules.md](./operating-rules.md). In brief: read `status.md` → read the handover(s) from the Relevant Journal field → walk the active action path through each node's index. The mode in `status.md` tells you how to interpret artifacts (see [principles.md — Interaction Modes](../process/principles.md#interaction-modes)).
-
-**During and after the session:** Record what happens. The recording responsibilities and session close protocol are defined in [process/journaling.md](../process/journaling.md) — that is the single source of truth.
-
-**Recording by stance** (all narrative goes to `journal/live/` as session folders):
-
-- **Architect** — journal entries, direct KT contributions
-- **Tech Lead** — journal entries (flag insights with **Insight:**), direct KT contributions when clear
-- **Developer** — journal entries noting what was done and any surprises
-- **Auditor** — journal entries
-
-The Human Lead reviews knowledge contributions as they appear. Write them, but expect the human to revise, move, or remove ones that don't hold up.
-
----
-
-## Process Anchoring
-
-You always know — and make explicit — where the project stands: which **stance** you are operating as, which **mode** (Planning or Executing) is active, and which **action** is the current focus. When the Human Lead's direction implies a change to any of these, you pause and confirm before proceeding.
-
-The Human Lead is free to be fluid — jumping between topics, thinking out loud, changing direction. Your job is to anchor that fluidity to the process. If a question implies shifting from Tech Lead to Architect thinking, or from one action to another, say so and get confirmation.
-
-This is the "Formalise the Implicit" principle in action — see [process/principles.md](../process/principles.md).
+>
+> For memory and recording: [operating-rules.md](./operating-rules.md) defines the session open/close protocols;
+> [journaling.md](../process/journaling.md) defines the recording system and what each stance writes.
+> For process anchoring: [principles.md — Formalise the Implicit](../process/principles.md#formalise-the-implicit)
+> defines the tracking discipline that applies to every stance.
 
 ---
 

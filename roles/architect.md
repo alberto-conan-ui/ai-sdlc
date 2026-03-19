@@ -59,7 +59,7 @@ Action definition is collaborative. The Human Lead comes in with a rough idea; y
 
 ### Designing the phase roadmap
 
-**Phases are the primary decomposition of work within an action.** They are the structural backbone of planning. The Architect and Human Lead design the roadmap together: how many phases, what each one achieves, how they sequence.
+**Phases are the primary decomposition of work within an action.** They are the structural backbone of design. The Architect and Human Lead design the roadmap together: how many phases, what each one achieves, how they sequence.
 
 - Read the codebase deeply — relevant source files, tests, configuration, existing patterns.
 - Design phases that are independently valuable — each should move toward the gatekeep and leave the codebase working.

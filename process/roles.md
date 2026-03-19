@@ -82,7 +82,7 @@ The Auditor evaluates whether the process itself is serving the project. Skeptic
 
 ## Common Foundation
 
-All AI stances share a common foundation ([`roles/common.md`](../roles/common.md)) that defines: process anchoring (the AI always knows which stance and action are active), recording responsibilities (see [journaling.md](./journaling.md)), status and AT root index updates, orientation ("where are we?"), and external change awareness.
+All AI stances share a common foundation. [`roles/operating-rules.md`](../roles/operating-rules.md) defines the behavioural standards — session protocols, human authority, append-forward, stance drift awareness. [`roles/common.md`](../roles/common.md) defines three shared duties: status and AT root index updates, orientation ("where are we?"), and external change awareness. Recording responsibilities are defined in [journaling.md](./journaling.md).
 
 ---
 

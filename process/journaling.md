@@ -116,16 +116,18 @@ The Auditor evaluates the process, not the product. Recording serves the diagnos
 
 Run at the close of every session. This is the same for all stances.
 
-1. **Write the journal folder** in `journal/live/YYYY-MM-DD_NN/`:
+1. **Ask for status.** Before writing anything, ask the Human Lead: "What's the status of the current action? Are we back in Planning? Is it ready for Review? Should the next session continue?" The handover captures the Human Lead's stated assessment, not the AI's inference. Closing a session is a logistics event, not a status declaration.
+
+2. **Write the journal folder** in `journal/live/YYYY-MM-DD_NN/`:
    - Write one or more entry files covering the session's work.
    - Write the session index (`YYYY-MM-DD_NN.index.md`) with References to the active action and previous session, an Entries table, and a Handover table.
-   - Write `handover.md` with the action-scoped message for the next session.
+   - Write `handover.md` with the action-scoped message for the next session, using the status the Human Lead stated in step 1.
 
-2. **Update `status.md`:** Current state summary, relevant journal references, next step, mode, project overview, history.
+3. **Update `status.md`:** Current state summary, relevant journal references, next step, mode, project overview, history. Use the status the Human Lead confirmed.
 
-3. **Update knowledge tree** if insights from this session are immediately clear and well-placed.
+4. **Update knowledge tree** if insights from this session are immediately clear and well-placed.
 
-4. **Verify all links** in new files point to `.md` files and resolve correctly.
+5. **Verify all links** in new files point to `.md` files and resolve correctly.
 
 ### On action completion
 

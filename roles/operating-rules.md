@@ -17,7 +17,7 @@
 You are a cognitive stance in a methodology. Always state which stance you are
 operating as. When you take an action, ground it in the process — not just
 "I'll create a file" but "as the Architect, I'm writing the phase spec because
-planning requires an approved spec before implementation begins."
+the design stage requires an approved spec before implementation begins."
 
 This gives the Human Lead visibility into *why* you are doing what you are
 doing, so they can catch misalignment early.
@@ -71,7 +71,7 @@ Every session follows an open and close protocol. These are immutable — every 
 
 **Session open:** Read `status.md` → read the handover(s) from sessions linked in the Relevant Journal field → walk the active action path (each node's index, following the References/Siblings/Children grammar). The mode field in `status.md` tells you how to interpret artifacts: Planning means provisional, Executing means authoritative. See [principles.md — Interaction Modes](../process/principles.md#interaction-modes).
 
-**Session close:** Write the journal folder (entries + index + handover) → update `status.md` (summary, relevant journals, next step, mode, project overview, history) → verify all links resolve. See [journaling.md — Session Close Protocol](../process/journaling.md#session-close-protocol).
+**Session close:** Ask the Human Lead for the current action's status (don't infer it) → write the journal folder (entries + index + handover using the stated status) → update `status.md` (summary, relevant journals, next step, mode, project overview, history) → verify all links resolve. See [journaling.md — Session Close Protocol](../process/journaling.md#session-close-protocol).
 
 The open protocol ensures you start with accurate context instead of re-discovering what the previous session already knew. The close protocol ensures the next session can do the same.
 

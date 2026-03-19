@@ -12,29 +12,39 @@ The action tree (`action-tree/`) is the project's short-term memory — what you
 
 ---
 
-## Four Node Types
+## Node Types
 
-The action tree has four structural node types, following the typed file system convention defined in [memory.md](./memory.md).
+The action tree has five node types, following the typed file system convention defined in [memory.md](./memory.md). Every node is defined by two properties: whether it's a **container** (folder with children) or a **leaf** (single file), and whether it has a **gatekeep** (explicit completion criteria verified by the Human Lead).
 
-### Goals and Topics
+| Type | Container | Gatekept | Gatekeep nature |
+|---|---|---|---|
+| Goal | yes | yes | Strategic — abstract real-world outcomes, human-judged |
+| Topic | yes | yes | Strategic — scoped to an area, tangible but broad |
+| Phase | yes | yes | Technical — implementation correctness (tests pass, builds, no lint errors) |
+| Step | yes | no | — |
+| Task | no | no | — |
 
-Goals and topics are the Architect's unit. Strategic, organisational, outcome-oriented. They define *what* needs to happen and *why*, without specifying *how*. Goal and topic are the same node type — all rules apply identically. Use "goal" (`N.goal.name/`) when the node represents a top-level objective. Use "topic" (`N.topic.name/`) when it represents a strategic area of concern. The choice is cosmetic.
+**Container** nodes are folders. They have an index file, can hold children, and represent a scope of work that decomposes further. **Leaf** nodes are single files — atomic, no children, no folder.
 
-Gatekeeps on goals and topics are abstract and outcome-oriented: "repo public, quickstart in repo, launch post live." They verify real-world effects, not restate work as checkbox items. Goals and topics can nest sub-goals/topics, phases, steps, and tasks. The Architect and Human Lead design them together.
+**Gatekept** nodes have explicit completion criteria. The gatekeep nature distinguishes two kinds: strategic gatekeeps (goals, topics) verify real-world outcomes and require human judgment — "repo public, quickstart works, launch post live." Technical gatekeeps (phases) verify implementation correctness and are largely mechanically verifiable — "migration script passes, tests green, no regressions." Ungatkept nodes (steps, tasks) are covered by their parent's gatekeep.
+
+### Goals and Topics — strategic containers (gatekept)
+
+Goals and topics are the same structurally — all rules apply identically. Use "goal" (`N.goal.name/`) when the node represents a top-level objective. Use "topic" (`N.topic.name/`) when it represents a strategic area of concern. The choice is cosmetic.
+
+They define *what* needs to happen and *why*, without specifying *how*. Goals and topics can nest sub-goals/topics, phases, steps, and tasks. The Architect and Human Lead design them together.
 
 Folder naming: `N.goal.name/` or `N.topic.name/` (e.g., `1.topic.auth-redesign/`, `2.goal.v021-release/`).
 
-### Phases
+### Phases — execution containers (gatekept)
 
-Phases are the execution unit. Planned by the Architect, implemented by the Tech Lead. Each phase has a spec (the index file) with a clear goal, concrete steps, and done criteria.
-
-Gatekeeps on phases are practical and verification-oriented: "migration script passes, tests green, no regressions." They verify independently meaningful results. Phases can nest sub-phases, steps, and tasks, but cannot contain goals or topics.
+Phases are bounded work with independently verifiable outcomes. Each phase has a spec (the index file) with a clear goal, concrete steps, and done criteria. Phases can nest sub-phases, steps, and tasks, but cannot contain goals or topics.
 
 Folder naming: `N.phase.name/` (e.g., `1.phase.audit-endpoints/`).
 
-### Steps
+### Steps — structural containers (ungatkept)
 
-Steps are structural decomposition. They break a parent into manageable chunks without introducing their own gatekeep. A step has the same folder structure as any other aggregated node — a folder with an index, able to hold children — but no gatekeep file. Only the parent's gatekeep matters.
+Steps break a parent into manageable chunks without introducing their own gatekeep. A step has the same folder structure as any other container — a folder with an index, able to hold children — but no gatekeep file. Only the parent's gatekeep matters.
 
 The insight: gatekeeps should verify real-world effects, not restate work as checkbox items. Forcing a gatekeep onto every decomposition level produces meaningless checklists and dilutes what a gatekeep means. Steps exist to decompose; goals, topics, and phases exist to verify.
 
@@ -42,15 +52,17 @@ Steps can hold steps or tasks. They cannot contain goals, topics, or phases.
 
 Folder naming: `N.step.name/` (e.g., `1.step.interaction-modes/`).
 
-### Tasks
+### Tasks — leaves (ungatkept)
 
-Tasks are the lightweight unit — quick wins that don't need a folder, a spec, or a gatekeep. A task is a single file: `N.task.name.md`. It contains a brief description of what needs doing and is marked complete in `status.md` when done.
+Tasks are the lightweight unit — quick wins that don't need a folder, a spec, or a gatekeep. A task is a single file: `N.task.name.md`. It contains a brief description of what needs doing.
 
 Tasks can live anywhere: at the AT root (standalone quick wins), inside any node type (small things discovered while working). Tasks are always leaves — they hold nothing.
 
 File naming: `N.task.name.md` (e.g., `3.task.update-env-docs.md`).
 
 Tasks follow the same lifecycle as everything else — numbered, journaled, and archived on completion. The only difference is weight: no folder, no children, no gatekeep.
+
+Inside a task, the full stance pipeline doesn't apply. Any stance can do the whole job — the Architect can write code, the Tech Lead can make a design call. Interaction modes still apply (you're still either shaping or executing). Workflow stages and stance handoffs don't. Tasks are the lightweight escape valve for small changes that don't warrant ceremony.
 
 ### The containment rule
 
@@ -128,7 +140,7 @@ Steps have no gatekeep file. The parent's gatekeep covers the entire decompositi
 
 ### For tasks
 
-A task is a single file: `N.task.name.md`. It contains a brief description of what needs doing — no spec structure required. The task is marked complete in `status.md` and archived like everything else.
+A task is a single file: `N.task.name.md`. It contains a brief description of what needs doing — no spec structure required. Tasks are tracked in `status.md` and archived like everything else.
 
 ---
 
@@ -193,12 +205,18 @@ The action tree's root folder has two orientation files:
 
 **`status.md`** — the live pointer. Updated every session — this is what every session reads first. It contains:
 
-- **Current state summary** — what's happening right now, in plain language.
-- **Active mode** — Planning or Executing (see [principles.md — Interaction Modes](./principles.md#interaction-modes)). This tells the next session how to interpret artifacts.
+- **Current state** — a table with SDLC version, mode (Planning or Executing), active action, and next step. Followed by a plain-language "where we are" summary and a relevant journal link.
+- **Active action** — shows the full hierarchy breadcrumb so the reader sees exactly where work is focused. Each node in the path is a clickable link to its index or file. Format: `Type N — [Name](link) / Type N — [Name](link) — Status`. Example: `Goal 3 — [v0.21 Process Polish](link) / Task 1 — [Strategist Review Fixes](link) — Review`.
 - **Active stack** — the push/pop stack of what you're working on.
 - **Relevant journal** — curated links to the journal sessions that provide the most useful context. Not chronological — selected for relevance. These link to specific session indexes or entries, and their handovers are the session continuity mechanism.
 - **Next step** — what the next session should do first.
-- **Project overview** — one-line status per action showing mode and progress.
+- **Project overview** — the full action tree with every node visible. Each node shows its type, a human-readable name linked to its index, and its status. Children are indented under their parent. Format: `Type N — [Name](link) — Status`. Example:
+  ```
+  - **Goal 2** — [v0.21 Feedback Release](link) — **Achieved**
+    - Step 1 — [Interaction Modes](link) — Done
+    - Step 2 — [Index Architecture](link) — Done
+    - Task 6 — [Skeleton AT Review](link) — Done
+  ```
 - **History** — summary of completed or archived actions.
 
 These are the only files in the memory system that genuinely mutate — they're live pointers to the project's current state. Everything else is append-forward.

@@ -35,33 +35,31 @@ The active stack tracks what you're working on. Push an action when you start it
 
 ---
 
-## Planning → Implementation
+## Design → Implementation
 
 Every action passes through this cycle. A simple fix compresses it into minutes; a complex topic gets multi-phase roadmaps. The cycle is the same.
-
-**A note on "planning" as a workflow stage vs. interaction modes.** This section describes a workflow cycle — *what you're doing*: shaping a design (planning stage), then writing code (implementation stage). The interaction modes defined in [principles.md](./principles.md#interaction-modes) describe *how to interpret artifacts*: provisional (Planning mode) vs. authoritative (Executing mode). These are orthogonal. You can be in Executing mode while in the workflow's planning stage — for example, writing a phase spec as part of an approved goal's execution. The workflow stage describes the current activity; the interaction mode describes whether the overall direction is settled.
 
 ```
     ┌──────────────────────────────────────────────────────┐
     │                                                      │
     ▼                                                      │
- Planning ──→ Implementation ──→ Evaluate ─────────────────┘
+ Design ────→ Implementation ──→ Evaluate ─────────────────┘
  (Architect)   (Tech Lead)         │
                                    ▼
                              Action done? ──→ Complete & archive
 ```
 
-### Planning
+### Design
 
 **Stance:** Architect.
 
 You come in with a rough idea and work with the Architect to shape it. The Architect reads the codebase deeply — relevant source files, tests, configuration, existing patterns — and writes a phase spec: goal, concrete steps with specific file paths, test cases, and done criteria.
 
-For simple actions, planning is compressed — a few paragraphs covering the problem, the approach, and verification. You'll often flow straight from design into implementation in the same conversation.
+For simple actions, design is compressed — a few paragraphs covering the problem, the approach, and verification. You'll often flow straight from design into implementation in the same conversation.
 
-For complex topics, planning involves defining the problem and gatekeep collaboratively, designing a multi-phase roadmap, and writing the first phase spec. The Architect should push back on vague outcomes and challenge assumptions.
+For complex topics, design involves defining the problem and gatekeep collaboratively, designing a multi-phase roadmap, and writing the first phase spec. The Architect should push back on vague outcomes and challenge assumptions.
 
-**Planning ends** when the Human Lead approves the phase spec and the conversation shifts to implementation.
+**Design ends** when the Human Lead approves the phase spec and the conversation shifts to implementation.
 
 ### Implementation
 
@@ -77,7 +75,11 @@ The Tech Lead reads the phase spec, discusses approach with the Human Lead, and 
 
 **Within-phase fixes (stay in Implementation):** A failing test, a type error, an unexpected result — the TL addresses it directly. Tight loop.
 
-**Phase-level issues (go back to Planning):** If the approach itself is flawed — assumptions were invalid, a dependency was missed — switch back to Architect thinking. The revised phase gets a new spec version (append-forward — don't silently edit the original).
+**Phase-level issues (go back to Design):** If the approach itself is flawed — assumptions were invalid, a dependency was missed — switch back to Architect thinking. The revised phase gets a new spec version (append-forward — don't silently edit the original).
+
+### Tasks — the lightweight path
+
+Tasks don't follow the full stance pipeline. Any stance can do the whole job — the Architect can write code, the Tech Lead can make a design call. Interaction modes still apply (you're still either shaping or executing). Workflow stages and stance handoffs don't. This is the escape valve for small changes that don't warrant ceremony. See [action-tree.md](./action-tree.md) for the full task definition.
 
 ### Phase handovers
 
