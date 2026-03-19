@@ -44,7 +44,7 @@ This methodology is for senior developers. It assumes you can architect software
 
 **Memory** is the central mechanism. Three layers — action tree, knowledge tree, and journal — give the project durable memory across sessions. See [memory.md](./process/memory.md).
 
-**Actions** are how you organise work. Topics decompose strategically; phases decompose into executable units; tasks handle quick wins. Every node has a gatekeep that defines "done." See [action-tree.md](./process/action-tree.md).
+**Actions** are how you organise work. Goals and topics decompose strategically; phases decompose into executable units; steps break work into structural chunks; tasks handle quick wins. Gatekeeps verify real-world outcomes at the right level. See [action-tree.md](./process/action-tree.md).
 
 **Stances** are cognitive framing for the AI. Architect designs, Tech Lead builds, Developer executes bounded prompts. You shift between them as the work demands. See [roles.md](./process/roles.md).
 
@@ -83,10 +83,10 @@ Not using Cowork? The same `ai_readme.md` works with any AI tool — just say *"
 | # | File | What it covers |
 |---|---|---|
 | 1 | [principles.md](./process/principles.md) | Human accountability, append-forward, simplicity, strong model requirement |
-| 2 | [memory.md](./process/memory.md) | **The memory model** — three layers, the typed file system, hierarchy discipline |
-| 3 | [action-tree.md](./process/action-tree.md) | Topics, phases, and tasks, gatekeeping, the active stack |
+| 2 | [memory.md](./process/memory.md) | **The memory model** — three layers, the index as navigation primitive, the typed file system |
+| 3 | [action-tree.md](./process/action-tree.md) | Goals/topics, phases, steps, and tasks — four node types, gatekeeping, the active stack |
 | 4 | [knowledge-tree.md](./process/knowledge-tree.md) | Structure, growth patterns, what belongs at each level |
-| 5 | [journaling.md](./process/journaling.md) | **The recording system** — who writes what, where, session checklists |
+| 5 | [journaling.md](./process/journaling.md) | **The recording system** — journal folders, the handover, session close protocol |
 | 6 | [roles.md](./process/roles.md) | Stances, the Human Lead, model selection |
 | 7 | [workflow.md](./process/workflow.md) | Planning, implementation, the active stack |
 | 8 | [conventions.md](./process/conventions.md) | Naming conventions and status indicators |
@@ -109,7 +109,7 @@ This is a personal methodology, shared because it might be useful to others. Iss
 
 ## Version
 
-**v0.2** — March 2026. See [changelog](./process/changelog/).
+**v0.21** — March 2026. Interaction modes (Planning/Executing), index as navigation primitive, journal folders with handover, session continuity protocols, step node type. See [changelog](./process/changelog/).
 
 ## License
 

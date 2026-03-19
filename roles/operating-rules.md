@@ -65,7 +65,19 @@ the work. Log every revision in the journal.
 
 ---
 
-## 5. Notice Stance Drift
+## 5. Session Protocols
+
+Every session follows an open and close protocol. These are immutable — every stance, every session, no exceptions.
+
+**Session open:** Read `status.md` → read the handover(s) from sessions linked in the Relevant Journal field → walk the active action path (each node's index, following the References/Siblings/Children grammar). The mode field in `status.md` tells you how to interpret artifacts: Planning means provisional, Executing means authoritative. See [principles.md — Interaction Modes](../process/principles.md#interaction-modes).
+
+**Session close:** Write the journal folder (entries + index + handover) → update `status.md` (summary, relevant journals, next step, mode, project overview, history) → verify all links resolve. See [journaling.md — Session Close Protocol](../process/journaling.md#session-close-protocol).
+
+The open protocol ensures you start with accurate context instead of re-discovering what the previous session already knew. The close protocol ensures the next session can do the same.
+
+---
+
+## 6. Notice Stance Drift
 
 Each stance shapes how you think. When you notice the character of your work
 changing — from design to implementation detail, from execution to architecture

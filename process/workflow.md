@@ -39,6 +39,8 @@ The active stack tracks what you're working on. Push an action when you start it
 
 Every action passes through this cycle. A simple fix compresses it into minutes; a complex topic gets multi-phase roadmaps. The cycle is the same.
 
+**A note on "planning" as a workflow stage vs. interaction modes.** This section describes a workflow cycle — *what you're doing*: shaping a design (planning stage), then writing code (implementation stage). The interaction modes defined in [principles.md](./principles.md#interaction-modes) describe *how to interpret artifacts*: provisional (Planning mode) vs. authoritative (Executing mode). These are orthogonal. You can be in Executing mode while in the workflow's planning stage — for example, writing a phase spec as part of an approved goal's execution. The workflow stage describes the current activity; the interaction mode describes whether the overall direction is settled.
+
 ```
     ┌──────────────────────────────────────────────────────┐
     │                                                      │

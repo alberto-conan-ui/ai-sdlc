@@ -18,11 +18,11 @@ AI-SDLC gives your project durable memory through three layers and a typed file 
 
 ### The Journal — Temporal Intake
 
-The journal (`journal/`) is the intake buffer. A flat, chronological stream of session records — what happened, what was decided, what was observed. One file per session, named by date and session number (e.g., `2026-03-17_01.md`). No hierarchy, no tags, no structure beyond completeness.
+The journal (`journal/`) is the intake buffer. A chronological stream of session records — what happened, what was decided, what was observed. Each session produces a folder in `journal/live/`, named by date and session number (e.g., `2026-03-19_02/`). Each folder contains a session index, one or more entry files, and a handover — a targeted message for the next session working on that action. See [journaling.md](./journaling.md) for the full structure.
 
-Two subfolders: `live/` for current entries, `archive/` for processed ones. Processing is on-demand — the Human Lead triggers it by asking the Architect to review `live/` and extract what belongs in the trees. Processed entries move to `archive/`.
+Two subfolders: `live/` for current session folders, `archive/` for processed ones. Processing is on-demand — the Human Lead triggers it by asking the Architect to review `live/` and extract what belongs in the trees. Processed folders move to `archive/`.
 
-The journal is not a lesser version of the trees. It exists because there's a real gap between "something just happened" and "this belongs in a tree." The journal removes the pressure to route prematurely.
+The journal is not a lesser version of the trees. It exists because there's a real gap between "something just happened" and "this belongs in a tree." The journal removes the pressure to route prematurely. The handover adds a second function: session continuity. It tells the next session where work was left, complementing status.md which tells where the project stands.
 
 ### The Action Tree — Short-Term Memory
 
@@ -83,6 +83,24 @@ The flow is continuous, not ceremonial:
 
 ---
 
+## The Index — Navigation Primitive
+
+The index file is the core mechanism of the memory model. Every orientation decision the AI makes flows through an index. When the AI enters a folder, it reads the index. When it needs to decide what to load next, it follows links from the index. The index is not a bureaucratic requirement — it's the interface between the AI and the project's memory.
+
+Every folder has `[folder-name].index.md`. No exceptions. The index uses a three-section navigation grammar:
+
+**References** — external context this folder depends on. The parent index, relevant knowledge tree nodes, relevant journal entries. References point up and sideways — they tell the AI what else it needs to understand this node. References appear on all files (not just indexes), but they're the first section of every index.
+
+**Siblings** — typed companion files in the same folder. A goal's index lists its gatekeep and context files. A KT node's index lists its spec files. Siblings are listed with a brief role description so the AI knows what each file contributes without opening it.
+
+**Children** — nodes below this one in the hierarchy. Child folders or files, listed with brief descriptions. In the AT, children may include a status indicator. Children are the downward navigation path — the AI follows them when the task requires going deeper.
+
+The grammar is the same everywhere: AT indexes, KT indexes, journal folder indexes. The AI uses the same pattern to navigate: find the index, read References to understand context, scan Siblings to see companion files, scan Children to decide whether to go deeper.
+
+A KT leaf node has `caching-strategy.index.md` and nothing else — the index IS the content. An AT goal node has `auth-redesign.index.md` plus `auth-redesign.gatekeep.md` and `auth-redesign.context.md` — the index's Siblings section lists these companions. A task is a single file (`N.task.name.md`) that needs no folder or index.
+
+---
+
 ## The Typed File System
 
 Every file in the memory system follows one naming convention: **`[name].[type].md`**. The type suffix tells you what the file is without opening it.
@@ -91,17 +109,11 @@ Every file in the memory system follows one naming convention: **`[name].[type].
 
 | Type | Purpose | Used in |
 |---|---|---|
-| `index` | Mandatory authority file for every folder. Describes the folder's purpose and lists its contents. | All trees, all folders |
-| `spec` | Curated knowledge — patterns, insights, architectural decisions. | Knowledge tree |
+| `index` | Navigation primitive for every folder. Entry point, lists references, siblings, and children. | All trees, all folders |
+| `spec` | Curated knowledge — patterns, insights, architectural decisions. In the AT, a change spec for a step. | Knowledge tree, Action tree |
 | `gatekeep` | Completion criteria — what "done" means. | Action tree |
 | `context` | What an action is about + pointers to relevant knowledge tree nodes. | Action tree |
 | `task` | Lightweight single-file action — a quick win that doesn't need a folder. | Action tree |
-
-### The mandatory index
-
-Every folder has `[folder-name].index.md`. No exceptions. The index describes the folder's purpose and lists its contents — sibling typed files and child folders. This is the entry point for any AI loading this folder.
-
-A KT leaf node has `caching-strategy.index.md` and nothing else — the index IS the content. An action node has `process-redesign.index.md` plus `process-redesign.gatekeep.md` and `process-redesign.context.md` — the index describes the action and references its typed companions. A task is a single file (`N.task.name.md`) that needs no folder or companions.
 
 ### Naming in the Action Tree
 
@@ -154,7 +166,7 @@ No topic wrapper, no folder needed. The numbering keeps order; the type keeps cl
 
 ## Reference Headers
 
-Every file in the memory system has a reference header that declares its dependencies — what other files need to be read to understand this one. Content lives in exactly one place; references point to it.
+Every file in the memory system has a reference header that declares its dependencies — what other files need to be read to understand this one. Content lives in exactly one place; references point to it. In index files, this is the References section of the navigation grammar (see [The Index — Navigation Primitive](#the-index--navigation-primitive)). In non-index files, it serves the same purpose: declare what the reader needs to load for context.
 
 ```markdown
 > **References**

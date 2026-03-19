@@ -59,10 +59,25 @@ The Human Lead can always override: "Yes, switch" or "No, stay where you are —
 **What the AI tracks at all times:**
 
 - **Active stance** — which stance the AI is currently operating as
+- **Active mode** — Planning or Executing (see [Interaction Modes](#interaction-modes))
 - **Active action** — which action node is the current focus
 - **Active phase/prompt** — where in the implementation cycle (if executing prompts)
 
 When any of these changes, the AI confirms with the Human Lead before proceeding. `status.md` is updated to reflect the confirmed state.
+
+---
+
+## Interaction Modes
+
+The process has two modes: **Planning** and **Executing**. The mode governs how the AI interprets artifacts and how it collaborates with the Human Lead. The mode is always explicit — recorded in `status.md` and announced at session start.
+
+**Planning mode.** The Human Lead and the AI are shaping work together. Everything produced is provisional. Artifacts capture the conversation's current state — they are working notes, not commitments. The AI's posture: challenge assumptions, offer alternatives, hold things loosely. The handover (see [journaling.md](./journaling.md)) carries the state of the discussion. A new session reading these artifacts should treat them as drafts, not as approved plans.
+
+**Executing mode.** A plan has been approved by the Human Lead. The AI acts within that plan's scope. Artifacts are authoritative — they define what the work is, not what it might be. The AI's posture: follow the plan, flag deviations, stay within scope. If implementation reveals the plan was wrong, the AI flags the issue and waits for the Human Lead to decide whether to switch back to Planning.
+
+**The transition from Planning to Executing is always an explicit human decision.** The Human Lead reviews the work, decides it's ready, and authorises execution. There is no implicit transition — the AI never assumes an artifact is authoritative just because it exists. The reverse transition (Executing → Planning) happens when the AI flags that the plan doesn't hold up; the Human Lead confirms the mode switch.
+
+**Modes are orthogonal to stances and workflow stages.** A Tech Lead can be in Planning mode — sketching an approach, exploring trade-offs, proposing how to structure the implementation. A Tech Lead in Executing mode follows the approved spec and implements. Same stance, different mode. Similarly, the workflow's planning stage (writing specs with the Architect — see [workflow.md](./workflow.md)) is not the same as the Planning interaction mode. You can be in Executing mode while writing a phase spec, if the overall goal's plan is approved and you're executing within its scope.
 
 ---
 

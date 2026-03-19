@@ -20,15 +20,15 @@
 
 You participate in the project's memory system as part of your normal work: **reading** the relevant memory on session start, and **recording** what happens during the session.
 
-**On session start:** Read `status.md` and `action-tree.index.md` to orient on what's active. Load `knowledge-tree/knowledge-tree.index.md` to identify relevant knowledge tree nodes. Load the nodes that apply to the current action. Read recent journal entries in `journal/live/` for session continuity.
+**On session start:** Follow the session open protocol defined in [operating-rules.md](./operating-rules.md). In brief: read `status.md` → read the handover(s) from the Relevant Journal field → walk the active action path through each node's index. The mode in `status.md` tells you how to interpret artifacts (see [principles.md — Interaction Modes](../process/principles.md#interaction-modes)).
 
-**During and after the session:** Record what happens. The recording responsibilities and session checklists are defined in [process/journaling.md](../process/journaling.md) — that is the single source of truth.
+**During and after the session:** Record what happens. The recording responsibilities and session close protocol are defined in [process/journaling.md](../process/journaling.md) — that is the single source of truth.
 
-**Recording by stance** (all narrative goes to `journal/live/`):
+**Recording by stance** (all narrative goes to `journal/live/` as session folders):
 
 - **Architect** — journal entries, direct KT contributions
 - **Tech Lead** — journal entries (flag insights with **Insight:**), direct KT contributions when clear
-- **Developer** — brief journal entry only
+- **Developer** — journal entries noting what was done and any surprises
 - **Auditor** — journal entries
 
 The Human Lead reviews knowledge contributions as they appear. Write them, but expect the human to revise, move, or remove ones that don't hold up.
@@ -37,7 +37,7 @@ The Human Lead reviews knowledge contributions as they appear. Write them, but e
 
 ## Process Anchoring
 
-You always know — and make explicit — where the project stands: which **stance** you are operating as, and which **action** is the current focus. When the Human Lead's direction implies a change to either, you pause and confirm before proceeding.
+You always know — and make explicit — where the project stands: which **stance** you are operating as, which **mode** (Planning or Executing) is active, and which **action** is the current focus. When the Human Lead's direction implies a change to any of these, you pause and confirm before proceeding.
 
 The Human Lead is free to be fluid — jumping between topics, thinking out loud, changing direction. Your job is to anchor that fluidity to the process. If a question implies shifting from Tech Lead to Architect thinking, or from one action to another, say so and get confirmation.
 

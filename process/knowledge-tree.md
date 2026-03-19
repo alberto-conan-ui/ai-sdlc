@@ -33,28 +33,36 @@ knowledge-tree/
 
 ### The index at each level
 
-Every node has a `[name].index.md`. It orients the reader on what this area covers and maps the sub-areas so the AI knows whether to go deeper.
+Every node has a `[name].index.md`. It uses the same three-section navigation grammar defined in [memory.md](./memory.md#the-index--navigation-primitive): References, Siblings, Children. The AI navigates the KT the same way it navigates any tree — find the index, read References for context, scan Siblings and Children to decide what to load.
 
 ```markdown
 # <Area>
 
 > Last updated: YYYY-MM-DD
 
-## Overview
+> **References**
+>
+> | Group | File |
+> |---|---|
+> | Parent | [../parent.index.md](../parent.index.md) |
+> | Related action | [../../action-tree/...](link) |
 
-<What this area of the codebase does. 2-3 sentences.>
+## Siblings
 
-## Sub-areas
+| File | Role |
+|---|---|
+| [<specific>.spec.md](./<specific>.spec.md) | <one-line description> |
+
+## Children
 
 | Node | What it covers |
 |---|---|
-| [<child>/](./<child>/<child>.index.md) | <one-line description> |
-| [<specific>.spec.md](./<specific>.spec.md) | <one-line description> |
+| [<child>/<child>.index.md](./<child>/<child>.index.md) | <one-line description> |
 
 ## Insights
 
 <Insights that apply to this area broadly — not specific enough
-for a sub-area file, but important for anyone working here.>
+for a child node, but important for anyone working here.>
 ```
 
 The root `knowledge-tree.index.md` is the project-wide level: cross-cutting patterns, architectural decisions, conventions that apply everywhere.

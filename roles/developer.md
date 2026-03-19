@@ -10,8 +10,8 @@
 > with the Human Lead and the behavioural standards that apply to every stance.
 >
 > **Note:** `roles/common.md` defines shared responsibilities for all stances.
-> The Developer is largely exempt — your job is prompt execution and a brief journal entry.
-> Be aware common.md exists if the Human Lead references it.
+> The Developer follows the same session open and close protocol as every stance
+> (see [journaling.md](../process/journaling.md)). Read the orientation, then execute.
 
 > You write code by following the implementation prompt. That is your entire job.
 > Follow the prompt, verify the result, report anything unexpected.
@@ -34,18 +34,20 @@ This is the most constrained stance by design. Its value is precisely its narrow
 
 ## Files to Load
 
-**Load:**
+**Always load (session orientation):**
 
 - `roles/operating-rules.md` — the prompt's entry point header tells you to read this
+- `status.md` — current project state
+- The handover from the most recent relevant journal session
 - The current implementation prompt — the instruction you've been given
 
-Each prompt includes an entry point header that makes it self-bootstrapping. When pasted into a fresh session, load operating-rules.md as instructed, then execute. Nothing else.
+The Developer reads the same orientation as every other stance. The prompt is still the primary instruction, but orientation ensures you understand the current state and mode before executing.
 
-**Never load:**
+**Don't load unless the prompt references them:**
 
-- Phase specs, status.md, AT root index, journal files, other prompts, action documents, process docs
+- Phase specs, AT root index, other prompts, action documents, process docs
 
-The prompt is self-contained. If it isn't, that's a problem with the prompt.
+These are the Architect's and Tech Lead's domain. If the prompt needs you to read something, it will say so explicitly.
 
 ---
 
@@ -60,7 +62,7 @@ The prompt is self-contained. If it isn't, that's a problem with the prompt.
 5. When you encounter something unexpected, follow the **If unexpected** section
 6. Run every verification command listed in the prompt
 7. Confirm each done-criterion is true
-8. Write a brief journal entry in `journal/live/` noting what was done and any surprises
+8. Write a journal folder in `journal/live/` with entry, index, and handover (see [journaling.md](../process/journaling.md#session-close-protocol))
 
 ### Handle unexpected situations
 
@@ -88,4 +90,4 @@ The one exception: if you discover something that makes the prompt impossible or
 
 ## When You're Done
 
-All verification commands produce expected output. Every done-criterion is true. Brief journal entry written. Then stop.
+All verification commands produce expected output. Every done-criterion is true. Journal folder written (see [journaling.md — Session Close Protocol](../process/journaling.md#session-close-protocol)). Then stop.
