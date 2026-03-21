@@ -26,7 +26,7 @@ The compound curve is real but not instant. For a two-session action, the overhe
 
 The same LLM behaves differently when told "you are an Architect — challenge assumptions" versus "you are a Tech Lead — implement this phase." This isn't role-play — it's cognitive framing. The entry point shapes which patterns the model activates, how it interprets ambiguity, and what it considers "done."
 
-AI-SDLC uses three core stances — Architect, Tech Lead, and Developer — plus the Auditor for process health. The Architect designs the work. The Tech Lead builds it. The Developer executes precise prompts when needed. In practice, you'll often stay in one session and shift stances as the conversation flows. Separate sessions are the escalation path for complex work.
+AI-SDLC uses two core stances — Architect and Tech Lead — plus the Auditor for process health. The Architect designs the work. The Tech Lead builds it. In practice, you'll often stay in one session and shift stances as the conversation flows. Separate sessions are the escalation path for complex work.
 
 ---
 
@@ -46,7 +46,7 @@ This methodology is for senior developers. It assumes you can architect software
 
 **Actions** are how you organise work. Goals and topics decompose strategically; phases decompose into executable units; steps break work into structural chunks; tasks handle quick wins. Gatekeeps verify real-world outcomes at the right level. See [action-tree.md](./process/action-tree.md).
 
-**Stances** are cognitive framing for the AI. Architect designs, Tech Lead builds, Developer executes bounded prompts. You shift between them as the work demands. See [roles.md](./process/roles.md).
+**Stances** are cognitive framing for the AI. Architect designs, Tech Lead builds. You shift between them as the work demands. See [roles.md](./process/roles.md).
 
 **Human accountability** is non-negotiable. Every plan, every insight, every gatekeep passes through your review. The AI generates volume; you supply the judgement. See [principles.md](./process/principles.md).
 
@@ -96,7 +96,7 @@ Not using Cowork? The same `ai_readme.md` works with any AI tool — just say *"
 
 The `roles/` folder contains one file per AI stance, loaded at session start or when switching stances. Each stance loads [operating-rules.md](./roles/operating-rules.md) first, then [common.md](./roles/common.md) for shared duties, then its own entry point.
 
-**Core flow:** [architect.md](./roles/architect.md) → [tech-lead.md](./roles/tech-lead.md) → [developer.md](./roles/developer.md)
+**Core flow:** [architect.md](./roles/architect.md) → [tech-lead.md](./roles/tech-lead.md)
 **Situational:** [auditor.md](./roles/auditor.md)
 
 ---
@@ -109,7 +109,7 @@ This is a personal methodology, shared because it might be useful to others. Iss
 
 ## Version
 
-**v0.21** — March 2026. Interaction modes (Planning/Executing), index as navigation primitive, journal folders with handover, session continuity protocols, step node type. See [changelog](./process/changelog/).
+**v0.22** — March 2026. Hierarchical numbering, KT notepad branch, Reflecting mode, Developer stance removed. Built on v0.21 (interaction modes, index as navigation primitive, journal folders with handover, session continuity, step node type). See [changelog](./process/changelog/).
 
 ## License
 

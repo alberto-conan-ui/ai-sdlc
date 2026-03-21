@@ -48,15 +48,9 @@ Writing a separate "add tests" phase after features are built. Tests are part of
 
 ---
 
-## The improvising Developer
-
-A Developer session that encounters something unexpected and decides to "fix it" instead of reporting back. The Developer stance's job is to follow the prompt literally. If the prompt doesn't account for the current state of the code, the correct response is to follow the "If unexpected" section or report back. Improvised fixes compound — each one makes the next prompt's assumptions less accurate.
-
----
-
 ## Stance bleed
 
-When the AI's output starts mixing stances — the Architect over-specifying implementation details, the Developer second-guessing prompts instead of following them, the Tech Lead redesigning the spec instead of translating it. This is a signal, not a catastrophe. If you notice stance bleed, separate the stances into different sessions. If you don't notice it, compression is working fine. The risk is highest between design (Architect/Tech Lead) and execution (Developer) — which is why a fresh Developer session is recommended for complex work.
+When the AI's output starts mixing stances — the Architect over-specifying implementation details, the Tech Lead redesigning the spec instead of implementing it. This is a signal, not a catastrophe. If you notice stance bleed, separate the stances into different sessions. If you don't notice it, compression is working fine.
 
 ---
 

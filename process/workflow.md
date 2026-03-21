@@ -19,7 +19,7 @@ There is no rigid sequence of handoffs. You start with a rough idea, shape it wi
 
 **Starting a work day or returning after a break:** get oriented. Ask the AI "where are we?" in any stance — it reads `status.md` and the recent journal entries.
 
-**During active work:** the conversation flows naturally between stances. You'll know when to shift because the work changes character — from "what should we build" (Architect) to "let's implement this" (Tech Lead) to "execute this prompt precisely" (Developer, when needed).
+**During active work:** the conversation flows naturally between stances. You'll know when to shift because the work changes character — from "what should we build" (Architect) to "let's implement this" (Tech Lead).
 
 **Session boundaries are your call.** A single session with stance shifts is the default. Separate sessions are the escalation path for complex work where stance bleed degrades output quality.
 
@@ -31,7 +31,9 @@ The active stack tracks what you're working on. Push an action when you start it
 
 **Swapping actions:** Push a new action onto the stack at any time. A critical bug comes in while you're deep in a complex topic — push the fix, do it, pop it, resume. The swap gets logged in the journal.
 
-**Resuming paused work:** Pop the interrupt. The journal tells you where you left off.
+**Entering Reflecting mode:** Reflecting pushes onto the stack above whatever you're working on. The action underneath stays untouched — no status change, no tree mutation. When you're done reflecting, pop it and resume where you were. The stack makes the reflection visible: a new session sees Reflecting on top and knows the tree is under examination, not being driven forward. See [principles.md — Interaction Modes](./principles.md#interaction-modes).
+
+**Resuming paused work:** Pop the interrupt (or the reflection). The journal tells you where you left off.
 
 ---
 
@@ -63,11 +65,9 @@ For complex topics, design involves defining the problem and gatekeep collaborat
 
 ### Implementation
 
-**Stance:** Tech Lead (primary), Developer (occasional).
+**Stance:** Tech Lead.
 
 The Tech Lead reads the phase spec, discusses approach with the Human Lead, and implements. This is where most code gets written. The TL works directly from the spec — reading relevant source files, writing code, running tests, iterating.
-
-**When the TL and HL agree a bounded prompt is the right tool** — complex or risky work that benefits from clean-room execution — the TL writes the prompt and the Developer executes it. This is a technique, not a pipeline step. Most phases don't need it.
 
 **Review cadence is your call.** Complex work warrants reviewing each implementation step. Straightforward work is fine with less frequent check-ins.
 
@@ -79,7 +79,7 @@ The Tech Lead reads the phase spec, discusses approach with the Human Lead, and 
 
 ### Tasks — the lightweight path
 
-Tasks don't follow the full stance pipeline. Any stance can do the whole job — the Architect can write code, the Tech Lead can make a design call. Interaction modes still apply (you're still either shaping or executing). Workflow stages and stance handoffs don't. This is the escape valve for small changes that don't warrant ceremony. See [action-tree.md](./action-tree.md) for the full task definition.
+Tasks don't follow the full stance pipeline. Any stance can do the whole job — the Architect can write code, the Tech Lead can make a design call. Interaction modes still apply (you're still in Planning, Executing, or Reflecting). Workflow stages and stance handoffs don't. This is the escape valve for small changes that don't warrant ceremony. See [action-tree.md](./action-tree.md) for the full task definition.
 
 ### Phase handovers
 
@@ -111,4 +111,4 @@ The journal captures what happens within the process. Bridging the gap with what
 
 Every piece of state is written down: `status.md` tracks where you are, the journal captures what happened and what was learned, phase specs track the plan, and `action-tree.index.md` tracks the tree structure. The methodology never relies on an AI's memory of previous interactions. It relies on files that any session can read.
 
-The practical approach: use a single session for Architect + Tech Lead (shared context helps), a fresh session for the Developer on complex prompts (clean context helps). Adjust based on what you see in the output.
+The practical approach: use a single session for Architect + Tech Lead (shared context helps). Separate sessions are the escalation path when stance bleed degrades output quality. Adjust based on what you see in the output.

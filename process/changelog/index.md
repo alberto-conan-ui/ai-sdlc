@@ -35,5 +35,7 @@ Each version file follows this structure:
 |---|---|---|---|
 | [v0.1](./v0.1.md) | Baseline | Pre-2026-03-17 | Original process as shipped. Documented retroactively. |
 | [v0.2](./v0.2.md) | Released | 2026-03-18 | Redesign based on nine design principles from real-world usage. |
+| [v0.21](./v0.21.md) | Released | 2026-03-19 | Feedback-driven: interaction modes, session continuity, step node type, unified status. |
+| [v0.22](./v0.22.md) | Released | 2026-03-21 | Migration hardening: hierarchical numbering, KT notepad, Reflecting mode, Developer removed. |
 
-**Current stable version:** v0.2
+**Current stable version:** v0.22

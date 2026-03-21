@@ -21,6 +21,9 @@ The tree follows your codebase's meaningful boundaries. Each node is a folder wi
 ```
 knowledge-tree/
 ├── knowledge-tree.index.md        ← project-wide: cross-cutting patterns, architectural decisions
+├── notepad/                       ← scratch space for action-scoped observations
+│   ├── notepad.index.md
+│   └── archive/
 ├── auth/
 │   ├── auth.index.md              ← how auth works, key patterns, session model
 │   └── session-handling.spec.md   ← deep knowledge about session lifecycle
@@ -73,11 +76,41 @@ When a specific concern accumulates enough knowledge to warrant its own file, it
 
 ---
 
+## The Notepad Branch
+
+The notepad (`knowledge-tree/notepad/`) is a low-friction scratch space for observations that surface during execution. When working on an action, you often notice things that don't belong anywhere yet — a bug spotted in passing, a feature idea, a "revisit this later" note. The notepad gives these observations a home without forcing premature routing into curated knowledge or losing them in the temporal journal.
+
+**Why this matters for compounding.** The methodology's core promise is that AI sessions compound — session 10 benefits from every lesson learned in sessions 1 through 9. But sessions can only compound on what was captured. The bottleneck is never generating insights; it's retaining them. Every observation that dies in someone's head because the process made it too expensive to write down is a compounding opportunity lost — and the cost is invisible, because session 15 doesn't know what session 7 noticed but never recorded. The notepad exists to lower the capture threshold to near-zero. Capture first, curate later. That's what makes compounding work in practice, not just in theory.
+
+**How it works.** The `notepad/` branch exists from project setup, alongside the root index. When an action produces observations worth capturing, a matching notepad node is created under `notepad/` — named after the action it serves. Any stance can write to it during execution. There's no ceremony: just write what you noticed.
+
+**Action-scoped, not general-purpose.** Each notepad node is tied to a specific AT action via the action's context file, which references the notepad node alongside domain KT links. Observations not tied to a running action go directly to the appropriate domain KT node.
+
+**Lifecycle.** On action completion, the notepad node is reviewed as part of the standard completion checklist. Durable findings — insights that will apply to future work — migrate to their domain home in the KT. The notepad node archives with the action. The notepad branch itself persists; only its per-action nodes come and go.
+
+**Not a gateway.** The notepad doesn't sit between the AT and domain KT nodes. The AT's existing direct links to domain knowledge stay unchanged. The notepad is an accessory — a scratch pad, not a middleman.
+
+```
+knowledge-tree/
+├── knowledge-tree.index.md
+├── notepad/
+│   ├── notepad.index.md             ← map of active notepad nodes
+│   ├── auth-redesign/               ← notes from the auth-redesign action
+│   │   └── auth-redesign.index.md
+│   └── archive/                     ← notepad nodes from completed actions
+├── auth/
+│   └── auth.index.md
+└── api/
+    └── api.index.md
+```
+
+---
+
 ## How the Tree Grows
 
 The tree grows organically. You don't scaffold a deep hierarchy upfront.
 
-**A new project starts almost empty.** Setup creates `knowledge-tree.index.md` and nothing else.
+**A new project starts almost empty.** Setup creates `knowledge-tree.index.md` and the `notepad/` branch with its own index — nothing else.
 
 **Nodes appear as work touches new areas.** When the Architect works on authentication for the first time, `knowledge-tree/auth/` gets created with `auth.index.md`. The structure follows the work, not a predetermined taxonomy.
 

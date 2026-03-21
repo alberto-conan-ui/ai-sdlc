@@ -30,17 +30,17 @@ The action tree has five node types, following the typed file system convention 
 
 ### Goals and Topics — strategic containers (gatekept)
 
-Goals and topics are the same structurally — all rules apply identically. Use "goal" (`N.goal.name/`) when the node represents a top-level objective. Use "topic" (`N.topic.name/`) when it represents a strategic area of concern. The choice is cosmetic.
+Goals and topics are the same structurally — all rules apply identically. Use "goal" (`NN.goal.name/`) when the node represents a top-level objective. Use "topic" (`NN.topic.name/`) when it represents a strategic area of concern. The choice is cosmetic.
 
 They define *what* needs to happen and *why*, without specifying *how*. Goals and topics can nest sub-goals/topics, phases, steps, and tasks. The Architect and Human Lead design them together.
 
-Folder naming: `N.goal.name/` or `N.topic.name/` (e.g., `1.topic.auth-redesign/`, `2.goal.v021-release/`).
+Folder naming: `NN.goal.name/` or `NN.topic.name/` (e.g., `05.topic.auth-redesign/`, `10.goal.v021-release/`). See [Numbering Convention](#numbering-convention) for the two-digit ID scheme.
 
 ### Phases — execution containers (gatekept)
 
 Phases are bounded work with independently verifiable outcomes. Each phase has a spec (the index file) with a clear goal, concrete steps, and done criteria. Phases can nest sub-phases, steps, and tasks, but cannot contain goals or topics.
 
-Folder naming: `N.phase.name/` (e.g., `1.phase.audit-endpoints/`).
+Folder naming: `NN.phase.name/` (e.g., `05.phase.audit-endpoints/`).
 
 ### Steps — structural containers (ungatkept)
 
@@ -50,7 +50,7 @@ The insight: gatekeeps should verify real-world effects, not restate work as che
 
 Steps can hold steps or tasks. They cannot contain goals, topics, or phases.
 
-Folder naming: `N.step.name/` (e.g., `1.step.interaction-modes/`).
+Folder naming: `NN.step.name/` (e.g., `05.step.interaction-modes/`).
 
 ### Tasks — leaves (ungatkept)
 
@@ -58,45 +58,45 @@ Tasks are the lightweight unit — quick wins that don't need a folder, a spec, 
 
 Tasks can live anywhere: at the AT root (standalone quick wins), inside any node type (small things discovered while working). Tasks are always leaves — they hold nothing.
 
-File naming: `N.task.name.md` (e.g., `3.task.update-env-docs.md`).
+File naming: `NN.task.name.md` (e.g., `15.task.update-env-docs.md`).
 
 Tasks follow the same lifecycle as everything else — numbered, journaled, and archived on completion. The only difference is weight: no folder, no children, no gatekeep.
 
-Inside a task, the full stance pipeline doesn't apply. Any stance can do the whole job — the Architect can write code, the Tech Lead can make a design call. Interaction modes still apply (you're still either shaping or executing). Workflow stages and stance handoffs don't. Tasks are the lightweight escape valve for small changes that don't warrant ceremony.
+Inside a task, the full stance pipeline doesn't apply. Any stance can do the whole job — the Architect can write code, the Tech Lead can make a design call. Interaction modes still apply (you're still in Planning, Executing, or Reflecting). Workflow stages and stance handoffs don't. Tasks are the lightweight escape valve for small changes that don't warrant ceremony.
 
 ### The containment rule
 
 Goals/topics can hold goals/topics, phases, steps, or tasks. Phases can hold phases, steps, or tasks. Steps can hold steps or tasks. Tasks hold nothing — they are always leaves. The direction is always strategic → executable → decomposition → atomic.
 
 ```
-2.goal.v021-release/                ← strategic: "ship v0.21 changes"
-├── 1.step.interaction-modes/       ← decomposition: structural chunk
-├── 2.step.index-architecture/      ← decomposition: structural chunk
-├── 3.step.journal-evolution/       ← decomposition: structural chunk
-└── 4.task.version-bump.md          ← atomic: quick win
+10.goal.v021-release/                ← strategic: "ship v0.21 changes"
+├── 05.step.interaction-modes/       ← decomposition: structural chunk
+├── 10.step.index-architecture/      ← decomposition: structural chunk
+├── 15.step.journal-evolution/       ← decomposition: structural chunk
+└── 20.task.version-bump.md          ← atomic: quick win
 ```
 
 A topic with phases:
 
 ```
-1.topic.auth-redesign/              ← strategic: "redesign the auth flow"
-├── 1.phase.audit-endpoints/        ← executable: bounded work with gatekeep
-├── 2.phase.new-token-model/        ← executable: bounded work with gatekeep
-├── 3.phase.migrate-sessions/       ← executable: bounded work with gatekeep
-└── 4.task.update-env-docs.md       ← atomic: quick win
+05.topic.auth-redesign/              ← strategic: "redesign the auth flow"
+├── 05.phase.audit-endpoints/        ← executable: bounded work with gatekeep
+├── 10.phase.new-token-model/        ← executable: bounded work with gatekeep
+├── 15.phase.migrate-sessions/       ← executable: bounded work with gatekeep
+└── 20.task.update-env-docs.md       ← atomic: quick win
 ```
 
 A topic with sub-topics:
 
 ```
-1.topic.platform-v2/                ← strategic umbrella
-├── 1.topic.auth-redesign/          ← strategic sub-area
-│   ├── 1.phase.audit-endpoints/
-│   └── 2.phase.new-token-model/
-├── 2.topic.api-modernisation/      ← strategic sub-area
-│   ├── 1.phase.openapi-spec/
-│   └── 2.phase.versioning/
-└── 3.task.update-readme.md         ← quick win inside the umbrella
+05.topic.platform-v2/                ← strategic umbrella
+├── 05.topic.auth-redesign/          ← strategic sub-area
+│   ├── 05.phase.audit-endpoints/
+│   └── 10.phase.new-token-model/
+├── 10.topic.api-modernisation/      ← strategic sub-area
+│   ├── 05.phase.openapi-spec/
+│   └── 10.phase.versioning/
+└── 15.task.update-readme.md         ← quick win inside the umbrella
 ```
 
 ### When to use which
@@ -104,6 +104,36 @@ A topic with sub-topics:
 Most work starts as a goal or topic. Use phases inside them for bounded work that needs its own gatekeep — independently verifiable outcomes. Use steps inside them for structural decomposition that doesn't need independent verification — the parent's gatekeep covers the whole. Use a bare phase at the root for simple, bounded work that doesn't need strategic framing. Use a task for the simplest things — a one-off fix, a quick update, anything that can be described and completed in a single sitting.
 
 If you're unsure whether something is a phase or a step, ask: "Does this chunk produce an independently verifiable result?" If yes, it's a phase. If it's just a manageable piece of a bigger whole, it's a step.
+
+---
+
+## Numbering Convention
+
+Node ordering uses a two-digit ID scheme designed for stable, gap-friendly numbering.
+
+**Base rules:** two-digit IDs at every level — `05`, `10`, `15`, `20`, ... Start at `05`, increment by `5`. Lower number = higher priority. This leaves four insertion slots between any two consecutive nodes.
+
+**Insertion:** when a node needs to go between two existing nodes, use the integers in the gap. Between `05` and `10`, insert `06`, `07`, `08`, or `09`. This avoids renumbering existing nodes and preserves link stability.
+
+**Parking-lot:** low-priority or future work counts down from `95` — `95`, `90`, `85`, ... Active work lives at the top of the numbering range; speculative or deferred work lives at the bottom, with a clear visual boundary between them.
+
+**Folder names use the local ID.** On disk, a child folder is just `NN.type.name/` — the parent prefix does not appear in the folder name. Example: inside `05.goal.dx-production-ready/`, a child is `05.goal.dx-api-completeness/`, not `05.05.goal.dx-api-completeness/`.
+
+**Hierarchical addressing for cross-references.** When referring to a node outside its immediate folder — in `status.md`, journal entries, or prose — use the dot-separated path of local IDs: `05.05` means "child 05 inside parent 05." This extends to any depth: `05.10.05`. Hierarchical addresses identify nodes unambiguously across the tree.
+
+```
+Goal 05 — DX Production Ready
+├── Goal 05.05 — DX API Completeness
+│   └── Phases 05.05.05–05.05.20
+├── Goal 05.10 — DX Cover Kitchen Sink
+│   └── Goal 05.10.05 — DX KS Inception
+├── Task 05.15 — Merge DX to Shared
+Goal 10 — DX Post-Merge Extensions
+Goal 15 — v0.21 Migration
+Goal 95 — DX Low Priority Improvements    ← parking-lot (95 descending)
+├── Goal 95.05 — Settle Merge Precedence
+├── Goal 95.10 — Harden DX Internals
+```
 
 ---
 
@@ -117,7 +147,7 @@ Every node follows the `[name].[type].md` convention. The index file is always t
 |---|---|
 | `name.index.md` | **Required.** What this goal/topic is about. References, siblings, children. |
 | `name.gatekeep.md` | **Required.** Completion criteria — what "done" means. |
-| `name.context.md` | Links to relevant knowledge tree nodes. The bridge between what you're doing (AT) and what you know (KT). |
+| `name.context.md` | Links to relevant knowledge tree nodes — both domain nodes and the action's notepad node (if one exists). The bridge between what you're doing (AT) and what you know (KT). |
 | `name.spec.md` | Design specification — the detailed plan when the index overview isn't enough. |
 
 ### For phases
@@ -140,7 +170,7 @@ Steps have no gatekeep file. The parent's gatekeep covers the entire decompositi
 
 ### For tasks
 
-A task is a single file: `N.task.name.md`. It contains a brief description of what needs doing — no spec structure required. Tasks are tracked in `status.md` and archived like everything else.
+A task is a single file: `NN.task.name.md`. It contains a brief description of what needs doing — no spec structure required. Tasks are tracked in `status.md` and archived like everything else.
 
 ---
 
@@ -195,6 +225,23 @@ Stack (top = current):
   → auth-redesign                     (phases in progress)
 ```
 
+Reflecting pushes onto the stack the same way. The action underneath stays untouched:
+
+```
+Stack (top = current):
+  → Reflecting                        (tree decomposition needs rethinking)
+  → auth-redesign/new-token-model    (paused — unchanged)
+  → auth-redesign                     (paused — unchanged)
+```
+
+After reflecting, pop back and resume — or restructure:
+
+```
+Stack (top = current):
+  → auth-redesign/new-token-model    (resuming, or starting a revised plan)
+  → auth-redesign                     (phases in progress)
+```
+
 ---
 
 ## The AT Root: Index + Status
@@ -205,19 +252,20 @@ The action tree's root folder has two orientation files:
 
 **`status.md`** — the live pointer. Updated every session — this is what every session reads first. It contains:
 
-- **Current state** — a table with SDLC version, mode (Planning or Executing), active action, and next step. Followed by a plain-language "where we are" summary and a relevant journal link.
-- **Active action** — shows the full hierarchy breadcrumb so the reader sees exactly where work is focused. Each node in the path is a clickable link to its index or file. Format: `Type N — [Name](link) / Type N — [Name](link) — Status`. Example: `Goal 3 — [v0.21 Process Polish](link) / Task 1 — [Strategist Review Fixes](link) — Review`.
+- **Current state** — a table with SDLC version, mode (Planning, Executing, or Reflecting), active action, and next step. Followed by a plain-language "where we are" summary and a relevant journal link. When the mode is Reflecting, the action tree's state does not change — Reflecting is a session-level mode, not an action-level status. See [principles.md — Interaction Modes](./principles.md#interaction-modes).
+- **Active action** — shows the full hierarchy breadcrumb so the reader sees exactly where work is focused. Each node in the path is a clickable link to its index or file. Format: `Type NN — [Name](link) / Type NN.NN — [Name](link) — Status`. Example: `Goal 15 — [v0.21 Process Polish](link) / Task 15.05 — [Strategist Review Fixes](link) — Review`.
 - **Active stack** — the push/pop stack of what you're working on.
 - **Relevant journal** — curated links to the journal sessions that provide the most useful context. Not chronological — selected for relevance. These link to specific session indexes or entries, and their handovers are the session continuity mechanism.
 - **Next step** — what the next session should do first.
-- **Project overview** — the full action tree with every node visible. Each node shows its type, a human-readable name linked to its index, and its status. Children are indented under their parent. Format: `Type N — [Name](link) — Status`. Example:
+- **Project overview** — the full action tree with every node visible. Each node shows its type, its hierarchical address, a human-readable name linked to its index, and its status. Children are indented under their parent. Format: `Type NN — [Name](link) — Status`. Example:
   ```
-  - **Goal 2** — [v0.21 Feedback Release](link) — **Achieved**
-    - Step 1 — [Interaction Modes](link) — Done
-    - Step 2 — [Index Architecture](link) — Done
-    - Task 6 — [Skeleton AT Review](link) — Done
+  - **Goal 10** — [v0.21 Feedback Release](link) — **Achieved**
+    - Step 10.05 — [Interaction Modes](link) — Done
+    - Step 10.10 — [Index Architecture](link) — Done
+    - Task 10.30 — [Skeleton AT Review](link) — Done
   ```
-- **History** — summary of completed or archived actions.
+
+The journal and git log are the authoritative historical records. `status.md` is a live pointer — it tracks current state, not history.
 
 These are the only files in the memory system that genuinely mutate — they're live pointers to the project's current state. Everything else is append-forward.
 
@@ -242,9 +290,10 @@ There's no promotion mechanic, no ceremony. The tree IS the record of how the wo
 When an action is done — its gatekeep passes:
 
 1. Review journal entries from the action. Anything flagged as insightful and worth keeping migrates to the appropriate knowledge tree node.
-2. The action subtree moves to `archive/`. The full record goes together.
-3. `status.md` and `action-tree.index.md` update — action popped from the stack, status marked achieved.
-4. The journal gets a completion note if relevant.
+2. Review the action's notepad node (if one exists in `knowledge-tree/notepad/`). Durable findings migrate to their domain home in the KT. The notepad node moves to `knowledge-tree/notepad/archive/`.
+3. The action subtree moves to `archive/`. The full record goes together.
+4. `status.md` and `action-tree.index.md` update — action popped from the stack, status marked achieved.
+5. The journal gets a completion note if relevant.
 
 For branch topics, completion means all children are done and the branch gatekeep passes. You can archive children individually as they finish, or the entire subtree at once.
 

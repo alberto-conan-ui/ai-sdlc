@@ -45,7 +45,7 @@ KT nodes start with just a `[name].index.md`. When a concern accumulates enough 
 | Suffix | File pattern | Required | Purpose |
 |---|---|---|---|
 | `gatekeep` | `[name].gatekeep.md` | **Yes** | Completion criteria — what "done" means for this topic. |
-| `context` | `[name].context.md` | No | What the action is about + pointers to relevant KT nodes. |
+| `context` | `[name].context.md` | No | What the action is about + pointers to relevant KT nodes (domain nodes and the action's notepad node, if one exists). |
 
 Topic folders use the naming pattern `N.topic.name/`. Only the index and gatekeep are required; everything else is created when useful.
 

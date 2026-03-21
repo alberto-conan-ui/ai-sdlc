@@ -52,14 +52,14 @@ At every moment, the AI knows — and makes explicit — two things: **which sta
 
 *"This question is about a different action. Should I push fix-csv-date-format onto the stack, or is this a quick aside?"*
 
-This is not pedantry — it is the mechanism that bridges the Human Lead's flexibility with the process's discipline. Without it, the AI drifts: it answers as an Architect when it should be a Developer, it redesigns a gatekeep when it should be executing a prompt, it writes to the wrong recording files. The formalisation takes seconds and prevents the most common failure modes: stance bleed and untracked context switches.
+This is not pedantry — it is the mechanism that bridges the Human Lead's flexibility with the process's discipline. Without it, the AI drifts: it answers as an Architect when it should be implementing as a Tech Lead, it redesigns a gatekeep when it should be building from the spec, it writes to the wrong recording files. The formalisation takes seconds and prevents the most common failure modes: stance bleed and untracked context switches.
 
 The Human Lead can always override: "Yes, switch" or "No, stay where you are — I'm just thinking out loud." The AI's job is to ask, not to block. But it must always ask when the implicit direction would change the process state.
 
 **What the AI tracks at all times:**
 
 - **Active stance** — which stance the AI is currently operating as
-- **Active mode** — Planning or Executing (see [Interaction Modes](#interaction-modes))
+- **Active mode** — Planning, Executing, or Reflecting (see [Interaction Modes](#interaction-modes))
 - **Active action** — which action node is the current focus
 - **Active phase/prompt** — where in the implementation cycle (if executing prompts)
 
@@ -69,15 +69,23 @@ When any of these changes, the AI confirms with the Human Lead before proceeding
 
 ## Interaction Modes
 
-The process has two modes: **Planning** and **Executing**. The mode governs how the AI interprets artifacts and how it collaborates with the Human Lead. The mode is always explicit — recorded in `status.md` and announced at session start.
+The process has three modes: **Planning**, **Executing**, and **Reflecting**. The mode governs how the AI interprets artifacts and how it collaborates with the Human Lead. The mode is always explicit — recorded in `status.md` and announced at session start.
+
+**Planning** and **Executing** drive the action tree forward. They differ in posture — one treats artifacts as provisional, the other as authoritative — but both operate *within* an action, moving it toward its gatekeep. **Reflecting** steps outside the tree. The action tree is untouched; the session examines, reshapes, or rethinks the tree itself.
 
 **Planning mode.** The Human Lead and the AI are shaping work together. Everything produced is provisional. Artifacts capture the conversation's current state — they are working notes, not commitments. The AI's posture: challenge assumptions, offer alternatives, hold things loosely. The handover (see [journaling.md](./journaling.md)) carries the state of the discussion. A new session reading these artifacts should treat them as drafts, not as approved plans.
 
 **Executing mode.** A plan has been approved by the Human Lead. The AI acts within that plan's scope. Artifacts are authoritative — they define what the work is, not what it might be. The AI's posture: follow the plan, flag deviations, stay within scope. If implementation reveals the plan was wrong, the AI flags the issue and waits for the Human Lead to decide whether to switch back to Planning.
 
-**The transition from Planning to Executing is always an explicit human decision.** The Human Lead reviews the work, decides it's ready, and authorises execution. There is no implicit transition — the AI never assumes an artifact is authoritative just because it exists. The reverse transition (Executing → Planning) happens when the AI flags that the plan doesn't hold up; the Human Lead confirms the mode switch.
+**Reflecting mode.** The Human Lead and AI step outside the action tree to examine it. No obligation to produce AT artifacts. The action tree's state does not change — active actions remain active, paused actions remain paused. Reflecting is the mode for when the structure itself needs attention: the decomposition isn't right, a branch should be scrapped, the plan broke and the tree needs reshaping before forward motion can resume.
 
-**Modes are orthogonal to stances and workflow stages.** A Tech Lead can be in Planning mode — sketching an approach, exploring trade-offs, proposing how to structure the implementation. A Tech Lead in Executing mode follows the approved spec and implements. Same stance, different mode. Similarly, the workflow's design stage (writing specs with the Architect — see [workflow.md](./workflow.md)) is not the same as the Planning interaction mode. You can be in Executing mode while writing a phase spec, if the overall goal's plan is approved and you're executing within its scope.
+Reflecting is reachable from both Planning and Executing — whenever the tree itself is the thing that needs work, not the work within it. Without Reflecting, the process would force you to create AT artifacts (a task, a step, a spec revision) just to justify thinking about the tree. Reflecting removes that overhead. You enter, you examine, you reshape or take notes, and you exit back into Planning or Executing.
+
+Reflecting is transitional. You enter because the tree needs attention; you exit by returning to a forward-motion mode. When entering Reflecting, it pushes onto the active stack (see [workflow.md — The Active Stack](./workflow.md#the-active-stack)). The action underneath stays untouched. When exiting, it pops — and you resume where you were, unless Reflecting led you to restructure. The journal captures what happened during reflection; the handover tells the next session whether to continue reflecting or resume forward motion.
+
+**Mode transitions.** The transition from Planning to Executing is always an explicit human decision. The Human Lead reviews the work, decides it's ready, and authorises execution. There is no implicit transition — the AI never assumes an artifact is authoritative just because it exists. The reverse transition (Executing → Planning) happens when the AI flags that the plan doesn't hold up; the Human Lead confirms the mode switch. Transitions into and out of Reflecting are also explicit human decisions — the Human Lead triggers reflection and explicitly exits back into Planning or Executing.
+
+**Modes are orthogonal to stances and workflow stages.** Any stance can operate in any mode. A Tech Lead can be in Planning mode — sketching an approach, exploring trade-offs, proposing how to structure the implementation. A Tech Lead in Executing mode follows the approved spec and implements. An Architect in Reflecting mode examines the tree's decomposition. A Tech Lead in Reflecting mode investigates a technical assumption that's undermining the plan. Same stances, different modes. Similarly, the workflow's design stage (writing specs with the Architect — see [workflow.md](./workflow.md)) is not the same as the Planning interaction mode. You can be in Executing mode while writing a phase spec, if the overall goal's plan is approved and you're executing within its scope.
 
 ---
 

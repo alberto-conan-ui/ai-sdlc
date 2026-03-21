@@ -69,7 +69,7 @@ the work. Log every revision in the journal.
 
 Every session follows an open and close protocol. These are immutable — every stance, every session, no exceptions.
 
-**Session open:** Read `status.md` → read the handover(s) from sessions linked in the Relevant Journal field → walk the active action path (each node's index, following the References/Siblings/Children grammar). The mode field in `status.md` tells you how to interpret artifacts: Planning means provisional, Executing means authoritative. See [principles.md — Interaction Modes](../process/principles.md#interaction-modes).
+**Session open:** Read `status.md` → read the handover(s) from sessions linked in the Relevant Journal field → walk the active action path (each node's index, following the References/Siblings/Children grammar). The mode field in `status.md` tells you how to interpret artifacts: Planning means provisional, Executing means authoritative, Reflecting means the tree itself is under examination — no AT artifacts expected, the session examines and reshapes the tree. If the mode is Reflecting, the handover tells you what triggered the reflection and whether to continue reflecting or resume a forward-motion mode. See [principles.md — Interaction Modes](../process/principles.md#interaction-modes).
 
 **Session close:** Ask the Human Lead for the current action's status (don't infer it) → write the journal folder (entries + index + handover using the stated status) → update `status.md` (summary, relevant journals, next step, mode, project overview, history) → verify all links resolve. See [journaling.md — Session Close Protocol](../process/journaling.md#session-close-protocol).
 

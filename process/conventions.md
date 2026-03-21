@@ -17,21 +17,22 @@ Naming conventions, status indicators, and structural rules. For file type defin
 - Project memory folder: `.ai-sdlc/memory/` (nested inside the code repo, gitignored)
 - File naming: `[name].[type].md` — every file declares its type in the name (see [memory.md](./memory.md) for the type catalogue)
 - Every folder: `[folder-name].index.md` — navigation entry point (see [memory.md — The Index](./memory.md#the-index--navigation-primitive))
-- Goal folders: `N.goal.kebab-case-name/` (e.g., `2.goal.v021-release/`)
-- Topic folders: `N.topic.kebab-case-name/` (e.g., `1.topic.auth-redesign/`)
-- Phase folders: `N.phase.kebab-case-name/` (e.g., `1.phase.baseline-tests/`)
-- Step folders: `N.step.kebab-case-name/` (e.g., `1.step.interaction-modes/`)
-- Task files: `N.task.kebab-case-name.md` (e.g., `3.task.update-env-docs.md`) — single file, no folder
+- Node numbering: two-digit IDs starting at `05`, incrementing by `5` — see [action-tree.md — Numbering Convention](./action-tree.md#numbering-convention) for the full scheme (insertion gaps, parking-lot, hierarchical addressing)
+- Goal folders: `NN.goal.kebab-case-name/` (e.g., `10.goal.v021-release/`)
+- Topic folders: `NN.topic.kebab-case-name/` (e.g., `05.topic.auth-redesign/`)
+- Phase folders: `NN.phase.kebab-case-name/` (e.g., `05.phase.baseline-tests/`)
+- Step folders: `NN.step.kebab-case-name/` (e.g., `05.step.interaction-modes/`)
+- Task files: `NN.task.kebab-case-name.md` (e.g., `15.task.update-env-docs.md`) — single file, no folder
 - Journal folders: `YYYY-MM-DD_NN/` in `journal/live/` (e.g., `2026-03-19_02/`) — contains index, entries, and handover (see [journaling.md](./journaling.md#the-journal-folder))
 
 ---
 
 ## Status Vocabulary
 
-One vocabulary for all node types. The interaction mode (Planning or Executing — see [principles.md — Interaction Modes](./principles.md#interaction-modes)) tells you how to interpret artifacts; the status tells you where the work stands.
+One vocabulary for all node types. The interaction mode (Planning, Executing, or Reflecting — see [principles.md — Interaction Modes](./principles.md#interaction-modes)) tells you how to interpret artifacts; the status tells you where the work stands.
 
 - `Pending` — defined, not started
-- `Active` — work in progress. The interaction mode says whether the work is being shaped (Planning) or executed (Executing).
+- `Active` — work in progress. The interaction mode says whether the work is being shaped (Planning) or executed (Executing). In Reflecting mode, the action stays Active but the session has stepped outside the tree — see [principles.md — Interaction Modes](./principles.md#interaction-modes).
 - `Paused` — stopped temporarily, reason in journal
 - `Review` — work complete, awaiting Human Lead assessment
 - `Done` — Human Lead confirmed (ungatkept nodes: steps, tasks)

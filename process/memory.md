@@ -112,7 +112,7 @@ Every file in the memory system follows one naming convention: **`[name].[type].
 | `index` | Navigation primitive for every folder. Entry point, lists references, siblings, and children. | All trees, all folders |
 | `spec` | Curated knowledge — patterns, insights, architectural decisions. In the AT, a change spec for a step. | Knowledge tree, Action tree |
 | `gatekeep` | Completion criteria — what "done" means. | Action tree |
-| `context` | What an action is about + pointers to relevant knowledge tree nodes. | Action tree |
+| `context` | What an action is about + pointers to relevant KT nodes (domain nodes and the action's notepad node, if one exists). | Action tree |
 | `task` | Lightweight single-file action — a quick win that doesn't need a folder. | Action tree |
 
 ### Naming in the Action Tree
@@ -123,27 +123,27 @@ The action tree uses typed names to distinguish all five node types — goals, t
 action-tree/
 ├── action-tree.index.md
 ├── status.md
-├── 1.goal.v021-release/
+├── 05.goal.v021-release/
 │   ├── v021-release.index.md
 │   ├── v021-release.gatekeep.md
-│   ├── 1.step.interaction-modes/
+│   ├── 05.step.interaction-modes/
 │   │   └── interaction-modes.index.md
-│   ├── 2.step.index-architecture/
+│   ├── 10.step.index-architecture/
 │   │   └── index-architecture.index.md
-│   └── 3.task.version-bump.md
-├── 2.topic.auth-redesign/
+│   └── 15.task.version-bump.md
+├── 10.topic.auth-redesign/
 │   ├── auth-redesign.index.md
 │   ├── auth-redesign.gatekeep.md
 │   ├── auth-redesign.context.md
-│   ├── 1.phase.audit-endpoints/
+│   ├── 05.phase.audit-endpoints/
 │   │   └── audit-endpoints.index.md
-│   ├── 2.phase.new-token-model/
+│   ├── 10.phase.new-token-model/
 │   │   └── new-token-model.index.md
-│   └── 3.task.update-env-docs.md
+│   └── 15.task.update-env-docs.md
 └── archive/
 ```
 
-Order prefixes (`1.`, `2.`) are local to the folder — no cascading parent prefixes. The type (`goal`, `topic`, `phase`, `step`, or `task`) is declared in the name. Folders contain files following `[name].[type].md`. Tasks are single files — no folder needed.
+Folder prefixes use the local two-digit ID (`05.`, `10.`) — see [action-tree.md — Numbering Convention](./action-tree.md#numbering-convention) for the full scheme. The type (`goal`, `topic`, `phase`, `step`, or `task`) is declared in the name. Folders contain files following `[name].[type].md`. Tasks are single files — no folder needed. In `status.md` and cross-references, nodes use their full hierarchical address (`05.10`) for unambiguous identification.
 
 ### What about simple actions?
 
@@ -153,7 +153,7 @@ A simple fix that doesn't need strategic decomposition can be a single phase at 
 action-tree/
 ├── action-tree.index.md
 ├── status.md
-├── 1.phase.fix-csv-date-format/
+├── 05.phase.fix-csv-date-format/
 │   └── fix-csv-date-format.index.md
 ```
 
@@ -163,10 +163,10 @@ Even simpler — a task at the root:
 action-tree/
 ├── action-tree.index.md
 ├── status.md
-├── 1.task.fix-csv-date-format.md
+├── 05.task.fix-csv-date-format.md
 ```
 
-No topic wrapper, no folder needed. The numbering keeps order; the type keeps clarity. Only create structure you need.
+No topic wrapper, no folder needed. The two-digit numbering keeps order and insertion room; the type keeps clarity. Only create structure you need.
 
 ---
 

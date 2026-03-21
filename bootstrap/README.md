@@ -17,7 +17,8 @@ my-project/                        ← IDE opens HERE — this is the workspace
 │   │   │   ├── live/              ← current session entries
 │   │   │   └── archive/           ← processed entries
 │   │   ├── knowledge-tree/
-│   │   │   │   ├── knowledge-tree.index.md
+│   │   │   ├── knowledge-tree.index.md
+│   │   │   ├── notepad/           ← scratch space for action-scoped observations
 │   │   │   └── archive/           ← retired insights
 │   │   ├── action-tree/
 │   │   │   ├── action-tree.index.md
@@ -114,6 +115,9 @@ my-project/
 │   │   │   └── archive/
 │   │   ├── knowledge-tree/
 │   │   │   ├── knowledge-tree.index.md
+│   │   │   ├── notepad/
+│   │   │   │   ├── notepad.index.md
+│   │   │   │   └── archive/
 │   │   │   └── archive/
 │   │   ├── action-tree/
 │   │   │   ├── action-tree.index.md
@@ -173,7 +177,7 @@ If `.ai-sdlc/memory/` doesn't exist, create it:
 
 ```bash
 mkdir -p .ai-sdlc/memory/journal/live .ai-sdlc/memory/journal/archive \
-         .ai-sdlc/memory/knowledge-tree/archive \
+         .ai-sdlc/memory/knowledge-tree/notepad/archive .ai-sdlc/memory/knowledge-tree/archive \
          .ai-sdlc/memory/action-tree/archive
 cd .ai-sdlc/memory && git init -b main && cd ../..
 ```
@@ -196,7 +200,7 @@ methodology: methodology
 ```markdown
 # <Project Name> — Status
 
-**Process version:** v0.2
+**Process version:** v0.22
 
 > Single source of truth. Every stance reads this for orientation.
 
@@ -248,9 +252,27 @@ methodology: methodology
 
 <URL>
 
-## Knowledge Map
+## Children
 
-<!-- Populated as the knowledge tree grows. -->
+| Node | What it covers |
+|---|---|
+| [notepad/notepad.index.md](./notepad/notepad.index.md) | Scratch space for action-scoped observations |
+
+<!-- Additional nodes populated as the knowledge tree grows. -->
+```
+
+**`knowledge-tree/notepad/notepad.index.md`** — scratch space for action-scoped observations:
+
+```markdown
+# Notepad
+
+> Low-friction scratch space for observations that surface during execution.
+> Each node is tied to a specific AT action. On action completion, durable
+> findings migrate to their domain home in the KT; the notepad node archives.
+
+## Children
+
+*No active notepad nodes.*
 ```
 
 ### 5. Create ai_readme.md
@@ -269,7 +291,7 @@ The workspace should now look like the "Fully bootstrapped" diagram above. Read 
 Yes. The `.ai-sdlc/` folder is gitignored — it never appears in commits or pull requests. Other developers are unaffected. The only change to the code repo is one line in `.gitignore`, and even that can be added to a personal global gitignore instead if you prefer zero modifications.
 
 **Can I use multiple AI tools?**
-Yes. Everything is plain markdown. Use one tool for the Architect and Tech Lead stances (e.g., Cowork, Claude) and another for the Developer (e.g., Cursor, Windsurf, Claude Code). The stance separation maps naturally to different tools. All tools point at the code repo root.
+Yes. Everything is plain markdown. Use one tool for the Architect stance (e.g., Cowork, Claude) and another for the Tech Lead (e.g., Cursor, Windsurf, Claude Code). The stance separation maps naturally to different tools. All tools point at the code repo root.
 
 **What about existing `.claude/` folders?**
 If the code repo has a `.claude/` folder, you can migrate its contents to the project memory or keep both during a transition. Be clear about which is authoritative.

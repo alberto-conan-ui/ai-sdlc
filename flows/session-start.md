@@ -8,7 +8,7 @@
 
 Every AI session starts from zero. The AI has no memory of your project, your conventions, your current work, or where you left off. Without intervention, you spend the first five minutes of every session re-explaining context the AI already learned yesterday.
 
-This matters more than it sounds. A typical action might span 6–10 sessions across multiple stances — Architect, Tech Lead, Developer — each needing full project context. If each session starts with manual context loading, that's an hour of overhead before any real work begins.
+This matters more than it sounds. A typical action might span 6–10 sessions across multiple stances — Architect and Tech Lead — each needing full project context. If each session starts with manual context loading, that's an hour of overhead before any real work begins.
 
 ## The Solution
 
@@ -79,7 +79,6 @@ The action involved moving a framework-agnostic pipeline (~82 files, ~5,200 line
 
 - **Architect sessions** — scoped the action, investigated a type conflict discovered during implementation, established a design rule, defined phases, triaged a CI failure, performed a pre-PR review
 - **Tech Lead sessions** — implemented phases directly, wrote bounded prompts for complex sections, updated knowledge tree rules after finding an ambiguity that caused three wasted iterations
-- **Developer sessions** — executed bounded prompts when the TL wrote them for complex or risky changes
 
 Each session started with the same one-liner. The AI loaded `status.md`, saw which phase was active, and what the next step was. No time was spent on orientation.
 

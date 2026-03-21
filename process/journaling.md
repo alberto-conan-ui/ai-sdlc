@@ -46,27 +46,33 @@ The handover is the session continuity mechanism. It answers a different questio
 
 **Relationship to status.md:** Status.md is updated every session (mutable). The handover is written once (append-forward). They're complementary — status.md gives the project-wide picture, the handover gives the action-specific thread.
 
-**Read the handover before forming opinions about artifacts.** The handover tells the next session whether artifacts are approved plans or working drafts. In Planning mode (see [principles.md — Interaction Modes](./principles.md#interaction-modes)), the handover is the authority on what artifacts mean — not the artifacts themselves.
+**Read the handover before forming opinions about artifacts.** The handover tells the next session whether artifacts are approved plans or working drafts. In Planning mode (see [principles.md — Interaction Modes](./principles.md#interaction-modes)), the handover is the authority on what artifacts mean — not the artifacts themselves. In Reflecting mode, the handover captures what triggered the reflection, what was discussed or reshaped, and whether the next session should continue reflecting or resume a forward-motion mode (Planning or Executing).
 
 ---
 
 ## Recording Destinations
 
-There are two places to write session narrative. The action tree holds structure; narrative goes elsewhere.
+There are three places to write during a session. The action tree holds structure; narrative and observations go elsewhere.
 
 ### The journal (`journal/live/`)
 
-The project's session record — the single place for all narrative recording. Every session writes a journal folder. Complete narrative — the AI extracts what matters when the journal is processed.
-
-**What goes in:** everything that happened during the session. Decisions, observations, design reasoning, implementation progress, files touched, blockers encountered, process notes, cross-action patterns. If something is particularly insightful and may be worth migrating to the knowledge tree later, flag it clearly in the entry (e.g., "**Insight:** ...").
+The project's session record — the temporal narrative. Every session writes a journal folder. The journal captures *what happened*: decisions, design reasoning, implementation progress, files touched, blockers encountered, process notes. If something is particularly insightful and may be worth migrating to the knowledge tree later, flag it clearly in the entry (e.g., "**Insight:** ...").
 
 **Action context:** Journal entries naturally reference which action they're working on. The index's References section links to the active action. When you need to reconstruct the history of a specific action, search the journal by action name or follow the "Relevant journal" links from the action's index.
+
+### The notepad (`knowledge-tree/notepad/`)
+
+Action-scoped observations — things you notice during execution that don't belong in the temporal journal or in curated KT nodes yet. A bug spotted in passing, a pattern worth revisiting, a "this will matter later" note. The notepad captures *what you noticed* while doing other work, without forcing you to decide where the observation ultimately belongs.
+
+The journal says "what happened in this session." The notepad says "what I noticed about this area of work." They're complementary: the journal is temporal (one folder per session), the notepad is topical (one node per action). An observation can live in both if it serves both purposes — but the notepad is where action-scoped observations accumulate across sessions, making them findable by action rather than by date.
+
+On action completion, durable findings in the notepad migrate to domain KT nodes. The notepad node archives with the action. See [knowledge-tree.md — The Notepad Branch](./knowledge-tree.md#the-notepad-branch) for the full lifecycle.
 
 ### The knowledge tree
 
 Direct contributions — insights placed at the right node. The Architect writes to the KT when an insight is immediately clear and well-placed. No intermediary needed for design work.
 
-**That's it.** All session narrative goes to the journal. The action tree holds specs, gatekeeps, and context — never narrative. This keeps the boundaries clean: the action tree is structure, the journal is narrative.
+**The boundaries.** All session narrative goes to the journal. Action-scoped observations go to the notepad. Curated, durable insights go to the knowledge tree. The action tree holds specs, gatekeeps, and context — never narrative or observations.
 
 ---
 
@@ -80,7 +86,8 @@ The Architect produces the bulk of project-level recording. Design sessions are 
 
 | Destination | What |
 |---|---|
-| `journal/live/` | Session narrative — decisions, observations, design reasoning, action progress |
+| `journal/live/` | Session narrative — decisions, design reasoning, action progress |
+| `notepad/` | Observations noticed during design — patterns, concerns, questions to revisit |
 | Knowledge tree | Direct insight contributions at the right node |
 
 ### Tech Lead
@@ -90,17 +97,8 @@ The Tech Lead is the primary executor. Recording serves execution tracking and i
 | Destination | What |
 |---|---|
 | `journal/live/` | Session narrative — what was implemented, files touched, approach decisions, issues encountered. Flag insights worth keeping with **Insight:** |
+| `notepad/` | Observations noticed during implementation — bugs spotted in passing, unexpected patterns, "this will matter later" notes |
 | Knowledge tree | Direct contributions when an insight is immediately clear |
-
-### Developer
-
-The Developer is occasional and constrained. Recording is lighter but follows the same protocol.
-
-| Destination | What |
-|---|---|
-| `journal/live/` | Session narrative — what the prompt achieved, approach taken, any surprises |
-
-The Developer does not write KT contributions. The Tech Lead handles insight routing for the execution flow.
 
 ### Auditor
 
@@ -109,6 +107,7 @@ The Auditor evaluates the process, not the product. Recording serves the diagnos
 | Destination | What |
 |---|---|
 | `journal/live/` | Session narrative — findings, recommendations, migration actions |
+| `notepad/` | Observations about areas outside the audit scope — issues noticed but not the Auditor's remit to fix |
 
 ---
 
@@ -123,7 +122,7 @@ Run at the close of every session. This is the same for all stances.
    - Write the session index (`YYYY-MM-DD_NN.index.md`) with References to the active action and previous session, an Entries table, and a Handover table.
    - Write `handover.md` with the action-scoped message for the next session, using the status the Human Lead stated in step 1.
 
-3. **Update `status.md`:** Current state summary, relevant journal references, next step, mode, project overview, history. Use the status the Human Lead confirmed.
+3. **Update `status.md`:** Current state summary, relevant journal references, next step, mode, project overview. Use the status the Human Lead confirmed.
 
 4. **Update knowledge tree** if insights from this session are immediately clear and well-placed.
 
@@ -132,6 +131,7 @@ Run at the close of every session. This is the same for all stances.
 ### On action completion
 
 - [ ] Journal entries from this action reviewed. Insights flagged as worth keeping migrated to the correct KT nodes?
+- [ ] Notepad node reviewed (if one exists). Durable findings migrated to domain KT nodes? Notepad node moved to `knowledge-tree/notepad/archive/`?
 - [ ] Journal completion note written if relevant to the broader project?
 - [ ] Action subtree moved to `archive/`?
 - [ ] `status.md` and `action-tree.index.md` updated — action popped from stack, status achieved?
