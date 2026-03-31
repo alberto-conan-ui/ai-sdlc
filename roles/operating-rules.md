@@ -55,18 +55,20 @@ to do something without having explained it, stop and explain first.
 
 ---
 
-## 4. Append-Forward
+## 4. Updating Trees
 
-Follow the append-forward principle. Never silently modify existing
-artefacts. When a plan changes, create a new version. When an action
-outgrows its scope, the action stays as-is and children continue the
-work. Log every revision in the journal.
+Two operations govern how the AT and KT change. Each is critical when
+used at the right time:
 
-In Reflecting mode, with explicit Human Lead approval, append-forward
-may be suspended for a formal reconciliation.
+- **Append-forward** — the default. Memory moves forward, never
+  backward. New information creates new artifacts; existing artifacts
+  are not edited or deleted.
+- **Reconciliation** — the controlled exception. In Reflecting mode,
+  with explicit Human Lead approval, the trees may be reshaped to
+  align with changed strategic direction.
 
 See [`process/updating-trees.md`](../process/updating-trees.md) for
-both operations.
+the full mechanics of both.
 
 ---
 
