@@ -22,7 +22,7 @@ The journal (`journal/`) is the intake buffer. A chronological stream of session
 
 Two subfolders: `live/` for current session files, `archive/` for processed ones. Processing is on-demand — the Human Lead triggers it by asking the Architect to review `live/` and extract what belongs in the trees. Processed files move to `archive/`.
 
-The journal is not a lesser version of the trees. It exists because there's a real gap between "something just happened" and "this belongs in a tree." The journal removes the pressure to route prematurely. The handover adds a second function: session continuity. It tells the next session where work was left, complementing status.md which tells where the project stands.
+The journal is the session-to-session continuity wire. It records what happened, links to artifacts created elsewhere (AT, KT), and carries the handover — telling the next session where work was left. The journal complements status.md: status.md says where the project stands, the handover says where this thread of work was left. The "gap between something happened and this belongs in a tree" is handled by the KT's notepad branch, not the journal.
 
 ### The Action Tree — Intention
 
@@ -34,7 +34,15 @@ See [action-tree.md](./action-tree.md) for the full structure — topics, phases
 
 ### The Knowledge Tree — Long-Term Memory
 
-The knowledge tree (`knowledge-tree/`) is a folder hierarchy organised by the boundaries where different knowledge applies. Each node holds curated insights — patterns to follow, pitfalls to avoid, architectural decisions that constrain future work. The tree grows organically as work touches new areas.
+The knowledge tree (`knowledge-tree/`) holds all persistent knowledge. It has three branches, all present from project bootstrapping:
+
+| Branch | Function |
+|---|---|
+| **Curated** | Durable, structured insights at the right node — patterns, decisions, techniques, architectural constraints. Grows organically as work touches new areas. |
+| **Notepad** | Unstructured observations captured in-flight — things noticed during execution that don't yet belong in a curated node. Low-friction intake that removes pressure to route prematurely. |
+| **Payload** | How the product itself is structured — project files, conventions, organization. Core defines that this branch exists; the plugin defines its structure (an SDLC project's payload looks nothing like a TTRPG campaign's). |
+
+The curated branch is where knowledge lives permanently. The notepad is where observations land before they're ready to be curated — on action completion, durable findings migrate from the notepad to curated nodes. The payload branch describes the thing being built, not knowledge about how to build it.
 
 See [knowledge-tree.md](./knowledge-tree.md) for the structural guide.
 
