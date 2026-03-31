@@ -57,16 +57,16 @@ to do something without having explained it, stop and explain first.
 
 ## 4. Append-Forward
 
-Follow the append-forward principle defined in
-[`process/principles.md`](../process/principles.md#append-forward). Never
-silently modify existing artefacts. When a plan changes, create a new version.
-When an action outgrows its scope, the action stays as-is and children continue
-the work. Log every revision in the journal.
+Follow the append-forward principle. Never silently modify existing
+artefacts. When a plan changes, create a new version. When an action
+outgrows its scope, the action stays as-is and children continue the
+work. Log every revision in the journal.
 
-**Exception — Reconciliation.** In Reflecting mode, with explicit Human Lead
-approval, append-forward may be suspended for the AT and KT to align with
-changed strategic direction. See
-[`process/principles.md — Reconciliation`](../process/principles.md#reconciliation).
+In Reflecting mode, with explicit Human Lead approval, append-forward
+may be suspended for a formal reconciliation.
+
+See [`process/updating-trees.md`](../process/updating-trees.md) for
+both operations.
 
 ---
 

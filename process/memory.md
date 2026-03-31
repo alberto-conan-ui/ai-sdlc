@@ -28,7 +28,7 @@ The journal records what happened, links to artifacts created elsewhere (AT, KT)
 
 The action tree (`action-tree/`) captures what you intend to do — work in progress, decomposed into trackable units. Each node carries its own completion criteria. When an action completes, its subtree moves to `archive/` and any insights worth keeping migrate to the knowledge tree.
 
-The AT is intentionally lightweight. It holds intention, status, and gatekeeps — never design knowledge, analysis, or context documents. All knowledge lives in the knowledge tree from day one, referenced from the AT via pointers. This separation keeps the AT cheap to reshape (see [principles.md — Reconciliation](./principles.md#reconciliation)) and ensures knowledge survives action archival.
+The AT is intentionally lightweight. It holds intention, status, and gatekeeps — never design knowledge, analysis, or context documents. All knowledge lives in the knowledge tree from day one, referenced from the AT via pointers. This separation keeps the AT cheap to reshape (see [updating-trees.md — Reconciliation](./updating-trees.md#reconciliation)) and ensures knowledge survives action archival.
 
 See [action-tree.md](./action-tree.md) for the full structure.
 
