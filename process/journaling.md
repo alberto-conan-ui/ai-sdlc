@@ -144,9 +144,9 @@ Journal files roll from `live/` to `archive/` on a weekly cadence. This keeps `l
 
 ## The Append-Forward Rule
 
-All recording files follow the append-forward principle (see [principles.md](./principles.md)). Journal files are never edited or deleted after they're written. The only files that genuinely mutate are `status.md` and `action-tree.index.md`.
+All journal files follow the append-forward principle unconditionally (see [principles.md](./principles.md)). Journal files are never edited or deleted after they're written — not even during reconciliation. The journal is the audit trail; it records transformations, it is never itself transformed. Old journal files move to `archive/` through normal weekly rolling, never through editing or deletion.
 
-**Exception — Reconciliation:** During a formal reconciliation (see [memory.md — Reconciliation](./memory.md#reconciliation)), append-forward is suspended. The journal documents the transformation — what was archived, restructured, and why — providing the audit trail.
+The AT and KT may be reshaped during a formal reconciliation (see [memory.md — Reconciliation](./memory.md#reconciliation)), but the journal documents that reshaping as new entries — preserving a complete, trustworthy history.
 
 ---
 

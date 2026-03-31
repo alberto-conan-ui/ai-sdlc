@@ -229,7 +229,7 @@ Reconciliation is available only in **Reflecting mode** (see [principles.md — 
 
 ### What reconciliation does
 
-During reconciliation, append-forward is suspended. The AT and KT can be reshaped:
+During reconciliation, append-forward is suspended for the AT and KT. The journal remains append-forward unconditionally — it is the audit trail, never itself transformed. The AT and KT can be reshaped:
 
 - **Archive** AT nodes and stale KT nodes to their respective `archive/` folders
 - **Rebuild** the AT from current intentions
@@ -243,6 +243,7 @@ The journal entry is the audit trail. It must list every AT/KT node that was arc
 - It does not bypass human accountability — the Human Lead must approve
 - It does not operate outside Reflecting mode
 - It does not destroy information — archived nodes are preserved, the journal documents the transformation
+- It does not touch the journal — the journal is the audit trail and remains append-forward at all times
 
 ### Frequency guidance
 
