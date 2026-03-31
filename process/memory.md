@@ -26,7 +26,7 @@ The journal is the session-to-session continuity wire. It records what happened,
 
 ### The Action Tree — Intention
 
-The action tree (`action-tree/`) captures what you intend to do — work in progress, decomposed into trackable units. Organised into topics (strategic, nestable), phases (execution units), and tasks (lightweight single-file quick wins). Each node carries its own completion criteria. When an action completes, its subtree moves to `archive/` and any insights worth keeping migrate to the knowledge tree.
+The action tree (`action-tree/`) captures what you intend to do — work in progress, decomposed into trackable units. Each node carries its own completion criteria. When an action completes, its subtree moves to `archive/` and any insights worth keeping migrate to the knowledge tree.
 
 The AT is intentionally lightweight. It holds intention, status, and gatekeeps — never design knowledge, analysis, or context documents. All knowledge lives in the knowledge tree from day one, referenced from the AT via pointers. This separation keeps the AT cheap to reshape (see [Reconciliation](#reconciliation)) and ensures knowledge survives action archival.
 
