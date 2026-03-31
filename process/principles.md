@@ -77,7 +77,7 @@ The process has three modes: **Planning**, **Executing**, and **Reflecting**. Th
 
 **Executing mode.** A plan has been approved by the Human Lead. The AI acts within that plan's scope. Artifacts are authoritative — they define what the work is, not what it might be. The AI's posture: follow the plan, flag deviations, stay within scope. If implementation reveals the plan was wrong, the AI flags the issue and waits for the Human Lead to decide whether to switch back to Planning.
 
-**Reflecting mode.** The Human Lead and AI step outside the action tree to examine it. No obligation to produce AT artifacts. The action tree's state does not change — active actions remain active, paused actions remain paused. Reflecting is the mode for when the structure itself needs attention: the decomposition isn't right, a branch should be scrapped, the plan broke and the tree needs reshaping before forward motion can resume.
+**Reflecting mode.** The Human Lead and AI step outside the action tree to examine it. No obligation to produce AT artifacts. The action tree's state does not change — active actions remain active, paused actions remain paused. Reflecting is the mode for when the structure itself needs attention: the decomposition isn't right, a branch should be scrapped, the plan broke and the tree needs reshaping before forward motion can resume. In Reflecting mode, the Human Lead may approve a **reconciliation** — a formal operation that suspends append-forward to archive and rebuild the AT and KT. See [memory.md — Reconciliation](./memory.md#reconciliation).
 
 Reflecting is reachable from both Planning and Executing — whenever the tree itself is the thing that needs work, not the work within it. Without Reflecting, the process would force you to create AT artifacts (a task, a step, a spec revision) just to justify thinking about the tree. Reflecting removes that overhead. You enter, you examine, you reshape or take notes, and you exit back into Planning or Executing.
 
@@ -96,6 +96,8 @@ The project memory moves forward, never backward. When a plan changes, the new p
 This principle exists because rewriting history breaks the context chain. If a spec gets silently edited, the journal entries that reference it no longer make sense. If an action folder gets renamed or restructured, references go stale. By always moving forward — creating new artefacts rather than mutating old ones — every past reference remains valid, and the journal tells a truthful story.
 
 The only files that genuinely mutate are `status.md` and `action-tree.index.md`, and even those are just pointer updates: which action is active, which phase, what's next. Everything else is append-only.
+
+**Exception — Reconciliation.** When strategic direction changes significantly, the trees may need reshaping rather than appending. Reconciliation is a formal operation, available only in Reflecting mode with explicit Human Lead approval, that suspends append-forward to archive and rebuild the AT and KT. The journal documents the transformation as an audit trail. See [memory.md — Reconciliation](./memory.md#reconciliation).
 
 ---
 

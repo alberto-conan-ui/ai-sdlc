@@ -18,15 +18,17 @@ AI-SDLC gives your project durable memory through three layers and a typed file 
 
 ### The Journal — Temporal Intake
 
-The journal (`journal/`) is the intake buffer. A chronological stream of session records — what happened, what was decided, what was observed. Each session produces a folder in `journal/live/`, named by date and session number (e.g., `2026-03-19_02/`). Each folder contains a session index, one or more entry files, and a handover — a targeted message for the next session working on that action. See [journaling.md](./journaling.md) for the full structure.
+The journal (`journal/`) is the intake buffer. A chronological stream of session records — what happened, what was decided, what was observed. Each session produces a single file in `journal/live/`, named by date and session number (e.g., `2026-03-19_02.md`). The file contains header metadata (date, stance, mode, active action), the session narrative, and a handover section for the next session. See [journaling.md](./journaling.md) for the full structure.
 
-Two subfolders: `live/` for current session folders, `archive/` for processed ones. Processing is on-demand — the Human Lead triggers it by asking the Architect to review `live/` and extract what belongs in the trees. Processed folders move to `archive/`.
+Two subfolders: `live/` for current session files, `archive/` for processed ones. Processing is on-demand — the Human Lead triggers it by asking the Architect to review `live/` and extract what belongs in the trees. Processed files move to `archive/`.
 
 The journal is not a lesser version of the trees. It exists because there's a real gap between "something just happened" and "this belongs in a tree." The journal removes the pressure to route prematurely. The handover adds a second function: session continuity. It tells the next session where work was left, complementing status.md which tells where the project stands.
 
-### The Action Tree — Short-Term Memory
+### The Action Tree — Intention
 
-The action tree (`action-tree/`) holds work in progress. Organised into topics (strategic, nestable), phases (execution units), and tasks (lightweight single-file quick wins). Each node carries its own completion criteria and context. When an action completes, its subtree moves to `archive/` and any insights worth keeping migrate to the knowledge tree.
+The action tree (`action-tree/`) captures what you intend to do — work in progress, decomposed into trackable units. Organised into topics (strategic, nestable), phases (execution units), and tasks (lightweight single-file quick wins). Each node carries its own completion criteria. When an action completes, its subtree moves to `archive/` and any insights worth keeping migrate to the knowledge tree.
+
+The AT is intentionally lightweight. It holds intention, status, and gatekeeps — never design knowledge, analysis, or context documents. All knowledge lives in the knowledge tree from day one, referenced from the AT via pointers. This separation keeps the AT cheap to reshape (see [Reconciliation](#reconciliation)) and ensures knowledge survives action archival.
 
 See [action-tree.md](./action-tree.md) for the full structure — topics, phases, tasks, gatekeeping, the active stack.
 
@@ -214,3 +216,34 @@ Bad nodes: folders that exist "just in case" (empty), folders that duplicate the
 - The **Auditor** evaluates hierarchy health as part of process health — is the tree serving sessions efficiently?
 
 The Human Lead owns the tree shape. AI stances propose; the human confirms, redirects, or restructures.
+
+---
+
+## Reconciliation
+
+When strategic direction changes significantly, the AT and KT may no longer reflect current understanding. Blindly appending creates new nodes that supersede old ones without reconciling them — the tree accumulates contradictions. Reconciliation is the formal operation that resolves this.
+
+### When it applies
+
+Reconciliation is available only in **Reflecting mode** (see [principles.md — Interaction Modes](./principles.md#interaction-modes)). It requires explicit Human Lead approval. Without both conditions, append-forward holds unconditionally.
+
+### What reconciliation does
+
+During reconciliation, append-forward is suspended. The AT and KT can be reshaped:
+
+- **Archive** AT nodes and stale KT nodes to their respective `archive/` folders
+- **Rebuild** the AT from current intentions
+- **Re-curate** the KT to align with current understanding — consolidate, restructure, rewrite
+- **Document** the transformation in a journal entry: what was archived, what was created or restructured, and why
+
+The journal entry is the audit trail. It must list every AT/KT node that was archived, created, or restructured, with a reason. This makes the reconciliation auditable and reversible.
+
+### What reconciliation does not do
+
+- It does not bypass human accountability — the Human Lead must approve
+- It does not operate outside Reflecting mode
+- It does not destroy information — archived nodes are preserved, the journal documents the transformation
+
+### Frequency guidance
+
+Reconciliation is a sign of strategic shift, not routine maintenance. If you find yourself reconciling every few sessions, the problem is likely upstream — work is being decomposed at the wrong level, or strategic direction isn't stable enough to decompose yet. A well-run project reconciles rarely: when a genuine pivot changes what the project intends to do.
