@@ -30,7 +30,7 @@ Every session produces a single journal file in `journal/live/`. The file is nam
 | **Active action** | which action was the focus |
 ```
 
-**Body** — the stance's judgment determines structure and depth. A heavy design session may need detailed decision logs. A routine execution session might just be "implemented X, tests pass, no surprises." The body captures *what happened*: decisions, design reasoning, implementation progress, files touched, blockers encountered, process notes. If something is particularly insightful and may be worth migrating to the knowledge tree later, flag it clearly (e.g., "**Insight:** ...").
+**Body** — the stance's judgment determines structure and depth. A heavy design session may need detailed decision logs. A routine execution session might just be "implemented X, tests pass, no surprises." The body captures *what happened*: decisions made, blockers encountered, process notes. Link to artifacts rather than restating their content — if a KT node was written, link to it; if an AT goal was created, link to it; if a spec was updated, reference it. The journal records that something happened and why, not the thing itself. If something is particularly insightful and may be worth migrating to the knowledge tree later, flag it clearly (e.g., "**Insight:** ...").
 
 **Handover section** — always present, always last. A targeted message for the next session working on this action. See [The Handover](#the-handover) below.
 
@@ -79,7 +79,7 @@ There are three places to write during a session. The action tree holds structur
 
 ### The journal (`journal/live/`)
 
-The project's session record — the temporal narrative. Every session writes a journal file. The journal captures *what happened*: decisions, design reasoning, implementation progress, files touched, blockers encountered, process notes. If something is particularly insightful and may be worth migrating to the knowledge tree later, flag it clearly in the entry (e.g., "**Insight:** ...").
+The project's session record — the temporal narrative. Every session writes a journal file. The journal captures *what happened*: decisions made, blockers encountered, process notes. Link to artifacts (AT nodes, KT nodes, specs) rather than restating their content — the journal records that something happened and why, not the thing itself. If something is particularly insightful and may be worth migrating to the knowledge tree later, flag it clearly (e.g., "**Insight:** ...").
 
 **Action context:** Journal entries naturally reference which action they're working on. The header metadata links to the active action. When you need to reconstruct the history of a specific action, search the journal by action name or follow the "Relevant journal" links from the action's index.
 
