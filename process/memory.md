@@ -28,7 +28,7 @@ The journal records what happened, links to artifacts created elsewhere (AT, KT)
 
 The action tree (`action-tree/`) captures what you intend to do — work in progress, decomposed into trackable units. Each node carries its own completion criteria. When an action completes, its subtree moves to `archive/` and any insights worth keeping migrate to the knowledge tree.
 
-The AT is intentionally lightweight. It holds intention, status, and gatekeeps — never design knowledge, analysis, or context documents. All knowledge lives in the knowledge tree from day one, referenced from the AT via pointers. This separation keeps the AT cheap to reshape (see [Reconciliation](#reconciliation)) and ensures knowledge survives action archival.
+The AT is intentionally lightweight. It holds intention, status, and gatekeeps — never design knowledge, analysis, or context documents. All knowledge lives in the knowledge tree from day one, referenced from the AT via pointers. This separation keeps the AT cheap to reshape (see [principles.md — Reconciliation](./principles.md#reconciliation)) and ensures knowledge survives action archival.
 
 See [action-tree.md](./action-tree.md) for the full structure.
 
@@ -150,34 +150,3 @@ A node earns its folder when it has a distinct concern that's loaded independent
 
 The Human Lead owns the tree shape. AI stances propose; the human confirms, redirects, or restructures.
 
----
-
-## Reconciliation
-
-When strategic direction changes significantly, the AT and KT may no longer reflect current understanding. Blindly appending creates new nodes that supersede old ones without reconciling them — the tree accumulates contradictions. Reconciliation is the formal operation that resolves this.
-
-### When it applies
-
-Reconciliation is available only in **Reflecting mode** (see [principles.md — Interaction Modes](./principles.md#interaction-modes)). It requires explicit Human Lead approval. Without both conditions, append-forward holds unconditionally.
-
-### What reconciliation does
-
-During reconciliation, append-forward is suspended for the AT and KT. The journal remains append-forward unconditionally — it is the audit trail, never itself transformed. The AT and KT can be reshaped:
-
-- **Archive** AT nodes and stale KT nodes to their respective `archive/` folders
-- **Rebuild** the AT from current intentions
-- **Re-curate** the KT to align with current understanding — consolidate, restructure, rewrite
-- **Document** the transformation in a journal entry: what was archived, what was created or restructured, and why
-
-The journal entry is the audit trail. It must list every AT/KT node that was archived, created, or restructured, with a reason. This makes the reconciliation auditable and reversible.
-
-### What reconciliation does not do
-
-- It does not bypass human accountability — the Human Lead must approve
-- It does not operate outside Reflecting mode
-- It does not destroy information — archived nodes are preserved, the journal documents the transformation
-- It does not touch the journal — the journal is the audit trail and remains append-forward at all times
-
-### Frequency guidance
-
-Reconciliation is a sign of strategic shift, not routine maintenance. If you find yourself reconciling every few sessions, the problem is likely upstream — work is being decomposed at the wrong level, or strategic direction isn't stable enough to decompose yet. A well-run project reconciles rarely: when a genuine pivot changes what the project intends to do.

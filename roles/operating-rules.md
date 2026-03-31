@@ -64,9 +64,9 @@ When an action outgrows its scope, the action stays as-is and children continue
 the work. Log every revision in the journal.
 
 **Exception — Reconciliation.** In Reflecting mode, with explicit Human Lead
-approval, append-forward may be suspended for a formal reconciliation — archiving
-and rebuilding the AT and KT to align with changed strategic direction. See
-[`process/memory.md — Reconciliation`](../process/memory.md#reconciliation).
+approval, append-forward may be suspended for the AT and KT to align with
+changed strategic direction. See
+[`process/principles.md — Reconciliation`](../process/principles.md#reconciliation).
 
 ---
 

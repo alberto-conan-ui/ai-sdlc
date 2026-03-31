@@ -146,5 +146,5 @@ Journal files roll from `live/` to `archive/` on a weekly cadence. This keeps `l
 
 All journal files follow the append-forward principle unconditionally (see [principles.md](./principles.md)). Journal files are never edited or deleted after they're written — not even during reconciliation. The journal is the audit trail; it records transformations, it is never itself transformed. Old journal files move to `archive/` through normal weekly rolling, never through editing or deletion.
 
-The AT and KT may be reshaped during a formal reconciliation (see [memory.md — Reconciliation](./memory.md#reconciliation)), but the journal documents that reshaping as new entries — preserving a complete, trustworthy history.
+The AT and KT may be reshaped during a formal reconciliation (see [principles.md — Reconciliation](./principles.md#reconciliation)), but the journal documents that reshaping as new entries — preserving a complete, trustworthy history.
 
