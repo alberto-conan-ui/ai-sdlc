@@ -16,23 +16,33 @@ AI-SDLC gives your project durable memory through three layers and a typed file 
 
 ## The Three Layers
 
-### The Journal — Temporal Intake
+### The Journal — Continuity Wire
 
-The journal (`journal/`) is the intake buffer. A chronological stream of session records — what happened, what was decided, what was observed. Each session produces a folder in `journal/live/`, named by date and session number (e.g., `2026-03-19_02/`). Each folder contains a session index, one or more entry files, and a handover — a targeted message for the next session working on that action. See [journaling.md](./journaling.md) for the full structure.
+The journal (`journal/`) is the session-to-session continuity wire. Each session produces a single file in `journal/live/`, named by date and session number (e.g., `2026-03-19_02.md`). The file contains header metadata (date, stance, mode, active action), the session narrative, and a handover section for the next session. See [journaling.md](./journaling.md) for the full structure.
 
-Two subfolders: `live/` for current session folders, `archive/` for processed ones. Processing is on-demand — the Human Lead triggers it by asking the Architect to review `live/` and extract what belongs in the trees. Processed folders move to `archive/`.
+Two subfolders: `live/` for current session files, `archive/` for processed ones. Processing is on-demand — the Human Lead triggers it by asking the Architect to review `live/` and extract what belongs in the trees. Processed files move to `archive/`.
 
-The journal is not a lesser version of the trees. It exists because there's a real gap between "something just happened" and "this belongs in a tree." The journal removes the pressure to route prematurely. The handover adds a second function: session continuity. It tells the next session where work was left, complementing status.md which tells where the project stands.
+The journal records what happened, links to artifacts created elsewhere (AT, KT), and carries the handover — telling the next session where work was left. The journal complements status.md: status.md says where the project stands, the handover says where this thread of work was left.
 
-### The Action Tree — Short-Term Memory
+### The Action Tree — Intention
 
-The action tree (`action-tree/`) holds work in progress. Organised into topics (strategic, nestable), phases (execution units), and tasks (lightweight single-file quick wins). Each node carries its own completion criteria and context. When an action completes, its subtree moves to `archive/` and any insights worth keeping migrate to the knowledge tree.
+The action tree (`action-tree/`) captures what you intend to do — work in progress, decomposed into trackable units. Each node carries its own completion criteria. When an action completes, its subtree moves to `archive/` and any insights worth keeping migrate to the knowledge tree.
 
-See [action-tree.md](./action-tree.md) for the full structure — topics, phases, tasks, gatekeeping, the active stack.
+The AT is intentionally lightweight. It holds intention, status, and gatekeeps — never design knowledge, analysis, or context documents. All knowledge lives in the knowledge tree from day one, referenced from the AT via pointers. This separation keeps the AT cheap to reshape (see [updating-trees.md — Reconciliation](./updating-trees.md#reconciliation)) and ensures knowledge survives action archival.
+
+See [action-tree.md](./action-tree.md) for the full structure.
 
 ### The Knowledge Tree — Long-Term Memory
 
-The knowledge tree (`knowledge-tree/`) is a folder hierarchy organised by the boundaries where different knowledge applies. Each node holds curated insights — patterns to follow, pitfalls to avoid, architectural decisions that constrain future work. The tree grows organically as work touches new areas.
+The knowledge tree (`knowledge-tree/`) holds all persistent knowledge. It has three branches, all present from project bootstrapping:
+
+| Branch | Function |
+|---|---|
+| **Curated** | Durable, structured insights at the right node — patterns, decisions, techniques, architectural constraints. Grows organically as work touches new areas. |
+| **Notepad** | Unstructured observations captured in-flight — things noticed during execution that don't yet belong in a curated node. Low-friction intake that removes pressure to route prematurely. |
+| **Payload** | How the product itself is structured — project files, conventions, organization. Core defines that this branch exists; the plugin defines its structure (an SDLC project's payload looks nothing like a TTRPG campaign's). |
+
+The curated branch is where knowledge lives permanently. The notepad is where observations land before they're ready to be curated — on action completion, durable findings migrate from the notepad to curated nodes. The payload branch describes the thing being built, not knowledge about how to build it.
 
 See [knowledge-tree.md](./knowledge-tree.md) for the structural guide.
 
@@ -44,16 +54,16 @@ See [knowledge-tree.md](./knowledge-tree.md) for the structural guide.
 ┌─────────────────────────────────────────────────────┐
 │                     JOURNAL                          │
 │                                                      │
-│  Sessions produce entries in journal/live/:           │
-│    • What happened (session narrative)               │
+│  Sessions produce files in journal/live/:            │
+│    • What happened (links to artifacts)              │
 │    • Decisions made                                  │
-│    • Observations and insights                       │
+│    • Handover for the next session                   │
 │                                                      │
 └────────────────────┬─────────────────────────────────┘
                      │
                      │  On demand (human triggers):
-                     │  Architect reviews live journal,
-                     │  extracts to the right tree,
+                     │  review live journal,
+                     │  extract to the right tree,
                      │  processed entries → journal/archive/
                      │
             ┌────────┴────────┐
@@ -61,10 +71,9 @@ See [knowledge-tree.md](./knowledge-tree.md) for the structural guide.
 ┌────────────────┐  ┌──────────────────────────────────┐
 │  ACTION TREE   │  │       KNOWLEDGE TREE              │
 │                │  │                                    │
-│  Topics,       │  │  Curated, durable insights        │
-│  Phases &      │  │  at the right structural node     │
-│  Tasks         │  │                                    │
-│  Temporary     │  │  Permanent and living              │
+│  Intention     │  │  Curated — durable insights       │
+│  Lightweight   │  │  Notepad — in-flight observations │
+│  Temporary     │  │  Payload — product structure      │
 │                │  │                                    │
 └───────┬────────┘  └──────────────────────────────────┘
         │                          ▲
@@ -77,8 +86,8 @@ See [knowledge-tree.md](./knowledge-tree.md) for the structural guide.
 
 The flow is continuous, not ceremonial:
 
-- **During sessions** — the journal captures what happens. The Architect may also write directly to the knowledge tree when an insight is immediately clear and well-placed.
-- **On demand** — the human triggers journal processing. The Architect reads `journal/live/`, extracts decisions and insights to the appropriate tree, and processed entries move to `journal/archive/`.
+- **During sessions** — the journal captures what happens. Knowledge may also be written directly to the KT when an insight is immediately clear and well-placed.
+- **On demand** — the human triggers journal processing. Review `journal/live/`, extract decisions and insights to the appropriate tree, move processed files to `journal/archive/`.
 - **On action completion** — journal entries from the action are reviewed. Insights worth keeping migrate to the knowledge tree. The action subtree moves to `archive/`.
 
 ---
@@ -91,82 +100,17 @@ Every folder has `[folder-name].index.md`. No exceptions. The index uses a three
 
 **References** — external context this folder depends on. The parent index, relevant knowledge tree nodes, relevant journal entries. References point up and sideways — they tell the AI what else it needs to understand this node. References appear on all files (not just indexes), but they're the first section of every index.
 
-**Siblings** — typed companion files in the same folder. A goal's index lists its gatekeep and context files. A KT node's index lists its spec files. Siblings are listed with a brief role description so the AI knows what each file contributes without opening it.
+**Siblings** — typed companion files in the same folder. Siblings are listed with a brief role description so the AI knows what each file contributes without opening it.
 
-**Children** — nodes below this one in the hierarchy. Child folders or files, listed with brief descriptions. In the AT, children may include a status indicator. Children are the downward navigation path — the AI follows them when the task requires going deeper.
+**Children** — nodes below this one in the hierarchy. Child folders or files, listed with brief descriptions. Children are the downward navigation path — the AI follows them when the task requires going deeper.
 
-The grammar is the same everywhere: AT indexes, KT indexes, journal folder indexes. The AI uses the same pattern to navigate: find the index, read References to understand context, scan Siblings to see companion files, scan Children to decide whether to go deeper.
-
-A KT leaf node has `caching-strategy.index.md` and nothing else — the index IS the content. An AT goal node has `auth-redesign.index.md` plus `auth-redesign.gatekeep.md` and `auth-redesign.context.md` — the index's Siblings section lists these companions. A task is a single file (`N.task.name.md`) that needs no folder or index.
+The grammar is the same everywhere: AT indexes, KT indexes, journal indexes. The AI uses the same pattern to navigate: find the index, read References to understand context, scan Siblings to see companion files, scan Children to decide whether to go deeper.
 
 ---
 
 ## The Typed File System
 
-Every file in the memory system follows one naming convention: **`[name].[type].md`**. The type suffix tells you what the file is without opening it.
-
-### Valid types
-
-| Type | Purpose | Used in |
-|---|---|---|
-| `index` | Navigation primitive for every folder. Entry point, lists references, siblings, and children. | All trees, all folders |
-| `spec` | Curated knowledge — patterns, insights, architectural decisions. In the AT, a change spec for a step. | Knowledge tree, Action tree |
-| `gatekeep` | Completion criteria — what "done" means. | Action tree |
-| `context` | What an action is about + pointers to relevant KT nodes (domain nodes and the action's notepad node, if one exists). | Action tree |
-| `task` | Lightweight single-file action — a quick win that doesn't need a folder. | Action tree |
-
-### Naming in the Action Tree
-
-The action tree uses typed names to distinguish all five node types — goals, topics, phases, steps, and tasks:
-
-```
-action-tree/
-├── action-tree.index.md
-├── status.md
-├── 05.goal.v021-release/
-│   ├── v021-release.index.md
-│   ├── v021-release.gatekeep.md
-│   ├── 05.step.interaction-modes/
-│   │   └── interaction-modes.index.md
-│   ├── 10.step.index-architecture/
-│   │   └── index-architecture.index.md
-│   └── 15.task.version-bump.md
-├── 10.topic.auth-redesign/
-│   ├── auth-redesign.index.md
-│   ├── auth-redesign.gatekeep.md
-│   ├── auth-redesign.context.md
-│   ├── 05.phase.audit-endpoints/
-│   │   └── audit-endpoints.index.md
-│   ├── 10.phase.new-token-model/
-│   │   └── new-token-model.index.md
-│   └── 15.task.update-env-docs.md
-└── archive/
-```
-
-Folder prefixes use the local two-digit ID (`05.`, `10.`) — see [action-tree.md — Numbering Convention](./action-tree.md#numbering-convention) for the full scheme. The type (`goal`, `topic`, `phase`, `step`, or `task`) is declared in the name. Folders contain files following `[name].[type].md`. Tasks are single files — no folder needed. In `status.md` and cross-references, nodes use their full hierarchical address (`05.10`) for unambiguous identification.
-
-### What about simple actions?
-
-A simple fix that doesn't need strategic decomposition can be a single phase at the root:
-
-```
-action-tree/
-├── action-tree.index.md
-├── status.md
-├── 05.phase.fix-csv-date-format/
-│   └── fix-csv-date-format.index.md
-```
-
-Even simpler — a task at the root:
-
-```
-action-tree/
-├── action-tree.index.md
-├── status.md
-├── 05.task.fix-csv-date-format.md
-```
-
-No topic wrapper, no folder needed. The two-digit numbering keeps order and insertion room; the type keeps clarity. Only create structure you need.
+Every file in the memory system follows one naming convention: **`[name].[type].md`**. The type suffix tells you what the file is without opening it. See [action-tree.md](./action-tree.md) and [knowledge-tree.md](./knowledge-tree.md) for the valid types and naming conventions in each tree.
 
 ---
 
@@ -180,8 +124,7 @@ Every file in the memory system has a reference header that declares its depende
 > | Group | File |
 > |---|---|
 > | Foundation | [principles.md](./principles.md) |
-> | Parent context | [../auth-redesign.index.md](../auth-redesign.index.md) |
-> | Testing conventions | [testing/testing.spec.md](./testing/testing.spec.md) |
+> | Parent context | [../parent.index.md](../parent.index.md) |
 ```
 
 Conventions: groups are labeled (why the reference matters), ordered by importance (reading strategy for the AI), and point up and sideways (downward traversal is implicit — the AI reads children when the task requires it).
@@ -196,9 +139,7 @@ Well-structured trees keep references short and navigation efficient. This is a 
 
 ### What makes a good node
 
-A node earns its folder when it has a distinct concern that's loaded independently. In the KT, that means the information is needed for work in this area but not in sibling areas. In the AT, that means the work has its own gatekeep and its own lifecycle.
-
-Bad nodes: folders that exist "just in case" (empty), folders that duplicate their parent at finer grain (the split didn't separate concerns), folders where the boundary is arbitrary.
+A node earns its folder when it has a distinct concern that's loaded independently. In the KT, that means the information is needed for work in this area but not in sibling areas. In the AT, that means the work has its own completion criteria and its own lifecycle.
 
 ### Signals the hierarchy needs attention
 
@@ -207,10 +148,5 @@ Bad nodes: folders that exist "just in case" (empty), folders that duplicate the
 - A reference header has more than 4–5 entries — the hierarchy isn't carrying enough context implicitly.
 - The same information appears in multiple siblings — cross-cutting concern should move up.
 
-### How each stance contributes
-
-- The **Architect** is the primary hierarchy steward — notices overcrowding, misplacement, missing structure during design work.
-- The **Tech Lead** encounters issues during implementation — specs reference scattered knowledge, or decomposition doesn't match natural boundaries.
-- The **Auditor** evaluates hierarchy health as part of process health — is the tree serving sessions efficiently?
-
 The Human Lead owns the tree shape. AI stances propose; the human confirms, redirects, or restructures.
+
