@@ -148,16 +148,3 @@ All journal files follow the append-forward principle unconditionally (see [prin
 
 The AT and KT may be reshaped during a formal reconciliation (see [memory.md — Reconciliation](./memory.md#reconciliation)), but the journal documents that reshaping as new entries — preserving a complete, trustworthy history.
 
----
-
-## Recording Anti-Patterns
-
-**The rubber stamp.** Review the AI's journal entries and knowledge contributions as they appear. Five minutes of engaged review is worth more than an hour of passive accumulation.
-
-**Journaling without flagging insights.** You write journal entries during implementation but never flag what's insightful. The journal grows; the knowledge tree stays empty after action completion. When something is worth keeping, mark it.
-
-**Project-wide handovers.** The handover is action-scoped — it speaks to the next session working on this action, not to the project at large. If you're writing a handover that summarises the entire project state, you're writing status.md. Keep the handover focused: what were you working on, where did you leave it, what does the next session need.
-
-**Skipping journal processing.** Files accumulate in `live/` but the human never triggers processing. The journal becomes write-only. Processing is a human responsibility — trigger it at least weekly.
-
-**Unbounded live/.** The `live/` folder grows past 15–20 session files. This wastes context window on every session start and makes processing harder. Roll to `archive/` weekly.
