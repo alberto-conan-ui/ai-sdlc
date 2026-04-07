@@ -4,9 +4,9 @@ audience: [human, ai]
 depends_on: [../principles.md, ../memory.md, ../roles.md]
 ---
 
-# Process Changelog
+# Core Changelog
 
-This folder tracks the evolution of the AI-SDLC methodology. Each version has its own file documenting what changed, why it changed, and the specific migration steps for existing projects. The Auditor uses this folder as the primary reference when performing version migrations.
+This folder tracks the evolution of the AI-Lore core. Each version has its own file documenting what changed, why it changed, and the specific migration steps for existing projects. The Auditor uses this folder as the primary reference when performing version migrations.
 
 > **References**
 >
@@ -31,11 +31,14 @@ Each version file follows this structure:
 
 ## Versions
 
-| Version | Status | Date | Summary |
-|---|---|---|---|
-| [v0.1](./v0.1.md) | Baseline | Pre-2026-03-17 | Original process as shipped. Documented retroactively. |
-| [v0.2](./v0.2.md) | Released | 2026-03-18 | Redesign based on nine design principles from real-world usage. |
-| [v0.21](./v0.21.md) | Released | 2026-03-19 | Feedback-driven: interaction modes, session continuity, step node type, unified status. |
-| [v0.22](./v0.22.md) | Released | 2026-03-21 | Migration hardening: hierarchical numbering, KT notepad, Reflecting mode, Developer removed. |
+| Version             | Status              | Date           | Summary                                                                                                                    |
+| ------------------- | ------------------- | -------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| [v0.1](./v0.1.md)   | Baseline            | Pre-2026-03-17 | Original process as shipped. Documented retroactively.                                                                     |
+| [v0.2](./v0.2.md)   | Released            | 2026-03-18     | Redesign based on nine design principles from real-world usage.                                                            |
+| [v0.21](./v0.21.md) | Released            | 2026-03-19     | Feedback-driven: interaction modes, session continuity, step node type, unified status.                                    |
+| [v0.22](./v0.22.md) | Released            | 2026-03-21     | Migration hardening: hierarchical numbering, KT notepad, Reflecting mode, Developer removed.                               |
+| [v0.25](./v0.25.md) | Released (internal) | 2026-03-31     | Process refinements: append-forward/reconciliation extracted, AT-is-intention, SDLC naming removed from core.              |
+| [v0.27](./v0.27.md) | Released (internal) | 2026-04-06     | Core process docs: focus-based workflow, status entry point, KT three branches, optional AT, archetypes.                   |
+| [v0.3](./v0.3.md)   | Released            | 2026-04-06     | Plugin architecture: slots/joins, mandatory plugins, independent versioning, `.ai-lore/` naming. Subsumes v0.25 and v0.27. |
 
-**Current stable version:** v0.22
+**Current stable version:** v0.3

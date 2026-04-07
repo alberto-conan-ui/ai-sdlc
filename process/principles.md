@@ -1,7 +1,7 @@
 # Core Principles
 
 > These principles govern how the methodology operates. They are non-negotiable
-> regardless of stance or tooling.
+> regardless of stance or domain.
 
 > **References**
 >
@@ -28,13 +28,13 @@ Simplicity pushes discipline onto the human lead. The human is responsible for o
 
 This methodology demands more from you, not less.
 
-The AI handles production — planning, writing code, generating tests, producing artefacts, and all the recording that holds the process together (see [journaling.md](./journaling.md) for the full recording system). The AI writes; you don't. But you own every decision, and ownership lives in review.
+The AI handles production — planning, writing, generating, producing artefacts, and all the recording that holds the process together (see [journaling.md](./journaling.md) for the full recording system). The AI writes; you don't. But you own every decision, and ownership lives in review.
 
-Every plan passes through your review before it becomes code. Every insight the AI writes gets your scrutiny before it joins the knowledge tree. Every gatekeep requires your judgement — not the AI's assertion that it's done. The AI is the workforce. You are the authority. And authority means active review, not passive approval.
+Every plan passes through your review before it becomes authoritative. Every insight the AI writes gets your scrutiny before it joins the knowledge tree. Every gate requires your judgement — not the AI's assertion that it's done. The AI is the workforce. You are the authority. And authority means active review, not passive approval.
 
-You are typically both the lead and the sole stakeholder — which means there is no one else to defer to. The gatekeep "my own approval" means you are accountable for the quality of what ships. This is not a limitation of the process. It is the point. AI-SDLC exists to empower you through AI, not to replace your judgement with AI output.
+You are typically both the lead and the sole stakeholder — which means there is no one else to defer to. The gate "my own approval" means you are accountable for the quality of what ships. This is not a limitation of the process. It is the point. The methodology exists to empower you through AI, not to replace your judgement with AI output.
 
-**This is where the process makes its real demand.** When the AI produces a phase spec, you need to evaluate whether the approach is sound — not skim it and approve. When the AI writes a journal entry, you need to verify it captured what actually happened — not assume it did. When the AI writes a key insight, you need to judge whether it's specific enough to be useful and placed at the right level — not let it accumulate unchecked. The AI generates volume. You supply the judgement that makes the volume valuable.
+**This is where the process makes its real demand.** When the AI produces a plan, you need to evaluate whether the approach is sound — not skim it and approve. When the AI writes a journal entry, you need to verify it captured what actually happened — not assume it did. When the AI writes a key insight, you need to judge whether it's specific enough to be useful and placed at the right level — not let it accumulate unchecked. The AI generates volume. You supply the judgement that makes the volume valuable.
 
 This is a partnership driven by you. If you disengage — rubber-stamp plans without reading them, skip review gates, accept AI output without scrutiny — the process breaks. The methodology is only as strong as the person driving it.
 
@@ -44,24 +44,21 @@ This is a partnership driven by you. If you disengage — rubber-stamp plans wit
 
 The Human Lead is free to be fluid. Jump between topics, think out loud, skip ahead, change direction mid-sentence. That's how humans work, and the process doesn't fight it. But the AI must always anchor that fluidity to the process.
 
-At every moment, the AI knows — and makes explicit — two things: **which stance** the AI is operating as, and **which action** is the current focus. When the Human Lead's direction implies a change to either of these, the AI doesn't silently follow along. It pauses and confirms:
+At every moment, the AI knows — and makes explicit — two things: **which stance** the AI is operating as (if a plugin defines stances), and **which focus** is active. When the Human Lead's direction implies a change to either of these, the AI doesn't silently follow along. It pauses and confirms:
 
-*"That sounds like you want to revisit the gatekeep for auth-redesign. I'll shift to Architect. Correct?"*
+*"That sounds like you want to revisit the gate for auth-redesign. Should I shift stance?"*
 
-*"You're asking me to write an implementation prompt — that's Tech Lead on new-token-model, phase 2. Should I proceed?"*
+*"This question is about a different focus. Should I push it onto the stack, or is this a quick aside?"*
 
-*"This question is about a different action. Should I push fix-csv-date-format onto the stack, or is this a quick aside?"*
-
-This is not pedantry — it is the mechanism that bridges the Human Lead's flexibility with the process's discipline. Without it, the AI drifts: it answers as an Architect when it should be implementing as a Tech Lead, it redesigns a gatekeep when it should be building from the spec, it writes to the wrong recording files. The formalisation takes seconds and prevents the most common failure modes: stance bleed and untracked context switches.
+This is not pedantry — it is the mechanism that bridges the Human Lead's flexibility with the process's discipline. Without it, the AI drifts: it answers in the wrong stance, it works on the wrong focus, it writes to the wrong recording files. The formalisation takes seconds and prevents the most common failure modes: stance bleed and untracked context switches.
 
 The Human Lead can always override: "Yes, switch" or "No, stay where you are — I'm just thinking out loud." The AI's job is to ask, not to block. But it must always ask when the implicit direction would change the process state.
 
 **What the AI tracks at all times:**
 
-- **Active stance** — which stance the AI is currently operating as
-- **Active mode** — Planning, Executing, or Reflecting (see [Interaction Modes](#interaction-modes))
-- **Active action** — which action node is the current focus
-- **Active phase/prompt** — where in the implementation cycle (if executing prompts)
+- **Active stance** — which stance the AI is currently operating as (plugin-defined, or general-purpose if no plugin)
+- **Active mode** — Planning, Executing, or Reflecting (see [Interaction Modes](#interaction-modes)); absent when headless
+- **Active focus** — which focus is active, or headless (see [workflow.md](./workflow.md))
 
 When any of these changes, the AI confirms with the Human Lead before proceeding. `status.md` is updated to reflect the confirmed state.
 
@@ -69,25 +66,23 @@ When any of these changes, the AI confirms with the Human Lead before proceeding
 
 ## Interaction Modes
 
-The process has three modes: **Planning**, **Executing**, and **Reflecting**. The mode governs how the AI interprets artifacts and how it collaborates with the Human Lead. The mode is always explicit — recorded in `status.md` and announced at session start.
+The process has three modes: **Planning**, **Executing**, and **Reflecting**. The mode governs how the AI interprets artifacts and how it collaborates with the Human Lead. The mode is always explicit — recorded in `status.md` and announced at session start. Modes apply when a focus is active; when the project is headless, there is no mode (see [workflow.md — Headless](./workflow.md#headless)).
 
-**Planning** and **Executing** drive the action tree forward. They differ in posture — one treats artifacts as provisional, the other as authoritative — but both operate *within* an action, moving it toward its gatekeep. **Reflecting** steps outside the tree. The action tree is untouched; the session examines, reshapes, or rethinks the tree itself.
+**Planning** and **Executing** drive work forward. They differ in posture — one treats artifacts as provisional, the other as authoritative — but both operate *within* a focus, moving it toward its gate. **Reflecting** steps outside the work. The focus stays active, but the session examines, reshapes, or rethinks the approach rather than advancing it.
 
 **Planning mode.** The Human Lead and the AI are shaping work together. Everything produced is provisional. Artifacts capture the conversation's current state — they are working notes, not commitments. The AI's posture: challenge assumptions, offer alternatives, hold things loosely. The handover (see [journaling.md](./journaling.md)) carries the state of the discussion. A new session reading these artifacts should treat them as drafts, not as approved plans.
 
-**Executing mode.** A plan has been approved by the Human Lead. The AI acts within that plan's scope. Artifacts are authoritative — they define what the work is, not what it might be. The AI's posture: follow the plan, flag deviations, stay within scope. If implementation reveals the plan was wrong, the AI flags the issue and waits for the Human Lead to decide whether to switch back to Planning.
+**Executing mode.** A plan has been approved by the Human Lead. The AI acts within that plan's scope. Artifacts are authoritative — they define what the work is, not what it might be. The AI's posture: follow the plan, flag deviations, stay within scope. If execution reveals the plan was wrong, the AI flags the issue and waits for the Human Lead to decide whether to switch back to Planning.
 
-**Reflecting mode.** The Human Lead and AI step outside the action tree to examine it. No obligation to produce AT artifacts. Reflecting is the mode for when the structure itself needs attention: the decomposition isn't right, a branch should be scrapped, the plan broke and the tree needs reshaping before forward motion can resume.
+**Reflecting mode.** The Human Lead and AI step back to examine the work itself. Is the approach right? Is the focus itself right? Is the project's memory still accurate? Reflecting is for when the work needs rethinking, not more doing. Any part of the project's memory can be reshaped in Reflecting mode — focus files, status, journal annotations, knowledge. The AT and KT have additional rules: see [updating-trees.md](./updating-trees.md) for append-forward and reconciliation.
 
-Reflecting is reachable from both Planning and Executing — whenever the tree itself is the thing that needs work, not the work within it. Without Reflecting, the process would force you to create AT artifacts just to justify thinking about the tree. Reflecting removes that overhead. You enter, you examine, you reshape or take notes, and you exit back into Planning or Executing.
-
-Reflecting is transitional. You enter because the tree needs attention; you exit by returning to a forward-motion mode. When entering Reflecting, it pushes onto the active stack (see [workflow.md — The Active Stack](./workflow.md#the-active-stack)). The action underneath stays untouched. When exiting, it pops — and you resume where you were, unless Reflecting led you to restructure. The journal captures what happened during reflection; the handover tells the next session whether to continue reflecting or resume forward motion.
+Reflecting is reachable from both Planning and Executing — whenever the approach itself is the thing that needs attention, not the work within it. Without Reflecting, the process would force forward motion even when the direction is wrong. You enter, you examine, you reshape or take notes, and you exit back into Planning or Executing. The journal captures what happened during reflection; the handover tells the next session whether to continue reflecting or resume forward motion.
 
 Reflecting is also where **reconciliation** happens — the controlled exception to append-forward that allows the AT and KT to be reshaped when strategic direction changes. Reconciliation requires explicit Human Lead approval and is documented in the journal. See [updating-trees.md](./updating-trees.md) for the full protocol.
 
-**Mode transitions.** The transition from Planning to Executing is always an explicit human decision. The Human Lead reviews the work, decides it's ready, and authorises execution. There is no implicit transition — the AI never assumes an artifact is authoritative just because it exists. The reverse transition (Executing → Planning) happens when the AI flags that the plan doesn't hold up; the Human Lead confirms the mode switch. Transitions into and out of Reflecting are also explicit human decisions — the Human Lead triggers reflection and explicitly exits back into Planning or Executing.
+**Mode transitions.** The human can jump between modes freely — any mode to any mode, at any time. The process doesn't fight that. The AI's job is to make the transition explicit and help the human think clearly about it. The transition from Planning to Executing deserves extra scrutiny — this is where provisional becomes authoritative, and effort begins. See [workflow.md — Checkpoints](./workflow.md#checkpoints).
 
-**Modes are orthogonal to stances and workflow stages.** Any stance can operate in any mode. A Tech Lead can be in Planning mode — sketching an approach, exploring trade-offs, proposing how to structure the implementation. A Tech Lead in Executing mode follows the approved spec and implements. An Architect in Reflecting mode examines the tree's decomposition. A Tech Lead in Reflecting mode investigates a technical assumption that's undermining the plan. Same stances, different modes. Similarly, the workflow's design stage (writing specs with the Architect — see [workflow.md](./workflow.md)) is not the same as the Planning interaction mode. You can be in Executing mode while writing a phase spec, if the overall goal's plan is approved and you're executing within its scope.
+**Modes are orthogonal to stances.** Any stance can operate in any mode. Modes describe *how* you're engaging with the work, not *what kind* of work you're doing. A planning conversation looks different depending on the domain and stance — but the posture (provisional, challenging, exploratory) is the same.
 
 ---
 
@@ -98,6 +93,34 @@ Two operations govern how the AT and KT change. **Append-forward** is the defaul
 Both are equally important. Append-forward protects history during normal operation. Reconciliation prevents the trees from accumulating contradictions after a strategic shift. Each is critical when used at the right time.
 
 See [updating-trees.md](./updating-trees.md) for the full mechanics of both operations.
+
+---
+
+## Token Efficiency by Design
+
+The methodology's structural conventions are designed so that AI sessions load less and orient faster as the project matures. This is not a side effect — it's an architectural goal that drives design decisions throughout the process.
+
+**Indexes are loading hints.** The three-section navigation grammar (References, Siblings, Children) tells the AI what to load and in what order. Labeled reference groups signal importance: the AI reads the most relevant context first, skipping what doesn't apply. A well-structured index means the AI loads five files instead of fifty.
+
+**Curated knowledge replaces raw re-reading.** Without a knowledge tree, every session re-reads source material to rediscover constraints. With one, the AI loads a curated node that distills what ten previous sessions learned — in a fraction of the tokens. The curation cost is paid once; the loading savings compound on every subsequent session.
+
+**Hierarchy keeps trees shallow.** The hierarchy discipline (see [conventions.md](./conventions.md#hierarchy-discipline)) limits folder depth and file size. Shallow trees mean fewer navigation steps. Shorter files mean less token waste per load. The ~200-line signal and 5–7 children guideline exist because they produce efficient loading, not because they look tidy.
+
+**Reference headers declare dependencies.** Every file says what else needs to be read to understand it. The AI doesn't guess — it follows the declared dependencies. This prevents both under-loading (missing context) and over-loading (wasting tokens on irrelevant files).
+
+The compound curve is expressed in tokens: session 1 loads raw material and produces knowledge. Session 10 loads curated knowledge and produces immediately. The methodology gets cheaper to run as the project matures — the opposite of entropy.
+
+---
+
+## Core as Infrastructure
+
+The memory model has three layers, but not all are required for every project.
+
+**The journal is mandatory.** Every session produces a journal entry. This is the minimum viable memory — session continuity through handovers, a temporal record of what happened.
+
+**The action tree and knowledge tree are available infrastructure.** They're powerful when a project needs them — the AT for complex work decomposition, the KT for long-term knowledge that compounds. But a project can run on journal alone. A simple project, a short engagement, a domain where knowledge doesn't accumulate — these don't need trees, and the process doesn't force them.
+
+The process scales with the work. Use what earns its keep.
 
 ---
 
@@ -113,6 +136,6 @@ A smaller model will follow the ceremony without the judgment — which is worse
 
 ### The Memory Model
 
-The methodology maintains persistent memory through three complementary layers: the action tree (short-term), the knowledge tree (long-term), and the journal (temporal intake and audit trail). This is the central mechanism — everything else serves it.
+The methodology maintains persistent memory through three complementary layers: the action tree (intention), the knowledge tree (long-term knowledge), and the journal (temporal intake and audit trail). This is the central mechanism — everything else serves it.
 
 **The full memory model** is defined in [memory.md](./memory.md). **The recording system** is defined in [journaling.md](./journaling.md). All stances should read both.
