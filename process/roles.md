@@ -6,73 +6,68 @@
 > |---|---|
 > | Foundation | [principles.md](./principles.md) |
 > | Workflow | [workflow.md](./workflow.md) |
-> | Individual stances | [roles/](../roles/) |
+> | Plugins | [plugins.md](./plugins.md) |
 
-This is a solo practitioner's framework. You — the human — are the only person. The AI is your tool, and you direct it by shifting between cognitive stances. The "stances" are framing techniques — telling the AI "you are an Architect, challenge assumptions" produces different output than "you are a Tech Lead, implement this phase." Different stances produce different thinking. That's the entire mechanism.
-
-The Human Lead picks the right stance as the work demands. There is no prescribed sequence — you shift when the conversation needs a different kind of thinking.
+This is a solo practitioner's framework. You — the human — are the only person. The AI is your tool, and you direct it by shifting between cognitive stances. Stances are framing techniques — telling the AI "you are a strategist, challenge assumptions" produces different output than "you are an executor, implement this plan." Different stances produce different thinking. That's the entire mechanism.
 
 ---
 
 ## You — The Human Lead
 
-You define actions, set gatekeeps, and have final authority over everything — approvals, direction, trade-offs. Every review gate in this process exists so you can catch mistakes before they become code.
+You define focuses, set gates, and have final authority over everything — approvals, direction, trade-offs. Every review gate in this process exists so you can catch mistakes before they compound.
 
-Your primary job is defining what success looks like and verifying that it was achieved. You provide the domain context the AI cannot infer, challenge the Architect's assumptions, and decide when a plan is good enough to execute. You also decide when to override the process — skip a phase, combine steps, change direction.
+Your primary job is defining what success looks like and verifying that it was achieved. You provide the domain context the AI cannot infer, challenge assumptions, and decide when a plan is good enough to execute. You also decide when to override the process — skip a step, change direction, simplify.
 
 You decide session boundaries. You review knowledge contributions. You carry the full weight of gatekeeping. This is by design.
 
 ---
 
-## Two Stances in the Flow
+## Three Archetypes
 
-### Architect
+The core defines three stance archetypes — fundamental kinds of thinking that recur across domains. Plugins compose these into domain-specific stances, combining or specialising them as the domain requires.
 
-Designs the approach and structures the work. The Architect and Human Lead collaborate to define topics, design phase roadmaps, and write phase specs. Phases are the structural backbone — each gets a spec with a clear goal, concrete steps, and done criteria.
+### Auditor
 
-The Architect reads the codebase deeply, challenges assumptions, pushes back on scope. Thinks broadly — trade-offs, dependencies, patterns, long-term consequences. Also maintains knowledge tree health and processes the journal on demand.
+The process examiner. Looks at how the work is being done, not what's being done. Points out process problems, recommends corrective actions, evaluates whether the methodology is serving the project. Inward-facing: "is the process healthy?"
 
-**When you use it:** At the start of every action (defining the gatekeep, designing phases), before each phase (writing the spec), when implementation reveals the plan was wrong, and when the knowledge tree needs attention.
+**When this thinking applies:** Process friction, methodology migrations, memory model health checks, post-mortems on what went wrong in the process (not the product).
 
-**Entry point:** [`roles/architect.md`](../roles/architect.md)
+### Strategist
 
-### Tech Lead
+The direction questioner. Steps outside the work to ask whether it should be done at all. Evaluates high-level strategy, alignment, differentiation, and fit. Skeptical by default — the project is not ready until the evidence convinces you. Outward-facing: "is this the right thing to do?"
 
-The primary executor. Reads the phase spec, discusses approach with the Human Lead, and implements. The Tech Lead is where most code gets written. Direct implementation from the spec is the default mode — the TL reads the spec, understands the codebase, and builds.
+**When this thinking applies:** Before committing significant effort, when an honest assessment of direction is needed, when positioning or audience claims need evaluation.
 
-**When you use it:** For all implementation work. The TL is the workhorse stance.
+### Builder
 
-**Entry point:** [`roles/tech-lead.md`](../roles/tech-lead.md)
+The practitioner. Once direction is confirmed and the process is sound, the Builder produces the work — designs, implements, writes, creates. This is the stance that operates within the domain: an SDLC Builder writes code, a TTRPG Builder writes narrative, a research Builder synthesises findings.
 
-### How they flow together
+**When this thinking applies:** All production work. The Builder is the workhorse archetype.
 
-**In a single session (the default),** this is fluid. You discuss the design (Architect thinking) and move into implementation (Tech Lead thinking) — all in the same conversation. The stances shape how the AI approaches the work even when the session is continuous.
+### How plugins compose them
 
-**When separate sessions earn their cost:**
+A plugin's named stances are compositions of these archetypes. An SDLC "Architect" might combine Strategist thinking (challenge assumptions, evaluate trade-offs) with Builder thinking (design the approach, write specs). A "Tech Lead" is primarily Builder. An "Auditor" stance maps directly to the Auditor archetype.
 
-- **When you notice stance pollution.** If the Architect starts writing code, or the TL starts redesigning the spec, physical separation helps.
-- **Deep design work.** A dedicated Architect session for a major topic benefits from having only design context loaded.
-
-Separate sessions are the escalation path, not the default.
+Plugins are free to weight the archetypes however the domain demands. A stance can lean heavily on one archetype or blend all three. The archetypes are the vocabulary; the plugin writes the sentences.
 
 ---
 
-## Situational Stance — Auditor
+## Plugin-Defined Stances
 
-The Auditor evaluates whether the process itself is serving the project. Skeptical by default: is this methodology helping, or is it getting in the way? Also owns version migration — transitioning a project's memory structures when the methodology evolves.
+> **Slot:** Domain stances — the plugin defines which concrete stances exist, what each one does, and when to use them. See [plugins.md](./plugins.md).
 
-**When you reach for it:** When you feel process friction, or when the methodology updates to a new version and active projects need migration.
+Which specific stances exist, what each one is called, and when to use them — these are defined by the plugin for your domain. An SDLC plugin might define Architect and Tech Lead. A TTRPG plugin might define Narrator and Lorekeeper. A project with no plugin uses the archetypes directly or operates without named stances.
 
-**Entry point:** [`roles/auditor.md`](../roles/auditor.md)
+What the core provides is the infrastructure stances operate within:
 
----
+- **Operating rules** — session protocols, human authority, append-forward, stance drift awareness. These apply to every stance regardless of domain. See [operating-rules.md](../roles/operating-rules.md).
+- **Common responsibilities** — status updates, orientation, external change awareness. Shared duties all stances perform. See [common.md](../roles/common.md).
+- **Recording system** — what gets written, where it goes. See [journaling.md](./journaling.md).
 
-## Common Foundation
-
-All AI stances share a common foundation. [`roles/operating-rules.md`](../roles/operating-rules.md) defines the behavioural standards — session protocols, human authority, append-forward, stance drift awareness. [`roles/common.md`](../roles/common.md) defines shared duties: status and AT root index updates, orientation ("where are we?"), and external change awareness. Recording responsibilities are defined in [journaling.md](./journaling.md).
+Plugins define stance entry points — files the AI loads to adopt a specific cognitive posture. Each entry point loads operating-rules.md first, then common.md, then the stance-specific file. This loading sequence is fixed; the content of the stance file is plugin territory.
 
 ---
 
 ## Model Selection
 
-Use the strongest reasoning model available for Architect and Auditor work — these stances require architectural thinking, trade-off analysis, and nuanced judgement. Use whatever model is most practical for execution (Tech Lead). Token efficiency is one benefit of session separation: the Architect loads knowledge tree nodes plus source files, the Tech Lead loads the phase spec and relevant source. In separate sessions, each loads exactly what it needs.
+Use the strongest reasoning model available for work that requires architectural thinking, trade-off analysis, and nuanced judgement. Use whatever model is most practical for execution. Token efficiency is one benefit of session separation: different stances may load different context. In separate sessions, each loads exactly what it needs.

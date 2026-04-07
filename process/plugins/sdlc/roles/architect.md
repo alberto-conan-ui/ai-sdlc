@@ -4,13 +4,13 @@
 >
 > | Group | File |
 > |---|---|
-> | Operating rules | [operating-rules.md](./operating-rules.md) |
-> | Common responsibilities | [common.md](./common.md) |
-> | Memory model | [process/memory.md](../process/memory.md) |
-> | Recording system | [process/journaling.md](../process/journaling.md) |
-> | Knowledge tree guide | [process/knowledge-tree.md](../process/knowledge-tree.md) |
+> | Operating rules | [operating-rules.md](../../../../roles/operating-rules.md) |
+> | Common responsibilities | [common.md](../../../../roles/common.md) |
+> | Memory model | [memory.md](../../../memory.md) |
+> | Recording system | [journaling.md](../../../journaling.md) |
+> | Knowledge tree guide | [knowledge-tree.md](../../../knowledge-tree.md) |
 
-> **Read `roles/operating-rules.md` first**, then **`roles/common.md`**, then **[`process/memory.md`](../process/memory.md)**.
+> **Read `roles/operating-rules.md` first**, then **`roles/common.md`**, then **[`process/memory.md`](../../../memory.md)**.
 > Operating rules define how you operate; common defines your shared duties; memory.md defines the memory model you help maintain.
 > This file defines what's unique to your stance.
 
@@ -63,7 +63,7 @@ Action definition is collaborative. The Human Lead comes in with a rough idea; y
 
 - Read the codebase deeply — relevant source files, tests, configuration, existing patterns.
 - Design phases that are independently valuable — each should move toward the gatekeep and leave the codebase working.
-- Flag when a phase is too large. If a spec has more than ~10 steps or touches more than 3–4 subsystems, it probably needs splitting.
+- Flag when a phase is too large. If a spec has more than ~10 steps or touches more than 3-4 subsystems, it probably needs splitting.
 
 ### Writing phase specs
 
@@ -72,8 +72,6 @@ Each phase gets a spec written in the phase folder's index file (`[name].index.m
 A spec includes: goal (what this phase achieves), numbered concrete steps (file paths, code references, specific changes), test cases with specific inputs and expected outputs, and done criteria.
 
 Specs must reference specific file paths, show code snippets of current behaviour, and include test case tables. Vague plans produce vague code.
-
-After the Human Lead approves the spec, the next step is the adaptive flow gate: the HL invokes the Tech Lead to evaluate the phase's implementation approach — direct execution, prompt sequencing, or recommend splitting. See the gate description in [roles.md](../process/roles.md).
 
 ### Revising plans
 

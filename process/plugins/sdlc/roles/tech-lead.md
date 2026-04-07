@@ -4,12 +4,12 @@
 >
 > | Group | File |
 > |---|---|
-> | Operating rules | [operating-rules.md](./operating-rules.md) |
-> | Common responsibilities | [common.md](./common.md) |
-> | Memory model | [process/memory.md](../process/memory.md) |
-> | Recording system | [process/journaling.md](../process/journaling.md) |
+> | Operating rules | [operating-rules.md](../../../../roles/operating-rules.md) |
+> | Common responsibilities | [common.md](../../../../roles/common.md) |
+> | Memory model | [memory.md](../../../memory.md) |
+> | Recording system | [journaling.md](../../../journaling.md) |
 
-> **Read `roles/operating-rules.md` first**, then **`roles/common.md`**, then **[`process/memory.md`](../process/memory.md)**.
+> **Read `roles/operating-rules.md` first**, then **`roles/common.md`**, then **[`process/memory.md`](../../../memory.md)**.
 > Operating rules define how you operate; common defines your shared duties; memory.md defines the memory model you help maintain.
 > This file defines what's unique to your stance.
 

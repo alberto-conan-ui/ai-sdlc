@@ -5,52 +5,108 @@
 > | Group | File |
 > |---|---|
 > | Foundation | [principles.md](./principles.md) |
-> | Action tree | [action-tree.md](./action-tree.md) |
-> | Knowledge tree | [knowledge-tree.md](./knowledge-tree.md) |
-> | Recording system | [journaling.md](./journaling.md) |
-> | Stances | [roles.md](./roles.md) |
+> | Conventions | [conventions.md](./conventions.md) |
+> | Workflow | [workflow.md](./workflow.md) |
 
-AI-SDLC gives your project durable memory through three layers and a typed file system. This is the central mechanism — everything else in the methodology serves it. Without persistent memory, every AI session starts from zero. With it, session 10 benefits from every lesson learned in sessions 1 through 9.
+AI-Lore gives your project durable memory. This is the central mechanism — everything else in the methodology serves it. Without persistent memory, every AI session starts from zero. With it, session 10 benefits from every lesson learned in sessions 1 through 9.
+
+The memory model has an **entry point** and **three layers**:
+
+| Component | Role | Required |
+|---|---|---|
+| **Status** | Entry point — where every session starts. Current state, active focus, mode. | Yes |
+| **Journal** | Continuity wire — session records and handovers. | Yes |
+| **Action Tree** | Intention — work decomposition for complex focuses. | Optional |
+| **Knowledge Tree** | Long-term memory — curated knowledge that compounds. | Optional |
+
+```
+.ai-lore/memory/
+├── status/                        ← entry point
+│   ├── status.md                  ← live pointer: active focus, mode, last journal
+│   └── focus/                     ← focus files (one per active focus)
+│       ├── current-focus.md
+│       └── archive/
+├── journal/                       ← layer 1: continuity
+│   ├── live/                      ← current session files
+│   └── archive/                   ← processed sessions
+├── action-tree/                   ← layer 2: intention (optional)
+│   ├── action-tree.index.md       ← structural overview
+│   └── archive/
+└── knowledge-tree/                ← layer 3: long-term memory (optional)
+    ├── knowledge-tree.index.md    ← root index, points to the three branches
+    ├── curated/                   ← durable insights by area
+    ├── notepad/                   ← action-scoped scratch space
+    └── payload/                   ← product description, plugin-defined
+```
+
+The structural conventions that all components share — the typed file system, the index navigation grammar, reference headers, and hierarchy discipline — are defined in [conventions.md](./conventions.md). These conventions are designed for token efficiency: indexes tell the AI what to load and in what order, reference headers declare dependencies, and hierarchy discipline keeps trees shallow. The result is that sessions load less and orient faster as the project matures. See [principles.md — Token Efficiency by Design](./principles.md#token-efficiency-by-design).
 
 ---
 
-## The Three Layers
+## Status — The Entry Point
 
-### The Journal — Continuity Wire
+Every session starts here. Every project has one, regardless of domain, complexity, or which memory layers it uses. Status is not a memory layer — it's above them, the front door to the project.
 
-The journal (`journal/`) is the session-to-session continuity wire. Each session produces a single file in `journal/live/`, named by date and session number (e.g., `2026-03-19_02.md`). The file contains header metadata (date, stance, mode, active action), the session narrative, and a handover section for the next session. See [journaling.md](./journaling.md) for the full structure.
+**`status.md`** is the live pointer — the project's current state:
 
-Two subfolders: `live/` for current session files, `archive/` for processed ones. Processing is on-demand — the Human Lead triggers it by asking the Architect to review `live/` and extract what belongs in the trees. Processed files move to `archive/`.
+- **Active focus** — which focus file is current, or headless with a brief description
+- **Mode** — Planning, Executing, or Reflecting (when focused); absent when headless
+- **Last journal** — link to the most recent session entry
 
-The journal records what happened, links to artifacts created elsewhere (AT, KT), and carries the handover — telling the next session where work was left. The journal complements status.md: status.md says where the project stands, the handover says where this thread of work was left.
+The `focus/` subfolder holds one file per focus. Each focus file carries a gate, a mode, a state pointer, and context links. Focuses stack for interrupts and archive on completion. See [focus.md](./focus.md) for the full definition and [workflow.md](./workflow.md) for how focuses are orchestrated.
 
-### The Action Tree — Intention
+status.md is mutable — updated every session. It tracks current state, not history. The journal is the historical record.
 
-The action tree (`action-tree/`) captures what you intend to do — work in progress, decomposed into trackable units. Each node carries its own completion criteria. When an action completes, its subtree moves to `archive/` and any insights worth keeping migrate to the knowledge tree.
+---
 
-The AT is intentionally lightweight. It holds intention, status, and gatekeeps — never design knowledge, analysis, or context documents. All knowledge lives in the knowledge tree from day one, referenced from the AT via pointers. This separation keeps the AT cheap to reshape (see [updating-trees.md — Reconciliation](./updating-trees.md#reconciliation)) and ensures knowledge survives action archival.
+## The Journal — Continuity Wire
 
-See [action-tree.md](./action-tree.md) for the full structure.
+The journal (`journal/`) is the session-to-session continuity wire. Each session produces a single file that captures what happened, links to artifacts created elsewhere, and carries the handover — telling the next session where work was left. See [journaling.md](./journaling.md).
 
-### The Knowledge Tree — Long-Term Memory
+Two subfolders: `live/` for current sessions, `archive/` for processed ones. Processing is on-demand — the human triggers it.
+
+The journal is mandatory. Even the simplest project benefits from session continuity through handovers. This is the minimum viable memory.
+
+---
+
+## The Action Tree — Intention
+
+The action tree (`action-tree/`) captures what you intend to do — work in progress, decomposed into trackable units. Each node carries its own completion criteria. When an action completes, its subtree moves to `archive/` and insights worth keeping migrate to the knowledge tree.
+
+The AT is intentionally lightweight. It holds intention, status, and gates — never design knowledge, analysis, or context documents. All knowledge lives in the knowledge tree from day one, referenced from the AT via pointers. This separation keeps the AT cheap to reshape (see [updating-trees.md — Reconciliation](./updating-trees.md#reconciliation)) and ensures knowledge survives action archival.
+
+The AT is optional infrastructure — powerful when a focus needs decomposition into tracked stages, absent when it doesn't. See [action-tree.md](./action-tree.md).
+
+---
+
+## The Knowledge Tree — Long-Term Memory
 
 The knowledge tree (`knowledge-tree/`) holds all persistent knowledge. It has three branches, all present from project bootstrapping:
 
 | Branch | Function |
 |---|---|
-| **Curated** | Durable, structured insights at the right node — patterns, decisions, techniques, architectural constraints. Grows organically as work touches new areas. |
-| **Notepad** | Unstructured observations captured in-flight — things noticed during execution that don't yet belong in a curated node. Low-friction intake that removes pressure to route prematurely. |
-| **Payload** | How the product itself is structured — project files, conventions, organization. Core defines that this branch exists; the plugin defines its structure (an SDLC project's payload looks nothing like a TTRPG campaign's). |
+| **Curated** | Durable, structured insights — patterns, decisions, techniques, constraints. Grows organically as work touches new areas. |
+| **Notepad** | Unstructured observations captured in-flight — things noticed during execution that don't yet belong in a curated node. Low-friction intake. |
+| **Payload** | How the product itself is structured. Core defines that this branch exists; the plugin defines its shape (an SDLC project's payload looks nothing like a TTRPG campaign's). |
 
-The curated branch is where knowledge lives permanently. The notepad is where observations land before they're ready to be curated — on action completion, durable findings migrate from the notepad to curated nodes. The payload branch describes the thing being built, not knowledge about how to build it.
-
-See [knowledge-tree.md](./knowledge-tree.md) for the structural guide.
+The KT is optional infrastructure — but it's where the compound curve lives. Without it, sessions still have continuity (journal), but they don't accumulate domain knowledge. See [knowledge-tree.md](./knowledge-tree.md).
 
 ---
 
 ## How Memory Flows
 
 ```
+┌─────────────────────────────────────────────────────┐
+│                     STATUS                           │
+│                                                      │
+│  Every session reads status.md first.               │
+│  Active focus, mode, last journal — the front door. │
+│                                                      │
+└────────────────────┬─────────────────────────────────┘
+                     │
+                     │  Points to:
+                     │
+                     ▼
 ┌─────────────────────────────────────────────────────┐
 │                     JOURNAL                          │
 │                                                      │
@@ -73,7 +129,7 @@ See [knowledge-tree.md](./knowledge-tree.md) for the structural guide.
 │                │  │                                    │
 │  Intention     │  │  Curated — durable insights       │
 │  Lightweight   │  │  Notepad — in-flight observations │
-│  Temporary     │  │  Payload — product structure      │
+│  Optional      │  │  Payload — product structure      │
 │                │  │                                    │
 └───────┬────────┘  └──────────────────────────────────┘
         │                          ▲
@@ -86,67 +142,6 @@ See [knowledge-tree.md](./knowledge-tree.md) for the structural guide.
 
 The flow is continuous, not ceremonial:
 
-- **During sessions** — the journal captures what happens. Knowledge may also be written directly to the KT when an insight is immediately clear and well-placed.
+- **Every session** — starts at status, reads the journal handover to orient, then works. The journal captures what happens during the session.
 - **On demand** — the human triggers journal processing. Review `journal/live/`, extract decisions and insights to the appropriate tree, move processed files to `journal/archive/`.
 - **On action completion** — journal entries from the action are reviewed. Insights worth keeping migrate to the knowledge tree. The action subtree moves to `archive/`.
-
----
-
-## The Index — Navigation Primitive
-
-The index file is the core mechanism of the memory model. Every orientation decision the AI makes flows through an index. When the AI enters a folder, it reads the index. When it needs to decide what to load next, it follows links from the index. The index is not a bureaucratic requirement — it's the interface between the AI and the project's memory.
-
-Every folder has `[folder-name].index.md`. No exceptions. The index uses a three-section navigation grammar:
-
-**References** — external context this folder depends on. The parent index, relevant knowledge tree nodes, relevant journal entries. References point up and sideways — they tell the AI what else it needs to understand this node. References appear on all files (not just indexes), but they're the first section of every index.
-
-**Siblings** — typed companion files in the same folder. Siblings are listed with a brief role description so the AI knows what each file contributes without opening it.
-
-**Children** — nodes below this one in the hierarchy. Child folders or files, listed with brief descriptions. Children are the downward navigation path — the AI follows them when the task requires going deeper.
-
-The grammar is the same everywhere: AT indexes, KT indexes, journal indexes. The AI uses the same pattern to navigate: find the index, read References to understand context, scan Siblings to see companion files, scan Children to decide whether to go deeper.
-
----
-
-## The Typed File System
-
-Every file in the memory system follows one naming convention: **`[name].[type].md`**. The type suffix tells you what the file is without opening it. See [action-tree.md](./action-tree.md) and [knowledge-tree.md](./knowledge-tree.md) for the valid types and naming conventions in each tree.
-
----
-
-## Reference Headers
-
-Every file in the memory system has a reference header that declares its dependencies — what other files need to be read to understand this one. Content lives in exactly one place; references point to it. In index files, this is the References section of the navigation grammar (see [The Index — Navigation Primitive](#the-index--navigation-primitive)). In non-index files, it serves the same purpose: declare what the reader needs to load for context.
-
-```markdown
-> **References**
->
-> | Group | File |
-> |---|---|
-> | Foundation | [principles.md](./principles.md) |
-> | Parent context | [../parent.index.md](../parent.index.md) |
-```
-
-Conventions: groups are labeled (why the reference matters), ordered by importance (reading strategy for the AI), and point up and sideways (downward traversal is implicit — the AI reads children when the task requires it).
-
-When a file moves, update the references that point to it. Single-source means there's nothing else to update.
-
----
-
-## Hierarchy Discipline
-
-Well-structured trees keep references short and navigation efficient. This is a human responsibility — the process signals when the hierarchy is degraded, but only the human decides how to restructure.
-
-### What makes a good node
-
-A node earns its folder when it has a distinct concern that's loaded independently. In the KT, that means the information is needed for work in this area but not in sibling areas. In the AT, that means the work has its own completion criteria and its own lifecycle.
-
-### Signals the hierarchy needs attention
-
-- A file exceeds ~200 lines — split into children.
-- A folder has more than 5–7 direct children — add intermediate grouping.
-- A reference header has more than 4–5 entries — the hierarchy isn't carrying enough context implicitly.
-- The same information appears in multiple siblings — cross-cutting concern should move up.
-
-The Human Lead owns the tree shape. AI stances propose; the human confirms, redirects, or restructures.
-
