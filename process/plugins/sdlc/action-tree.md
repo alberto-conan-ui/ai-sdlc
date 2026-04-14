@@ -66,7 +66,7 @@ Tasks follow the same lifecycle as everything else — numbered, journaled, and 
 Goals/topics can hold goals/topics, phases, steps, or tasks. Phases can hold phases, steps, or tasks. Steps can hold steps or tasks. Tasks hold nothing — they are always leaves. The direction is always strategic → executable → decomposition → atomic.
 
 ```
-10.goal.v021-release/                ← strategic: "ship v0.21 changes"
+10.goal.v021-release/                ← strategic: "ship v0.2.1 changes"
 ├── 05.step.interaction-modes/       ← decomposition: structural chunk
 ├── 10.step.index-architecture/      ← decomposition: structural chunk
 ├── 15.step.journal-evolution/       ← decomposition: structural chunk

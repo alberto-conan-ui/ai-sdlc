@@ -1,0 +1,27 @@
+# Sidecar for ai_readme.template.md
+#
+# Draft — a probe at what a machine-readable annotation layer alongside the
+# template might look like. Not a committed schema. The fields, the section
+# names, and the assertion vocabulary are all open and may change or be
+# dropped entirely.
+
+template_kind: ai_readme
+
+description: |
+  Draft annotation accompanying ai_readme.template.md. Captures the section
+  shape and which sections are open vs closed to plugin composition. One
+  exploratory framing among others.
+
+required_sections:
+
+  - heading: "## 1. Process"
+    plugin_access: OPEN_APPEND_OF_POINTERS_ONLY
+    purpose: "Pointers to process docs the AI loads at session start."
+
+  - heading: "## 2. Bootstrap"
+    plugin_access: CLOSED
+    purpose: "Routing instruction to the bootstrap protocol declared elsewhere."
+
+  - heading: "## 3. Stances"
+    plugin_access: OPEN_APPEND
+    purpose: "Composed catalogue of stances available in the project."

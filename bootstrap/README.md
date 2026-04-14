@@ -42,7 +42,7 @@ my-project/
 │   ├── memory/            ← project memory (its own git repo)
 │   │   ├── status/        ← entry point — active focus, mode
 │   │   ├── journal/       ← session records
-│   │   ├── knowledge-tree/← curated insights, notepad, payload
+│   │   ├── knowledge-tree/← reconciled, working, notepad, blueprint
 │   │   └── action-tree/   ← optional work decomposition
 │   ├── methodology/       ← ai-lore (cloned)
 │   └── workspace.yaml     ← plugin declaration and version info
