@@ -156,7 +156,7 @@ Experienced practitioners — people who know their domain well enough to evalua
 
 ## Getting started
 
-1. **Bootstrap.** Run the bootstrap flow — see [bootstrap/README.md](./bootstrap/README.md). It clones the upstream pin, runs the build, creates the Lore folder, seeds Memory from the skeleton, and installs `ai_readme.md` at the Project root.
+1. **Bootstrap.** Run the bootstrap flow — see [process/project-lifecycle/bootstrap/bootstrap.index.md](./process/project-lifecycle/bootstrap/bootstrap.index.md). It clones the upstream pin, runs the build, creates the Lore folder, seeds Memory from the skeleton, and installs `ai_readme.md` at the Project root.
 2. **Open a session.** *Read `ai_readme.md`*. That is the prompt.
 3. **Name a stance.** The session lists what the plugin ships. Pick one.
 4. **Work.**
