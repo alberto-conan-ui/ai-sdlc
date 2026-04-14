@@ -10,9 +10,9 @@ This project uses the [AI-Lore methodology](https://github.com/alberto-conan-ui/
 
 ```
 .ai-lore/
-├── memory/          ← project memory (journal, knowledge tree, action tree)
-├── methodology/     ← ai-lore core + plugin process docs and stance definitions
-└── workspace.yaml   ← folder mapping and plugin declaration
++-- memory/          <- project memory (journal, knowledge tree, action tree)
++-- methodology/     <- ai-lore core + plugin process docs and stance definitions
++-- workspace.yaml   <- folder mapping and plugin declaration
 ```
 
 Read `.ai-lore/workspace.yaml` to resolve `{code}`, `{memory}`, `{methodology}` path references, find which plugin this project uses, and check version information (`core_version`, `plugin_version`).
@@ -29,11 +29,12 @@ Read `{memory}/status/status.md`. It tells you: active focus, current mode, and 
 
 | # | File | What it covers |
 |---|---|---|
-| 1 | `{methodology}/roles/operating-rules.md` | How you operate — session protocols, human authority |
-| 2 | `{methodology}/roles/common.md` | Shared responsibilities across all stances |
-| 3 | `{methodology}/process/principles.md` | Non-negotiable operating principles |
-| 4 | `{methodology}/process/workflow.md` | Focus, modes, stack, headless, checkpoints |
-| 5 | `{methodology}/process/conventions.md` | Typed files, index grammar, naming, status vocabulary |
+| 1 | `{methodology}/roles/roles.md` | The role system — four dials, gestures, menu, plugin composition |
+| 2 | `{methodology}/roles/operating-rules.md` | Universal constants — identity, tree operations, session protocols |
+| 3 | `{methodology}/roles/common.md` | Shared responsibilities across all stances |
+| 4 | `{methodology}/process/principles.md` | Non-negotiable operating principles |
+| 5 | `{methodology}/process/workflow.md` | Focus, modes, stack, headless, checkpoints |
+| 6 | `{methodology}/process/conventions.md` | Typed files, index grammar, naming, status vocabulary |
 
 ### 3. Load the plugin
 
@@ -49,7 +50,7 @@ Do not proceed without a plugin. Load the Auditor to fix the project — see [th
 
 The human will tell you which stance to operate as, or you can infer from context. Available stances are listed in the plugin's session configuration (step 3).
 
-Load the stance's entry point file. Each stance file lists additional files to load under "Files to Load." Follow those instructions for the active work.
+Load the stance's entry point file. Each stance file carries its four dial settings and lists additional files to load under "Files to Load."
 
 ### 5. Announce
 
@@ -65,7 +66,8 @@ State which stance you are operating as, confirm the active focus and mode (or h
 | Knowledge tree root | `{memory}/knowledge-tree/knowledge-tree.index.md` |
 | Journal (current) | `{memory}/journal/live/` |
 | Core process docs | `{methodology}/process/` |
-| Plugin (if any) | See `workspace.yaml` → `plugin_readme` |
+| Role system | `{methodology}/roles/roles.md` |
+| Plugin (if any) | See `workspace.yaml` -> `plugin_readme` |
 
 ---
 

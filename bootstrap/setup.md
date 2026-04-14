@@ -57,9 +57,9 @@ Read all three before proceeding. You need to understand the memory model to cre
 
 Using what you learned from the process docs in Step 3 and the human's answers in Step 4:
 
-1. **Create the memory folder structure** as defined in `memory.md` — status, focus, journal, knowledge tree (three branches), action tree. Initialize it as a git repo.
+1. **Create the memory folder structure** as defined in `memory.md` — status, focus, journal, knowledge tree (four branches: reconciled, working, notepad, blueprint), action tree. Initialize it as a git repo.
 2. **Create `workspace.yaml`** in `.ai-lore/` with the folder mappings, chosen plugin, and version fields as described in `memory.md` and `plugins.md`.
-3. **Create all skeleton files** — `status.md`, knowledge tree indexes (root, curated, notepad, payload), and action tree index. Follow the conventions from `conventions.md` and the structures from `memory.md`. Use the human's project description for the KT root.
+3. **Create all skeleton files** — `status.md`, knowledge tree indexes (root, reconciled, working, notepad, blueprint), and action tree index. Follow the conventions from `conventions.md` and the structures from `memory.md`. Copy the plugin's `blueprint-seed.md` to `knowledge-tree/blueprint/blueprint.index.md`. Use the human's project description for the KT root.
 4. **Copy `ai_readme.md`** from `.ai-lore/methodology/bootstrap/ai_readme.template.md` to the project root.
 
 ---
