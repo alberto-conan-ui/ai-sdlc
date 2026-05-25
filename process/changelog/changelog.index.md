@@ -4,31 +4,23 @@
 >
 > | Group | File |
 > |---|---|
-> | Memory | [../memory/memory.index.md](../memory/memory.index.md) |
-> | Stances | [../stances.md](../stances.md) |
-> | Modes | [../modes.md](../modes.md) |
-> | Used by | [../stances/migrator.md](../stances/migrator.md) (migration reference) |
+> | Memory | [../memory.md](../memory.md) |
+> | Migration | [../migration-from-v0.4.md](../migration-from-v0.4.md) |
+> | Used by | [../verbs/upgrade.md](../verbs/upgrade.md) (version migration) |
 
-This folder tracks the evolution of AI-Lore core. Each version is documented here — release notes for what changed and why, plus the migration playbook(s) for existing projects to adopt the version. The changelog is the source of truth for `core_version`: bootstrap reads the highest-numbered entry here and writes it into `workspace.yaml`. Migrator reads both the old and new entries during version upgrades.
+This folder tracks the evolution of AI-Lore core. Each version is documented here — release notes for what changed and why. The changelog is the source of truth for `core_version`; the [`upgrade`](../verbs/upgrade.md) verb reads the relevant entries when migrating a project between versions.
 
 ## Version layout
 
-Two shapes, chosen by when the version shipped:
+Three shapes coexist, by when the version shipped:
 
-- **Flat file (legacy, v0.3 and earlier).** `v<version>.md` at the changelog root, release notes inline. Migration steps live inside the same file. No folder. Preserved as historical record; not retrofitted to the new shape.
-- **Folder (current, v0.4 onwards).** `v<version>/` contains `v<version>.index.md` (release notes, also serves as the folder index) plus any `migration-from-<predecessor>.md` playbooks. Future releases that need to support upgrades from multiple predecessors ship multiple playbooks in the same folder.
-
-Both shapes coexist in this folder. The resolver in `setup-project.sh` and `migrate-pull.sh` unions flat files (`v[0-9]*.md`) with folders (`v[0-9]*/`) and takes the sort-V highest.
+- **Flat file (v0.3 and earlier).** `v<version>.md` at the changelog root, release notes and migration steps inline. Preserved as historical record.
+- **Folder (v0.4).** `v0.4/` contains `v0.4.index.md` plus a peer `migration-from-v0.3.md` playbook.
+- **Flat file with root migration (v0.5 onwards).** `v<version>.md` holds the release notes; the migration playbook lives at the methodology root as `migration-from-<predecessor>.md`, where the `upgrade` verb reads it.
 
 ## Version entry format
 
-Each release (flat file or folder index) follows this structure:
-
-- **Version number** — major.minor.patch scheme (three segments minimum from v0.2.1 onwards) so sort-V orders correctly. Minor bumps may require migration. Major bumps indicate the process is considered stable.
-- **Date** — when the version was declared.
-- **Summary** — one paragraph: what changed and why.
-- **Changes** — specific changes grouped by area (memory model, stances, conventions, etc.).
-- **Migration** — v0.3 and earlier inline the migration steps; v0.4 and later ship them as a peer `migration-from-<predecessor>.md` file in the version folder.
+Each release follows this structure: version number (major.minor.patch, so sort-V orders correctly), date, a one-paragraph summary, changes grouped by area, and a pointer to the migration playbook.
 
 ## Versions
 
@@ -41,6 +33,7 @@ Each release (flat file or folder index) follows this structure:
 | [v0.2.5](./v0.2.5.md) | Released (internal) | 2026-03-31     | Process refinements: append-forward/reconciliation extracted, AT-is-intention, SDLC naming removed from core.              |
 | [v0.2.7](./v0.2.7.md) | Released (internal) | 2026-04-06     | Core process docs: focus-based workflow, status entry point, KT three branches, optional AT, archetypes.                   |
 | [v0.3](./v0.3.md)   | Released            | 2026-04-06     | Plugin architecture: slots/joins, mandatory plugins, independent versioning, `.ai-lore/` naming. Subsumes v0.2.5 and v0.2.7. |
-| [v0.4](./v0.4/v0.4.index.md) | Released   | 2026-04-15     | Discovery rewrite: pillars, ai-spine, four modes, four-stance set, scripted bootstrap, plugin overlay, versioned Upstream + `dist/` staging. Ships with [`migration-from-v0.3.md`](./v0.4/migration-from-v0.3.md). |
+| [v0.4](./v0.4/v0.4.index.md) | Released   | 2026-04-15     | Discovery rewrite: pillars, ai-spine, four modes, four-stance set, scripted bootstrap, plugin overlay, versioned Upstream + `dist/` staging. |
+| [v0.5](./v0.5.md)   | Draft               | 2026-05-22     | Subtraction: stances → dials, modes → postures, Status split from Memory, focus tracking primitive, references, methodology placed by `init`, bindings via `install`. Still in review. |
 
-**Current version:** v0.4.
+**Current version:** v0.4 (latest release); v0.5 in draft.
