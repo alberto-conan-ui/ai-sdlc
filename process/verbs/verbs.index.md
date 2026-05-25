@@ -22,9 +22,9 @@ Verbs take short imperative names — `write-lore`, `redial`. No project prefix:
 |---|---|---|
 | [`write-lore`](./write-lore.md) | verb | Write or update Memory — the sole path by which lore is written |
 | [`redial`](./redial.md) | verb | Set the dials — the conversational register |
-| [`dictation`](./dictation.md) | verb | Shape Human Lead input before the session consumes it |
 | [`ack`](./ack.md) | verb | Commit both repos with a focused message — acknowledge accumulated work |
 | [`save-point`](./save-point.md) | verb | Formal milestone — commit, ledger entry, blueprint-contract check |
+| [`chat`](./chat.md) | verb | Set posture to Chat — converse only, touch nothing |
 | [`plan`](./plan.md) | verb | Set posture to Planning — discuss and write plans, Payload read-only |
 | [`reshape`](./reshape.md) | verb | Set posture to Reshaping — work on Memory, Payload read-only |
 | [`execute`](./execute.md) | verb | Set posture to Executing — produce the Payload (the default) |
@@ -36,16 +36,16 @@ Verbs take short imperative names — `write-lore`, `redial`. No project prefix:
 
 The verbs split into four groups by what they do:
 
-- **Posture** — `plan`, `reshape`, `execute`. Set *where* the session is working. The active posture is recorded in `status/status.index.md`.
+- **Posture** — `chat`, `plan`, `reshape`, `execute`. Set *where* the session is working. The active posture is recorded in `status/status.index.md`.
 - **Ack** — `ack`, `save-point`. Move the working tree from dirty to clean by committing both repos.
-- **Ordinary work** — `write-lore`, `redial`, `dictation`. Run within ongoing work.
+- **Ordinary work** — `write-lore`, `redial`. Run within ongoing work.
 - **Lifecycle** — `init`, `upgrade`, `install`. Run once per project or once per engine.
 
 ## Posture is recorded
 
 The posture verbs write the session's working posture to `status/status.index.md`. The field carries across the session and across handovers, so a session opening from a previous session's posture knows where it stands without re-asking.
 
-Each posture has a real behavioural rule (see [`status.md`](../status.md#posture)): Planning and Reshaping both make the Payload read-only; Executing lifts that and is the default. The posture is the gate, not a label — a request that would violate the current posture is refused until a posture verb changes it.
+Each posture has a real behavioural rule (see [`status.md`](../status.md#posture)): Chat makes both the Payload and Memory read-only; Planning and Reshaping both make the Payload read-only; Executing lifts that and is the default. The posture is the gate, not a label — a request that would violate the current posture is refused until a posture verb changes it.
 
 ## Acknowledgement and drift
 

@@ -18,12 +18,59 @@ Each engine has its own binding section below — what "native form" means there
 
 ## Binding: Claude
 
-`install-claude` writes the following into the project, all idempotent on re-install:
+`install-claude` writes the following into the project, all idempotent on re-install.
 
-- **CLAUDE.md handshake.** A delimited block appended to (or replaced in) the project's `CLAUDE.md`, holding a one-liner: *"Read `ai_readme.md` and follow its instructions."* The block has clear start/end markers so re-install replaces only the block and preserves the rest of `CLAUDE.md`. Claude Code loads `CLAUDE.md` at session open; the handshake fires the universal load against the methodology already on disk.
-- **Verbs → skills.** Each verb file under `.ai-lore-<project>/process/verbs/` becomes a skill at `.claude/skills/ai-lore-<verb>/SKILL.md`. Skill body is the verb file's content, verbatim. Trigger keyword is the verb name. Skills are project-scoped (the project's `.claude/`, not user-global), so each project's install is isolated.
-- **Bookends → hooks.** `orient` and `close-session` are skills like the others *and* are wired to Claude Code's `SessionStart` and `SessionEnd` hooks in `.claude/settings.json`. The hook invokes the skill — the bookend's content stays in one place (the verb file), and the hook just triggers it. In the plain-text path the bookends are intrinsic behaviour; installed, they are reinforced.
-- **`dictation`** binds to the `[PROMPT]` input prefix — Claude detects the prefix and invokes the `dictation` skill.
+### CLAUDE.md handshake
+
+A delimited block in the project's `CLAUDE.md`:
+
+```
+<!-- AI-LORE:BEGIN -->
+This project uses AI-Lore. Read `ai_readme.md` and follow its instructions.
+<!-- AI-LORE:END -->
+```
+
+If `CLAUDE.md` does not exist, install creates it with this block as the entire content. If it exists, install replaces only the delimited block and preserves the rest of the file. Claude Code loads `CLAUDE.md` at session open, so the handshake fires the universal load against the methodology already on disk.
+
+### Verbs → skills
+
+Each verb file under `.ai-lore-<project>/process/verbs/` becomes a skill at `.claude/skills/ai-lore-<verb>/SKILL.md`. The skill file is the verb's content with **synthesized YAML frontmatter prepended**:
+
+```markdown
+---
+name: ai-lore-<verb>
+description: <the verb's one-line entry from verbs.index.md>
+---
+
+<verb file content, unchanged>
+```
+
+Claude Code triggers skills by **description matching** — the description field is what makes the skill discoverable. Descriptions are sourced from the operations table in [`verbs/verbs.index.md`](./verbs/verbs.index.md); that table is the canonical list, used by every engine binding that triggers on descriptions.
+
+Skills are project-scoped (`.claude/skills/`, not `~/.claude/skills/`), so each project's install is isolated.
+
+### Bookends → hooks
+
+`orient` and `close-session` are skills (as above) **and** are wired into Claude Code's `SessionStart` and `SessionEnd` hooks in `.claude/settings.json`. The hook command is a shell command whose stdout becomes session context — it emits the instruction telling the running session to invoke the bookend skill:
+
+```json
+{
+  "hooks": {
+    "SessionStart": [{ "matcher": "*", "hooks": [
+      { "type": "command", "command": "echo 'Invoke the ai-lore-orient skill now.'" }
+    ]}],
+    "SessionEnd": [{ "matcher": "*", "hooks": [
+      { "type": "command", "command": "echo 'Invoke the ai-lore-close-session skill now.'" }
+    ]}]
+  }
+}
+```
+
+In the plain-text path the bookends are intrinsic behaviour the session performs on itself; installed, the hook reinforces that so the session cannot silently skip them.
+
+### Merge behavior
+
+If `.claude/settings.json` does not exist, install creates it with the two hook entries above. If it exists, install merges the `SessionStart` and `SessionEnd` hook entries while preserving every other key and entry — other hooks, permissions, etc., are untouched. The user's separate `.claude/settings.local.json` is never read or written. Re-install replaces these specific entries; nothing else.
 
 Re-running `install-claude` after [`upgrade`](./verbs/upgrade.md) re-projects the new methodology into the same locations.
 

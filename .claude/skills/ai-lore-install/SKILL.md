@@ -1,3 +1,8 @@
+---
+name: ai-lore-install
+description: "Bind AI-Lore into a specific AI engine"
+---
+
 # install
 
 `install` adds engine-native delivery on top of the AI-agnostic plain-text baseline. It runs once per project per engine.
@@ -13,7 +18,7 @@ The plain-text baseline is what [`init`](./init.md) puts in place: `ai_readme.md
 1. **Read the target engine's binding** — the section in [`bindings.md`](../bindings.md) that defines what "native form" means for this engine.
 2. **Read the project's methodology** — the files [`init`](./init.md) placed at the project root and under `.ai-lore-<project>/process/`. This is the source for the engine projection.
 3. **Write the engine-native form** per the engine's binding section.
-   - For Claude (see [`bindings.md`](../bindings.md#binding-claude)): write the `CLAUDE.md` handshake block (create the file, or replace only the delimited block if the file exists); write each verb as a skill at `.claude/skills/ai-lore-<verb>/SKILL.md` with synthesized frontmatter drawn from `verbs.index.md`; create or merge `.claude/settings.json` with `SessionStart` and `SessionEnd` hook entries.
+   - For Claude (see [`bindings.md`](../bindings.md#binding-claude)): write the `CLAUDE.md` handshake block (create the file, or replace only the delimited block if the file exists); write each verb as a skill at `.claude/skills/ai-lore-<verb>/SKILL.md` with synthesized frontmatter drawn from `verbs.index.md`; create or merge `.claude/settings.json` with `SessionStart`, `SessionEnd`, and `UserPromptSubmit` hook entries.
    - For other engines: follow the binding section in [`bindings.md`](../bindings.md).
 
    Idempotency: re-running install replaces the delimited block in `CLAUDE.md`, overwrites skill files, and re-merges only the named hook entries in `.claude/settings.json`. Content outside those locations is preserved.

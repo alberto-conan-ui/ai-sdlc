@@ -55,15 +55,16 @@ Status, the active focus, and action-tree nodes are all **focus nodes** — each
 
 ## Posture
 
-The posture is one of three values, each a real constraint — not a label.
+The posture is one of four values, each a real constraint — not a label.
 
 | Posture | Activity | Payload | Memory |
 |---|---|---|---|
+| **Chat** | Converse — think, vent, align. | Read-only. | Read-only (after the posture-write itself). |
 | **Plan** | Discuss and write plans. | Read-only. | Writes confined to the plan itself (focus, action tree). |
 | **Reshape** | Work on Memory — restructure, rewrite, consolidate. | Read-only. | Full Memory work through `write-lore`. |
 | **Execute** | Produce the Payload against the active focus. | Read–write. | Progress writes through `write-lore`. |
 
-The posture verbs — [`plan`](./verbs/plan.md), [`reshape`](./verbs/reshape.md), [`execute`](./verbs/execute.md) — write this field. Each is deliberately light: write the field, continue. A request that would violate the current posture (a Payload edit while Planning, for example) is refused until the posture changes.
+The posture verbs — [`chat`](./verbs/chat.md), [`plan`](./verbs/plan.md), [`reshape`](./verbs/reshape.md), [`execute`](./verbs/execute.md) — write this field. Each is deliberately light: write the field, continue. A request that would violate the current posture (a Payload edit while Planning, for example) is refused until the posture changes.
 
 **Execute is the default** — the value `init` writes when the project is created.
 
