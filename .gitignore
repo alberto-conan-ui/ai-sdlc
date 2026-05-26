@@ -14,5 +14,4 @@ Thumbs.db
 .env
 
 # AI-Lore meta workspace (self-managed release process)
-.ai-lore/
-/ai_readme.md
+.ai-lore-ai-sdlc/
