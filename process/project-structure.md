@@ -2,50 +2,67 @@
 
 The foundation layer: the vocabulary every other document uses, the disk layout those documents assume, and the manifest that ties a Project to a version of the methodology.
 
-## The five terms
+## The terms
 
 | Term | Definition |
 |---|---|
 | **Project** | The root directory where work happens. Has a name (`project_name`). Contains a Payload and a Lore. |
-| **Payload** | What the Project produces. The Project root minus the Lore folder and the root `ai_readme.md` entry point. |
+| **Payload** | The Project's working materials. Lives at the project root by default, or in `<project>/payload/` in Publishing projects. See [Publish](#publish). |
 | **Lore** | The support system. Lives at `<project>/.ai-lore-<project_name>/`. |
 | **Memory** | The Project's record of its own thinking — status, focus, journal, blueprint, trees, save-points. Lives at `<lore>/memory/`. |
 | **References** | Pointers to other AI-Lore projects on disk this project consults for context. Read-only by contract. Live at `<lore>/references/`. Optional. |
+| **Publish** | Curated destination derived from the Payload — the deliverable for projects whose ship target is not the Payload itself. Lives at `<project>/publish/`, paired with `<project>/payload/`. See [Publish](#publish). |
 
-The Payload is the point. The Lore exists to serve it; Memory is the part of the Lore the session reads and writes as work proceeds; References, when present, point outward at other projects this one looks at.
+The Payload is the point — where the work happens. The Lore exists to serve it; Memory is the part of the Lore the session reads and writes as work proceeds; References, when present, point outward at other projects this one looks at; Publish, when present, is the curated subset that ships outward — the Payload remains the source of truth.
 
 ## Disk layout
 
+### The project root
+
+A Project's shape is visible at its root. The default is the Payload at the project root, no publish target. A Project that declares **Publishing** in `workspace.yaml` puts the Payload in `payload/` and the curated deliverable in `publish/`, both at the project root.
+
 ```
-my-project/                          ← Project
-├── ai_readme.md                     entry point — any AI: "read ai_readme.md"
-├── [Payload files]                  ← Payload
+Default                               Publishing
+─────────────────────────             ─────────────────────────
+my-project/                           my-project/
+├── ai_readme.md                      ├── ai_readme.md
+├── [Payload files]   ← Payload       ├── payload/          ← Payload (workshop)
+└── .ai-lore-my-project/   ← Lore     ├── publish/          ← Publish (deliverable)
+                                      └── .ai-lore-my-project/   ← Lore
+```
+
+Code repositories, specs, documentation sets — anything whose deliverable is the Payload itself — fit the default and need no Publish target. Projects whose deliverable is a folder elsewhere (a Drive folder, a static-site source, a client directory) declare Publishing — the Payload moves into a `payload/` folder so the curated `publish/` sibling can sit cleanly beside it. The choice is set at [`init`](./verbs/init.md); see [Publish](#publish) for the details.
+
+### The Lore
+
+The Lore folder is identical in both shapes — same `.ai-lore-<project_name>/` layout, same contents (Publishing projects additionally author `blueprint/processes/publish.process.md`, but the folder shape is the same).
+
+```
+.ai-lore-my-project/                  ← Lore  (folder name = .ai-lore-${project_name})
+├── workspace.yaml                     manifest
 │
-└── .ai-lore-my-project/             ← Lore  (folder name = .ai-lore-${project_name})
-    ├── workspace.yaml                manifest
-    │
-    ├── process/                     methodology — plain text, pinned by core_version
-    │   ├── ai_readme.md
-    │   ├── project-structure.md
-    │   ├── memory.md
-    │   ├── status.md
-    │   ├── bindings.md
-    │   └── verbs/...
-    │
-    ├── memory/                      ← Memory
-    │   ├── status/                    status.index.md + focus/
-    │   ├── journal/                   live/ and archive/
-    │   ├── blueprint/                 standing commitments
-    │   │   ├── contracts/               evergreen rules the Payload must honour
-    │   │   ├── processes/               repeated procedures the project performs
-    │   │   └── mirror/                  description of the Payload's shape
-    │   ├── save-points/               append-only milestone ledger
-    │   ├── action-tree/               decomposition, optional
-    │   └── knowledge-tree/            reconciled / working / notepad, optional
-    │
-    └── references/                  ← References (optional)
-        ├── references.index.md        registry
-        └── <name>.md                  one file per referenced project
+├── process/                          methodology — plain text, pinned by core_version
+│   ├── ai_readme.md
+│   ├── project-structure.md
+│   ├── memory.md
+│   ├── status.md
+│   ├── bindings.md
+│   └── verbs/...
+│
+├── memory/                           ← Memory
+│   ├── status/                         status.index.md + focus/
+│   ├── journal/                        live/ and archive/
+│   ├── blueprint/                      standing commitments
+│   │   ├── contracts/                    evergreen rules the Payload must honour
+│   │   ├── processes/                    repeated procedures (e.g. publish.process.md)
+│   │   └── mirror/                       description of the Payload's shape
+│   ├── save-points/                    append-only milestone ledger
+│   ├── action-tree/                    decomposition, optional
+│   └── knowledge-tree/                 reconciled / working / notepad, optional
+│
+└── references/                       ← References (optional)
+    ├── references.index.md            registry
+    └── <name>.md                      one file per referenced project
 ```
 
 The methodology is placed into the project at [`init`](./verbs/init.md) time, version-pinned by `core_version`. Two pieces:
@@ -61,9 +78,10 @@ Memory and Payload are each their own git repository. The lore repo lives at `.a
 
 Three details a session reading or writing these repos has to know:
 
-- **The Payload's `.gitignore` excludes `.ai-lore-<project>/`.** The Lore folder, the methodology, the vendored `process/`, and Memory all sit outside Payload tracking. `init` writes this entry on project creation.
+- **The Payload's `.gitignore` excludes `.ai-lore-<project>/` and `publish/`.** The Lore folder, the methodology, the vendored `process/`, Memory, and the Publish target all sit outside Payload tracking. `init` writes both entries on project creation; the `publish/` entry is harmless on projects that don't declare Publishing.
 - **The lore repo's `.git/` lives at `<lore>/memory/.git/`, not at `<lore>/.git/`.** `cd <lore>` does not put a session inside the lore repo — git walks up and finds the Payload's `.git/` instead. To address the lore repo explicitly, use `git -C <lore>/memory ...`. The `orient` bookend's drift check relies on this.
 - **The vendored `<lore>/process/` is tracked by neither repo.** The Payload's `.gitignore` excludes the whole Lore folder; the lore repo only covers `memory/`. The vendored methodology is an on-disk mirror of the canonical source, placed by `init` and re-placed by `upgrade`. In self-hosting projects — where the canonical methodology *is* the Payload, as in `ai-sdlc` itself — edits to the methodology must be applied to both `/process/` (canonical, Payload-tracked) and `<lore>/process/` (vendored, untracked) to stay in sync.
+- **`publish/` is in no git repo.** Like the vendored methodology, `publish/` sits outside both repos — it is derived state regenerable from the Payload. The Payload's `.gitignore` keeps it out of Payload tracking; the lore repo never covered it. The [`publish`](./verbs/publish.md) verb is the sole writer.
 
 ## The Lore folder is uniquely named per project
 
@@ -75,12 +93,25 @@ Project names must be filesystem-safe directory segments: `^[a-zA-Z0-9_][a-zA-Z0
 
 Lives at `<lore>/workspace.yaml`. A manifest, not a configuration file — behaviour is determined by Memory and the methodology, not by switches here.
 
+By default a Project carries only the two required fields:
+
 ```yaml
 project_name: my-project       # the Project's name; also the Lore folder suffix
-core_version: "0.5"            # pinned AI-Lore version
+core_version: "0.5.1"          # pinned AI-Lore version
 ```
 
-Both fields are required. `project_name` names the Project and is the last segment of the Lore folder name. `core_version` records which version of AI-Lore the project runs against.
+A **Publishing** project adds a `publish:` block — presence of the block is the declaration:
+
+```yaml
+project_name: my-project
+core_version: "0.5.1"
+
+publish:                       # presence declares a Publishing project (see Publish)
+  path: ./publish              # where Publish lives at the project root
+  target: ~/Drive/my-project   # optional — symlink target; init creates the symlink if set
+```
+
+`project_name` names the Project and is the last segment of the Lore folder name; `core_version` records which version of AI-Lore the project runs against. Both are required; the `publish:` block is not.
 
 ## References
 
@@ -104,3 +135,20 @@ References are **read-only by contract.** A session never writes through a refer
 References are **link metadata only.** Insights this project draws from reading a referenced project belong in this project's knowledge tree, with `source` pointing back at the reference name. The reference file describes the link, not the project's interactions with it — otherwise it turns into a competing journal.
 
 References are **not auto-loaded.** The session knows the folder exists from this document; it consults a reference when the work calls for cross-project context, not at every session open.
+
+## Publish
+
+A project whose deliverable is **not** the Payload itself — folders curated for delivery to Google Drive, a static site, a client folder, anywhere a path can point — declares a **Publish** target. The Publishing shape splits the project root into two sibling folders: `payload/` is the **workshop** where the work happens (drafts, sources, actuals); `publish/` is the **curated subset that ships**.
+
+Publish is **optional.** A project with no `publish:` block in `workspace.yaml` is the default shape — the Payload lives at the project root directly, `init` and the methodology behave as before.
+
+`payload/` and `publish/` sit at the project root, siblings to the Lore folder. The two folders carry different rules:
+
+- **`payload/` is the Payload** — read–write per the active posture, tracked by the Payload repo, edited freely while in `execute`.
+- **`publish/` is the deliverable** — written **only** by the [`publish`](./verbs/publish.md) verb. Writes outside the verb are refused regardless of posture. This keeps the curation gate honest.
+- **`publish/` may be a real directory** (the publish process writes into it) **or a symlink to an external mount** (a Drive folder, a static-site source, a deploy directory). The choice is per-project — declared in `workspace.yaml` and shaped at [`init`](./verbs/init.md).
+- **The recipe** — what crosses from `payload/` to `publish/`, how the sync runs, what curation rules fire — lives in `<lore>/memory/blueprint/processes/publish.process.md`. The verb is platform-neutral; the recipe is project-specific.
+
+`publish/` is **derived state.** `payload/` is the source of truth; `publish/` is regenerable from `payload/` at any time via the [`publish`](./verbs/publish.md) verb. That asymmetry is the safety net: if `publish/` is corrupted, lost, or out of sync, re-publish.
+
+The `workspace.yaml` `publish:` block declares the path and optional symlink target — see [workspace.yaml](#workspaceyaml) above for the format. Presence of the block is the declaration; absence means a default Project, and the [`publish`](./verbs/publish.md) verb refuses.

@@ -28,17 +28,19 @@ Verbs take short imperative names — `write-lore`, `redial`. No project prefix:
 | [`plan`](./plan.md) | verb | Set posture to Planning — discuss and write plans, Payload read-only |
 | [`reshape`](./reshape.md) | verb | Set posture to Reshaping — work on Memory, Payload read-only |
 | [`execute`](./execute.md) | verb | Set posture to Executing — produce the Payload (the default) |
+| [`publish`](./publish.md) | verb | Sync the Payload's curated subset into `publish/` — the project's external deliverable. Publishing projects only. |
 | [`init`](./init.md) | verb | Bootstrap a folder into an AI-Lore project |
 | [`upgrade`](./upgrade.md) | verb | Migrate a project to a new core version |
 | [`install`](./install.md) | verb | Bind AI-Lore into a specific AI engine |
 | [`orient`](./orient.md) | bookend | Session open — load the methodology, walk the focus chain, check for drift |
 | [`close-session`](./close-session.md) | bookend | Session close — write the journal, handover, status, and surface any drift |
 
-The verbs split into four groups by what they do:
+The verbs split into five groups by what they do:
 
 - **Posture** — `chat`, `plan`, `reshape`, `execute`. Set *where* the session is working. The active posture is recorded in `status/status.index.md`.
 - **Ack** — `ack`, `save-point`. Move the working tree from dirty to clean by committing both repos.
 - **Ordinary work** — `write-lore`, `redial`. Run within ongoing work.
+- **Outward** — `publish`. Sync the curated subset of the Payload to the external deliverable. Publishing projects only.
 - **Lifecycle** — `init`, `upgrade`, `install`. Run once per project or once per engine.
 
 ## Posture is recorded

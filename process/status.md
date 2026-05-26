@@ -68,6 +68,8 @@ The posture verbs — [`chat`](./verbs/chat.md), [`plan`](./verbs/plan.md), [`re
 
 **Execute is the default** — the value `init` writes when the project is created.
 
+In Publishing projects, `publish/` sits outside the posture table — it is off-limits to every posture, written only by the [`publish`](./verbs/publish.md) verb. See [Publish](./project-structure.md#publish).
+
 ## Scope — and an honest limit
 
 Dials shape the **conversation**, not what the session does. Same task, same conclusion, same Memory write — only the talk around them changes.

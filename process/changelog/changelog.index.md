@@ -35,5 +35,6 @@ Each release follows this structure: version number (major.minor.patch, so sort-
 | [v0.3](./v0.3.md)   | Released            | 2026-04-06     | Plugin architecture: slots/joins, mandatory plugins, independent versioning, `.ai-lore/` naming. Subsumes v0.2.5 and v0.2.7. |
 | [v0.4](./v0.4/v0.4.index.md) | Released   | 2026-04-15     | Discovery rewrite: pillars, ai-spine, four modes, four-stance set, scripted bootstrap, plugin overlay, versioned Upstream + `dist/` staging. |
 | [v0.5](./v0.5.md)   | Released            | 2026-05-26     | Subtraction: stances → dials, modes → postures, Status split from Memory, focus tracking primitive, references, methodology placed by `init`, bindings via `install`. |
+| [v0.5.1](./v0.5.1.md) | Released          | 2026-05-26     | Publish shape: new `publish/` project-root category, `publish` verb syncs Payload → curated deliverable, `init` branches on project shape, write-discipline rule pins `publish/` to the verb alone. |
 
-**Current version:** v0.5 (latest release).
+**Current version:** v0.5.1 (latest release).
