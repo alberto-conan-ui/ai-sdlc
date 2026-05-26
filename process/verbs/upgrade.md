@@ -1,6 +1,6 @@
 # upgrade
 
-`upgrade` migrates a project from one AI-Lore core version to the next. It runs once per version bump.
+`upgrade` migrates a project from one AI-Lore core version to the next. It runs once per version bump. The project ends pinned at the new `core_version`, with the methodology re-placed on disk and any structural Memory changes the version requires already applied — the focus stack, journal, and standing commitments survive the migration intact.
 
 ## The operation
 

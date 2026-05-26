@@ -5,11 +5,13 @@ description: "Bootstrap a folder into an AI-Lore project"
 
 # init
 
-`init` turns a plain folder into an AI-Lore project. It runs once per project.
+`init` turns a plain folder into an AI-Lore project. It runs once per project. The result is a fully working AI-Lore project: a Lore folder, a Memory git repo, the methodology placed at the right paths, the manifest pinned to a `core_version`, ready for the Human Lead to open the first focus.
 
-`init` sets up a **project** — its Lore, its Memory, its manifest. It does not bind AI-Lore to an engine; that is [`install`](./install.md), which runs once per engine, not per project. The two are separate layers: `install` embeds the methodology into the AI, `init` creates a project for it to work on.
+`init` sets up a **project**. It does not bind AI-Lore to an engine — that is [`install`](./install.md), which runs once per engine, not per project. The two are separate layers: `install` embeds the methodology into the AI; `init` creates a project for it to work on.
 
 ## The operation
+
+The steps below are sequential and load-bearing — each depends on what the previous one wrote.
 
 1. **Choose the project name.** A filesystem-safe directory segment: `^[a-zA-Z0-9_][a-zA-Z0-9_-]*$`. Refuse if an enclosing ancestor already contains a `.ai-lore-<name>/` with the same name.
 2. **Create the Lore folder** — `.ai-lore-<project_name>/`.
@@ -17,15 +19,15 @@ description: "Bootstrap a folder into an AI-Lore project"
 4. **Place the methodology.** Two pieces:
    - **Root shim at `ai_readme.md`.** A two-line file the Human Lead points any AI at: a heading and the line *"This project uses AI-Lore. Read `.ai-lore-<project_name>/process/ai_readme.md` and follow its instructions."* The project name is substituted once at write time.
    - **Methodology copy under `.ai-lore-<project>/process/`.** Copy the pillars and verbs verbatim from the session's loaded methodology. No build, no template substitution, no transformation — the relative paths inside the pillars resolve cleanly because the layout is preserved.
-   
-   The root shim is the AI-agnostic handshake; the copied `process/` is the methodology in full. Any AI: *"read ai_readme.md"* → shim → real entry point → pillars.
-5. **Initialise the Memory git repository** — `.ai-lore-<project>/memory/` is its own git repo, separate from the Payload. The Payload repo, if not already initialised, is the Project root.
+
+   The root shim is the AI-agnostic handshake; the copied `process/` is the methodology in full.
+5. **Initialise the Memory git repository** — `.ai-lore-<project>/memory/` is its own git repo, separate from the Payload. The Payload repo, if not already initialised, is the Project root. `init` also adds `.ai-lore-<project_name>/` to the Payload's `.gitignore` — the Lore folder is excluded from Payload tracking (see [`project-structure.md`](../../../.ai-lore-ai-sdlc/process/project-structure.md#two-repositories)).
 6. **Lay the Memory skeleton** via [`write-lore`](./write-lore.md):
    - `status/status.index.md` with `posture: execute` (the default)
    - `journal/live/` and `journal/archive/`, each with its index
    - `blueprint/` with three children — `contracts/`, `processes/`, `mirror/` — each with its index
    - `save-points/` with its index
-   
+
    The action tree and knowledge tree are optional and created when work first touches them.
 7. **Seed the blueprint** with the Human Lead. Each branch is optional at seed time — emptiness is a valid state:
    - **Contracts** — the evergreen rules good Payload must honour, including any contracts that apply to `save-point` beyond the required git commit.

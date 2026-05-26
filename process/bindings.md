@@ -27,6 +27,8 @@ A delimited block in the project's `CLAUDE.md`:
 ```
 <!-- AI-LORE:BEGIN -->
 This project uses AI-Lore. Read `ai_readme.md` and follow its instructions.
+
+Use `/ai-lore-plan` (not `/plan`) in this project — plans live in Memory under the active focus.
 <!-- AI-LORE:END -->
 ```
 
@@ -73,6 +75,17 @@ In the plain-text path the bookends are intrinsic behaviour the session performs
 If `.claude/settings.json` does not exist, install creates it with the two hook entries above. If it exists, install merges the `SessionStart` and `SessionEnd` hook entries while preserving every other key and entry — other hooks, permissions, etc., are untouched. The user's separate `.claude/settings.local.json` is never read or written. Re-install replaces these specific entries; nothing else.
 
 Re-running `install-claude` after [`upgrade`](./verbs/upgrade.md) re-projects the new methodology into the same locations.
+
+### Plan-mode collision
+
+Claude Code ships a built-in `/plan` slash command that enables a native plan mode. The mode forces plan files to `~/.claude/plans/`, outside the project — invisible to both AI-Lore git repos and to any future session. AI-Lore's plan posture, by contrast, writes plans into Memory (focus body or action tree) where they persist and walk in the focus chain.
+
+The two collide. Claude Code provides no mechanism to disable a built-in command — not via project `.claude/settings.json`, not via skill, hook, or permission rule — so the collision cannot be enforced away. `install-claude` handles it by **documentation**:
+
+- The `CLAUDE.md` handshake block includes a one-line steer telling the user to invoke `/ai-lore-plan` instead of `/plan`.
+- The `ai-lore-plan` skill text says explicitly that the plan lands in Memory through `write-lore`, regardless of any harness-side plan-file assignment.
+
+A user who invokes `/plan` anyway gets Claude Code's native plan-mode behaviour — including the harness plan file at `~/.claude/plans/`. The Memory plan is the authoritative one; the harness plan file is scratch and should be discarded once the AI-Lore plan lands.
 
 ## Binding: other engines
 

@@ -5,7 +5,9 @@ description: "Write or update Memory — the sole path by which lore is written"
 
 # write-lore
 
-`write-lore` is the **only** way lore is written. A session that edits a Memory file directly has bypassed the verb — that is a defect. Routing every write through `write-lore` is what gives it its guarantees: it owns placement, it owns structure, and it carries the three golden rules.
+`write-lore` is the sole path for writing Memory. Every Memory write goes through it — including the writes other verbs make (`close-session` writes the journal and status, `init` and `upgrade` write the Memory skeleton and migration shapes, the posture verbs update status). Routing every write through one verb is what gives it its guarantees: it owns *placement* (the right folder for each lore type), it owns *structure* (the schema'd frontmatter and body), and it carries the **three golden rules** and the **discard guard**.
+
+A session that edits a Memory file directly has bypassed the verb — that is a defect.
 
 ## Inputs
 
@@ -48,7 +50,3 @@ Check the drafted output against all three before the write lands. They are chec
 1. **Less is more.** Write the minimum that carries the meaning.
 2. **Write to be reviewed.** The Human Lead reviews lore; write for that reader.
 3. **Never duplicate.** Content that already exists in Memory or the Payload gets a reference, never a copy.
-
-## Who calls write-lore
-
-Every Memory write goes through `write-lore` — including the writes made by other operations. `close-session` writes the journal, handover, and status through it. `init` and `upgrade` write Memory through it. "Sole path" is literal: these callers route their writes through `write-lore`; they do not bypass it.

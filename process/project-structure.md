@@ -59,6 +59,12 @@ The methodology is placed into the project at [`init`](./verbs/init.md) time, ve
 
 Memory and Payload are each their own git repository. The lore repo lives at `.ai-lore-<project>/memory/`; the Payload repo lives at the Project root. They commit independently but acknowledge together — the `ack` and `save-point` verbs commit both as a single unit (see [`memory.md`](./memory.md#drift-signal) and [`verbs/ack.md`](./verbs/ack.md)).
 
+Three details a session reading or writing these repos has to know:
+
+- **The Payload's `.gitignore` excludes `.ai-lore-<project>/`.** The Lore folder, the methodology, the vendored `process/`, and Memory all sit outside Payload tracking. `init` writes this entry on project creation.
+- **The lore repo's `.git/` lives at `<lore>/memory/.git/`, not at `<lore>/.git/`.** `cd <lore>` does not put a session inside the lore repo — git walks up and finds the Payload's `.git/` instead. To address the lore repo explicitly, use `git -C <lore>/memory ...`. The `orient` bookend's drift check relies on this.
+- **The vendored `<lore>/process/` is tracked by neither repo.** The Payload's `.gitignore` excludes the whole Lore folder; the lore repo only covers `memory/`. The vendored methodology is an on-disk mirror of the canonical source, placed by `init` and re-placed by `upgrade`. In self-hosting projects — where the canonical methodology *is* the Payload, as in `ai-sdlc` itself — edits to the methodology must be applied to both `/process/` (canonical, Payload-tracked) and `<lore>/process/` (vendored, untracked) to stay in sync.
+
 ## The Lore folder is uniquely named per project
 
 The Lore folder is `.ai-lore-<project_name>/`, where `<project_name>` is the identifier from `workspace.yaml`. Every project has a different Lore folder name. AI sessions resolve paths by walking ancestors — two projects sharing a `.ai-lore/` name in the same ancestor chain would give ambiguous resolution. Unique names remove the ambiguity.

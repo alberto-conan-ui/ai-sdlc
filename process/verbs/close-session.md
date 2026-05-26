@@ -1,16 +1,13 @@
 # close-session
 
-`close-session` is the **session-closing bookend**. The session runs it on itself at the end of every session; the Human Lead does not invoke it. The session closes by closing.
+`close-session` is the **session-closing bookend.** It leaves the session in a state the next session can pick up from. The session runs `close-session` on itself at the end of every session; the Human Lead does not invoke it.
 
-## The operation
+## What close-session leaves behind
 
-Every write goes through [`write-lore`](./write-lore.md).
+- **A journal entry for this session.** `journal/live/YYYY-MM-DD_NN.md`, with frontmatter (`date`, `session`, `focus`, `dials`, `posture`), a body covering the work done, and a **handover** section last — where the work stands, what the next session does first, what to watch.
+- **An updated status.** `status/status.index.md` reflects the active focus, the posture, the relevant journal reference, and the next step.
+- **An honest drift signal.** `git status` re-checked on both repos at the right paths (`git -C <lore>/memory status` and `git -C <project> status`). If either is dirty, the unacknowledged changes are named — the Human Lead can [`ack`](./ack.md), [`save-point`](./save-point.md), or close the session knowing work is uncommitted. The session does not self-ack.
 
-1. **Propose the status update.** State the full status — active focus, focus type, posture, next step, relevant journal links. The Human Lead confirms or corrects.
-2. **Write the journal file** — `journal/live/YYYY-MM-DD_NN.md`. Frontmatter (`date`, `session`, `focus`, `dials`, `posture`), a body covering the work done, and a **handover** section last: what was being worked, where it was left, what the next session does first, what to watch.
-3. **Update `status/status.index.md`** with the confirmed state — active focus, posture, relevant journal reference, next step.
-4. **Update the knowledge tree** if insights from this session are immediately clear and well-placed.
-5. **Verify all links** in new files point to `.md` files and resolve.
-6. **Surface any drift.** Re-check `git status` on both repos. If dirty, name the unacknowledged changes — the Human Lead can [`ack`](./ack.md), [`save-point`](./save-point.md), or close the session knowing work is uncommitted.
+Every Memory write goes through [`write-lore`](./write-lore.md). If insights from this session are immediately clear and well-placed, the session may also write them into the knowledge tree; if not, the journal carries them and they are placed deliberately later. Links in new files are verified to resolve.
 
-An engine binding may reinforce `close-session` with a hook so a session cannot close without it, but the methodology does not depend on the reinforcement.
+An engine binding may reinforce `close-session` with a SessionEnd hook so a session cannot close without it; the methodology does not depend on the reinforcement.
