@@ -34,6 +34,6 @@ Each release follows this structure: version number (major.minor.patch, so sort-
 | [v0.2.7](./v0.2.7.md) | Released (internal) | 2026-04-06     | Core process docs: focus-based workflow, status entry point, KT three branches, optional AT, archetypes.                   |
 | [v0.3](./v0.3.md)   | Released            | 2026-04-06     | Plugin architecture: slots/joins, mandatory plugins, independent versioning, `.ai-lore/` naming. Subsumes v0.2.5 and v0.2.7. |
 | [v0.4](./v0.4/v0.4.index.md) | Released   | 2026-04-15     | Discovery rewrite: pillars, ai-spine, four modes, four-stance set, scripted bootstrap, plugin overlay, versioned Upstream + `dist/` staging. |
-| [v0.5](./v0.5.md)   | Draft               | 2026-05-22     | Subtraction: stances → dials, modes → postures, Status split from Memory, focus tracking primitive, references, methodology placed by `init`, bindings via `install`. Still in review. |
+| [v0.5](./v0.5.md)   | Released            | 2026-05-26     | Subtraction: stances → dials, modes → postures, Status split from Memory, focus tracking primitive, references, methodology placed by `init`, bindings via `install`. |
 
-**Current version:** v0.4 (latest release); v0.5 in draft.
+**Current version:** v0.5 (latest release).
