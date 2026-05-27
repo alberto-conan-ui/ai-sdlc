@@ -5,9 +5,13 @@ description: "Write or update Memory — the sole path by which lore is written"
 
 # write-lore
 
-`write-lore` is the sole path for writing Memory. Every Memory write goes through it — including the writes other verbs make (`close-session` writes the journal and status, `init` and `upgrade` write the Memory skeleton and migration shapes, the posture verbs update status). Routing every write through one verb is what gives it its guarantees: it owns *placement* (the right folder for each lore type), it owns *structure* (the schema'd frontmatter and body), and it carries the **three golden rules** and the **discard guard**.
+`write-lore` is the sole path for writing Memory. Every Memory write goes through it — including the writes other verbs make (`close-session` writes the journal and updates the registry, `init` and `upgrade` write the Memory skeleton and migration shapes, the posture verbs update the mounted track's record, `mount` writes the registry and the new-child record). Routing every write through one verb is what gives it its guarantees: it owns *placement* (the right folder for each lore type), it owns *structure* (the schema'd frontmatter and body), it owns **claim enforcement** (refuses writes outside the mounted track's claim), and it carries the **three golden rules** and the **discard guard**.
 
 A session that edits a Memory file directly has bypassed the verb — that is a defect.
+
+## Trackless sessions cannot write
+
+`write-lore` requires a mounted track. A trackless session that attempts a write triggers the [`mount`](./mount.md) flow: master is auto-mounted if free, otherwise the Human Lead is prompted. Only after a track is mounted does `write-lore` proceed.
 
 ## Inputs
 
@@ -18,6 +22,7 @@ A session that edits a Memory file directly has bypassed the verb — that is a 
 
 1. **Resolve placement.** Route by lore type:
    - focus → `status/focus/`
+   - track → `tracks/`
    - decomposition → `action-tree/`
    - insight → the knowledge tree at the correct branch (`reconciled` / `working` / `notepad`)
    - contract → `blueprint/contracts/`
@@ -27,10 +32,11 @@ A session that edits a Memory file directly has bypassed the verb — that is a 
    - milestone → `save-points/`
 
    The Human Lead names *what*; you decide *where*. Never write the Payload.
-2. **Walk the focus chain.** Place the target in the chain and fix any ancestry reference the write disturbs. A write that leaves a stale reference above the target has not finished.
-3. **Draft the write**, then check it against the golden rules.
-4. **Run the discard guard.**
-5. **Write** — including the schema frontmatter for the file's `type` (see [`memory.md`](../../../.ai-lore-ai-sdlc/process/memory.md)).
+2. **Check the claim.** The resolved path must be in the mounted track's claim, or be one of the shared carve-outs (`*.index.md` files, or `status.index.md`). A path outside the claim is refused — the Human Lead extends the claim, mounts a different track, or skips the write. See [`tracks.md`](../tracks.md#claims).
+3. **Walk the focus chain.** Place the target in the chain and fix any ancestry reference the write disturbs. A write that leaves a stale reference above the target has not finished.
+4. **Draft the write**, then check it against the golden rules.
+5. **Run the discard guard.**
+6. **Write** — including the schema frontmatter for the file's `type` (see [`memory.md`](../memory.md)).
 
 ## One operation, one guard
 

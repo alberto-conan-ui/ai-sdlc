@@ -9,11 +9,12 @@ The foundation layer: the vocabulary every other document uses, the disk layout 
 | **Project** | The root directory where work happens. Has a name (`project_name`). Contains a Payload and a Lore. |
 | **Payload** | The Project's working materials. Lives at the project root by default, or in `<project>/payload/` in Publishing projects. See [Publish](#publish). |
 | **Lore** | The support system. Lives at `<project>/.ai-lore-<project_name>/`. |
-| **Memory** | The Project's record of its own thinking — status, focus, journal, blueprint, trees, save-points. Lives at `<lore>/memory/`. |
+| **Memory** | The Project's record of its own thinking — status, focus, tracks, journal, blueprint, trees, save-points. Lives at `<lore>/memory/`. |
+| **Track** | A persistent workspace within Memory — a branch + claim + posture + dials + focus pointer. Sessions mount tracks (one session per track). Master always exists on trunk; child tracks branch from master and merge back. Lives at `<memory>/tracks/`. See [`tracks.md`](./tracks.md). |
 | **References** | Pointers to other AI-Lore projects on disk this project consults for context. Read-only by contract. Live at `<lore>/references/`. Optional. |
 | **Publish** | Curated destination derived from the Payload — the deliverable for projects whose ship target is not the Payload itself. Lives at `<project>/publish/`, paired with `<project>/payload/`. See [Publish](#publish). |
 
-The Payload is the point — where the work happens. The Lore exists to serve it; Memory is the part of the Lore the session reads and writes as work proceeds; References, when present, point outward at other projects this one looks at; Publish, when present, is the curated subset that ships outward — the Payload remains the source of truth.
+The Payload is the point — where the work happens. The Lore exists to serve it; Memory is the part of the Lore the session reads and writes as work proceeds; Tracks are the persistent workspaces within Memory that sessions mount to do that work; References, when present, point outward at other projects this one looks at; Publish, when present, is the curated subset that ships outward — the Payload remains the source of truth.
 
 ## Disk layout
 
@@ -51,6 +52,7 @@ The Lore folder is identical in both shapes — same `.ai-lore-<project_name>/` 
 │
 ├── memory/                           ← Memory
 │   ├── status/                         status.index.md + focus/
+│   ├── tracks/                         tracks.index.md + master.md + per-child track records
 │   ├── journal/                        live/ and archive/
 │   ├── blueprint/                      standing commitments
 │   │   ├── contracts/                    evergreen rules the Payload must honour
@@ -72,16 +74,9 @@ The methodology is placed into the project at [`init`](./verbs/init.md) time, ve
 
 [`upgrade`](./verbs/upgrade.md) re-copies the methodology when the project moves to a new `core_version`. Engine bindings (see [`bindings.md`](./bindings.md)) layer engine-native delivery on top — they never replace this AI-agnostic baseline.
 
-## Two repositories
+### The git arrangement
 
-Memory and Payload are each their own git repository. The lore repo lives at `.ai-lore-<project>/memory/`; the Payload repo lives at the Project root. They commit independently but acknowledge together — the `ack` and `save-point` verbs commit both as a single unit (see [`memory.md`](./memory.md#drift-signal) and [`verbs/ack.md`](./verbs/ack.md)).
-
-Three details a session reading or writing these repos has to know:
-
-- **The Payload's `.gitignore` excludes `.ai-lore-<project>/` and `publish/`.** The Lore folder, the methodology, the vendored `process/`, Memory, and the Publish target all sit outside Payload tracking. `init` writes both entries on project creation; the `publish/` entry is harmless on projects that don't declare Publishing.
-- **The lore repo's `.git/` lives at `<lore>/memory/.git/`, not at `<lore>/.git/`.** `cd <lore>` does not put a session inside the lore repo — git walks up and finds the Payload's `.git/` instead. To address the lore repo explicitly, use `git -C <lore>/memory ...`. The `orient` bookend's drift check relies on this.
-- **The vendored `<lore>/process/` is tracked by neither repo.** The Payload's `.gitignore` excludes the whole Lore folder; the lore repo only covers `memory/`. The vendored methodology is an on-disk mirror of the canonical source, placed by `init` and re-placed by `upgrade`. In self-hosting projects — where the canonical methodology *is* the Payload, as in `ai-sdlc` itself — edits to the methodology must be applied to both `/process/` (canonical, Payload-tracked) and `<lore>/process/` (vendored, untracked) to stay in sync.
-- **`publish/` is in no git repo.** Like the vendored methodology, `publish/` sits outside both repos — it is derived state regenerable from the Payload. The Payload's `.gitignore` keeps it out of Payload tracking; the lore repo never covered it. The [`publish`](./verbs/publish.md) verb is the sole writer.
+Memory (`<lore>/memory/`) and Payload (the Project root) are each their own git repository. They commit together as one unit through [`ack`](./verbs/ack.md), [`save-point`](./verbs/save-point.md), and the track-lifecycle verbs. Child tracks branch both repos together as `track/<name>`; master sits on `trunk` in both. The full git contract — `.gitignore` rules, the `<lore>/memory/.git/` location wart, vendored `process/` untracking, `publish/` in no repo, branch arrangement, drift signal mechanics — is covered in [`git.md`](./git.md).
 
 ## The Lore folder is uniquely named per project
 
@@ -97,14 +92,14 @@ By default a Project carries only the two required fields:
 
 ```yaml
 project_name: my-project       # the Project's name; also the Lore folder suffix
-core_version: "0.5.1"          # pinned AI-Lore version
+core_version: "0.6"          # pinned AI-Lore version
 ```
 
 A **Publishing** project adds a `publish:` block — presence of the block is the declaration:
 
 ```yaml
 project_name: my-project
-core_version: "0.5.1"
+core_version: "0.6"
 
 publish:                       # presence declares a Publishing project (see Publish)
   path: ./publish              # where Publish lives at the project root

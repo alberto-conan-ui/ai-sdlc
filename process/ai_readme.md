@@ -12,15 +12,17 @@ Read these documents in order. Reading them is what makes the session AI-Lore-sh
 
 1. [`project-structure.md`](./project-structure.md) — the vocabulary, the disk layout, the manifest
 2. [`memory.md`](./memory.md) — the persistent record: journal, blueprint, save-points, trees, the file schema
-3. [`status.md`](./status.md) — the live register: status, focus, dials, posture, focus chain
-4. [`verbs/verbs.index.md`](./verbs/verbs.index.md) — the operations a session runs and the Human Lead invokes
-5. [`bindings.md`](./bindings.md) — how the platform-neutral methodology binds to a specific AI engine
+3. [`status.md`](./status.md) — the live register: status as registry, focus, dials, posture, the conversational register
+4. [`tracks.md`](./tracks.md) — the workspace primitive: master and children, mounting, claims, sessions
+5. [`git.md`](./git.md) — the git contract: two repos, branches per track, drift signal, the explicit `git -C` discipline
+6. [`verbs/verbs.index.md`](./verbs/verbs.index.md) — the operations a session runs and the Human Lead invokes
+7. [`bindings.md`](./bindings.md) — how the platform-neutral methodology binds to a specific AI engine
 
-A session that has read these five knows the whole methodology. Everything below this folder is reference.
+A session that has read these seven knows the whole methodology. Everything below this folder is reference.
 
 ## 2. Orient
 
-Run the `orient` bookend ([`verbs/orient.md`](./verbs/orient.md)): read `workspace.yaml`, walk the focus chain from `memory/status/status.index.md` into the active focus, read the handover and the blueprint, and state where the work stands. If the project is headless, say so and wait for direction.
+Run the `orient` bookend ([`verbs/orient.md`](./verbs/orient.md)): read the registry in `memory/status/status.index.md`, decide how deep to walk based on what tracks are open, surface drift, and state where the work stands. If the project is headless, say so and wait for direction.
 
 ## 3. Work
 

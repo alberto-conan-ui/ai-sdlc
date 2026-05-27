@@ -1,13 +1,14 @@
 # Memory
 
-Memory is the project's durable record — the persistent half of the Lore. Without it, every AI session starts from zero; with it, session 10 benefits from everything sessions 1 through 9 learned. The live half — status, focus, dials, posture — lives in [`status.md`](./status.md).
+Memory is the project's durable record — the persistent half of the Lore. Without it, every AI session starts from zero; with it, session 10 benefits from everything sessions 1 through 9 learned. The live half — status, tracks, focus — lives in [`status.md`](./status.md).
 
 ## The components
 
-`.ai-lore-<project>/memory/` holds five persistent components. Status also lives under `memory/status/` on disk but is documented in [`status.md`](./status.md).
+`.ai-lore-<project>/memory/` holds six persistent components. Status also lives under `memory/status/` on disk and is documented in [`status.md`](./status.md).
 
 | Component          | Role                                                                                | Required |
 | ------------------ | ----------------------------------------------------------------------------------- | -------- |
+| **Tracks**         | Persistent workspaces — branch + claim + posture + dials + focus pointer. Master always present; child tracks branch from master and merge back. | Yes      |
 | **Journal**        | Continuity wire — session records and handovers.                                    | Yes      |
 | **Blueprint**      | Standing commitments — contracts, processes, and the mirror of the Payload's shape. | Yes      |
 | **Save-points**    | Append-only ledger of committed milestones.                                         | Yes      |
@@ -18,7 +19,9 @@ Across every component, **emptiness is a valid state**. An empty knowledge tree,
 
 ## The components in brief
 
-**Journal** — one file per session in `journal/live/`, named `YYYY-MM-DD_NN.md`. Header, a body of what happened, and a **handover** to the next session as the last section. Journal files are **append-forward unconditionally** — never edited or deleted after they are written; they are the audit trail. Files roll from `live/` to `archive/` on a cadence the Human Lead triggers.
+**Tracks** — `memory/tracks/` holds one record per open track. The track primitive is documented in [`tracks.md`](./tracks.md); the git arrangement underneath is in [`git.md`](./git.md).
+
+**Journal** — one file per session in `journal/live/`, named `YYYY-MM-DD_NN.md`. Header (with `track` pointer in frontmatter), a body of what happened, and a **handover** to the next session as the last section. Journal files are **append-forward unconditionally** — never edited or deleted after they are written; they are the audit trail. Files roll from `live/` to `archive/` on a cadence the Human Lead triggers. Trackless sessions do not write journal entries.
 
 **Blueprint** — the project's **standing commitments**, organised in three branches:
 
@@ -32,16 +35,9 @@ Across every component, **emptiness is a valid state**. An empty knowledge tree,
 
 **Knowledge tree** — the project's **long-term learning memory**, organised by the boundaries where different knowledge applies. Three branches: **reconciled** (validated, authoritative), **working** (structured drafts, not yet validated), **notepad** (low-friction, focus-scoped observations). Insights are prescriptive, not descriptive.
 
-## Drift signal
+## Drift and acknowledgement
 
-Both repositories — the lore repo (`.ai-lore-<project>/memory/`) and the Payload repo (the project root) — live in git. The **working tree's dirty state is the drift signal**: a dirty tree is unacknowledged work, a clean tree is acknowledged.
-
-Two verbs move the tree from dirty to clean by committing both repos as one unit:
-
-- [`ack`](./verbs/ack.md) — the lightweight acknowledgement. A commit with a focused message; nothing written to Memory beyond the commit.
-- [`save-point`](./verbs/save-point.md) — the formal acknowledgement plus a ledger entry, marking a return point. A save-point is **always** a git commit; blueprint contracts can add gates above that minimum.
-
-The session checks both repos at [`orient`](./verbs/orient.md) and at [`close-session`](./verbs/close-session.md) and surfaces any drift it finds. **The session never self-acks**: acknowledgement is the Human Lead's confirmation that accumulated work has been reviewed.
+Memory and Payload are both in git; the working-tree state on each track's branches is the project's drift signal. The mechanics — branches, the per-track drift check, the explicit `git -C` commands, what each verb commits — live in [`git.md`](./git.md). The methodology meaning: every Memory write is reviewable through [`write-lore`](./verbs/write-lore.md), and every commit through [`ack`](./verbs/ack.md) or [`save-point`](./verbs/save-point.md) is the Human Lead's act, not the session's.
 
 ## Tree discipline
 
@@ -60,7 +56,7 @@ Every Memory file carries **YAML frontmatter plus a per-type body structure** �
 
 | Field | Value |
 |---|---|
-| `type` | `status` · `focus` · `at-node` · `journal` · `blueprint` · `kt-node` · `save-point` · `index` |
+| `type` | `status` · `track` · `focus` · `at-node` · `journal` · `blueprint` · `kt-node` · `save-point` · `index` |
 | `title` | human-readable title |
 | `updated` | date last written (`YYYY-MM-DD`) |
 | `references` | list of `{group, path}` — the reference header, as data |
@@ -69,10 +65,11 @@ Every Memory file carries **YAML frontmatter plus a per-type body structure** �
 
 | `type` | Extra frontmatter | Body |
 |---|---|---|
-| `status` | `active_focus` (path), `posture` (`plan`/`reshape`/`execute`), `dials` | focus stack, journal trail, children |
+| `status` | — | open tracks registry, journal trail, drift summary, pointers (save-points, blueprint), children |
+| `track` | `name`, `branch` (the branch name on both repos, or `trunk` for master), `claim`, `posture` (`chat`/`plan`/`reshape`/`execute`), `dials`, `focus` (path, optional), `mounted_by` (session ID, optional) | claim detail, per-track journal trail, notes |
 | `focus` | `status`, `focus_type` (`build`/`goal`) | gate (build) or vision (goal), context, stack, active child pointer, journal trail |
 | `at-node` | `node_kind` (`container`/`leaf`), `gated`, `status` | intent, gate, stack, active child pointer, journal trail |
-| `journal` | `date`, `session`, `focus` (path), `dials`, `posture` | session body, handover |
+| `journal` | `date`, `session`, `track` (name), `focus` (path), `dials`, `posture` | session body, handover |
 | `blueprint` | `branch` (`contracts`/`processes`/`mirror`) | per-branch — contract text, process steps, or area description |
 | `kt-node` | `branch` (`reconciled`/`working`/`notepad`) | insight format — Context / Insight / Source |
 | `save-point` | `date`, `lore_commit`, `payload_commit` | milestone description; contract-override notes if any |

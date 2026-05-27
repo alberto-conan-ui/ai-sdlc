@@ -10,7 +10,7 @@ description: "Migrate a project to a new core version"
 ## The operation
 
 1. **Read the current pin.** `core_version` in `workspace.yaml` names the version the project runs against.
-2. **Read the target version's migration notes** — the per-version description of what changed and what a project must do to move. The v0.4 → v0.5 notes are [`migration-from-v0.4.md`](../../../.ai-lore-ai-sdlc/process/migration-from-v0.4.md).
+2. **Read the target version's migration notes** — the per-version description of what changed and what a project must do to move. The v0.4 → v0.5 notes are [`migration-from-v0.4.md`](../migration-from-v0.4.md).
 3. **Re-populate the methodology.** Replace the project's `ai_readme.md` (root) and `.ai-lore-<project>/process/` with the target version's content. Plain file copy from the session's loaded methodology — same operation `init` performs at project creation.
 4. **Apply the structural changes** to Memory via [`write-lore`](./write-lore.md) — new folders, schema changes, removed components. A structural rewrite that discards content trips `write-lore`'s discard guard; the Human Lead confirms each.
 5. **Update the manifest** — set `core_version` to the target.

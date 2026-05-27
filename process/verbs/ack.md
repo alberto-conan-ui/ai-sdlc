@@ -12,9 +12,13 @@
 
 ## What every ack is
 
-A commit in each dirty repo with a Human-Lead-confirmed message capturing what is being acknowledged. Both repos commit together as one unit of acknowledgement; if only one repo is dirty, only that repo commits, but the unit is still "this ack."
+A commit on the mounted track's branches — `trunk` on master, or `track/<name>` on a child track — in each dirty repo, with a Human-Lead-confirmed message capturing what is being acknowledged. Both repos commit together as one unit of acknowledgement; if only one repo is dirty, only that repo commits, but the unit is still "this ack on this track."
 
 A vague ack defeats the purpose — the message is what makes the acknowledgement reviewable later. The session helps draft a specific message grouped by area (focus, journal, blueprint, KT, AT, Payload); the Human Lead confirms or edits before the commit lands.
+
+## Trackless sessions cannot ack
+
+`ack` requires a mounted track — there is no branch for a trackless session to commit on. A trackless session that has been asked to acknowledge has nothing to acknowledge; the dirty state lives on a track, not on the session.
 
 ## Always offer close-session first
 

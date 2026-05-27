@@ -4,9 +4,10 @@
 
 ## The operation
 
-1. **Write the posture to status** — set `posture: plan` in `status/status.index.md` via [`write-lore`](./write-lore.md).
-2. **Produce the plan** — phases, decomposition, the shape the work needs. The plan is Memory: the focus body for a short plan, an action tree for a decomposed one.
-3. **Refuse Payload writes** while Planning. A request to edit the Payload is held until the Human Lead invokes [`execute`](./execute.md).
+1. **Ensure a mounted track.** Writing the posture is itself a write — if the session is trackless, [`mount`](./mount.md) fires (auto-master if free, HL-prompted otherwise).
+2. **Write the posture** — set `posture: plan` on the mounted track's record via [`write-lore`](./write-lore.md).
+3. **Produce the plan** — phases, decomposition, the shape the work needs. The plan is Memory: the focus body for a short plan, an action tree for a decomposed one. The plan writes land within the mounted track's claim.
+4. **Refuse Payload writes** while Planning. A request to edit the Payload is held until the Human Lead invokes [`execute`](./execute.md).
 
 The posture is the gate. Being in Planning is the standing permission to plan and the constraint that the Payload does not move yet.
 

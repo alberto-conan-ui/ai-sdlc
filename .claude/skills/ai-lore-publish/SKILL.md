@@ -19,10 +19,11 @@ The session does not self-publish. Publishing is visible outward — to clients,
 
 A run of the project's `publish.process.md` — the project-specific recipe in `<lore>/memory/blueprint/processes/`. The verb defines the goal (sync Payload → `publish/` per the recipe) and the safety rules (refuse when the project does not declare Publishing, no writes outside `publish/`). The recipe defines the how — what to include, what to exclude, how the sync runs, what curation rules fire before content lands.
 
-Two preconditions are checked before any write:
+Three preconditions are checked before any write:
 
 - **Project declares Publishing.** `workspace.yaml` carries a `publish:` block (see [`project-structure.md`](../project-structure.md#publish)). On a default-shape project the verb refuses; nothing is written.
 - **The recipe exists.** `<lore>/memory/blueprint/processes/publish.process.md` is the recipe. Without it the verb has no instructions; it refuses and asks the Human Lead to author the recipe first.
+- **The session is mounted on master.** Publishing ships the canonical state; only master sits on trunk and carries that state. If the session is mounted on a child track, the verb refuses — close the session and reopen on master to publish.
 
 A publish that touches the Payload, the Lore, or anywhere outside `publish/` is a bug — the verb is one-way Payload → `publish/`, never the reverse, and the curation gate is what `publish.process.md` defines.
 
