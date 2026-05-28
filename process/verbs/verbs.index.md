@@ -25,7 +25,8 @@ Verbs take short imperative names — `write-lore`, `redial`. No project prefix:
 | [`mount`](./mount.md) | verb | Attach a session to a track — the entry to write-capable state |
 | [`merge`](./merge.md) | verb | Land a child track's work onto master — Human-Lead-invoked |
 | [`abandon`](./abandon.md) | verb | Discard a child track — auto-acks first, then removes branch and record |
-| [`ack`](./ack.md) | verb | Commit both repos on the mounted track's branches — acknowledge accumulated work |
+| [`ack`](./ack.md) | verb | Commit both repos on the mounted track's branches at a deliberate pause point — acknowledge accumulated work |
+| [`ack-and-continue`](./ack-and-continue.md) | verb | Light mid-execution commit — same commit shape as `ack`, minimal ceremony, session continues |
 | [`save-point`](./save-point.md) | verb | Formal milestone on master — commit, ledger entry, blueprint-contract check (requires all children closed) |
 | [`chat`](./chat.md) | verb | Set posture to Chat — converse only, touch nothing |
 | [`plan`](./plan.md) | verb | Set posture to Planning — discuss and write plans, Payload read-only |
@@ -42,7 +43,7 @@ The verbs split into six groups by what they do:
 
 - **Ordinary work** — `write-lore`, `redial`. Run within ongoing work on the mounted track.
 - **Tracks** — `mount`, `merge`, `abandon`. Manage the workspaces sessions run in. `mount` is the entry to writing; `merge` and `abandon` are the exits.
-- **Ack** — `ack`, `save-point`. Move the mounted track's working tree from dirty to clean by committing both repos. `save-point` is master-only and consolidates.
+- **Ack** — `ack`, `ack-and-continue`, `save-point`. Move the mounted track's working tree from dirty to clean by committing both repos. `ack` is the deliberate pause-point commit; `ack-and-continue` is the light mid-execution variant; `save-point` is master-only and consolidates. None of the three are coupled to `close-session` — they are independent verbs.
 - **Posture** — `chat`, `plan`, `reshape`, `execute`. Set *what* the session may touch on the mounted track. The posture is recorded on the track's record.
 - **Outward** — `publish`. Sync the curated subset of the Payload to the external deliverable. Publishing projects only; master-only.
 - **Lifecycle** — `init`, `upgrade`, `install`. Run once per project or once per engine.
@@ -57,7 +58,11 @@ Trackless sessions are implicitly Chat — there is no record to write to, and t
 
 ## Acknowledgement and drift
 
-The working tree's dirty state on a track's branch is the drift signal — unacknowledged work waiting for Human Lead review, per track. Two verbs move a track's tree from dirty to clean on its branches: `ack` (lightweight commit) and `save-point` (formal commit + ledger; master-only; requires all children closed). Two further verbs end a child track's life: `merge` lands it on master, `abandon` discards it. Sessions never self-ack, self-save-point, self-merge, or self-abandon — every landing onto canonical state is the Human Lead's act. The session flags drift at `orient` (across all open tracks) and at `close-session` (on the mounted track).
+The working tree's dirty state on a track's branch is the drift signal — unacknowledged work waiting for Human Lead review, per track. Three verbs move a track's tree from dirty to clean on its branches: `ack` (deliberate pause-point commit), `ack-and-continue` (light mid-execution commit), and `save-point` (formal commit + ledger; master-only; requires all children closed). Two further verbs end a child track's life: `merge` lands it on master, `abandon` discards it.
+
+`close-session` also commits — its own writes (journal, status) plus any drift on the working tree — as a Human-Lead-confirmed closing commit. The bookend's commit is independent from `ack` and the other ack-family verbs; close-session does not run them and they do not prompt about it.
+
+Sessions never self-ack, self-save-point, self-merge, or self-abandon — every landing onto canonical state is the Human Lead's act. close-session's closing commit is also Human-Lead-confirmed (the session drafts the message; the HL confirms before it lands), so the rule holds there too. The session flags drift at `orient` (across all open tracks) and at `close-session` (on the mounted track).
 
 ## Bookends
 

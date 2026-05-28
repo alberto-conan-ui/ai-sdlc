@@ -34,6 +34,10 @@ The session may also offer archiving at the same invocation — stale focuses, c
 
 ## Relationship to ack and to merge
 
-[`ack`](./ack.md) is the lightweight cousin: the commit shape only, on any track's branches, no ledger entry, no blueprint check, no archive offer, no children-closed requirement. A session may `ack` many times between save-points, including on child tracks.
+[`ack`](./ack.md) is the lightweight cousin: the commit shape only, on any track's branches, no ledger entry, no blueprint check, no archive offer, no children-closed requirement. A session may [`ack`](./ack.md) or [`ack-and-continue`](./ack-and-continue.md) many times between save-points, including on child tracks.
 
 [`merge`](./merge.md) lands a child track on master but does *not* save-point the result. If the merge completes milestone-worthy work, the Human Lead invokes save-point afterward — once every other child is also closed.
+
+## Independent from close-session
+
+Save-point and [`close-session`](./close-session.md) are orthogonal. Save-point commits the milestone; it does not run close-session and does not prompt about it. If the Human Lead takes a save-point and then ends the session, close-session writes its journal entry afterwards and commits those writes itself in its own closing commit. No coordination required between the two verbs; no dirty state trailing behind the save-point.

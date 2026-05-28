@@ -34,6 +34,10 @@ description: "Discard a child track — auto-acks first, then removes branch and
 - **Master cannot be abandoned.** Master is permanent.
 - **A track actively mounted by another session** is not abandoned out from under that session. The Human Lead closes that session first, or has it unmount.
 
+## Independent from close-session
+
+Abandon and [`close-session`](./close-session.md) are orthogonal. The auto-ack happens internally to abandon (so the commits survive in the object store before the branch is deleted); abandon does not run close-session and does not prompt about it. If the Human Lead abandons and then ends the session, close-session writes its journal entry afterwards and commits those writes itself in its own closing commit.
+
 ## Relationship to other verbs
 
 `abandon` is the destructive exit from a child track. [`merge`](./merge.md) is the alternative — land the work instead of discarding. Both end a child track's lifecycle; [`mount`](./mount.md) is the entry.

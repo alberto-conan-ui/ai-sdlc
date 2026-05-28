@@ -19,7 +19,7 @@ If master is mounted by another session, or if unmounted child tracks are open, 
 
 Three outcomes, depending on the choice:
 
-- **Auto-mount master.** Silent. The session reads `tracks/master.md`, takes its posture, dials, and focus pointer, and writes its session ID into the track's `mounted_by` field. Master's branch is `trunk`; no branch operation is needed.
+- **Auto-mount master.** Silent. The session reads `tracks/master.md`, takes its posture, dials, and focus pointer, and writes its session ID into the track's `mounted_by` field. If master has no `claim` set on its record and the active focus carries one, master's working claim is seeded from `focus.claim` at this moment. If master's claim is already set (from a previous session's polish), it is preserved — focus switch is the trigger that re-seeds, not plain mount. Master's branch is `trunk`; no branch operation is needed.
 - **Mount an existing child.** The session reads `tracks/<name>.track.md`, takes its state, writes its session ID into `mounted_by`, and checks out `track/<name>` on both the lore repo and the Payload repo.
 - **Create a new child.** The Human Lead provides a **unique name** (not colliding with any open track) and a **non-overlapping claim** (disjoint from every open track's claim, with the `*.index.md` and `status.index.md` carve-out). The focus pointer is optional; posture defaults to `execute`; dials default to the project's defaults. The session creates `tracks/<name>.track.md`, branches `track/<name>` from trunk on both repos, and mounts.
 

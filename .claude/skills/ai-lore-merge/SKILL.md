@@ -31,6 +31,10 @@ description: "Land a child track's work onto master — Human-Lead-invoked"
 
 - **Master cannot be merged.** Master sits on trunk; there is no branch to land.
 
+## Independent from close-session
+
+Merge and [`close-session`](./close-session.md) are orthogonal. Merge lands the work; it does not run close-session and does not prompt about it. If the Human Lead merges and then ends the session, close-session writes its journal entry afterwards and commits those writes itself in its own closing commit.
+
 ## Relationship to other verbs
 
 `merge` is the canonical exit from a child track — the work landed on master. [`abandon`](./abandon.md) is the alternative exit — the work discarded. [`mount`](./mount.md) is the entry. [`save-point`](./save-point.md) is the further step after merge when the landed work is milestone-worthy.

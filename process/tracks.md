@@ -62,13 +62,15 @@ The claim is the rule that makes parallel tracks safe to coexist: each track dec
 
 [`write-lore`](./verbs/write-lore.md) enforces the claim at **every write**. A path outside the mounted track's claim (and not in the carve-out) is refused; the Human Lead extends the claim, mounts a different track, or skips the write. Disjointness across all open tracks is verified at track creation and at every claim-change — the write-time check only needs the local "in my claim" comparison.
 
-Master's claim is **implicit**: everything not currently claimed by an open child track. Child tracks carve sub-claims out of master's surface; while a child track is open, master may not write to the child's claimed paths.
+**Master's claim is focus-derived.** When master has an active focus that carries a `claim` field, master's working claim is that focus's claim — seeded onto `tracks/master.md` when the focus is first activated, polishable thereafter by the Human Lead on master's record without touching the focus. If the active focus has no `claim` field — the back-compat case for focuses authored before the field existed, and for exploratory focuses where the area is not yet pinned — master's claim is **implicit**: everything not currently claimed by an open child track. Child tracks always carve sub-claims that are disjoint from master's claim and from each other; while a child track is open, master may not write to the child's claimed paths.
+
+The focus's `claim` field is set when the focus is created. The session proposes a claim derived from the focus's title, area, and any references it carries; the Human Lead confirms or edits before the focus file is written through [`write-lore`](./verbs/write-lore.md). The proposal is a starting point, not a commitment — the Human Lead can edit on the focus (the persistent default) or on master's track record (the working override) at any time.
 
 ## Save-point as consolidation
 
 [`save-point`](./verbs/save-point.md) is the consolidation primitive for tracks. It is master-only, and it refuses if any child track is open. To take a save-point, every in-flight child track must be merged or abandoned first. This makes save-points represent a coherent project state — one trunk, no in-flight branches.
 
-[`ack`](./verbs/ack.md) is the everyday acknowledgement; it works on any track's branches. Save-point is the rarer "everything consolidated" moment.
+[`ack`](./verbs/ack.md) and [`ack-and-continue`](./verbs/ack-and-continue.md) are the everyday acknowledgements; both work on any track's branches. `ack` is the deliberate pause-point variant; `ack-and-continue` is the light mid-execution variant. Save-point is the rarer "everything consolidated" moment.
 
 ## Where else tracks appear in the methodology
 

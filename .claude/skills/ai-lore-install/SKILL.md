@@ -17,7 +17,10 @@ The plain-text baseline is what [`init`](./init.md) puts in place: `ai_readme.md
 
 1. **Read the target engine's binding** — the section in [`bindings.md`](../bindings.md) that defines what "native form" means for this engine.
 2. **Read the project's methodology** — the files [`init`](./init.md) placed at the project root and under `.ai-lore-<project>/process/`. This is the source for the engine projection.
-3. **Write the engine-native form** per the engine's binding section. For Claude (see [`bindings.md`](../bindings.md#binding-claude)): the `CLAUDE.md` handshake block (including the `/plan` collision steer); each verb as a skill at `.claude/skills/ai-lore-<verb>/SKILL.md` with synthesized frontmatter from `verbs.index.md`; `SessionStart` and `SessionEnd` hook entries merged into `.claude/settings.json`. For other engines: follow the engine's binding section.
+3. **Write the engine-native form** per the engine's binding section.
+   - For Claude (see [`bindings.md`](../bindings.md#binding-claude)): the `CLAUDE.md` handshake block (including the `/plan` collision steer); each verb as a skill at `.claude/skills/ai-lore-<verb>/SKILL.md` with synthesized frontmatter from `verbs.index.md`; `SessionStart` and `SessionEnd` hook entries merged into `.claude/settings.json`.
+   - For Gemini (see [`bindings.md`](../bindings.md#binding-gemini)): the `GEMINI.md` handshake block; each verb as a TOML slash command at `.gemini/commands/ai-lore-<verb>.toml` using `@file` injection from the canonical verb file; `SessionStart` and `SessionEnd` hook entries merged into `.gemini/settings.json`.
+   - For other engines: follow the engine's binding section.
 4. **Verify** — confirm the verbs are invocable in the engine and the bookends fire.
 
 Re-running install is idempotent: the delimited block in `CLAUDE.md` is replaced, skill files are overwritten, only the named hook entries in `.claude/settings.json` are re-merged. Content outside those locations is preserved.
