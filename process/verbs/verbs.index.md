@@ -52,9 +52,9 @@ The verbs split into six groups by what they do:
 
 The posture verbs write the session's working posture to the **mounted track's record** (`memory/tracks/<name>.track.md`). The field persists across sessions that remount the same track, so a session opening from a previous session's posture on that track knows where it stands without re-asking.
 
-Each posture has a real behavioural rule (see [`status.md`](../status.md#posture)): Chat makes both the Payload and Memory read-only; Planning and Reshaping both make the Payload read-only; Executing lifts that and is the default. The posture is the gate, not a label — a request that would violate the current posture is refused until a posture verb changes it.
+Each posture has a real behavioural rule (see [`status.md`](../status.md#posture)): Chat makes Memory read-only for substance and the Payload absolutely read-only; Planning and Reshaping both make the Payload read-only; Executing lifts that and is the default. Chat has one carve-out — **marginalia** (frontmatter edits, link repair, single-token typo fixes, index entries on Memory only), defined in [`chat.md`](./chat.md#marginalia--the-chat-carve-out). The posture is the gate, not a label — a request that would violate the current posture is refused until a posture verb changes it.
 
-Trackless sessions are implicitly Chat — there is no record to write to, and the project is read-only. The `chat` verb is a no-op while trackless. Other posture verbs imply a mount (auto-master if free; HL-prompted otherwise) because writing a posture is itself a write.
+Trackless sessions are implicitly Chat — there is no record to write to, and the project is read-only. The `chat` verb is a no-op while trackless. Other posture verbs imply a mount (auto-master if free; HL-prompted otherwise) because writing a posture is itself a write. HL-initiated marginalia from trackless chat also triggers the mount flow — the carve-out is not a bypass of mount-on-first-write.
 
 ## Acknowledgement and drift
 

@@ -67,12 +67,14 @@ The posture is one of four values, each a real constraint — not a label.
 
 | Posture | Activity | Payload | Memory |
 |---|---|---|---|
-| **Chat** | Converse — think, vent, align. | Read-only. | Read-only (after the posture-write itself). |
+| **Chat** | Converse — think, vent, align. | Read-only. | Read-only for substance; **marginalia** allowed (see [`chat.md`](./verbs/chat.md#marginalia--the-chat-carve-out)). |
 | **Plan** | Discuss and write plans. | Read-only. | Writes confined to the plan itself (focus, action tree). |
 | **Reshape** | Work on Memory — restructure, rewrite, consolidate. | Read-only. | Full Memory work through `write-lore`. |
 | **Execute** | Produce the Payload against the active focus. | Read–write. | Progress writes through `write-lore`. |
 
 The posture verbs — [`chat`](./verbs/chat.md), [`plan`](./verbs/plan.md), [`reshape`](./verbs/reshape.md), [`execute`](./verbs/execute.md) — write this field to the **mounted track's record**. Each verb is deliberately light: write the field, continue. A request that would violate the current posture (a Payload edit while Planning, for example) is refused until the posture changes.
+
+**Marginalia is the one carve-out**, and it only applies under Chat: a narrow allow-list of HL-initiated Memory operations that are housekeeping rather than composition — frontmatter edits, link repair, single-token typo fixes, index entries. The full definition lives in [`chat.md`](./verbs/chat.md#marginalia--the-chat-carve-out). The litmus: *if removing the change wouldn't shift what the file means to a future reader, it's marginalia*. Anything that changes meaning needs `plan`, `reshape`, or `execute`. The Payload's read-only rule under non-execute postures is absolute — there is no Payload marginalia.
 
 **Execute is the default** — the value `init` writes on the master track at project creation.
 

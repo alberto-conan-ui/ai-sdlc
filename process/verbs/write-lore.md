@@ -8,6 +8,10 @@ A session that edits a Memory file directly has bypassed the verb — that is a 
 
 `write-lore` requires a mounted track. A trackless session that attempts a write triggers the [`mount`](./mount.md) flow: master is auto-mounted if free, otherwise the Human Lead is prompted. Only after a track is mounted does `write-lore` proceed.
 
+## Posture and marginalia
+
+`write-lore` honours the posture gate set on the mounted track. Under `chat`, only **marginalia** writes are permitted — a narrow allow-list defined in [`chat.md`](./chat.md#marginalia--the-chat-carve-out) (frontmatter edits, link repair, single-token typo fixes, index entries). Marginalia still goes through `write-lore`: placement, schema, and claim enforcement all apply. The chat exemption permits the write under chat posture; it does not bypass any of `write-lore`'s guarantees. Under `plan`, `reshape`, and `execute`, the standard posture rules apply (see the table in [`status.md`](../status.md#posture)).
+
 ## Inputs
 
 - **Target** — the Memory node or area being written. Named by the Human Lead, or inferred from the conversation. When inferred, state the target you resolved before writing.
