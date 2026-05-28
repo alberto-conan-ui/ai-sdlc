@@ -17,7 +17,7 @@ Details a session reading or writing these repos has to know:
 
 ## Branches per track
 
-Master sits on **`trunk`** in both repos — there is no separate "master" branch; master *is* trunk. A child track creates a branch named **`track/<name>`** on the lore repo and on the Payload repo. The two branches commit and merge as one unit, the same way ack and save-point already operate.
+Home sits on **`trunk`** in both repos — there is no separate "home" branch; home *is* trunk. A child track creates a branch named **`track/<name>`** on the lore repo and on the Payload repo. The two branches commit and merge as one unit, the same way ack and save-point already operate.
 
 [`mount`](./verbs/mount.md) checks out a track's branch on both repos when it attaches a session. [`merge`](./verbs/merge.md) lands a child branch onto trunk on both repos in parallel; [`abandon`](./verbs/abandon.md) tears both branches down after auto-acking.
 
@@ -27,17 +27,20 @@ A child track's branch life is short by intent: it exists from `mount` (which cr
 
 The **working tree's dirty state on a track's branch is the drift signal** for that track: dirty is unacknowledged work, clean is acknowledged. Drift is **per-track** — a project with three open tracks has three independent drift states.
 
-Two verbs move a track's tree from dirty to clean by committing both repos as one unit, on the mounted track's branches:
+Three verbs move a track's tree from dirty to clean by committing both repos as one unit, on the mounted track's branches:
 
-- [`ack`](./verbs/ack.md) — the lightweight acknowledgement on the mounted track. A commit with a focused message; nothing written to Memory beyond the commit.
-- [`save-point`](./verbs/save-point.md) — the formal acknowledgement plus a ledger entry, marking a return point. Save-points are **master-only and require every child track to be closed first** (merged or abandoned) — see [`tracks.md`](./tracks.md#save-point-as-consolidation).
+- [`ack`](./verbs/ack.md) — the deliberate pause-point acknowledgement. A commit with a focused, area-grouped message; the Human Lead reviews the message before it lands.
+- [`ack-and-continue`](./verbs/ack-and-continue.md) — the light mid-execution variant. Same commit shape; minimal message ceremony; session continues immediately.
+- [`save-point`](./verbs/save-point.md) — the formal acknowledgement plus a ledger entry, marking a return point. Save-points are **home-only and require every child track to be closed first** (merged or abandoned) — see [`tracks.md`](./tracks.md#save-point-as-consolidation).
 
 Two further verbs end a child track's lifecycle:
 
-- [`merge`](./verbs/merge.md) — lands the child onto master in both repos.
+- [`merge`](./verbs/merge.md) — lands the child onto home in both repos.
 - [`abandon`](./verbs/abandon.md) — auto-acks (so the commits survive in git's object store) and deletes the branch in both repos.
 
-**Sessions never self-ack, self-save-point, self-merge, or self-abandon.** Every landing onto canonical state — every commit that the Human Lead would later have to live with — is the Human Lead's act. That rule is what makes acknowledgement *acknowledgement*; the git operation is just the mechanism.
+[`close-session`](./verbs/close-session.md) also commits: its journal write, status update, and any working-tree drift land together as one Human-Lead-confirmed closing commit on the mounted track's branches. The bookend's commit is independent from `ack` and the other ack-family verbs.
+
+**Sessions never self-ack, self-save-point, self-merge, or self-abandon.** Every landing onto canonical state — every commit that the Human Lead would later have to live with — is the Human Lead's act. close-session's closing commit holds to the same rule: the session drafts the message and presents it; the Human Lead confirms or edits before the commit lands. The git operation is just the mechanism.
 
 ## The drift check — the right paths
 
@@ -50,7 +53,7 @@ git -C <lore>/memory status         # current branch on the lore repo
 git -C <project> status             # current branch on the Payload repo
 ```
 
-For each open track, the drift check looks at the track's branch — `trunk` for master, `track/<name>` for a child. The per-track drift summary surfaced in the orient readout names each.
+For each open track, the drift check looks at the track's branch — `trunk` for home, `track/<name>` for a child. The per-track drift summary surfaced in the orient readout names each.
 
 ## What git does not own
 

@@ -8,7 +8,7 @@ Memory is the project's durable record — the persistent half of the Lore. With
 
 | Component          | Role                                                                                | Required |
 | ------------------ | ----------------------------------------------------------------------------------- | -------- |
-| **Tracks**         | Persistent workspaces — branch + claim + posture + dials + focus pointer. Master always present; child tracks branch from master and merge back. | Yes      |
+| **Tracks**         | Persistent workspaces — branch + claim + posture + dials + focus pointer. The **home** track is always present; child tracks branch from home and merge back. | Yes      |
 | **Journal**        | Continuity wire — session records and handovers.                                    | Yes      |
 | **Blueprint**      | Standing commitments — contracts, processes, and the mirror of the Payload's shape. | Yes      |
 | **Save-points**    | Append-only ledger of committed milestones.                                         | Yes      |
@@ -37,7 +37,7 @@ Across every component, **emptiness is a valid state**. An empty knowledge tree,
 
 ## Drift and acknowledgement
 
-Memory and Payload are both in git; the working-tree state on each track's branches is the project's drift signal. The mechanics — branches, the per-track drift check, the explicit `git -C` commands, what each verb commits — live in [`git.md`](./git.md). The methodology meaning: every Memory write is reviewable through [`write-lore`](./verbs/write-lore.md), and every commit through [`ack`](./verbs/ack.md) or [`save-point`](./verbs/save-point.md) is the Human Lead's act, not the session's.
+Memory and Payload are both in git; the working-tree state on each track's branches is the project's drift signal. The mechanics — branches, the per-track drift check, the explicit `git -C` commands, what each verb commits — live in [`git.md`](./git.md). The methodology meaning: every Memory write is reviewable through [`write-lore`](./verbs/write-lore.md), and every commit through [`ack`](./verbs/ack.md), [`ack-and-continue`](./verbs/ack-and-continue.md), [`save-point`](./verbs/save-point.md), or [`close-session`](./verbs/close-session.md) is the Human Lead's act, not the session's.
 
 ## Tree discipline
 
@@ -66,8 +66,8 @@ Every Memory file carries **YAML frontmatter plus a per-type body structure** �
 | `type` | Extra frontmatter | Body |
 |---|---|---|
 | `status` | — | open tracks registry, journal trail, drift summary, pointers (save-points, blueprint), children |
-| `track` | `name`, `branch` (the branch name on both repos, or `trunk` for master), `claim`, `posture` (`chat`/`plan`/`reshape`/`execute`), `dials`, `focus` (path, optional), `mounted_by` (session ID, optional) | claim detail, per-track journal trail, notes |
-| `focus` | `status`, `focus_type` (`build`/`goal`) | gate (build) or vision (goal), context, stack, active child pointer, journal trail |
+| `track` | `name`, `branch` (the branch name on both repos, or `trunk` for home), `claim`, `posture` (`chat`/`plan`/`reshape`/`execute`), `dials`, `focus` (path, optional), `mounted_by` (session ID, optional) | claim detail, per-track journal trail, notes |
+| `focus` | `status`, `focus_type` (`build`/`goal`), `claim` (optional — path prefixes the focus owns when active on a track) | gate (build) or vision (goal), context, stack, active child pointer, journal trail |
 | `at-node` | `node_kind` (`container`/`leaf`), `gated`, `status` | intent, gate, stack, active child pointer, journal trail |
 | `journal` | `date`, `session`, `track` (name), `focus` (path), `dials`, `posture` | session body, handover |
 | `blueprint` | `branch` (`contracts`/`processes`/`mirror`) | per-branch — contract text, process steps, or area description |

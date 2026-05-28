@@ -12,7 +12,7 @@ Lives at `memory/status/status.index.md`. Status is the project's **summary regi
 - **Save-points pointer** — to the ledger at `memory/save-points/`.
 - **Blueprint pointer** — to `memory/blueprint/`.
 - **Journal trail** — newest-first across all tracks. Each entry is a one-line pointer; the full per-session journal lives in `memory/journal/live/`.
-- **Drift summary** — per-track ("master clean, v06-tracks 3 uncommitted") at the last orient check. See [`git.md`](./git.md#the-drift-signal) for the mechanics.
+- **Drift summary** — per-track ("home clean, v06-tracks 3 uncommitted") at the last orient check. See [`git.md`](./git.md#the-drift-signal) for the mechanics.
 - **Children** — pointers to subfolders (focus, tracks, journal, blueprint, save-points, …).
 
 Status orients a session in seconds. Every session reads it at [`orient`](./verbs/orient.md). The session itself starts **trackless** — it inspects status to learn the landscape, and mounts a track only when it is about to write.
@@ -67,14 +67,16 @@ The posture is one of four values, each a real constraint — not a label.
 
 | Posture | Activity | Payload | Memory |
 |---|---|---|---|
-| **Chat** | Converse — think, vent, align. | Read-only. | Read-only (after the posture-write itself). |
+| **Chat** | Converse — think, vent, align. | Read-only. | Read-only for substance; **marginalia** allowed (see [`chat.md`](./verbs/chat.md#marginalia--the-chat-carve-out)). |
 | **Plan** | Discuss and write plans. | Read-only. | Writes confined to the plan itself (focus, action tree). |
 | **Reshape** | Work on Memory — restructure, rewrite, consolidate. | Read-only. | Full Memory work through `write-lore`. |
 | **Execute** | Produce the Payload against the active focus. | Read–write. | Progress writes through `write-lore`. |
 
 The posture verbs — [`chat`](./verbs/chat.md), [`plan`](./verbs/plan.md), [`reshape`](./verbs/reshape.md), [`execute`](./verbs/execute.md) — write this field to the **mounted track's record**. Each verb is deliberately light: write the field, continue. A request that would violate the current posture (a Payload edit while Planning, for example) is refused until the posture changes.
 
-**Execute is the default** — the value `init` writes on the master track at project creation.
+**Marginalia is the one carve-out**, and it only applies under Chat: a narrow allow-list of HL-initiated Memory operations that are housekeeping rather than composition — frontmatter edits, link repair, single-token typo fixes, index entries. The full definition lives in [`chat.md`](./verbs/chat.md#marginalia--the-chat-carve-out). The litmus: *if removing the change wouldn't shift what the file means to a future reader, it's marginalia*. Anything that changes meaning needs `plan`, `reshape`, or `execute`. The Payload's read-only rule under non-execute postures is absolute — there is no Payload marginalia.
+
+**Execute is the default** — the value `init` writes on the home track at project creation.
 
 **Trackless implies chat.** A session with no mounted track is read-only across the project, equivalent to chat. Invoking the `chat` verb while trackless is a no-op (no record to write to, no behavior to change). Invoking `plan`, `reshape`, or `execute` while trackless triggers the [`mount`](./verbs/mount.md) flow — those are writes (they set posture on a track record), and the mount-on-first-write rule applies.
 

@@ -1,8 +1,8 @@
 # merge
 
-`merge` lands a child track's work onto master. The Human Lead invokes it after reviewing the work on the child branch.
+`merge` lands a child track's work onto home. The Human Lead invokes it after reviewing the work on the child branch.
 
-**The session never self-merges.** Landing work on master is an acknowledgement that the work is canonical — the same kind of acknowledgement [`ack`](./ack.md) and [`save-point`](./save-point.md) are. A session running on a child track may complete its work, ack its branch, and close, but the merge step is the Human Lead's call.
+**The session never self-merges.** Landing work on home is an acknowledgement that the work is canonical — the same kind of acknowledgement [`ack`](./ack.md) and [`save-point`](./save-point.md) are. A session running on a child track may complete its work, ack its branch, and close, but the merge step is the Human Lead's call.
 
 ## When the Human Lead invokes it
 
@@ -19,13 +19,17 @@
 
 ## What merge does not do
 
-- **It does not take a save-point.** Merge lands the work; save-points are a separate consolidation step, master-only, and require every other child track to be closed first. If the merge completes a milestone worth a save-point, the Human Lead invokes [`save-point`](./save-point.md) afterward — on master, with no children open.
-- **It does not import the child's working state into master.** The child's posture, dials, and focus pointer were its own; landing the branch does not change master's record. Master's posture, dials, and focus are unchanged.
+- **It does not take a save-point.** Merge lands the work; save-points are a separate consolidation step, home-only, and require every other child track to be closed first. If the merge completes a milestone worth a save-point, the Human Lead invokes [`save-point`](./save-point.md) afterward — on home, with no children open.
+- **It does not import the child's working state into home.** The child's posture, dials, and focus pointer were its own; landing the branch does not change home's record. Home's posture, dials, and focus are unchanged.
 
 ## Refusals
 
-- **Master cannot be merged.** Master sits on trunk; there is no branch to land.
+- **Home cannot be merged.** Home sits on trunk; there is no branch to land.
+
+## Independent from close-session
+
+Merge and [`close-session`](./close-session.md) are orthogonal. Merge lands the work; it does not run close-session and does not prompt about it. If the Human Lead merges and then ends the session, close-session writes its journal entry afterwards and commits those writes itself in its own closing commit.
 
 ## Relationship to other verbs
 
-`merge` is the canonical exit from a child track — the work landed on master. [`abandon`](./abandon.md) is the alternative exit — the work discarded. [`mount`](./mount.md) is the entry. [`save-point`](./save-point.md) is the further step after merge when the landed work is milestone-worthy.
+`merge` is the canonical exit from a child track — the work landed on home. [`abandon`](./abandon.md) is the alternative exit — the work discarded. [`mount`](./mount.md) is the entry. [`save-point`](./save-point.md) is the further step after merge when the landed work is milestone-worthy.

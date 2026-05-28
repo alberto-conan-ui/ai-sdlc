@@ -68,7 +68,12 @@ Skills are project-scoped (`.claude/skills/`, not `~/.claude/skills/`), so each 
 }
 ```
 
-In the plain-text path the bookends are intrinsic behaviour the session performs on itself; installed, the hook reinforces that so the session cannot silently skip them.
+In the plain-text path the bookends are intrinsic behaviour the session performs on itself. Installed, the hooks have **asymmetric reinforcement**:
+
+- **SessionStart genuinely reinforces orient.** The hook fires before the session takes any user input; the stdout instruction lands in context as the session's first turn, and the model invokes the orient skill immediately. A session cannot silently skip orient when installed.
+- **SessionEnd is advisory only.** By the time SessionEnd fires, the session is already closing; the model does not get a turn to act on the injected instruction. The hook's stdout still lands in the transcript, but it cannot force the model to invoke close-session before exit. In practice, close-session works because the model invokes it **proactively** when it recognises the session is ending — driven by the methodology loaded at session start, not by the hook. The SessionEnd hook is a telemetry/logging hook, not enforcement.
+
+The methodology never depends on either hook — bookends are intrinsic — but it is worth knowing which one is real reinforcement and which is advisory.
 
 ### Merge behavior
 
@@ -87,9 +92,90 @@ The two collide. Claude Code provides no mechanism to disable a built-in command
 
 A user who invokes `/plan` anyway gets Claude Code's native plan-mode behaviour — including the harness plan file at `~/.claude/plans/`. The Memory plan is the authoritative one; the harness plan file is scratch and should be discarded once the AI-Lore plan lands.
 
+## Binding: Gemini
+
+`install-gemini` writes the following into the project, all idempotent on re-install.
+
+### GEMINI.md handshake
+
+A delimited block in the project's `GEMINI.md`:
+
+```
+<!-- AI-LORE:BEGIN -->
+This project uses AI-Lore. Read `ai_readme.md` and follow its instructions.
+<!-- AI-LORE:END -->
+```
+
+If `GEMINI.md` does not exist, install creates it with this block as the entire content. If it exists, install replaces only the delimited block and preserves the rest of the file. Gemini CLI auto-loads `GEMINI.md` at session open via its hierarchical context discovery (no flag needed); the handshake fires the universal load against the methodology already on disk.
+
+There is no Gemini equivalent of Claude Code's `/plan` collision — Gemini CLI has no built-in plan mode — so the handshake block is one line shorter than Claude's.
+
+### Verbs → TOML slash commands
+
+Each verb file under `.ai-lore-<project>/process/verbs/<verb>.md` becomes a slash command at `.gemini/commands/ai-lore-<verb>.toml`. The TOML is a thin pointer — the source-of-truth verb content stays in the verb file:
+
+```toml
+description = "<the verb's one-line entry from verbs.index.md>"
+prompt = "@.ai-lore-<project>/process/verbs/<verb>.md"
+```
+
+Gemini CLI's `@file` syntax injects the referenced file's content into the prompt at invocation time, so each invocation reads the current verb file — no stale projection if the verb is edited and `install-gemini` is not re-run. The `description` field is what shows in `/help` and what the user (or model) browses to recognise the command.
+
+The user invokes verbs as `/ai-lore-<verb>` (e.g. `/ai-lore-orient`, `/ai-lore-close-session`). Descriptions are sourced from the operations table in [`verbs/verbs.index.md`](./verbs/verbs.index.md) — the same canonical table Claude's binding uses.
+
+Slash commands are project-scoped (`.gemini/commands/`, not `~/.gemini/commands/`), so each project's install is isolated.
+
+### Bookends → hooks
+
+`orient` and `close-session` are slash commands (as above) **and** are wired into Gemini CLI's `SessionStart` and `SessionEnd` hooks in `.gemini/settings.json`. The hook command emits JSON to stdout; `hookSpecificOutput.additionalContext` is injected as the session's first turn:
+
+```json
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          { "type": "command", "command": "echo '{\"hookSpecificOutput\":{\"additionalContext\":\"Invoke the /ai-lore-orient command now.\"}}'" }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "exit",
+        "hooks": [
+          { "type": "command", "command": "echo '{\"hookSpecificOutput\":{\"additionalContext\":\"Invoke the /ai-lore-close-session command now.\"}}'" }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Lifecycle-event matchers in Gemini are exact strings — `"startup"`, `"resume"`, `"clear"` for SessionStart; `"exit"`, `"clear"`, `"logout"`, `"prompt_input_exit"`, `"other"` for SessionEnd. The shown example matches the primary cases; matcher entries can be duplicated to cover `"resume"` or `"clear"` if desired.
+
+Same asymmetric reinforcement as Claude:
+
+- **SessionStart genuinely reinforces orient.** The `additionalContext` injection lands as the session's first turn; the model invokes the orient command immediately.
+- **SessionEnd is advisory by Gemini's own documentation.** *"The CLI will not wait for this hook to complete and ignores all flow-control fields."* The hook fires but cannot force close-session before exit. close-session works because the model invokes it proactively when it recognises the session is ending — driven by the methodology, not the hook.
+
+### Merge behavior
+
+If `.gemini/settings.json` does not exist, install creates it with the two hook entries above. If it exists, install merges the `SessionStart` and `SessionEnd` hook entries while preserving every other key and entry — other hooks, MCP server configs, extension configs, etc., are untouched. The user's separate `~/.gemini/settings.json` is never read or written. Re-install replaces these specific entries; nothing else.
+
+`.gemini/commands/ai-lore-*.toml` files are overwritten by name on re-install. Other TOML files in `.gemini/commands/` (the user's own custom commands, or commands from extensions) are untouched.
+
+Re-running `install-gemini` after [`upgrade`](./verbs/upgrade.md) re-projects the new methodology into the same locations.
+
+### No plan-mode collision
+
+Gemini CLI has no built-in `/plan` slash command and no native plan mode. The AI-Lore plan posture is invoked as `/ai-lore-plan` — namespaced under the `ai-lore-` prefix — and does not collide with any built-in. The handshake block omits the steer Claude needs.
+
+(Gemini CLI does have a built-in `/memory` command for managing GEMINI.md context. The name overlaps conceptually with AI-Lore's Memory pillar but does not collide — the AI-Lore Memory verbs are `write-lore`, `ack`, `save-point`, etc., never `/memory`.)
+
 ## Binding: other engines
 
-Other engines bind by the same shape — verbs to whatever invocable unit the engine offers, bookends to whatever reinforcement it offers, the plain-text `ai_readme.md` handshake to whatever auto-load file the engine reads at session open. Each is its own binding section, added when the engine is supported. The neutral methodology is the shared source for all of them.
+Engines beyond Claude and Gemini bind by the same shape — verbs to whatever invocable unit the engine offers, bookends to whatever reinforcement it offers, the plain-text `ai_readme.md` handshake to whatever auto-load file the engine reads at session open. Each is its own binding section, added when the engine is supported. The neutral methodology is the shared source for all of them.
 
 ## The companion app
 

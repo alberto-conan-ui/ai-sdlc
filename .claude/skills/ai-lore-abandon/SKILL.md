@@ -5,7 +5,7 @@ description: "Discard a child track — auto-acks first, then removes branch and
 
 # abandon
 
-`abandon` discards a child track. Its work is not landed on master; the branch and the track record are removed. The Human Lead invokes it after deciding the track's work should not become part of the project's canonical history.
+`abandon` discards a child track. Its work is not landed on home; the branch and the track record are removed. The Human Lead invokes it after deciding the track's work should not become part of the project's canonical history.
 
 **Abandonment auto-acks first.** Any uncommitted work on the track's branch is committed before the branch is deleted. The commits remain in git's object store and could be cherry-picked back later if needed — abandonment removes the *reference*, not the underlying objects. Destruction is reversible by anyone who keeps a record of the commit hash.
 
@@ -31,8 +31,12 @@ description: "Discard a child track — auto-acks first, then removes branch and
 
 ## Refusals
 
-- **Master cannot be abandoned.** Master is permanent.
+- **Home cannot be abandoned.** Home is permanent.
 - **A track actively mounted by another session** is not abandoned out from under that session. The Human Lead closes that session first, or has it unmount.
+
+## Independent from close-session
+
+Abandon and [`close-session`](./close-session.md) are orthogonal. The auto-ack happens internally to abandon (so the commits survive in the object store before the branch is deleted); abandon does not run close-session and does not prompt about it. If the Human Lead abandons and then ends the session, close-session writes its journal entry afterwards and commits those writes itself in its own closing commit.
 
 ## Relationship to other verbs
 

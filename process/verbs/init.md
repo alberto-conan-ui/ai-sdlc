@@ -25,8 +25,8 @@ The steps below are sequential and load-bearing — each depends on what the pre
    - The publish process itself (`blueprint/processes/publish.process.md`) is **not** seeded by `init` — it is a project-specific recipe authored at first use; until it exists, the [`publish`](./publish.md) verb refuses.
 7. **Initialise the Memory git repository** — `.ai-lore-<project>/memory/` is its own git repo, separate from the Payload. The Payload repo, if not already initialised, is the Project root. `init` adds both `.ai-lore-<project_name>/` and `publish/` to the Payload's `.gitignore` — the Lore folder and the Publish target are excluded from Payload tracking (the `publish/` entry is harmless on default-shape projects). See [`git.md`](../git.md) for the full git contract.
 8. **Lay the Memory skeleton** via [`write-lore`](./write-lore.md):
-   - `status/status.index.md` as the registry — empty open-tracks section (master will be registered in the next step), empty journal trail, drift summary, pointers to save-points and blueprint
-   - `tracks/tracks.index.md` and `tracks/master.md` — master is created at init with `posture: execute` (the default), default dials, no focus pointer, branch `trunk`, claim implicit ("everything not claimed by an open child"). The open-tracks registry on `status.index.md` is updated to include master
+   - `status/status.index.md` as the registry — empty open-tracks section (home will be registered in the next step), empty journal trail, drift summary, pointers to save-points and blueprint
+   - `tracks/tracks.index.md` and `tracks/home.track.md` — home is created at init with `posture: execute` (the default), default dials, no focus pointer, branch `trunk`, claim implicit ("everything not claimed by an open child"). The open-tracks registry on `status.index.md` is updated to include home
    - `journal/live/` and `journal/archive/`, each with its index
    - `blueprint/` with three children — `contracts/`, `processes/`, `mirror/` — each with its index
    - `save-points/` with its index
