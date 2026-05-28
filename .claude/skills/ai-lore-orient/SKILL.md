@@ -22,15 +22,15 @@ The session starts **trackless** in every case. Mounting is a separate decision,
 
 The depth of orient's preparation depends on what is open:
 
-- **No other tracks open** (only master, or master is unmounted and there are no children). The session assumes it will end up on master or stay trackless. Orient reads master's record, walks the focus chain from master's focus pointer to the tip — the journal handover for that focus, blueprint relevant to the focus, knowledge-tree entries it references, Payload areas named in the focus or its gates. This matches v0.5.1 behaviour exactly: a single-session project pays no parallelism tax at orient.
+- **No other tracks open** (only home, or home is unmounted and there are no children). The session assumes it will end up on home or stay trackless. Orient reads home's record, walks the focus chain from home's focus pointer to the tip — the journal handover for that focus, blueprint relevant to the focus, knowledge-tree entries it references, Payload areas named in the focus or its gates. This matches v0.5.1 behaviour exactly: a single-session project pays no parallelism tax at orient.
 - **Other tracks open.** The chain walk is deferred. The session states the open tracks in the readout and asks the Human Lead: stay trackless, or mount a track now? If a track is mounted in response, orient walks the mounted track's chain. If trackless, no chain walk runs — the session reads what is asked of it, and mounts later via [`mount`](./mount.md) when a write is requested.
 
 ## Drift check
 
-For each open track, orient checks the track's branch on both repos — `trunk` for master, `track/<name>` for a child — and surfaces the result per-track in the readout. The mechanics (`<lore>/memory/.git/` location, the explicit `git -C` discipline) live in [`git.md`](../git.md).
+For each open track, orient checks the track's branch on both repos — `trunk` for home, `track/<name>` for a child — and surfaces the result per-track in the readout. The mechanics (`<lore>/memory/.git/` location, the explicit `git -C` discipline) live in [`git.md`](../git.md).
 
 ## How it states the context
 
-One readout: open tracks (name, focus, mounted-by, posture, dials), per-track drift, the tip of any walked chain, the next step from the relevant handover. If the project is headless (no focus on master, no other tracks open), say so and wait for direction. If multiple tracks are open, name the choice the Human Lead has — mount one now, or stay trackless.
+One readout: open tracks (name, focus, mounted-by, posture, dials), per-track drift, the tip of any walked chain, the next step from the relevant handover. If the project is headless (no focus on home, no other tracks open), say so and wait for direction. If multiple tracks are open, name the choice the Human Lead has — mount one now, or stay trackless.
 
 An engine binding may reinforce `orient` with a SessionStart hook so a session cannot open without it; the methodology does not depend on the reinforcement.

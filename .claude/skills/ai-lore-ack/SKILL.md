@@ -17,7 +17,7 @@ description: "Commit both repos on the mounted track's branches at a deliberate 
 
 ## What every ack is
 
-A commit on the mounted track's branches — `trunk` on master, or `track/<name>` on a child track — in each dirty repo, with a Human-Lead-confirmed message capturing what is being acknowledged. Both repos commit together as one unit of acknowledgement; if only one repo is dirty, only that repo commits, but the unit is still "this ack on this track."
+A commit on the mounted track's branches — `trunk` on home, or `track/<name>` on a child track — in each dirty repo, with a Human-Lead-confirmed message capturing what is being acknowledged. Both repos commit together as one unit of acknowledgement; if only one repo is dirty, only that repo commits, but the unit is still "this ack on this track."
 
 A vague ack defeats the purpose — the message is what makes the acknowledgement reviewable later. The session helps draft a specific message grouped by area (focus, journal, blueprint, KT, AT, Payload); the Human Lead confirms or edits before the commit lands.
 
@@ -39,4 +39,4 @@ Their writes never trail each other: if a session ends with a clean ack-then-clo
 ## Relationship to other verbs
 
 - [`ack-and-continue`](./ack-and-continue.md) — the lighter sibling. Same commit shape; minimal message ceremony; used for mid-execution chunking when no pause is intended.
-- [`save-point`](./save-point.md) — the heavier cousin. Master-only consolidation primitive; adds the ledger entry, blueprint-contract check, and archive offer on top of the ack's commit shape; refuses if any child track is open. A save-point on a dirty tree includes the implicit ack — the commit it produces *is* the acknowledgement of the working state.
+- [`save-point`](./save-point.md) — the heavier cousin. Home-only consolidation primitive; adds the ledger entry, blueprint-contract check, and archive offer on top of the ack's commit shape; refuses if any child track is open. A save-point on a dirty tree includes the implicit ack — the commit it produces *is* the acknowledgement of the working state.

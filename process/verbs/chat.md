@@ -37,6 +37,6 @@ Some operations are housekeeping, not composition: spotting a stale reference, f
 
 ## Trackless marginalia triggers mount
 
-If the Human Lead initiates marginalia from a trackless chat session, the [`mount`](./mount.md) flow fires the same way it does for any write — auto-master if master is free, HL-prompted otherwise. Once mounted, the marginalia write lands. The mount-on-first-write rule is universal; marginalia is not a bypass.
+If the Human Lead initiates marginalia from a trackless chat session, the [`mount`](./mount.md) flow fires the same way it does for any write — auto-home if home is free, HL-prompted otherwise. Once mounted, the marginalia write lands. The mount-on-first-write rule is universal; marginalia is not a bypass.
 
 The posture is the gate. Chat is for the moments where the Human Lead wants to think, vent, or align — without the session reaching for action — while leaving the door open to fix a stray reference along the way.

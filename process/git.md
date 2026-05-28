@@ -17,7 +17,7 @@ Details a session reading or writing these repos has to know:
 
 ## Branches per track
 
-Master sits on **`trunk`** in both repos — there is no separate "master" branch; master *is* trunk. A child track creates a branch named **`track/<name>`** on the lore repo and on the Payload repo. The two branches commit and merge as one unit, the same way ack and save-point already operate.
+Home sits on **`trunk`** in both repos — there is no separate "home" branch; home *is* trunk. A child track creates a branch named **`track/<name>`** on the lore repo and on the Payload repo. The two branches commit and merge as one unit, the same way ack and save-point already operate.
 
 [`mount`](./verbs/mount.md) checks out a track's branch on both repos when it attaches a session. [`merge`](./verbs/merge.md) lands a child branch onto trunk on both repos in parallel; [`abandon`](./verbs/abandon.md) tears both branches down after auto-acking.
 
@@ -31,11 +31,11 @@ Three verbs move a track's tree from dirty to clean by committing both repos as 
 
 - [`ack`](./verbs/ack.md) — the deliberate pause-point acknowledgement. A commit with a focused, area-grouped message; the Human Lead reviews the message before it lands.
 - [`ack-and-continue`](./verbs/ack-and-continue.md) — the light mid-execution variant. Same commit shape; minimal message ceremony; session continues immediately.
-- [`save-point`](./verbs/save-point.md) — the formal acknowledgement plus a ledger entry, marking a return point. Save-points are **master-only and require every child track to be closed first** (merged or abandoned) — see [`tracks.md`](./tracks.md#save-point-as-consolidation).
+- [`save-point`](./verbs/save-point.md) — the formal acknowledgement plus a ledger entry, marking a return point. Save-points are **home-only and require every child track to be closed first** (merged or abandoned) — see [`tracks.md`](./tracks.md#save-point-as-consolidation).
 
 Two further verbs end a child track's lifecycle:
 
-- [`merge`](./verbs/merge.md) — lands the child onto master in both repos.
+- [`merge`](./verbs/merge.md) — lands the child onto home in both repos.
 - [`abandon`](./verbs/abandon.md) — auto-acks (so the commits survive in git's object store) and deletes the branch in both repos.
 
 [`close-session`](./verbs/close-session.md) also commits: its journal write, status update, and any working-tree drift land together as one Human-Lead-confirmed closing commit on the mounted track's branches. The bookend's commit is independent from `ack` and the other ack-family verbs.
@@ -53,7 +53,7 @@ git -C <lore>/memory status         # current branch on the lore repo
 git -C <project> status             # current branch on the Payload repo
 ```
 
-For each open track, the drift check looks at the track's branch — `trunk` for master, `track/<name>` for a child. The per-track drift summary surfaced in the orient readout names each.
+For each open track, the drift check looks at the track's branch — `trunk` for home, `track/<name>` for a child. The per-track drift summary surfaced in the orient readout names each.
 
 ## What git does not own
 

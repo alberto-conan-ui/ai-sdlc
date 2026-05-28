@@ -18,7 +18,7 @@ Three preconditions are checked before any write:
 
 - **Project declares Publishing.** `workspace.yaml` carries a `publish:` block (see [`project-structure.md`](../project-structure.md#publish)). On a default-shape project the verb refuses; nothing is written.
 - **The recipe exists.** `<lore>/memory/blueprint/processes/publish.process.md` is the recipe. Without it the verb has no instructions; it refuses and asks the Human Lead to author the recipe first.
-- **The session is mounted on master.** Publishing ships the canonical state; only master sits on trunk and carries that state. If the session is mounted on a child track, the verb refuses — close the session and reopen on master to publish.
+- **The session is mounted on home.** Publishing ships the canonical state; only home sits on trunk and carries that state. If the session is mounted on a child track, the verb refuses — close the session and reopen on home to publish.
 
 A publish that touches the Payload, the Lore, or anywhere outside `publish/` is a bug — the verb is one-way Payload → `publish/`, never the reverse, and the curation gate is what `publish.process.md` defines.
 

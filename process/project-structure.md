@@ -10,7 +10,7 @@ The foundation layer: the vocabulary every other document uses, the disk layout 
 | **Payload** | The Project's working materials. Lives at the project root by default, or in `<project>/payload/` in Publishing projects. See [Publish](#publish). |
 | **Lore** | The support system. Lives at `<project>/.ai-lore-<project_name>/`. |
 | **Memory** | The Project's record of its own thinking — status, focus, tracks, journal, blueprint, trees, save-points. Lives at `<lore>/memory/`. |
-| **Track** | A persistent workspace within Memory — a branch + claim + posture + dials + focus pointer. Sessions mount tracks (one session per track). Master always exists on trunk; child tracks branch from master and merge back. Lives at `<memory>/tracks/`. See [`tracks.md`](./tracks.md). |
+| **Track** | A persistent workspace within Memory — a branch + claim + posture + dials + focus pointer. Sessions mount tracks (one session per track). The **home** track always exists on trunk; child tracks branch from home and merge back. Lives at `<memory>/tracks/`. See [`tracks.md`](./tracks.md). |
 | **References** | Pointers to other AI-Lore projects on disk this project consults for context. Read-only by contract. Live at `<lore>/references/`. Optional. |
 | **Publish** | Curated destination derived from the Payload — the deliverable for projects whose ship target is not the Payload itself. Lives at `<project>/publish/`, paired with `<project>/payload/`. See [Publish](#publish). |
 
@@ -52,7 +52,7 @@ The Lore folder is identical in both shapes — same `.ai-lore-<project_name>/` 
 │
 ├── memory/                           ← Memory
 │   ├── status/                         status.index.md + focus/
-│   ├── tracks/                         tracks.index.md + master.md + per-child track records
+│   ├── tracks/                         tracks.index.md + home.track.md + per-child track records
 │   ├── journal/                        live/ and archive/
 │   ├── blueprint/                      standing commitments
 │   │   ├── contracts/                    evergreen rules the Payload must honour
@@ -76,7 +76,7 @@ The methodology is placed into the project at [`init`](./verbs/init.md) time, ve
 
 ### The git arrangement
 
-Memory (`<lore>/memory/`) and Payload (the Project root) are each their own git repository. They commit together as one unit through [`ack`](./verbs/ack.md), [`save-point`](./verbs/save-point.md), and the track-lifecycle verbs. Child tracks branch both repos together as `track/<name>`; master sits on `trunk` in both. The full git contract — `.gitignore` rules, the `<lore>/memory/.git/` location wart, vendored `process/` untracking, `publish/` in no repo, branch arrangement, drift signal mechanics — is covered in [`git.md`](./git.md).
+Memory (`<lore>/memory/`) and Payload (the Project root) are each their own git repository. They commit together as one unit through [`ack`](./verbs/ack.md), [`save-point`](./verbs/save-point.md), and the track-lifecycle verbs. Child tracks branch both repos together as `track/<name>`; home sits on `trunk` in both. The full git contract — `.gitignore` rules, the `<lore>/memory/.git/` location wart, vendored `process/` untracking, `publish/` in no repo, branch arrangement, drift signal mechanics — is covered in [`git.md`](./git.md).
 
 ## The Lore folder is uniquely named per project
 

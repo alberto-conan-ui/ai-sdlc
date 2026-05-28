@@ -11,7 +11,7 @@ A session that edits a Memory file directly has bypassed the verb — that is a 
 
 ## Trackless sessions cannot write
 
-`write-lore` requires a mounted track. A trackless session that attempts a write triggers the [`mount`](./mount.md) flow: master is auto-mounted if free, otherwise the Human Lead is prompted. Only after a track is mounted does `write-lore` proceed.
+`write-lore` requires a mounted track. A trackless session that attempts a write triggers the [`mount`](./mount.md) flow: home is auto-mounted if free, otherwise the Human Lead is prompted. Only after a track is mounted does `write-lore` proceed.
 
 ## Posture and marginalia
 

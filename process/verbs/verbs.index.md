@@ -23,11 +23,11 @@ Verbs take short imperative names — `write-lore`, `redial`. No project prefix:
 | [`write-lore`](./write-lore.md) | verb | Write or update Memory — the sole path by which lore is written |
 | [`redial`](./redial.md) | verb | Set the dials — the conversational register |
 | [`mount`](./mount.md) | verb | Attach a session to a track — the entry to write-capable state |
-| [`merge`](./merge.md) | verb | Land a child track's work onto master — Human-Lead-invoked |
+| [`merge`](./merge.md) | verb | Land a child track's work onto home — Human-Lead-invoked |
 | [`abandon`](./abandon.md) | verb | Discard a child track — auto-acks first, then removes branch and record |
 | [`ack`](./ack.md) | verb | Commit both repos on the mounted track's branches at a deliberate pause point — acknowledge accumulated work |
 | [`ack-and-continue`](./ack-and-continue.md) | verb | Light mid-execution commit — same commit shape as `ack`, minimal ceremony, session continues |
-| [`save-point`](./save-point.md) | verb | Formal milestone on master — commit, ledger entry, blueprint-contract check (requires all children closed) |
+| [`save-point`](./save-point.md) | verb | Formal milestone on home — commit, ledger entry, blueprint-contract check (requires all children closed) |
 | [`chat`](./chat.md) | verb | Set posture to Chat — converse only, touch nothing |
 | [`plan`](./plan.md) | verb | Set posture to Planning — discuss and write plans, Payload read-only |
 | [`reshape`](./reshape.md) | verb | Set posture to Reshaping — work on Memory, Payload read-only |
@@ -43,9 +43,9 @@ The verbs split into six groups by what they do:
 
 - **Ordinary work** — `write-lore`, `redial`. Run within ongoing work on the mounted track.
 - **Tracks** — `mount`, `merge`, `abandon`. Manage the workspaces sessions run in. `mount` is the entry to writing; `merge` and `abandon` are the exits.
-- **Ack** — `ack`, `ack-and-continue`, `save-point`. Move the mounted track's working tree from dirty to clean by committing both repos. `ack` is the deliberate pause-point commit; `ack-and-continue` is the light mid-execution variant; `save-point` is master-only and consolidates. None of the three are coupled to `close-session` — they are independent verbs.
+- **Ack** — `ack`, `ack-and-continue`, `save-point`. Move the mounted track's working tree from dirty to clean by committing both repos. `ack` is the deliberate pause-point commit; `ack-and-continue` is the light mid-execution variant; `save-point` is home-only and consolidates. None of the three are coupled to `close-session` — they are independent verbs.
 - **Posture** — `chat`, `plan`, `reshape`, `execute`. Set *what* the session may touch on the mounted track. The posture is recorded on the track's record.
-- **Outward** — `publish`. Sync the curated subset of the Payload to the external deliverable. Publishing projects only; master-only.
+- **Outward** — `publish`. Sync the curated subset of the Payload to the external deliverable. Publishing projects only; home-only.
 - **Lifecycle** — `init`, `upgrade`, `install`. Run once per project or once per engine.
 
 ## Posture is recorded on the track
@@ -54,11 +54,11 @@ The posture verbs write the session's working posture to the **mounted track's r
 
 Each posture has a real behavioural rule (see [`status.md`](../status.md#posture)): Chat makes Memory read-only for substance and the Payload absolutely read-only; Planning and Reshaping both make the Payload read-only; Executing lifts that and is the default. Chat has one carve-out — **marginalia** (frontmatter edits, link repair, single-token typo fixes, index entries on Memory only), defined in [`chat.md`](./chat.md#marginalia--the-chat-carve-out). The posture is the gate, not a label — a request that would violate the current posture is refused until a posture verb changes it.
 
-Trackless sessions are implicitly Chat — there is no record to write to, and the project is read-only. The `chat` verb is a no-op while trackless. Other posture verbs imply a mount (auto-master if free; HL-prompted otherwise) because writing a posture is itself a write. HL-initiated marginalia from trackless chat also triggers the mount flow — the carve-out is not a bypass of mount-on-first-write.
+Trackless sessions are implicitly Chat — there is no record to write to, and the project is read-only. The `chat` verb is a no-op while trackless. Other posture verbs imply a mount (auto-home if free; HL-prompted otherwise) because writing a posture is itself a write. HL-initiated marginalia from trackless chat also triggers the mount flow — the carve-out is not a bypass of mount-on-first-write.
 
 ## Acknowledgement and drift
 
-The working tree's dirty state on a track's branch is the drift signal — unacknowledged work waiting for Human Lead review, per track. Three verbs move a track's tree from dirty to clean on its branches: `ack` (deliberate pause-point commit), `ack-and-continue` (light mid-execution commit), and `save-point` (formal commit + ledger; master-only; requires all children closed). Two further verbs end a child track's life: `merge` lands it on master, `abandon` discards it.
+The working tree's dirty state on a track's branch is the drift signal — unacknowledged work waiting for Human Lead review, per track. Three verbs move a track's tree from dirty to clean on its branches: `ack` (deliberate pause-point commit), `ack-and-continue` (light mid-execution commit), and `save-point` (formal commit + ledger; home-only; requires all children closed). Two further verbs end a child track's life: `merge` lands it on home, `abandon` discards it.
 
 `close-session` also commits — its own writes (journal, status) plus any drift on the working tree — as a Human-Lead-confirmed closing commit. The bookend's commit is independent from `ack` and the other ack-family verbs; close-session does not run them and they do not prompt about it.
 

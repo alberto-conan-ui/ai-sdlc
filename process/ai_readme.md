@@ -13,7 +13,7 @@ Read these documents in order. Reading them is what makes the session AI-Lore-sh
 1. [`project-structure.md`](./project-structure.md) — the vocabulary, the disk layout, the manifest
 2. [`memory.md`](./memory.md) — the persistent record: journal, blueprint, save-points, trees, the file schema
 3. [`status.md`](./status.md) — the live register: status as registry, focus, dials, posture, the conversational register
-4. [`tracks.md`](./tracks.md) — the workspace primitive: master and children, mounting, claims, sessions
+4. [`tracks.md`](./tracks.md) — the workspace primitive: home and child tracks, mounting, claims, sessions
 5. [`git.md`](./git.md) — the git contract: two repos, branches per track, drift signal, the explicit `git -C` discipline
 6. [`verbs/verbs.index.md`](./verbs/verbs.index.md) — the operations a session runs and the Human Lead invokes
 7. [`bindings.md`](./bindings.md) — how the platform-neutral methodology binds to a specific AI engine
