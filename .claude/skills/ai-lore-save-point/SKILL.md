@@ -7,7 +7,7 @@ description: "Formal milestone on home — commit, ledger entry, blueprint-contr
 
 A save-point marks a strong reference point — a state in the project worth being able to return to. The Human Lead invokes it at milestones; the session never self-save-points.
 
-**Save-point is the consolidation primitive.** It runs only on home, and only when every child track is closed (merged or abandoned). It is the moment that crystallises a coherent project state — one trunk, no in-flight branches. If any child track is open at invocation, save-point refuses and names the open tracks; the Human Lead lands or discards each before proceeding.
+**Save-point is the consolidation primitive.** It runs only on home (a full track), and only when every child track is closed (merged or abandoned). Light tracks are forbidden to save-point, as they are to ack — their drift is consolidated by the home session. It is the moment that crystallises a coherent project state — one trunk, no in-flight branches. If any child track is open at invocation, save-point refuses and names the open tracks; the Human Lead lands or discards each before proceeding.
 
 ## What every save-point is
 
@@ -21,7 +21,7 @@ A dirty working tree on home is acknowledged implicitly by the save-point's comm
 
 The Human Lead invokes; the session helps draft both the commit message and the ledger description; the HL confirms; the session commits both repos and writes the entry through [`write-lore`](./write-lore.md).
 
-The session may also offer archiving at the same invocation — stale focuses, completed AT subtrees, rolled journal files — and the Human Lead confirms what to move. On a save-point with nothing to archive, the offer is skipped.
+The session may also offer archiving at the same invocation — `done` focuses still in the active tree (via [`archive`](./archive.md)), rolled journal files — and the Human Lead confirms what to move. On a save-point with nothing to archive, the offer is skipped.
 
 ## The ledger
 
@@ -41,3 +41,7 @@ The session may also offer archiving at the same invocation — stale focuses, c
 ## Independent from close-session
 
 Save-point and [`close-session`](./close-session.md) are orthogonal. Save-point commits the milestone; it does not run close-session and does not prompt about it. If the Human Lead takes a save-point and then ends the session, close-session writes its journal entry afterwards and commits those writes itself in its own closing commit. No coordination required between the two verbs; no dirty state trailing behind the save-point.
+
+## Prerequisites
+
+Read [`git.md`](../git.md) (the two-repo contract and branches) and [`tracks.md`](../tracks.md) (save-point is home-only and requires every child closed) before save-pointing.

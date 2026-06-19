@@ -41,3 +41,7 @@ Abandon and [`close-session`](./close-session.md) are orthogonal. The auto-ack h
 ## Relationship to other verbs
 
 `abandon` is the destructive exit from a child track. [`merge`](./merge.md) is the alternative — land the work instead of discarding. Both end a child track's lifecycle; [`mount`](./mount.md) is the entry.
+
+## Prerequisites
+
+Read [`tracks.md`](../tracks.md) (the track lifecycle) and [`git.md`](../git.md) (the auto-ack and branch deletion on both repos) before abandoning.

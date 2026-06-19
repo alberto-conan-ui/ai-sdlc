@@ -10,7 +10,7 @@ The foundation layer: the vocabulary every other document uses, the disk layout 
 | **Payload** | The Project's working materials. Lives at the project root by default, or in `<project>/payload/` in Publishing projects. See [Publish](#publish). |
 | **Lore** | The support system. Lives at `<project>/.ai-lore-<project_name>/`. |
 | **Memory** | The Project's record of its own thinking — status, focus, tracks, journal, blueprint, trees, save-points. Lives at `<lore>/memory/`. |
-| **Track** | A persistent workspace within Memory — a branch + claim + posture + dials + focus pointer. Sessions mount tracks (one session per track). The **home** track always exists on trunk; child tracks branch from home and merge back. Lives at `<memory>/tracks/`. See [`tracks.md`](./tracks.md). |
+| **Track** | A persistent workspace within Memory. Comes in three **types** — trackless (read-only), light (journal + backlog only, not mounted), and full (mounted, branched, claimed). A full track is a branch + claim + focus pointer; sessions mount full tracks (one per session). The **home** track always exists on trunk; child tracks branch from home and merge back. Lives at `<memory>/tracks/`. See [`tracks.md`](./tracks.md). |
 | **References** | Pointers to other AI-Lore projects on disk this project consults for context. Read-only by contract. Live at `<lore>/references/`. Optional. |
 | **Publish** | Curated destination derived from the Payload — the deliverable for projects whose ship target is not the Payload itself. Lives at `<project>/publish/`, paired with `<project>/payload/`. See [Publish](#publish). |
 
@@ -28,9 +28,12 @@ Default                               Publishing
 my-project/                           my-project/
 ├── ai_readme.md                      ├── ai_readme.md
 ├── [Payload files]   ← Payload       ├── payload/          ← Payload (workshop)
-└── .ai-lore-my-project/   ← Lore     ├── publish/          ← Publish (deliverable)
+├── out/              ← scratch        ├── publish/          ← Publish (deliverable)
+└── .ai-lore-my-project/   ← Lore     ├── out/              ← scratch
                                       └── .ai-lore-my-project/   ← Lore
 ```
+
+`out/` is the **disposable-scratch catch-all** — see [Scratch (`out/`)](#scratch-out) below. Like `publish/`, it sits at the project root and is in **no** git repo.
 
 Code repositories, specs, documentation sets — anything whose deliverable is the Payload itself — fit the default and need no Publish target. Projects whose deliverable is a folder elsewhere (a Drive folder, a static-site source, a client directory) declare Publishing — the Payload moves into a `payload/` folder so the curated `publish/` sibling can sit cleanly beside it. The choice is set at [`init`](./verbs/init.md); see [Publish](#publish) for the details.
 
@@ -51,15 +54,20 @@ The Lore folder is identical in both shapes — same `.ai-lore-<project_name>/` 
 │   └── verbs/...
 │
 ├── memory/                           ← Memory
-│   ├── status/                         status.index.md + focus/
+│   ├── status/                         ← the status tree
+│   │   ├── status.index.md               root index (pure wiring)
+│   │   ├── status.stack.md               focus registry (link + status + active-mark)
+│   │   ├── <focus>/                      L1 — focus folder (index + body)
+│   │   │   └── <stage>/                    L2 — stage folder; <phase>/ at L3
+│   │   └── archive/                      finished focuses (relocated by archive)
 │   ├── tracks/                         tracks.index.md + home.track.md + per-child track records
-│   ├── journal/                        live/ and archive/
+│   ├── journal/                        live/ and archive/ (live.index.md carries the journal trail)
 │   ├── blueprint/                      standing commitments
 │   │   ├── contracts/                    evergreen rules the Payload must honour
 │   │   ├── processes/                    repeated procedures (e.g. publish.process.md)
+│   │   ├── tooling/                      registry of owned scripts / aux apps
 │   │   └── mirror/                       description of the Payload's shape
 │   ├── save-points/                    append-only milestone ledger
-│   ├── action-tree/                    decomposition, optional
 │   └── knowledge-tree/                 reconciled / working / notepad, optional
 │
 └── references/                       ← References (optional)
@@ -139,11 +147,21 @@ Publish is **optional.** A project with no `publish:` block in `workspace.yaml` 
 
 `payload/` and `publish/` sit at the project root, siblings to the Lore folder. The two folders carry different rules:
 
-- **`payload/` is the Payload** — read–write per the active posture, tracked by the Payload repo, edited freely while in `execute`.
-- **`publish/` is the deliverable** — written **only** by the [`publish`](./verbs/publish.md) verb. Writes outside the verb are refused regardless of posture. This keeps the curation gate honest.
+- **`payload/` is the Payload** — read–write by a full track within its claim, tracked by the Payload repo.
+- **`publish/` is the deliverable** — written **only** by the [`publish`](./verbs/publish.md) verb. Writes outside the verb are refused regardless of track type. This keeps the curation gate honest.
 - **`publish/` may be a real directory** (the publish process writes into it) **or a symlink to an external mount** (a Drive folder, a static-site source, a deploy directory). The choice is per-project — declared in `workspace.yaml` and shaped at [`init`](./verbs/init.md).
 - **The recipe** — what crosses from `payload/` to `publish/`, how the sync runs, what curation rules fire — lives in `<lore>/memory/blueprint/processes/publish.process.md`. The verb is platform-neutral; the recipe is project-specific.
 
 `publish/` is **derived state.** `payload/` is the source of truth; `publish/` is regenerable from `payload/` at any time via the [`publish`](./verbs/publish.md) verb. That asymmetry is the safety net: if `publish/` is corrupted, lost, or out of sync, re-publish.
 
 The `workspace.yaml` `publish:` block declares the path and optional symlink target — see [workspace.yaml](#workspaceyaml) above for the format. Presence of the block is the declaration; absence means a default Project, and the [`publish`](./verbs/publish.md) verb refuses.
+
+## Scratch (`out/`)
+
+`out/` is the **catch-all for writes AI-Lore must make but isn't meant to keep** — a generated report, a verb's working files, the harness `/plan` scratch file, anything transient. It sits at the project root, **symmetric to `publish/`**, and is present in every project shape.
+
+The contrast with `publish/` is the point. Both live at the root and both are outside git — but `publish/` is a *deliverable* (curated, regenerable, the thing that ships), while `out/` is *disposable* (uncurated, transient, the thing nobody ships). One hard rule keeps `out/` from becoming the next mess:
+
+- **Nothing in `out/` is ever a source of truth.** It is disposable by definition — safe to delete at any time, never referenced as authoritative, never the single copy of anything. A write whose result must survive does not belong in `out/`; it belongs in the Payload or Memory.
+
+`out/` is **global, not per-track** — scratch needs no track-scoping, and a single folder avoids a per-track cleanup story. It is in **no git repo**: the Payload's `.gitignore` excludes it (written by [`init`](./verbs/init.md), alongside `.ai-lore-<project>/` and `publish/`), and the lore repo only ever covered `memory/`. See [`git.md`](./git.md#what-git-does-not-own).

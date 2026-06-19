@@ -25,7 +25,7 @@ description: "Land a child track's work onto home — Human-Lead-invoked"
 ## What merge does not do
 
 - **It does not take a save-point.** Merge lands the work; save-points are a separate consolidation step, home-only, and require every other child track to be closed first. If the merge completes a milestone worth a save-point, the Human Lead invokes [`save-point`](./save-point.md) afterward — on home, with no children open.
-- **It does not import the child's working state into home.** The child's posture, dials, and focus pointer were its own; landing the branch does not change home's record. Home's posture, dials, and focus are unchanged.
+- **It does not import the child's working state into home.** The child's claim and focus pointer were its own; landing the branch does not change home's record. Home's claim and focus are unchanged.
 
 ## Refusals
 
@@ -38,3 +38,7 @@ Merge and [`close-session`](./close-session.md) are orthogonal. Merge lands the 
 ## Relationship to other verbs
 
 `merge` is the canonical exit from a child track — the work landed on home. [`abandon`](./abandon.md) is the alternative exit — the work discarded. [`mount`](./mount.md) is the entry. [`save-point`](./save-point.md) is the further step after merge when the landed work is milestone-worthy.
+
+## Prerequisites
+
+Read [`tracks.md`](../tracks.md) (the track lifecycle and claims) and [`git.md`](../git.md) (the two-repo branch-merge contract) before merging.

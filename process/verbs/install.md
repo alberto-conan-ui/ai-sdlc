@@ -23,3 +23,7 @@ Re-running install is idempotent: the delimited block in `CLAUDE.md` is replaced
 `install` never changes the methodology. It is a one-way projection: plain text in, engine-native form out. When the methodology changes (typically via [`upgrade`](./upgrade.md)), re-running `install` re-projects it.
 
 `install` does not touch Memory; it needs the project to exist — the files placed by [`init`](./init.md) are its input.
+
+## Prerequisites
+
+Read [`bindings.md`](../bindings.md) (the target engine's binding section — the definition of its native form) before installing.

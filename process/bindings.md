@@ -1,6 +1,6 @@
 # Bindings
 
-AI-Lore is **platform-neutral plain text**. The methodology — the Memory model, the dials, the verbs, the bookends — is this folder of documents, and it is complete on its own. A session uses it by reading it. A **binding** layers engine-native delivery on top — same content, automatic invocation.
+AI-Lore is **platform-neutral plain text**. The methodology — the Memory model, the status tree, the verbs, the bookends — is this folder of documents, and it is complete on its own. A session uses it by reading it. A **binding** layers engine-native delivery on top — same content, automatic invocation.
 
 ## Two paths
 
@@ -28,7 +28,7 @@ A delimited block in the project's `CLAUDE.md`:
 <!-- AI-LORE:BEGIN -->
 This project uses AI-Lore. Read `ai_readme.md` and follow its instructions.
 
-Use `/ai-lore-plan` (not `/plan`) in this project — plans live in Memory under the active focus.
+Do not use Claude Code's built-in `/plan` in this project — AI-Lore plans by growing the status tree (`grow`). If you invoke `/plan` anyway, treat its plan file as scratch.
 <!-- AI-LORE:END -->
 ```
 
@@ -70,7 +70,7 @@ Skills are project-scoped (`.claude/skills/`, not `~/.claude/skills/`), so each 
 
 In the plain-text path the bookends are intrinsic behaviour the session performs on itself. Installed, the hooks have **asymmetric reinforcement**:
 
-- **SessionStart genuinely reinforces orient.** The hook fires before the session takes any user input; the stdout instruction lands in context as the session's first turn, and the model invokes the orient skill immediately. A session cannot silently skip orient when installed.
+- **SessionStart genuinely reinforces orient.** The hook fires before the session takes any user input; the stdout instruction lands in context as the session's first turn, and the model invokes the orient skill immediately. A session cannot silently skip orient when installed. As of v0.7 `orient` loads only the **thin core** (`project-structure.md`, `status.md`, `verbs.index.md`); the other pillars are pulled on demand by the verbs that declare them — so the SessionStart load is small, and each verb skill carries its own prerequisites when invoked.
 - **SessionEnd is advisory only.** By the time SessionEnd fires, the session is already closing; the model does not get a turn to act on the injected instruction. The hook's stdout still lands in the transcript, but it cannot force the model to invoke close-session before exit. In practice, close-session works because the model invokes it **proactively** when it recognises the session is ending — driven by the methodology loaded at session start, not by the hook. The SessionEnd hook is a telemetry/logging hook, not enforcement.
 
 The methodology never depends on either hook — bookends are intrinsic — but it is worth knowing which one is real reinforcement and which is advisory.
@@ -83,14 +83,13 @@ Re-running `install-claude` after [`upgrade`](./verbs/upgrade.md) re-projects th
 
 ### Plan-mode collision
 
-Claude Code ships a built-in `/plan` slash command that enables a native plan mode. The mode forces plan files to `~/.claude/plans/`, outside the project — invisible to both AI-Lore git repos and to any future session. AI-Lore's plan posture, by contrast, writes plans into Memory (focus body or action tree) where they persist and walk in the focus chain.
+Claude Code ships a built-in `/plan` slash command that enables a native plan mode. The mode forces plan files to `~/.claude/plans/`, outside the project — invisible to both AI-Lore git repos and to any future session. AI-Lore has **no plan posture** (v0.7 removed postures); design work happens by **growing the status tree** ([`grow`](./verbs/grow.md)) on a full track, where focuses/stages/phases persist and walk in the focus chain.
 
-The two collide. Claude Code provides no mechanism to disable a built-in command — not via project `.claude/settings.json`, not via skill, hook, or permission rule — so the collision cannot be enforced away. `install-claude` handles it by **documentation**:
+There is nothing to redirect `/plan` *to* — AI-Lore exposes no `/ai-lore-plan`. Claude Code provides no mechanism to disable a built-in command, so `install-claude` handles the collision by **documentation**:
 
-- The `CLAUDE.md` handshake block includes a one-line steer telling the user to invoke `/ai-lore-plan` instead of `/plan`.
-- The `ai-lore-plan` skill text says explicitly that the plan lands in Memory through `write-lore`, regardless of any harness-side plan-file assignment.
+- The `CLAUDE.md` handshake block steers the user away from `/plan`, pointing at the status tree instead.
 
-A user who invokes `/plan` anyway gets Claude Code's native plan-mode behaviour — including the harness plan file at `~/.claude/plans/`. The Memory plan is the authoritative one; the harness plan file is scratch and should be discarded once the AI-Lore plan lands.
+A user who invokes `/plan` anyway gets Claude Code's native plan-mode behaviour — including the harness plan file at `~/.claude/plans/`. That file is scratch (belongs in `out/` thinking, not Memory); the authoritative plan is the status tree, grown through `grow`. Discard the harness plan file once the tree reflects the work.
 
 ## Binding: Gemini
 
@@ -108,7 +107,7 @@ This project uses AI-Lore. Read `ai_readme.md` and follow its instructions.
 
 If `GEMINI.md` does not exist, install creates it with this block as the entire content. If it exists, install replaces only the delimited block and preserves the rest of the file. Gemini CLI auto-loads `GEMINI.md` at session open via its hierarchical context discovery (no flag needed); the handshake fires the universal load against the methodology already on disk.
 
-There is no Gemini equivalent of Claude Code's `/plan` collision — Gemini CLI has no built-in plan mode — so the handshake block is one line shorter than Claude's.
+There is no Gemini equivalent of Claude Code's `/plan` collision — Gemini CLI has no built-in plan mode — so the handshake block omits Claude's steer-away-from-`/plan` line.
 
 ### Verbs → TOML slash commands
 
@@ -169,7 +168,7 @@ Re-running `install-gemini` after [`upgrade`](./verbs/upgrade.md) re-projects th
 
 ### No plan-mode collision
 
-Gemini CLI has no built-in `/plan` slash command and no native plan mode. The AI-Lore plan posture is invoked as `/ai-lore-plan` — namespaced under the `ai-lore-` prefix — and does not collide with any built-in. The handshake block omits the steer Claude needs.
+Gemini CLI has no built-in `/plan` slash command and no native plan mode, and AI-Lore has no plan verb of its own — design work is growing the status tree (`grow`). Nothing collides, so the handshake block omits the steer Claude needs.
 
 (Gemini CLI does have a built-in `/memory` command for managing GEMINI.md context. The name overlaps conceptually with AI-Lore's Memory pillar but does not collide — the AI-Lore Memory verbs are `write-lore`, `ack`, `save-point`, etc., never `/memory`.)
 

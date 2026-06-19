@@ -1,6 +1,6 @@
 # publish
 
-`publish` syncs the Payload's curated subset into `publish/` — the project's external deliverable. The Payload is the workshop and source of truth; `publish/` is derived state that ships outward. The verb is the **only** path that writes into `publish/`; sessions in any posture treat `publish/` as off-limits otherwise.
+`publish` syncs the Payload's curated subset into `publish/` — the project's external deliverable. The Payload is the workshop and source of truth; `publish/` is derived state that ships outward. The verb is the **only** path that writes into `publish/`; sessions of any track type treat `publish/` as off-limits otherwise.
 
 ## When the Human Lead invokes it
 

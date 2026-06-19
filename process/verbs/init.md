@@ -23,19 +23,24 @@ The steps below are sequential and load-bearing — each depends on what the pre
    - **Create `<project>/payload/`** as an empty directory. This is the workshop; the Payload's contents live inside it.
    - **Create `<project>/publish/`.** If `publish.target` is set in `workspace.yaml`, create the symlink: `<project>/publish` → the target path. If only `publish.path` is set, create an empty directory there.
    - The publish process itself (`blueprint/processes/publish.process.md`) is **not** seeded by `init` — it is a project-specific recipe authored at first use; until it exists, the [`publish`](./publish.md) verb refuses.
-7. **Initialise the Memory git repository** — `.ai-lore-<project>/memory/` is its own git repo, separate from the Payload. The Payload repo, if not already initialised, is the Project root. `init` adds both `.ai-lore-<project_name>/` and `publish/` to the Payload's `.gitignore` — the Lore folder and the Publish target are excluded from Payload tracking (the `publish/` entry is harmless on default-shape projects). See [`git.md`](../git.md) for the full git contract.
+7. **Initialise the Memory git repository** — `.ai-lore-<project>/memory/` is its own git repo, separate from the Payload. The Payload repo, if not already initialised, is the Project root. `init` adds `.ai-lore-<project_name>/`, `publish/`, and `out/` to the Payload's `.gitignore` — the Lore folder, the Publish target, and the scratch folder are excluded from Payload tracking (the `publish/` entry is harmless on default-shape projects). It also creates an empty `out/` at the project root (the disposable-scratch catch-all). See [`git.md`](../git.md) for the full git contract.
 8. **Lay the Memory skeleton** via [`write-lore`](./write-lore.md):
-   - `status/status.index.md` as the registry — empty open-tracks section (home will be registered in the next step), empty journal trail, drift summary, pointers to save-points and blueprint
-   - `tracks/tracks.index.md` and `tracks/home.track.md` — home is created at init with `posture: execute` (the default), default dials, no focus pointer, branch `trunk`, claim implicit ("everything not claimed by an open child"). The open-tracks registry on `status.index.md` is updated to include home
-   - `journal/live/` and `journal/archive/`, each with its index
-   - `blueprint/` with three children — `contracts/`, `processes/`, `mirror/` — each with its index
+   - `status/status.index.md` as the status-tree root index — pure wiring (pointers to the tree, the stack file, the backlog, blueprint, and save-points); `status/status.stack.md` as the focus registry (empty at init); `status/backlog/` with its index (empty)
+   - `tracks/tracks.index.md` and `tracks/home.track.md` — home is created at init with no focus pointer, branch `trunk`, claim implicit ("everything not claimed by an open child"). Home is a full track; there is no posture or dials field (v0.7 removed them). The open-tracks registry is updated to include home
+   - `journal/live/` and `journal/archive/`, each with its index (`live.index.md` carries the journal trail)
+   - `blueprint/` with four children — `contracts/`, `processes/`, `tooling/`, `mirror/` — each with its index
    - `save-points/` with its index
 
-   The action tree and knowledge tree are optional and created when work first touches them.
+   The status tree's focus folders and the knowledge tree are created when work first touches them.
 9. **Seed the blueprint** with the Human Lead. Each branch is optional at seed time — emptiness is a valid state:
    - **Contracts** — the evergreen rules good Payload must honour, including any contracts that apply to `save-point` beyond the required git commit.
    - **Processes** — repeated procedures the project performs (release runbook, migration ritual, recurring checklist). Publishing projects will author `publish.process.md` here when they first publish; `init` does not pre-seed it.
+   - **Tooling** — a registry of the project's owned scripts and auxiliary apps. Usually empty at init; populates as the project acquires tooling worth referencing.
    - **Mirror** — descriptions of Payload areas. Usually empty at init; populates as the Payload grows areas worth describing.
 10. **Open the first focus** with the Human Lead, or leave the project headless until direction arrives. Choose its `focus_type` — `build` for concrete delivery against a gate, `goal` for directional work judged by the Human Lead.
 
 `init` writes Memory only through `write-lore`. The methodology placement in step 5 and the publish-target shaping in step 6 are plain file operations, not Memory writes.
+
+## Prerequisites
+
+Read [`project-structure.md`](../project-structure.md) (the disk layout, the manifest, the project shapes), [`memory.md`](../memory.md) (the skeleton to lay), and [`git.md`](../git.md) (the two-repo setup and `.gitignore` entries) before initialising.

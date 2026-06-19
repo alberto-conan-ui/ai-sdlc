@@ -18,4 +18,8 @@ description: "Migrate a project to a new core version"
 
 If the project was installed into an engine (see [`install`](./install.md)), re-run that install after upgrade so the engine-native delivery picks up the new methodology.
 
-A version that changes Memory shape ships its own migration notes; `upgrade` applies them. The per-version migration content is authored alongside the version it migrates to.
+A version that changes Memory shape ships its own migration notes; `upgrade` applies them. The per-version migration content is authored alongside the version it migrates to. (The v0.6.1 → v0.7 notes — the status-tree migration — are [`migration-from-v0.6.1.md`](../migration-from-v0.6.1.md).)
+
+## Prerequisites
+
+Read [`project-structure.md`](../project-structure.md) (what the methodology placement and disk layout should become), [`memory.md`](../memory.md) (structural Memory changes), and [`bindings.md`](../bindings.md) (re-running installs) before upgrading — plus the target version's migration playbook, which is the authoritative step list.
