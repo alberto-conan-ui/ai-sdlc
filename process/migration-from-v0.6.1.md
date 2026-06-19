@@ -40,18 +40,33 @@ git -C <lore>/memory status
 
 Both must report "nothing to commit, working tree clean." Confirm `core_version` in `<lore>/workspace.yaml` reads `"0.6.1"`. If it reads something else, this is the wrong playbook.
 
+**Also confirm the Memory is actually v0.6.1-*shaped*, not just version-stamped.** `core_version` is a label; this playbook rewrites real structure and assumes the predecessor's structure is present. Verify the v0.6.1 shape before starting:
+
+```
+test -f <lore>/memory/tracks/home.track.md   # tracks exist (v0.6+), home-named (v0.6.1)
+test -d <lore>/memory/status/focus           # flat focus files (pre-v0.7)
+```
+
+If `tracks/home.track.md` is missing, the project is **structurally behind its version stamp** — `core_version` advanced but the Memory was never migrated. Stop, run the intervening playbooks ([`migration-from-v0.5.1.md`](./migration-from-v0.5.1.md) → [`migration-from-v0.6.md`](./migration-from-v0.6.md)) to bring the *structure* to v0.6.1, then return here. Do **not** hand-patch the missing structure to push through — that is exactly the silent correction the release gate forbids. (Surfaced by the v0.7 RC dogfood, where the source project was stamped ahead of its actual Memory shape.)
+
 ## Steps
 
 ### 1. Re-place the methodology
 
-Clone the v0.7 source to a scratch path and replace the vendored methodology:
+Replace the vendored methodology with the v0.7 source. **Where the source comes from depends on the project:**
 
-```bash
-git clone --depth 1 https://github.com/alberto-conan-ui/ai-sdlc /tmp/ai-lore-v0.7-src
-rm -rf .ai-lore-<project>/process
-cp -r /tmp/ai-lore-v0.7-src/process .ai-lore-<project>/process
-rm -rf /tmp/ai-lore-v0.7-src
-```
+- **A normal downstream project** fetches the version it is moving to. During an RC that is the **RC tag**, not bare `main` (`main` still holds the prior release); after promotion it is `main`:
+
+  ```bash
+  git clone --depth 1 --branch <v0.7 tag or rc tag> https://github.com/alberto-conan-ui/ai-sdlc /tmp/ai-lore-v0.7-src
+  rm -rf .ai-lore-<project>/process
+  cp -r /tmp/ai-lore-v0.7-src/process .ai-lore-<project>/process
+  rm -rf /tmp/ai-lore-v0.7-src
+  ```
+
+- **The source / self-hosting project** (`ai-sdlc` itself) does **not** clone — its own `process/` *is* the candidate. Sync the vendored copy from the local tree instead: `cp -r process .ai-lore-<project>/process` (or rely on `install` to re-project it).
+
+- **Multi-hop chains** run each hop against *that hop's* version — never clone bare `main` for an intermediate hop, or you pull the latest methodology into a mid-chain step. Fetch each predecessor playbook and source from its matching tag.
 
 The root shim at `ai_readme.md` does not change.
 
