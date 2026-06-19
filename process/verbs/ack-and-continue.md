@@ -18,11 +18,11 @@ A commit on the mounted track's branches — `trunk` on home, or `track/<name>` 
 
 The session drafts a short message — one to two lines, focused on what just landed — and the Human Lead confirms or edits before the commit lands. The grouping-by-area drafting that [`ack`](./ack.md) does is skipped: ack-and-continue is for the case where the chunk is small enough that a single-line description suffices.
 
-After the commit lands, the session resumes immediately. No journal write, no posture change, no close-session interaction.
+After the commit lands, the session resumes immediately. No journal write, no close-session interaction.
 
 ## Trackless sessions cannot ack-and-continue
 
-Same rule as [`ack`](./ack.md) — there is no branch for a trackless session to commit on.
+Same rule as [`ack`](./ack.md) — there is no branch for a trackless session to commit on, and **light tracks are forbidden to commit** (their journal/backlog drift is acknowledged by a home session). `ack-and-continue` is full-track work.
 
 ## Independent from close-session
 
@@ -32,3 +32,7 @@ Same rule as [`ack`](./ack.md) — there is no branch for a trackless session to
 
 - [`ack`](./ack.md) — the deliberate pause-point sibling. Same commit shape; message grouped by area; used when the next step is review, not continuation.
 - [`save-point`](./save-point.md) — home-only milestone primitive; the heavier consolidation step.
+
+## Prerequisites
+
+Read [`git.md`](../git.md) (the two-repo contract, branches per track, the explicit `git -C` discipline) before committing.

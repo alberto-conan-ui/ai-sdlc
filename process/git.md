@@ -10,10 +10,11 @@ The Project root is the **Payload repo**. The lore folder contains the **lore re
 
 Details a session reading or writing these repos has to know:
 
-- **The Payload's `.gitignore` excludes `.ai-lore-<project>/` and `publish/`.** The Lore folder, the methodology, the vendored `process/`, Memory, and the Publish target all sit outside Payload tracking. [`init`](./verbs/init.md) writes both entries on project creation; the `publish/` entry is harmless on projects that don't declare Publishing.
+- **The Payload's `.gitignore` excludes `.ai-lore-<project>/`, `publish/`, and `out/`.** The Lore folder, the methodology, the vendored `process/`, Memory, the Publish target, and the scratch folder all sit outside Payload tracking. [`init`](./verbs/init.md) writes all three entries on project creation; the `publish/` entry is harmless on projects that don't declare Publishing.
 - **The lore repo's `.git/` lives at `<lore>/memory/.git/`, not at `<lore>/.git/`.** `cd <lore>` does not put a session inside the lore repo — git walks up and finds the Payload's `.git/` instead. To address the lore repo explicitly, use `git -C <lore>/memory ...`. The drift check at every bookend relies on this.
 - **The vendored `<lore>/process/` is tracked by neither repo.** The Payload's `.gitignore` excludes the whole Lore folder; the lore repo only covers `memory/`. The vendored methodology is an on-disk mirror of the canonical source, placed by `init` and re-placed by [`upgrade`](./verbs/upgrade.md). In self-hosting projects — where the canonical methodology *is* the Payload, as in `ai-sdlc` itself — edits to the methodology must be applied to both `/process/` (canonical, Payload-tracked) and `<lore>/process/` (vendored, untracked) to stay in sync.
 - **`publish/` is in no git repo.** Like the vendored methodology, `publish/` sits outside both repos — it is derived state regenerable from the Payload. The Payload's `.gitignore` keeps it out of Payload tracking; the lore repo never covered it. The [`publish`](./verbs/publish.md) verb is the sole writer.
+- **`out/` is in no git repo.** The scratch catch-all sits outside both repos — it is disposable by definition (see [`project-structure.md`](./project-structure.md#scratch-out)). The Payload's `.gitignore` keeps it out of Payload tracking; the lore repo never covered it. Nothing in `out/` is ever a source of truth, so leaving it untracked loses nothing.
 
 ## Branches per track
 
@@ -58,7 +59,7 @@ For each open track, the drift check looks at the track's branch — `trunk` for
 ## What git does not own
 
 - **Focus state.** Focus pointers, focus types, gates — Memory. See [`status.md`](./status.md) and [`memory.md`](./memory.md).
-- **Posture and dials.** They live on the mounted track's record. See [`tracks.md`](./tracks.md) and [`status.md`](./status.md).
+- **Track type and claims.** A full track's claim lives on its record; track *type* (trackless / light / full) governs what a session may touch. See [`tracks.md`](./tracks.md).
 - **The journal.** Journal entries are Memory files written through [`write-lore`](./verbs/write-lore.md), then committed by git — the entries are Memory; the commits are git's role.
 - **The save-points ledger.** Same: `memory/save-points/<entry>.save-point.md` is Memory; the commit that records it is git's role.
 

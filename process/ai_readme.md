@@ -6,23 +6,26 @@ AI-Lore is a methodology for building a **Payload** — software, a campaign, a 
 
 ---
 
-## 1. Load the methodology
+## 1. Load the thin core
 
-Read these documents in order. Reading them is what makes the session AI-Lore-shaped for the rest of its lifetime.
+Read these three documents now. They are the **eager core** — what a session needs *before* it can reach any verb, and what makes it AI-Lore-shaped enough to operate:
 
 1. [`project-structure.md`](./project-structure.md) — the vocabulary, the disk layout, the manifest
-2. [`memory.md`](./memory.md) — the persistent record: journal, blueprint, save-points, trees, the file schema
-3. [`status.md`](./status.md) — the live register: status as registry, focus, dials, posture, the conversational register
-4. [`tracks.md`](./tracks.md) — the workspace primitive: home and child tracks, mounting, claims, sessions
-5. [`git.md`](./git.md) — the git contract: two repos, branches per track, drift signal, the explicit `git -C` discipline
-6. [`verbs/verbs.index.md`](./verbs/verbs.index.md) — the operations a session runs and the Human Lead invokes
-7. [`bindings.md`](./bindings.md) — how the platform-neutral methodology binds to a specific AI engine
+2. [`status.md`](./status.md) — the status tree, the stack-file registry, focus, the chain, the backlog
+3. [`verbs/verbs.index.md`](./verbs/verbs.index.md) — the map of operations a session runs and the Human Lead invokes
 
-A session that has read these seven knows the whole methodology. Everything below this folder is reference.
+The remaining pillars load **on demand**, not up front:
+
+- [`memory.md`](./memory.md) — the persistent record: journal, blueprint, save-points, trees, the file schema
+- [`tracks.md`](./tracks.md) — the workspace primitive: home and child tracks, mounting, claims, sessions
+- [`git.md`](./git.md) — the git contract: two repos, branches per track, drift signal, the explicit `git -C` discipline
+- [`bindings.md`](./bindings.md) — how the platform-neutral methodology binds to a specific AI engine
+
+**The load model.** A verb is high-signal exactly when invoked, not when carried from session start — so verbs load on invocation, and from v0.7 the pillars do too. Each verb and bookend **declares the pillars it needs** (a *Prerequisites* line); a session cannot reach the action without passing that declaration, so the load is *guaranteed*, not left to the session noticing it is missing context. The thin core above is the bootstrap that makes this work; everything else arrives the moment it is used. Indexes support ad-hoc browsing, but correctness rides on the declared prerequisites. (See [`verbs/verbs.index.md`](./verbs/verbs.index.md#verbs-declare-their-prerequisites).)
 
 ## 2. Orient
 
-Run the `orient` bookend ([`verbs/orient.md`](./verbs/orient.md)): read the registry in `memory/status/status.index.md`, decide how deep to walk based on what tracks are open, surface drift, and state where the work stands. If the project is headless, say so and wait for direction.
+Run the `orient` bookend ([`verbs/orient.md`](./verbs/orient.md)): read the registry in `memory/status/status.stack.md` (the focus registry) and `status.index.md` (the tree's root index), decide how deep to walk based on what tracks are open, surface drift, and state where the work stands. If the project is headless, say so and wait for direction.
 
 ## 3. Work
 

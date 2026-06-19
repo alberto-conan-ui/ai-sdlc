@@ -20,7 +20,7 @@ Ack is a **deliberate** acknowledgement — the message ceremony is the point. F
 
 ## Trackless sessions cannot ack
 
-`ack` requires a mounted track — there is no branch for a trackless session to commit on. A trackless session that has been asked to acknowledge has nothing to acknowledge; the dirty state lives on a track, not on the session.
+`ack` requires a mounted **full** track — there is no branch for a trackless session to commit on. A trackless session that has been asked to acknowledge has nothing to acknowledge; the dirty state lives on a track, not on the session. **Light tracks are forbidden to `ack`** — their journal/backlog drift sits on trunk and is acknowledged by a home session, not by the light track (see [`tracks.md`](../tracks.md#track-types)).
 
 ## Independent from close-session
 
@@ -35,3 +35,7 @@ Their writes never trail each other: if a session ends with a clean ack-then-clo
 
 - [`ack-and-continue`](./ack-and-continue.md) — the lighter sibling. Same commit shape; minimal message ceremony; used for mid-execution chunking when no pause is intended.
 - [`save-point`](./save-point.md) — the heavier cousin. Home-only consolidation primitive; adds the ledger entry, blueprint-contract check, and archive offer on top of the ack's commit shape; refuses if any child track is open. A save-point on a dirty tree includes the implicit ack — the commit it produces *is* the acknowledgement of the working state.
+
+## Prerequisites
+
+Read [`git.md`](../git.md) (the two-repo contract, branches per track, the explicit `git -C` discipline) before acking.

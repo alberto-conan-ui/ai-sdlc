@@ -4,8 +4,8 @@
 
 ## What close-session leaves behind
 
-- **A journal entry for this session, if a track was mounted.** `journal/live/YYYY-MM-DD_NN.md`, with frontmatter (`date`, `session`, `track`, `focus`, `dials`, `posture`), a body covering the work done, and a **handover** section last — where the work stands, what the next session does first, what to watch.
-- **An updated registry.** `status/status.index.md` reflects the journal trail, the open-tracks list, the per-track drift summary, and the relevant pointers. The mounted track's record is unmounted (`mounted_by` cleared); the track itself persists for the next session to mount.
+- **A journal entry for this session, if a track was mounted.** `journal/live/YYYY-MM-DD_NN.md`, with frontmatter (`date`, `session`, `track`, `focus`), a body covering the work done, and a **handover** section last — where the work stands, what the next session does first, what to watch.
+- **An updated registry.** The journal trail gains this session's line in the journal index (`journal/live/live.index.md`); the focus's row in `status/status.stack.md` reflects any status change and its active-mark is cleared as the track unmounts. The mounted track's record is unmounted (`mounted_by` cleared); the track itself persists for the next session to mount.
 - **A Human-Lead-confirmed closing commit.** The journal write, the status update, and any drift already on the working tree are committed together on the mounted track's branches — `trunk` on home, or `track/<name>` on a child — as one closing commit per dirty repo. The session drafts a closing message; the Human Lead confirms or edits before the commit lands. This is how close-session avoids leaving a trail of uncommitted journal writes behind a clean working tree.
 - **An empty-track prompt, if applicable.** If the mounted track is a child that has zero commits on its branch since creation, close-session asks the Human Lead whether to [`abandon`](./abandon.md) the track now or keep it for a later session. Abandon is never automatic.
 
@@ -26,3 +26,7 @@ A session that never mounted a track writes **no journal entry** and updates not
 Each session closes independently. If another session is running concurrently on a different track, this close-session does not wait for it and does not look at its state. The other session's drift, journal, and unmount are its own concern; consolidation across all tracks happens at [`save-point`](./save-point.md), not at close-session.
 
 An engine binding may reinforce `close-session` with a session-end hook so a session cannot close without it. The reinforcement is advisory in practice — by the time a session-end hook fires, the session is already closing and may not get a turn to act on the hook's instruction. The methodology does not depend on the reinforcement; close-session is intrinsic behaviour the session performs on itself before the user signals exit.
+
+## Prerequisites
+
+Read [`git.md`](../git.md) (the closing commit on the mounted track's branches, the drift check) and [`memory.md`](../memory.md) (the journal entry and handover) before closing.

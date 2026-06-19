@@ -1,18 +1,32 @@
 # Tracks
 
-A **track** is a persistent workspace within Memory — a branch + claim + posture + dials + focus pointer. Sessions mount tracks (one session per track at a time, one track per session); the **home** track is always present; child tracks branch from home and merge back. Tracks are what makes parallel sessions possible.
+A **track** is a persistent workspace within Memory — a branch + claim + focus pointer. Sessions mount tracks (one session per track at a time, one track per session); the **home** track is always present; child tracks branch from home and merge back. Tracks are what makes parallel sessions possible — and a track's **type** is what governs what a session may touch (there is no posture or mode layer; type is the gate).
 
-This pillar covers the workspace primitive itself: what a track is, how home and child tracks relate, how a session mounts a track, what a claim does, and how claims keep parallel tracks from colliding. The dashboard the registry sits in — `status.index.md` — is covered in [`status.md`](./status.md). The git arrangement that branches and merges run on top of is covered in [`git.md`](./git.md).
+This pillar covers the workspace primitive itself: the three track types, what a track is, how home and child tracks relate, how a session mounts a track, what a claim does, and how claims keep parallel tracks from colliding. The dashboard the registry sits in — `status.index.md` — is covered in [`status.md`](./status.md). The git arrangement that branches and merges run on top of is covered in [`git.md`](./git.md).
+
+## Track types
+
+What a session may touch is determined by its track type — not by any posture, mode, or dial (v0.7 removed those). There are three:
+
+| Type | Mounted? | Has a record? | Claim | May write |
+|---|---|---|---|---|
+| **Trackless** | no | no | — | nothing — read-only across the project; the query / "just looking" mode |
+| **Light** | no | no | journal + backlog only | the journal and the [backlog](./status.md#backlog), nothing else |
+| **Full** | **yes** (required) | yes (`tracks/<name>.track.md`) | a real, disjoint claim | everything within its claim — Payload + Memory |
+
+- **Trackless** is read-only and leaves no trace — no journal entry, no Memory write, no record. It is what a session is before it mounts, and the right shape for a spawned session that only *queries* the project.
+- **Light tracks** are **auxiliary to home**. They are *not* mounted, have *no* branch and *no* record; their journal and backlog writes land as **drift on trunk** (home's branch). A light track is **forbidden to [`ack`](./verbs/ack.md) or [`save-point`](./verbs/save-point.md)** — it cannot commit at all. A home session sees that drift and acknowledges it. This is the frictionless way to jot a backlog item or append a journal note without the mount ceremony, while the home track remains the sole commit gate.
+- **Full tracks** are the workspaces this pillar's primitive describes — mounted, branched, claimed, write-capable. Only full tracks need mounting; only full tracks carry a record.
+
+The rest of this pillar describes the **full track** primitive unless it says otherwise.
 
 ## The track primitive
 
-One file per track at `memory/tracks/<name>.track.md`. Every track carries:
+One file per full track at `memory/tracks/<name>.track.md` (trackless and light tracks have no record). Every full track carries:
 
 - **`name`** — unique among open tracks (reusable after the track is removed).
 - **`branch`** — the branch name used identically on both repos. Home's branch is `trunk`; child tracks use `track/<name>`. See [`git.md`](./git.md) for the branch arrangement.
 - **`claim`** — path prefixes the track may write across Payload and Memory. Disjoint from every other open track's claim; see [Claims](#claims).
-- **`posture`** — `chat` / `plan` / `reshape` / `execute`. See [Posture](./status.md#posture).
-- **`dials`** — altitude and commitment. See [The two dials](./status.md#the-two-dials).
 - **`focus`** (optional) — pointer to the focus this track is currently working in. A track may exist focus-less for exploratory work.
 - **`mounted_by`** (optional) — the session ID of the mounted session, when one exists.
 
@@ -20,38 +34,41 @@ One file per track at `memory/tracks/<name>.track.md`. Every track carries:
 
 The **home track** (`tracks/home.track.md`) is always present and sits on trunk — it has no separate branch. Home is uniform with child tracks in every other respect: same record shape, same fields, same verbs apply. (The name **`home`** replaced `master` in v0.6.1 — same role, no overload with git's old default branch name and no double-naming with the `trunk` branch the track sits on.)
 
-**Child tracks** are created via [`mount`](./verbs/mount.md) when contention requires it, and disposed via [`merge`](./verbs/merge.md) (lands work to home) or [`abandon`](./verbs/abandon.md) (discards). Topology is **flat** — home plus N siblings, no nesting. There is no "child of a child."
+**Child tracks** are created via [`spawn`](./verbs/spawn.md) from home when contention requires it, mounted via [`mount`](./verbs/mount.md), and disposed via [`merge`](./verbs/merge.md) (lands work to home) or [`abandon`](./verbs/abandon.md) (discards). Topology is **flat** — home plus N siblings, no nesting. There is no "child of a child," and there is no spawning from a child.
 
 Tracks **outlive sessions.** A child track created in session 80 may be unmounted at close, mounted again in session 82, continue its work, and finally land in session 85. The work-in-progress lives on the track, not the session that happened to be working it.
 
-This gives three real states for a focus: **actively worked** (focus + track + mounted session); **in-flight idle** (focus + track + no session mounted); **dormant** (focus exists, no track points at it). The project's focus stack — what is in flight versus paused — is **derived** from open tracks and their focus pointers, not stored separately. A focus with a track on it is in flight; a focus with no track is dormant.
+This gives three real states for a focus: **actively worked** (focus + track + mounted session); **in-flight idle** (focus + track + no session mounted); **dormant** (focus exists, no track points at it). Which focus a track is currently working — the *active* relationship — is **derived** from open tracks and their focus pointers, not stored separately: the [`status.stack.md`](./status.md#statusstackmd--the-focus-registry) active-mark records the track name *because* a track points there, and [`mount`](./verbs/mount.md) writes it. The focus's own **lifecycle status** (`draft` / `paused` / `in progress` / `done`) is a different fact — it is stored, on the focus's row in `status.stack.md`, and moved by [`advance`](./verbs/advance.md). So: *active* is derived from tracks; *status* is stored on the stack file. A focus with a track on it shows that track in its active-mark; a focus with no track has a blank active-mark and whatever lifecycle status it last reached.
 
 ## Sessions and mounting
 
 A **session** is a runtime instance. Sessions mount tracks; tracks outlive sessions.
 
-- **One session per track at a time.** Two sessions cannot mount the same track.
+Mounting applies to **full tracks** (trackless writes nothing; light tracks are not mounted):
+
+- **One session per track at a time.** Two sessions cannot mount the same full track.
 - **One track per session.** A session mounts at most one track. There is no swap mid-session — close the session and reopen to switch.
-- **Trackless** is a real state — a session that has not mounted any track. Trackless sessions are **read-only across the project**. The dials may be adjusted in-conversation but the change is volatile (no write to any record). Trackless sessions write **no journal entry** on close — they leave no trace.
+- **Trackless** is a real state — a session that has not mounted any track. Trackless sessions are **read-only across the project** and write **no journal entry** on close — they leave no trace. A session that only needs to write the journal or a backlog item operates as a **light track** (see [Track types](#track-types)) rather than mounting.
 
 ### The mount flow
 
-When a trackless session is asked to write:
+When a trackless session is asked to make a full-track write:
 
 - **Home is free** → auto-mount home. The single-session common case is unchanged from prior versions; no prompt.
-- **Home is taken by another session** → the session asks the Human Lead: mount an existing unmounted child track, create a new child track, or stay trackless and not perform this write.
+- **Home is taken by another session** → the session asks the Human Lead: mount an existing unmounted child track, or stay trackless and not perform this write. If no suitable child exists, one must first be **spawned from a home session** — `mount` does not create tracks.
 
-The Human Lead may also invoke [`mount`](./verbs/mount.md) explicitly up front — useful when the track is known before any write is needed. Creating a new child track requires only a **unique name** and a **non-overlapping claim**; a focus pointer is optional and can be added later.
+The Human Lead may also invoke [`mount`](./verbs/mount.md) explicitly up front — useful when the track is already open and known before any write is needed.
 
-### Mount, merge, abandon
+### Spawn, mount, merge, abandon
 
-Three verbs manage a track's lifecycle:
+Four verbs manage a child track's lifecycle, and the order matters:
 
-- **[`mount`](./verbs/mount.md)** — attach a session to a track. The entry to write-capable state.
+- **[`spawn`](./verbs/spawn.md)** — **create** a child track. Run from **home**: the Human Lead and the session settle the new track's name, claim, and focus, then `spawn` writes the record (`tracks/<name>.track.md`) and branches `track/<name>`. It does *not* attach a session. This is how a child is born — managed from the main track, deliberately, not conjured mid-mount.
+- **[`mount`](./verbs/mount.md)** — **attach** a session to an already-opened track. The entry to write-capable state. A *different* session from the one that spawned it typically mounts a child.
 - **[`merge`](./verbs/merge.md)** — land a child track's work onto home, then remove the track record and delete the branch. HL-invoked; sessions never self-merge.
 - **[`abandon`](./verbs/abandon.md)** — discard a child track. Auto-acks any pending work first (commits survive in git's object store, recoverable), then deletes the branch and removes the track record. HL-invoked, with a confirmation prompt.
 
-Home is never merged or abandoned; it is permanent.
+The full child lifecycle is **spawn → mount → … → merge/abandon**. Home is never spawned (it exists from `init`), merged, or abandoned; it is permanent.
 
 ## Claims
 
@@ -70,11 +87,11 @@ The focus's `claim` field is set when the focus is created. The session proposes
 
 [`save-point`](./verbs/save-point.md) is the consolidation primitive for tracks. It is home-only, and it refuses if any child track is open. To take a save-point, every in-flight child track must be merged or abandoned first. This makes save-points represent a coherent project state — one trunk, no in-flight branches.
 
-[`ack`](./verbs/ack.md) and [`ack-and-continue`](./verbs/ack-and-continue.md) are the everyday acknowledgements; both work on any track's branches. `ack` is the deliberate pause-point variant; `ack-and-continue` is the light mid-execution variant. Save-point is the rarer "everything consolidated" moment.
+[`ack`](./verbs/ack.md) and [`ack-and-continue`](./verbs/ack-and-continue.md) are the everyday acknowledgements; both work on any **full** track's branches. `ack` is the deliberate pause-point variant; `ack-and-continue` is the light mid-execution variant. Save-point is the rarer "everything consolidated" moment. **Light tracks are forbidden to `ack` and `save-point`** — their journal/backlog drift on trunk is acknowledged by a home session, not by the light track itself.
 
 ## Where else tracks appear in the methodology
 
 - [`status.md`](./status.md) — status as the registry that lists open tracks; the orient flow at session open.
 - [`memory.md`](./memory.md) — tracks as a Memory component, the `track` file-schema entry.
 - [`git.md`](./git.md) — the branch arrangement (`trunk` for home, `track/<name>` for children), the two-repos-together rule, drift signal mechanics per track.
-- [`verbs/verbs.index.md`](./verbs/verbs.index.md) — the Tracks group (`mount`/`merge`/`abandon`) and how every other verb behaves with tracks.
+- [`verbs/verbs.index.md`](./verbs/verbs.index.md) — the Tracks group (`spawn`/`mount`/`merge`/`abandon`) and how every other verb behaves with tracks.

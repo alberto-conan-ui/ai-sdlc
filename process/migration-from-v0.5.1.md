@@ -109,29 +109,13 @@ The body restructures into:
 
 The v0.5.1 "Focus stack" section becomes derived information — every open track points at a focus (or none), and the stack reads from those pointers. The section can be removed from `status.index.md` once the tracks registry conveys the same information; many projects will simply keep a brief "in-flight focuses" summary derived from open tracks until a future polish pass strips it.
 
-### 5. Backfill journal frontmatter
+### 5. Journal frontmatter — going forward only (do **not** rewrite history)
 
-Every existing journal entry under `memory/journal/live/` and `memory/journal/archive/` gains a `track` field. For v0.5.1 projects all existing sessions ran against master, so every backfilled entry gets `track: master`.
+From v0.6 on, a journal entry carries a `track` field. **New** entries get it; **existing** entries are left exactly as written. The journal is append-forward audit — past entries record what was true when they were written, and a project's history routinely spans several methodology versions (and several frontmatter schemas). Bulk-editing old entries to add a field they never had is the kind of history rewrite the append-forward rule exists to prevent, and it conflicts directly with later migrations (v0.6.1→v0.7 explicitly forbids editing past journal frontmatter).
 
-Walk each `.md` file in `journal/live/` and `journal/archive/`. Open the frontmatter and add the field next to `focus`:
+So: **change nothing under `journal/live/` or `journal/archive/`.** A reader infers the track of an unlabelled historical entry from context — for a project that only ever ran the single always-present track, every unlabelled entry is that track by definition. The schema gains the field; the audit trail keeps its provenance.
 
-```yaml
----
-type: journal
-title: ...
-date: ...
-session: ...
-track: master
-focus: ...
-dials: ...
-posture: ...
-...
----
-```
-
-The position of the field within the frontmatter does not matter (YAML keys are unordered), but consistency helps the reader — placing it just before `focus` matches the schema in [`memory.md`](./memory.md).
-
-The body, handover, and references of each entry are unchanged. This is a schema migration, not a content rewrite. The append-forward rule bends slightly here — these are existing entries being edited — but only for the addition of the new field. Nothing else in the file changes.
+> **Provenance.** Earlier drafts of this playbook told you to backfill `track: master` into every existing entry. That was wrong — it bent the append-forward rule and contradicted the v0.7 migration. Surfaced by the v0.7 RC dogfood; corrected here.
 
 ### 6. Commit both repos
 
