@@ -7,6 +7,7 @@ track: any (recovery runs from wherever the live session is)
 invoker: human-lead
 writes:
   - track record (mounted_by cleared)
+  - status.stack.md (active-mark cleared)
 contracts:
   - golden-rule
 updated: 2026-07-02
@@ -30,16 +31,17 @@ it.
 
 ## What releasing means
 
-Exactly one write: `mounted_by` → blank. Nothing else — the dead session's
+Two fields, nothing more: `mounted_by` → blank on the record, the active-mark → blank on the stack. Nothing else — the dead session's
 uncommitted drift on the track's branches **stays**, honestly dirty, waiting for the
 next mounting session to read (via orient's drift check) and for the Human Lead to
 acknowledge or discard through the ack family. Releasing does not clean, does not
 commit, does not judge the drift — untangling "what was that session doing" belongs
 to whoever mounts next, with the journal's last entry as the map.
 
-The active-mark in `status.stack.md` stays too — the *track* still points at the
-focus; only the session evaporated. (Mount-state and active-mark move together only
-when the track's life changes; a release changes the session, not the track.)
+The active-mark in `status.stack.md` clears too — release substitutes for the close
+the dead session never ran, and every unmount path (close, merge, abandon, release)
+clears the mark the same way. The track's focus *pointer* survives on its record;
+the next mount re-sets the mark.
 
 ## The operation
 
@@ -47,16 +49,16 @@ when the track's life changes; a release changes the session, not the track.)
    genuinely gone? (The session ID and the journal's last entry are the evidence to
    read back.)
 2. **Confirm the verb** (golden rule).
-3. **Clear the field**; `updated:` on the record.
+3. **Clear the fields**: `mounted_by` on the record, the active-mark on the stack; `updated:`.
 4. **State the track's condition**: released, its drift intact and waiting, its
-   focus still marked — mountable again.
+   focus pointer intact on the record — mountable again.
 
 ## Refusals
 
 - Not the Human Lead → refuse.
 - The session may be alive → refuse; never steal a mount.
 - Asked to also clean up the drift → refuse here; that is the next mounted
-  session's work through the proper verbs (this verb stays one-field small on
+  session's work through the proper verbs (this verb stays two-fields small on
   purpose — recovery tools that do more than they say are how recoveries go wrong).
 
 ## Related

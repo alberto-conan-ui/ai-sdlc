@@ -1,74 +1,115 @@
-# Verbs
+# Verbs — the map of operations
 
-A **verb** is a named operation the Human Lead invokes into a running session. A **bookend** is an operation the session runs on itself, at session open and close. Together they are every operation AI-Lore defines. This folder holds one document per operation; this index defines the concepts they share.
+A **verb** is a named operation — the unit of *what to do*, chosen per write under
+the golden rule (every write is confirmed to a verb; nothing writes unchosen). A
+**bookend** runs intrinsically at session open and close. A **process** orchestrates
+verbs, Human-Lead-started. This is the map; each verb is its own encyclopedia,
+loaded when invoked, self-contained.
 
-## Verb and invocation
+Verbs live in the resolution chain — core (this set) < parents < project-local,
+by-name lowest-wins; contracts accumulate. Core is never edited in place; disagree
+by shadowing ([`add-verb`](./add-verb.verb.md)). The un-overridable floor: the
+bootstrap + `add-verb` / `add-process` / `add-contract`.
 
-A verb is platform-neutral — it is defined here, in plain text, and it works on any engine. The session loads a verb's document when the verb is invoked, not before. That timing is the point: an instruction loaded the moment it is needed is high-signal, where the same instruction carried from session start degrades under task load.
+## Status tree
 
-When AI-Lore is installed into an engine ([`bindings.md`](./bindings.md)), each verb becomes that engine's native invocable unit — on Claude, a trigger-loaded skill. Installed or plain-text, the verb is the same; only the delivery differs.
+| Verb | One line |
+|---|---|
+| [`add-new-focus`](./add-new-focus.verb.md) | open a unit of intent (the focus encyclopedia) |
+| [`update-focus`](./update-focus.verb.md) | amend bodies in a focus's subtree; discard guard |
+| [`add-stage`](./add-stage.verb.md) / [`add-phase`](./add-phase.verb.md) | decompose: batch under focus / step under stage |
+| [`complete-stage`](./complete-stage.verb.md) / [`complete-phase`](./complete-phase.verb.md) | close a batch / a step, evidence-gated |
+| [`pause-focus`](./pause-focus.verb.md) / [`resume-focus`](./resume-focus.verb.md) | the side-state, out and back (staleness-checked) |
+| [`complete-focus`](./complete-focus.verb.md) | the Done call — **Human-Lead-only** |
+| [`archive-focus`](./archive-focus.verb.md) | relocate the finished subtree (HL) |
+| [`review-focus-tree`](./review-focus-tree.verb.md) | grooming: challenge what lingers |
 
-## What earns a verb
+## Buffers
 
-An operation is its own verb only when it is a **different kind** of operation, or **destructive** enough to need an unambiguous trigger. Everything else is a parameter of an existing verb. This test keeps the set small.
+| Verb | One line |
+|---|---|
+| [`add-note`](./add-note.verb.md) | capture to the notepad — cheapest write (light-writable) |
+| [`add-backlog-item`](./add-backlog-item.verb.md) | capture pre-focus work (light-writable) |
+| [`integrate-notepad`](./integrate-notepad.verb.md) | grooming: drain the knowledge inbox (home) |
+| [`review-backlog`](./review-backlog.verb.md) | grooming: polish the work inbox (home) |
 
-## Naming
+## Blueprint (authoring)
 
-Verbs take short imperative names — `write-lore`, `grow`. No project prefix: a verb is named for what it does, and an engine binding adds any namespacing the engine needs.
+| Verb | One line |
+|---|---|
+| [`add-verb`](./add-verb.verb.md) | author a verb / a shadow — **floor**; the shadowing encyclopedia |
+| [`update-verb`](./update-verb.verb.md) / [`retire-verb`](./retire-verb.verb.md) | amend / remove an authored verb |
+| [`add-process`](./add-process.verb.md) | author an orchestration — **floor**; steps are verb references only |
+| [`update-process`](./update-process.verb.md) / [`retire-process`](./retire-process.verb.md) | amend / remove |
+| [`add-contract`](./add-contract.verb.md) | author an inviolable rule — **floor**; the citation model |
+| [`update-contract`](./update-contract.verb.md) / [`retire-contract`](./retire-contract.verb.md) | sharpen / release a rule (HL) |
+| [`add-tooling`](./add-tooling.verb.md) / [`update-tooling`](./update-tooling.verb.md) / [`retire-tooling`](./retire-tooling.verb.md) | the registry cards |
+| [`update-mirror`](./update-mirror.verb.md) | keep the Payload's description true (all three motions) |
+| [`review-mirror`](./review-mirror.verb.md) | grooming: diff description against reality (home) |
 
-## The operations
+## Payload
 
-| Operation | Kind | What it does |
-|---|---|---|
-| [`write-lore`](./write-lore.md) | verb | Write or update Memory — the sole path by which lore is written |
-| [`grow`](./grow.md) | verb | Add a node to the status tree — level inferred from the attach point (focus / stage / phase) |
-| [`advance`](./advance.md) | verb | Move a focus's lifecycle status (`draft`/`paused`/`in progress`/`done`) on the stack file |
-| [`archive`](./archive.md) | verb | Finish a focus — relocate its subtree to `status/archive/`; Human-Lead-invoked |
-| [`spawn`](./spawn.md) | verb | Create a child track from home — opens its record + branch; Human-Lead-managed, does not mount |
-| [`mount`](./mount.md) | verb | Attach a session to an already-opened full track — the entry to write-capable state |
-| [`merge`](./merge.md) | verb | Land a child track's work onto home — Human-Lead-invoked |
-| [`abandon`](./abandon.md) | verb | Discard a child track — auto-acks first, then removes branch and record |
-| [`ack`](./ack.md) | verb | Commit both repos on the mounted track's branches at a deliberate pause point — acknowledge accumulated work |
-| [`ack-and-continue`](./ack-and-continue.md) | verb | Light mid-execution commit — same commit shape as `ack`, minimal ceremony, session continues |
-| [`save-point`](./save-point.md) | verb | Formal milestone on home — commit, ledger entry, blueprint-contract check (requires all children closed) |
-| [`publish`](./publish.md) | verb | Sync the Payload's curated subset into `publish/` — the project's external deliverable. Publishing projects only. |
-| [`init`](./init.md) | verb | Bootstrap a folder into an AI-Lore project |
-| [`upgrade`](./upgrade.md) | verb | Migrate a project to a new core version |
-| [`install`](./install.md) | verb | Bind AI-Lore into a specific AI engine |
-| [`orient`](./orient.md) | bookend | Session open — load the methodology, surface open tracks and drift |
-| [`close-session`](./close-session.md) | bookend | Session close — write the journal, handover, surface any drift on the mounted track |
+| Verb | One line |
+|---|---|
+| [`update-payload`](./update-payload.verb.md) | the floor for Payload writes — project verbs (via `add-verb`) are the preferred path |
 
-The verbs split into six groups by what they do:
+## Tracks
 
-- **Ordinary work** — `write-lore`. The sole path for every Memory write; run within ongoing work on the mounted track.
-- **Status tree** — `grow`, `advance`, `archive`. Own the **structure** of the status tree: `grow` adds a node (focus/stage/phase, level inferred from the attach point), `advance` moves a focus's lifecycle status, `archive` finishes a focus and relocates its subtree. The tree's structure is mutated *only* through these — no track may make free-hand structural edits (`write-lore` fills node bodies but never creates or moves nodes). See [`status.md`](./status.md#the-tree-is-verb-only).
-- **Tracks** — `spawn`, `mount`, `merge`, `abandon`. Manage the full-track workspaces sessions run in. `spawn` (from home) **creates** a child track's record + branch; `mount` **attaches** a session to an already-opened track; `merge` and `abandon` are the exits. The child lifecycle is spawn → mount → merge/abandon.
-- **Ack** — `ack`, `ack-and-continue`, `save-point`. Move a full track's working tree from dirty to clean by committing both repos. `ack` is the deliberate pause-point commit; `ack-and-continue` is the light mid-execution variant; `save-point` is home-only and consolidates. None of the three are coupled to `close-session` — they are independent verbs. **Light tracks may invoke none of them** (see below).
-- **Outward** — `publish`. Sync the curated subset of the Payload to the external deliverable. Publishing projects only; home-only.
-- **Lifecycle** — `init`, `upgrade`, `install`. Run once per project or once per engine.
+| Verb | One line |
+|---|---|
+| [`spawn-track`](./spawn-track.verb.md) | create a child workspace from home (HL) |
+| [`mount-track`](./mount-track.verb.md) | attach a session; auto-mount-home fast path |
+| [`update-track`](./update-track.verb.md) | reshape a claim / repoint a focus |
+| [`merge-track`](./merge-track.verb.md) / [`abandon-track`](./abandon-track.verb.md) | the exits: land / discard (HL) |
+| [`release-track`](./release-track.verb.md) | clear a dead session's stale mount (HL) |
 
-## What a session may touch is its track type
+## Acknowledgement
 
-v0.7 removed posture and dials. There is no chat/plan/reshape/execute mode and no register to set — **what a session may touch is governed entirely by its track type** (see [`tracks.md`](./tracks.md#track-types)):
+| Verb | One line |
+|---|---|
+| [`ack`](./ack.verb.md) | deliberate pause-point commit — the pairing encyclopedia (HL) |
+| [`ack-and-continue`](./ack-and-continue.verb.md) | light mid-execution commit (HL) |
+| [`save-point`](./save-point.verb.md) | seal the accumulator into a milestone (HL, home-only, children closed) |
 
-- **Trackless** — read-only across the project; writes nothing, leaves no trace. The query / "just looking" mode.
-- **Light** — may write only the journal and the [backlog](./status.md#backlog), and **only those**; not mounted, no branch, no record. Its writes land as drift on trunk for a home session to acknowledge. A light track may not `ack`, `save-point`, or invoke any status-tree or track verb.
-- **Full** — mounted, claimed, branched; may write everything within its claim (Payload + Memory) through the appropriate verbs.
+Every ack-family commit is paired (payload-first) and appends its annotated row to
+the open `next.save-point.md` accumulator — cross-repo correlation by data, not
+heuristics.
 
-The track type is the gate — a write a session's type does not permit is refused. This replaces the posture machinery entirely; no flag is set per session, the type *is* the standing constraint.
+## Outward
 
-## Acknowledgement and drift
+| Verb | One line |
+|---|---|
+| [`add-reference`](./add-reference.verb.md) / [`remove-reference`](./remove-reference.verb.md) | consult-only links, in and out |
+| [`review-references`](./review-references.verb.md) | grooming: audit the outward links (home) |
+| [`add-parent`](./add-parent.verb.md) / [`remove-parent`](./remove-parent.verb.md) | inherit / stop inheriting from an upstream (HL) |
+| [`publish`](./publish.verb.md) | sync the curated deliverable (HL; Publishing projects) |
 
-The working tree's dirty state on a track's branch is the drift signal — unacknowledged work waiting for Human Lead review, per track. Three verbs move a track's tree from dirty to clean on its branches: `ack` (deliberate pause-point commit), `ack-and-continue` (light mid-execution commit), and `save-point` (formal commit + ledger; home-only; requires all children closed). Two further verbs end a child track's life: `merge` lands it on home, `abandon` discards it.
+## Lifecycle + journal
 
-`close-session` also commits — its own writes (journal, status) plus any drift on the working tree — as a Human-Lead-confirmed closing commit. The bookend's commit is independent from `ack` and the other ack-family verbs; close-session does not run them and they do not prompt about it.
-
-Sessions never self-ack, self-save-point, self-merge, or self-abandon — every landing onto canonical state is the Human Lead's act. close-session's closing commit is also Human-Lead-confirmed (the session drafts the message; the HL confirms before it lands), so the rule holds there too. The session flags drift at `orient` (across all open tracks) and at `close-session` (on the mounted track).
+| Verb | One line |
+|---|---|
+| [`init`](./init.verb.md) | bootstrap a folder into a project (HL) |
+| [`install`](./install.verb.md) | project the resolved set into an engine (HL) |
+| [`upgrade`](./upgrade.verb.md) | replace core wholesale; re-validate shadows (HL) |
+| [`archive-journal`](./archive-journal.verb.md) | roll the live journal (HL) |
 
 ## Bookends
 
-`orient` and `close-session` are not invoked by the Human Lead — they have no external trigger. The session opens by orienting and closes by closing; it is intrinsic behaviour. An engine binding may *reinforce* a bookend with a hook so it cannot be skipped, but the methodology never depends on the reinforcement.
+| Bookend | One line |
+|---|---|
+| [`orient`](./orient.verb.md) | session open: floor + thin core, registry, chain, drift |
+| [`close-session`](./close-session.verb.md) | session close: journal, handover, closing paired commit, unmount |
 
-## Verbs declare their prerequisites
+## Core processes
 
-A verb is loaded only when invoked (its content is high-signal exactly then, not carried from session start where it degrades). From v0.7 the same lazy discipline extends to the **pillars**: a session loads only a thin eager core at [`orient`](./orient.md) (`project-structure.md`, `status.md`, this index), and each verb and bookend **declares the pillars it needs** in a *Prerequisites* line. The verb is the chokepoint — a session cannot reach the action without passing the declaration, so the load is guaranteed, not left to judgement. `ack` names `git.md`; `mount` names `tracks.md`; `grow`/`archive` name `status.md` and `memory.md`; and so on. Indexes support ad-hoc browsing, but **correctness rides on the declared prerequisites**, not on the session noticing it is missing context. See the load model in [`ai_readme.md`](./ai_readme.md).
+| Process | Composes |
+|---|---|
+| [`groom`](../processes/groom.process.md) | the five grooming verbs — the tidy-the-project sweep |
+| [`close-out`](../processes/close-out.process.md) | complete-focus → archive-focus → save-point |
+
+## Transitional note (v0.8 build)
+
+The v0.7 pillar files (`project-structure.md`, `status.md`, `memory.md`,
+`tracks.md`, `git.md`, `bindings.md`) remain in this folder as reference while
+their content finishes dissolving into the encyclopedias; the v0.7 verb files they
+link to are superseded by the `*.verb.md` set above.
