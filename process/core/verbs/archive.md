@@ -9,7 +9,7 @@ Archiving is the discipline pre-v0.7 lacked. A `done` focus that lingers in the 
 1. **Ensure a mounted track.** The focus must be within the mounted track's claim, and must already be **`done`** — run [`advance`](./advance.md) to `done` first (a Human-Lead-confirmed move).
 2. **Relocate the subtree.** Move the focus's whole folder — the focus, its stages, its phases — to `memory/status/archive/`, preserving its internal shape.
 3. **Fix the indexes.** Remove the focus from the active root index's Children; add it under `archive/`'s index. Pure wiring, both ends.
-4. **Settle the registry.** Drop the focus's row from [`status.stack.md`](../status.md#statusstackmd--the-focus-registry) — the live registry holds only un-archived focuses; the focus's record lives on under `archive/`.
+4. **Settle the registry.** Drop the focus's row from [`status.stack.md`](./status.md#statusstackmd--the-focus-registry) — the live registry holds only un-archived focuses; the focus's record lives on under `archive/`.
 
 ## Human-Lead-invoked
 
@@ -17,4 +17,4 @@ Archiving is the discipline pre-v0.7 lacked. A `done` focus that lingers in the 
 
 ## Prerequisites
 
-Read [`status.md`](../status.md) (the tree and the stack file) and [`memory.md`](../memory.md) (tree discipline) before archiving.
+Read [`status.md`](./status.md) (the tree and the stack file) and [`memory.md`](./memory.md) (tree discipline) before archiving.

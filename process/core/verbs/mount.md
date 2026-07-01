@@ -1,6 +1,6 @@
 # mount
 
-`mount` attaches a session to a **full track**. A trackless session can read everything in the project but cannot write; mounting is how a session enters full write-capable state. (Light tracks are not mounted — they write the journal/backlog directly; see [`tracks.md`](../tracks.md#track-types).)
+`mount` attaches a session to a **full track**. A trackless session can read everything in the project but cannot write; mounting is how a session enters full write-capable state. (Light tracks are not mounted — they write the journal/backlog directly; see [`tracks.md`](./tracks.md#track-types).)
 
 ## When mount fires
 
@@ -17,7 +17,7 @@ If home is mounted by another session, or if unmounted child tracks are open, th
 - **Auto-mount home.** Silent. The session reads `tracks/home.track.md`, takes its claim and focus pointer, and writes its session ID into the track's `mounted_by` field. If home has no `claim` set on its record and the active focus carries one, home's working claim is seeded from `focus.claim` at this moment. If home's claim is already set (from a previous session's polish), it is preserved — focus switch is the trigger that re-seeds, not plain mount. Home's branch is `trunk`; no branch operation is needed.
 - **Mount an existing child.** The session reads `tracks/<name>.track.md` (opened earlier by [`spawn`](./spawn.md)), takes its claim and focus, writes its session ID into `mounted_by`, and checks out `track/<name>` on both the lore repo and the Payload repo.
 
-In all three cases, the open-tracks registry in `status.index.md` is updated to reflect the new mount. If the mounted track has a focus pointer, `mount` also writes the track's name into that focus's **active-mark** in [`status.stack.md`](../status.md#statusstackmd--the-focus-registry) — the active relationship is set here, not by hand. Unmounting (at close, merge, or abandon) clears it.
+In all three cases, the open-tracks registry in `status.index.md` is updated to reflect the new mount. If the mounted track has a focus pointer, `mount` also writes the track's name into that focus's **active-mark** in [`status.stack.md`](./status.md#statusstackmd--the-focus-registry) — the active relationship is set here, not by hand. Unmounting (at close, merge, or abandon) clears it.
 
 ## Walking the chain
 
@@ -37,4 +37,4 @@ A session that only needs to read (trackless) or to jot the journal/backlog (lig
 
 ## Prerequisites
 
-Read [`tracks.md`](../tracks.md) (the track primitive, claims, the mount flow) and [`git.md`](../git.md) (checking out a track's branch on both repos) before mounting.
+Read [`tracks.md`](./tracks.md) (the track primitive, claims, the mount flow) and [`git.md`](./git.md) (checking out a track's branch on both repos) before mounting.

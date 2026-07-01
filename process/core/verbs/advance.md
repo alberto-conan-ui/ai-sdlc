@@ -2,7 +2,7 @@
 
 `advance` moves a focus's lifecycle status. It is one of the three verbs that own the status tree's structure — [`grow`](./grow.md) adds, `advance` moves status, [`archive`](./archive.md) finishes.
 
-The focus statuses are a fixed enum: **`draft` → `in progress` → `done`**, with **`paused`** as a side state. `advance` is the only way to change them, and it updates exactly one thing: the focus's row in [`status.stack.md`](../status.md#statusstackmd--the-focus-registry).
+The focus statuses are a fixed enum: **`draft` → `in progress` → `done`**, with **`paused`** as a side state. `advance` is the only way to change them, and it updates exactly one thing: the focus's row in [`status.stack.md`](./status.md#statusstackmd--the-focus-registry).
 
 ## The transitions
 
@@ -19,4 +19,4 @@ The focus statuses are a fixed enum: **`draft` → `in progress` → `done`**, w
 
 ## Prerequisites
 
-Read [`status.md`](../status.md) (the status enum and the stack file) before advancing.
+Read [`status.md`](./status.md) (the status enum and the stack file) before advancing.

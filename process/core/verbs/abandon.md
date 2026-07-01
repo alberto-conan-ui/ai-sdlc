@@ -39,4 +39,4 @@ Abandon and [`close-session`](./close-session.md) are orthogonal. The auto-ack h
 
 ## Prerequisites
 
-Read [`tracks.md`](../tracks.md) (the track lifecycle) and [`git.md`](../git.md) (the auto-ack and branch deletion on both repos) before abandoning.
+Read [`tracks.md`](./tracks.md) (the track lifecycle) and [`git.md`](./git.md) (the auto-ack and branch deletion on both repos) before abandoning.

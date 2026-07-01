@@ -11,7 +11,7 @@ The steps below are sequential and load-bearing — each depends on what the pre
 1. **Choose the project name.** A filesystem-safe directory segment: `^[a-zA-Z0-9_][a-zA-Z0-9_-]*$`. Refuse if an enclosing ancestor already contains a `.ai-lore-<name>/` with the same name.
 2. **Choose the project shape.** Two options:
    - **Default** — the Payload is what ships. Payload files sit at the project root directly; no `payload/` folder, no `publish/`. Most projects are this shape.
-   - **Publishing** — the Payload lives in a `payload/` folder, paired with a `publish/` sibling that carries the curated deliverable (see [Publish](../project-structure.md#publish)). For projects whose deliverable is a folder elsewhere (Google Drive, a static site, a client folder, any path-addressable destination). The Human Lead names the `publish/` target — either a real local directory or a symlink to an external mount.
+   - **Publishing** — the Payload lives in a `payload/` folder, paired with a `publish/` sibling that carries the curated deliverable (see [Publish](./project-structure.md#publish)). For projects whose deliverable is a folder elsewhere (Google Drive, a static site, a client folder, any path-addressable destination). The Human Lead names the `publish/` target — either a real local directory or a symlink to an external mount.
 3. **Create the Lore folder** — `.ai-lore-<project_name>/`.
 4. **Write the manifest** — `workspace.yaml` with `project_name` and `core_version`. If the project shape is Publishing, add the `publish:` block — `path` (defaults to `./publish`) and, if a symlink target is set, `target`.
 5. **Place the methodology.** Two pieces:
@@ -23,7 +23,7 @@ The steps below are sequential and load-bearing — each depends on what the pre
    - **Create `<project>/payload/`** as an empty directory. This is the workshop; the Payload's contents live inside it.
    - **Create `<project>/publish/`.** If `publish.target` is set in `workspace.yaml`, create the symlink: `<project>/publish` → the target path. If only `publish.path` is set, create an empty directory there.
    - The publish process itself (`blueprint/processes/publish.process.md`) is **not** seeded by `init` — it is a project-specific recipe authored at first use; until it exists, the [`publish`](./publish.md) verb refuses.
-7. **Initialise the Memory git repository** — `.ai-lore-<project>/memory/` is its own git repo, separate from the Payload. The Payload repo, if not already initialised, is the Project root. `init` adds `.ai-lore-<project_name>/`, `publish/`, and `out/` to the Payload's `.gitignore` — the Lore folder, the Publish target, and the scratch folder are excluded from Payload tracking (the `publish/` entry is harmless on default-shape projects). It also creates an empty `out/` at the project root (the disposable-scratch catch-all). See [`git.md`](../git.md) for the full git contract.
+7. **Initialise the Memory git repository** — `.ai-lore-<project>/memory/` is its own git repo, separate from the Payload. The Payload repo, if not already initialised, is the Project root. `init` adds `.ai-lore-<project_name>/`, `publish/`, and `out/` to the Payload's `.gitignore` — the Lore folder, the Publish target, and the scratch folder are excluded from Payload tracking (the `publish/` entry is harmless on default-shape projects). It also creates an empty `out/` at the project root (the disposable-scratch catch-all). See [`git.md`](./git.md) for the full git contract.
 8. **Lay the Memory skeleton** via [`write-lore`](./write-lore.md):
    - `status/status.index.md` as the status-tree root index — pure wiring (pointers to the tree, the stack file, the backlog, blueprint, and save-points); `status/status.stack.md` as the focus registry (empty at init); `status/backlog/` with its index (empty)
    - `tracks/tracks.index.md` and `tracks/home.track.md` — home is created at init with no focus pointer, branch `trunk`, claim implicit ("everything not claimed by an open child"). Home is a full track; there is no posture or dials field (v0.7 removed them). The open-tracks registry is updated to include home
@@ -43,4 +43,4 @@ The steps below are sequential and load-bearing — each depends on what the pre
 
 ## Prerequisites
 
-Read [`project-structure.md`](../project-structure.md) (the disk layout, the manifest, the project shapes), [`memory.md`](../memory.md) (the skeleton to lay), and [`git.md`](../git.md) (the two-repo setup and `.gitignore` entries) before initialising.
+Read [`project-structure.md`](./project-structure.md) (the disk layout, the manifest, the project shapes), [`memory.md`](./memory.md) (the skeleton to lay), and [`git.md`](./git.md) (the two-repo setup and `.gitignore` entries) before initialising.

@@ -10,10 +10,10 @@ A session that edits a Memory file directly has bypassed the verb — that is a 
 
 ## What writes, by track type
 
-`write-lore` honours the **track type** — there is no posture gate (v0.7 removed it). See [`tracks.md`](../tracks.md#track-types):
+`write-lore` honours the **track type** — there is no posture gate (v0.7 removed it). See [`tracks.md`](./tracks.md#track-types):
 
 - **Trackless** — cannot write. A trackless session asked to write triggers the [`mount`](./mount.md) flow: home is auto-mounted if free, otherwise the Human Lead is prompted (or the session stays trackless and skips the write). If the only thing being written is a journal entry or a backlog item, the session is a **light track** and writes those directly — no mount.
-- **Light** — may write **only** the journal and the [backlog](../status.md#backlog). Placement, schema, and the journal/backlog-only restriction all apply; the writes land as drift on trunk for a home session to acknowledge (a light track cannot `ack`). Any other target is refused.
+- **Light** — may write **only** the journal and the [backlog](./status.md#backlog). Placement, schema, and the journal/backlog-only restriction all apply; the writes land as drift on trunk for a home session to acknowledge (a light track cannot `ack`). Any other target is refused.
 - **Full** — may write anything within its claim, through `write-lore` (bodies) and the status-tree verbs (structure).
 
 ## Inputs
@@ -35,11 +35,11 @@ A session that edits a Memory file directly has bypassed the verb — that is a 
    - milestone → `save-points/`
 
    The Human Lead names *what*; you decide *where*. Never write the Payload.
-2. **Check the claim.** The resolved path must be in the mounted track's claim, or be one of the shared carve-outs (`*.index.md` files, or `status.index.md`). A path outside the claim is refused — the Human Lead extends the claim, mounts a different track, or skips the write. See [`tracks.md`](../tracks.md#claims).
+2. **Check the claim.** The resolved path must be in the mounted track's claim, or be one of the shared carve-outs (`*.index.md` files, or `status.index.md`). A path outside the claim is refused — the Human Lead extends the claim, mounts a different track, or skips the write. See [`tracks.md`](./tracks.md#claims).
 3. **Walk the focus chain.** Place the target in the chain and fix any ancestry reference the write disturbs. A write that leaves a stale reference above the target has not finished.
 4. **Draft the write**, then check it against the golden rules.
 5. **Run the discard guard.**
-6. **Write** — including the schema frontmatter for the file's `type` (see [`memory.md`](../memory.md)).
+6. **Write** — including the schema frontmatter for the file's `type` (see [`memory.md`](./memory.md)).
 
 ## One operation, one guard
 
@@ -62,4 +62,4 @@ Check the drafted output against all three before the write lands. They are chec
 
 ## Prerequisites
 
-Read [`memory.md`](../memory.md) (the file schema, placement, tree discipline) and [`tracks.md`](../tracks.md) (claim enforcement) before writing.
+Read [`memory.md`](./memory.md) (the file schema, placement, tree discipline) and [`tracks.md`](./tracks.md) (claim enforcement) before writing.

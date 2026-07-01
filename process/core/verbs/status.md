@@ -33,9 +33,9 @@ Stage and phase bodies carry intent, gate, stack, and active-child pointer. The 
 
 ### The tree is verb-only
 
-The status tree's **structure** — folders, indexes, hierarchy, and each focus's row in the stack file — is mutated **only through the status-tree verbs**: [`grow`](./verbs/grow.md) (add a node), [`advance`](./verbs/advance.md) (move a focus's status), [`archive`](./verbs/archive.md) (finish a focus and relocate its subtree). Each verb carries a fixed step-list that preserves the four shape rules above, so the tree cannot rot into the free-for-all the action tree allowed.
+The status tree's **structure** — folders, indexes, hierarchy, and each focus's row in the stack file — is mutated **only through the status-tree verbs**: [`grow`](./grow.md) (add a node), [`advance`](./advance.md) (move a focus's status), [`archive`](./archive.md) (finish a focus and relocate its subtree). Each verb carries a fixed step-list that preserves the four shape rules above, so the tree cannot rot into the free-for-all the action tree allowed.
 
-Free-form structural editing is refused for *every* track — there is no free-hand path into the tree's structure. [`write-lore`](./verbs/write-lore.md) still fills node **bodies** (the gate text, the context prose) under claim, but it can never create, move, or restructure nodes. Structure is the verbs' job; substance is `write-lore`'s.
+Free-form structural editing is refused for *every* track — there is no free-hand path into the tree's structure. [`write-lore`](./write-lore.md) still fills node **bodies** (the gate text, the context prose) under claim, but it can never create, move, or restructure nodes. Structure is the verbs' job; substance is `write-lore`'s.
 
 ## status.stack.md — the focus registry
 
@@ -56,11 +56,11 @@ The one content file at the status-tree root, sibling to the root index. It is t
 - **in progress** — being worked. Review is *not* a separate state — a focus stays `in progress` while it awaits the Human Lead's Done call, right up until it's done. (This collapses the old "stuck in review forever" limbo.)
 - **done** — the Human Lead has closed it. (Collapses the old done/achieved split.)
 
-**The active-mark is per-track.** It holds the **track name** — `home`, or `track/<name>` — for a focus a track is currently mounted on; blank otherwise. This honors v0.6 parallel tracks (each track has its own active focus) and doubles as "is anyone on this right now." It is set by [`mount`](./verbs/mount.md), not by hand.
+**The active-mark is per-track.** It holds the **track name** — `home`, or `track/<name>` — for a focus a track is currently mounted on; blank otherwise. This honors v0.6 parallel tracks (each track has its own active focus) and doubles as "is anyone on this right now." It is set by [`mount`](./mount.md), not by hand.
 
 The file is a **fixed table** by design: a table cell resists growing into a paragraph the way prose doesn't. That shape *is* the anti-bloat mechanism — the same logic as the strict indexes.
 
-**What is no longer here.** Earlier `status.index.md` also carried a journal trail, a drift summary, and blueprint/save-point pointers. In v0.7 those leave status: the **journal trail** lives in the journal's own index ([`memory.md`](./memory.md) journal section) as its single source; **drift** is derived at [`orient`](./verbs/orient.md) and stored nowhere; the **blueprint and save-point pointers** are pure wiring and live in the root index's References section. Status carries focus status, and nothing else.
+**What is no longer here.** Earlier `status.index.md` also carried a journal trail, a drift summary, and blueprint/save-point pointers. In v0.7 those leave status: the **journal trail** lives in the journal's own index ([`memory.md`](./memory.md) journal section) as its single source; **drift** is derived at [`orient`](./orient.md) and stored nowhere; the **blueprint and save-point pointers** are pure wiring and live in the root index's References section. Status carries focus status, and nothing else.
 
 ## Focus
 
@@ -77,7 +77,7 @@ A track may point at a focus to declare what work it is doing in that workspace.
 
 The focus chain *is* the orientation chain, walked over the status tree. When a session is mounted on a track, the chain starts at the track's active focus and walks down through stages and phases until there is nothing below. Each node adds exactly one thing its parent does not already say; no node repeats its parent.
 
-**Status transitions and the Human Lead.** A session may [`advance`](./verbs/advance.md) a focus through `draft → in progress` (and `→ paused`), but **only the Human Lead moves a focus to `done`.** This is where human accountability lives at the focus level — the session delivers and may judge the work complete, but the close is the Human Lead's act.
+**Status transitions and the Human Lead.** A session may [`advance`](./advance.md) a focus through `draft → in progress` (and `→ paused`), but **only the Human Lead moves a focus to `done`.** This is where human accountability lives at the focus level — the session delivers and may judge the work complete, but the close is the Human Lead's act.
 
 ## Indexes
 
@@ -89,6 +89,6 @@ The **backlog** is where work that is *not yet a focus* is annotated — future 
 
 The backlog is a **tree of folders and item files** — group similar items into folders as deep as the work wants. Unlike the status tree, it carries no positional-naming rule and no depth cap; the backlog is informal by nature. The one discipline that keeps it navigable is the universal one: **every folder carries a standard index** (pure wiring), and **every item is a typed md file**.
 
-A backlog item **graduates into a focus** when the project commits to it: [`grow`](./verbs/grow.md) creates a focus informed by the item, and the item is then removed from the backlog. Until then it costs nothing and stays out of the focus registry.
+A backlog item **graduates into a focus** when the project commits to it: [`grow`](./grow.md) creates a focus informed by the item, and the item is then removed from the backlog. Until then it costs nothing and stays out of the focus registry.
 
-The backlog is one of the two surfaces a **light track** may write — the other is the journal (see [`tracks.md`](./tracks.md#track-types)). A backlog item is Memory *content*, so it is written through [`write-lore`](./verbs/write-lore.md), not through the status-tree verbs — those own the focus tree's structure, not the backlog.
+The backlog is one of the two surfaces a **light track** may write — the other is the journal (see [`tracks.md`](./tracks.md#track-types)). A backlog item is Memory *content*, so it is written through [`write-lore`](./write-lore.md), not through the status-tree verbs — those own the focus tree's structure, not the backlog.

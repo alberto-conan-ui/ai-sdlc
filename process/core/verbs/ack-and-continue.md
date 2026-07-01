@@ -35,4 +35,4 @@ Same rule as [`ack`](./ack.md) — there is no branch for a trackless session to
 
 ## Prerequisites
 
-Read [`git.md`](../git.md) (the two-repo contract, branches per track, the explicit `git -C` discipline) before committing.
+Read [`git.md`](./git.md) (the two-repo contract, branches per track, the explicit `git -C` discipline) before committing.

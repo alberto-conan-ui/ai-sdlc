@@ -36,4 +36,4 @@ Merge and [`close-session`](./close-session.md) are orthogonal. Merge lands the 
 
 ## Prerequisites
 
-Read [`tracks.md`](../tracks.md) (the track lifecycle and claims) and [`git.md`](../git.md) (the two-repo branch-merge contract) before merging.
+Read [`tracks.md`](./tracks.md) (the track lifecycle and claims) and [`git.md`](./git.md) (the two-repo branch-merge contract) before merging.

@@ -6,7 +6,7 @@ A **verb** is a named operation the Human Lead invokes into a running session. A
 
 A verb is platform-neutral — it is defined here, in plain text, and it works on any engine. The session loads a verb's document when the verb is invoked, not before. That timing is the point: an instruction loaded the moment it is needed is high-signal, where the same instruction carried from session start degrades under task load.
 
-When AI-Lore is installed into an engine ([`bindings.md`](../bindings.md)), each verb becomes that engine's native invocable unit — on Claude, a trigger-loaded skill. Installed or plain-text, the verb is the same; only the delivery differs.
+When AI-Lore is installed into an engine ([`bindings.md`](./bindings.md)), each verb becomes that engine's native invocable unit — on Claude, a trigger-loaded skill. Installed or plain-text, the verb is the same; only the delivery differs.
 
 ## What earns a verb
 
@@ -41,7 +41,7 @@ Verbs take short imperative names — `write-lore`, `grow`. No project prefix: a
 The verbs split into six groups by what they do:
 
 - **Ordinary work** — `write-lore`. The sole path for every Memory write; run within ongoing work on the mounted track.
-- **Status tree** — `grow`, `advance`, `archive`. Own the **structure** of the status tree: `grow` adds a node (focus/stage/phase, level inferred from the attach point), `advance` moves a focus's lifecycle status, `archive` finishes a focus and relocates its subtree. The tree's structure is mutated *only* through these — no track may make free-hand structural edits (`write-lore` fills node bodies but never creates or moves nodes). See [`status.md`](../status.md#the-tree-is-verb-only).
+- **Status tree** — `grow`, `advance`, `archive`. Own the **structure** of the status tree: `grow` adds a node (focus/stage/phase, level inferred from the attach point), `advance` moves a focus's lifecycle status, `archive` finishes a focus and relocates its subtree. The tree's structure is mutated *only* through these — no track may make free-hand structural edits (`write-lore` fills node bodies but never creates or moves nodes). See [`status.md`](./status.md#the-tree-is-verb-only).
 - **Tracks** — `spawn`, `mount`, `merge`, `abandon`. Manage the full-track workspaces sessions run in. `spawn` (from home) **creates** a child track's record + branch; `mount` **attaches** a session to an already-opened track; `merge` and `abandon` are the exits. The child lifecycle is spawn → mount → merge/abandon.
 - **Ack** — `ack`, `ack-and-continue`, `save-point`. Move a full track's working tree from dirty to clean by committing both repos. `ack` is the deliberate pause-point commit; `ack-and-continue` is the light mid-execution variant; `save-point` is home-only and consolidates. None of the three are coupled to `close-session` — they are independent verbs. **Light tracks may invoke none of them** (see below).
 - **Outward** — `publish`. Sync the curated subset of the Payload to the external deliverable. Publishing projects only; home-only.
@@ -49,10 +49,10 @@ The verbs split into six groups by what they do:
 
 ## What a session may touch is its track type
 
-v0.7 removed posture and dials. There is no chat/plan/reshape/execute mode and no register to set — **what a session may touch is governed entirely by its track type** (see [`tracks.md`](../tracks.md#track-types)):
+v0.7 removed posture and dials. There is no chat/plan/reshape/execute mode and no register to set — **what a session may touch is governed entirely by its track type** (see [`tracks.md`](./tracks.md#track-types)):
 
 - **Trackless** — read-only across the project; writes nothing, leaves no trace. The query / "just looking" mode.
-- **Light** — may write only the journal and the [backlog](../status.md#backlog), and **only those**; not mounted, no branch, no record. Its writes land as drift on trunk for a home session to acknowledge. A light track may not `ack`, `save-point`, or invoke any status-tree or track verb.
+- **Light** — may write only the journal and the [backlog](./status.md#backlog), and **only those**; not mounted, no branch, no record. Its writes land as drift on trunk for a home session to acknowledge. A light track may not `ack`, `save-point`, or invoke any status-tree or track verb.
 - **Full** — mounted, claimed, branched; may write everything within its claim (Payload + Memory) through the appropriate verbs.
 
 The track type is the gate — a write a session's type does not permit is refused. This replaces the posture machinery entirely; no flag is set per session, the type *is* the standing constraint.
@@ -71,4 +71,4 @@ Sessions never self-ack, self-save-point, self-merge, or self-abandon — every 
 
 ## Verbs declare their prerequisites
 
-A verb is loaded only when invoked (its content is high-signal exactly then, not carried from session start where it degrades). From v0.7 the same lazy discipline extends to the **pillars**: a session loads only a thin eager core at [`orient`](./orient.md) (`project-structure.md`, `status.md`, this index), and each verb and bookend **declares the pillars it needs** in a *Prerequisites* line. The verb is the chokepoint — a session cannot reach the action without passing the declaration, so the load is guaranteed, not left to judgement. `ack` names `git.md`; `mount` names `tracks.md`; `grow`/`archive` name `status.md` and `memory.md`; and so on. Indexes support ad-hoc browsing, but **correctness rides on the declared prerequisites**, not on the session noticing it is missing context. See the load model in [`ai_readme.md`](../ai_readme.md).
+A verb is loaded only when invoked (its content is high-signal exactly then, not carried from session start where it degrades). From v0.7 the same lazy discipline extends to the **pillars**: a session loads only a thin eager core at [`orient`](./orient.md) (`project-structure.md`, `status.md`, this index), and each verb and bookend **declares the pillars it needs** in a *Prerequisites* line. The verb is the chokepoint — a session cannot reach the action without passing the declaration, so the load is guaranteed, not left to judgement. `ack` names `git.md`; `mount` names `tracks.md`; `grow`/`archive` name `status.md` and `memory.md`; and so on. Indexes support ad-hoc browsing, but **correctness rides on the declared prerequisites**, not on the session noticing it is missing context. See the load model in [`ai_readme.md`](./ai_readme.md).

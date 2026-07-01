@@ -29,4 +29,4 @@ An engine binding may reinforce `close-session` with a session-end hook so a ses
 
 ## Prerequisites
 
-Read [`git.md`](../git.md) (the closing commit on the mounted track's branches, the drift check) and [`memory.md`](../memory.md) (the journal entry and handover) before closing.
+Read [`git.md`](./git.md) (the closing commit on the mounted track's branches, the drift check) and [`memory.md`](./memory.md) (the journal entry and handover) before closing.

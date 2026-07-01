@@ -26,4 +26,4 @@ Spawning a track is the Human Lead's decision, taken on home — the session pro
 
 ## Prerequisites
 
-Read [`tracks.md`](../tracks.md) (the track primitive, types, and claims) and [`git.md`](../git.md) (branching both repos together) before spawning.
+Read [`tracks.md`](./tracks.md) (the track primitive, types, and claims) and [`git.md`](./git.md) (branching both repos together) before spawning.

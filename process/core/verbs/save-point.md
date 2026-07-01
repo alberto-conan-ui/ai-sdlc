@@ -39,4 +39,4 @@ Save-point and [`close-session`](./close-session.md) are orthogonal. Save-point 
 
 ## Prerequisites
 
-Read [`git.md`](../git.md) (the two-repo contract and branches) and [`tracks.md`](../tracks.md) (save-point is home-only and requires every child closed) before save-pointing.
+Read [`git.md`](./git.md) (the two-repo contract and branches) and [`tracks.md`](./tracks.md) (save-point is home-only and requires every child closed) before save-pointing.

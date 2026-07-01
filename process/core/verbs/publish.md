@@ -16,7 +16,7 @@ A run of the project's `publish.process.md` — the project-specific recipe in `
 
 Three preconditions are checked before any write:
 
-- **Project declares Publishing.** `workspace.yaml` carries a `publish:` block (see [`project-structure.md`](../project-structure.md#publish)). On a default-shape project the verb refuses; nothing is written.
+- **Project declares Publishing.** `workspace.yaml` carries a `publish:` block (see [`project-structure.md`](./project-structure.md#publish)). On a default-shape project the verb refuses; nothing is written.
 - **The recipe exists.** `<lore>/memory/blueprint/processes/publish.process.md` is the recipe. Without it the verb has no instructions; it refuses and asks the Human Lead to author the recipe first.
 - **The session is mounted on home.** Publishing ships the canonical state; only home sits on trunk and carries that state. If the session is mounted on a child track, the verb refuses — close the session and reopen on home to publish.
 
@@ -24,7 +24,7 @@ A publish that touches the Payload, the Lore, or anywhere outside `publish/` is 
 
 ## The recipe — `publish.process.md`
 
-Project-specific, lives in `<lore>/memory/blueprint/processes/`. Per `blueprint`'s shape (see [`memory.md`](../memory.md)), processes are repeated procedures the project performs — `publish.process.md` is exactly that.
+Project-specific, lives in `<lore>/memory/blueprint/processes/`. Per `blueprint`'s shape (see [`memory.md`](./memory.md)), processes are repeated procedures the project performs — `publish.process.md` is exactly that.
 
 The recipe names what crosses the curation gate and how: which Payload files, folders, or sections are included; how they are transformed (rename, flatten, strip frontmatter, etc.); how the sync into `publish/` is executed (rsync, file copy, write-through to a mount); what is *not* included (drafts, working notes, internal-only material). The recipe is the project's design decision; the verb runs it faithfully.
 

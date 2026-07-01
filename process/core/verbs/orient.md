@@ -6,7 +6,7 @@ To get there, orient loads the methodology if it isn't already loaded, reads the
 
 ## What orient knows after running
 
-- **The methodology — the thin core, not everything.** Orient loads only the **eager core**: [`project-structure.md`](../project-structure.md) (the vocabulary), [`status.md`](../status.md) (the status tree and the registry), and [`verbs/verbs.index.md`](./verbs.index.md) (the map of operations). The remaining pillars — [`memory.md`](../memory.md), [`tracks.md`](../tracks.md), [`git.md`](../git.md), [`bindings.md`](../bindings.md) — load **on demand**, pulled by the verb or bookend that needs them (each verb declares its prerequisites). The core is what a session needs *before* it can reach a verb; everything else loads at the moment it is used, where it is high-signal. See [`ai_readme.md`](../ai_readme.md) for the load model.
+- **The methodology — the thin core, not everything.** Orient loads only the **eager core**: [`project-structure.md`](./project-structure.md) (the vocabulary), [`status.md`](./status.md) (the status tree and the registry), and [`verbs/verbs.index.md`](./verbs.index.md) (the map of operations). The remaining pillars — [`memory.md`](./memory.md), [`tracks.md`](./tracks.md), [`git.md`](./git.md), [`bindings.md`](./bindings.md) — load **on demand**, pulled by the verb or bookend that needs them (each verb declares its prerequisites). The core is what a session needs *before* it can reach a verb; everything else loads at the moment it is used, where it is high-signal. See [`ai_readme.md`](./ai_readme.md) for the load model.
 - **The registry.** `memory/status/status.stack.md` (the focus registry — what focuses exist, their status, the active-mark per track) and `memory/status/status.index.md` (the root index — wiring to the tree, blueprint, and save-points) have been read. The open-tracks list lives on the track records; the journal trail lives in the journal index. The session knows the landscape: which focuses are in flight, which tracks are open, which are mounted by other sessions.
 - **Track-aware depth.** The chain walk and detail-loading depend on what is open (see below).
 - **The state of both repos, per open track.** A `git status` check runs against every open track's branches on both repos. Drift is surfaced per-track in the readout.
@@ -22,7 +22,7 @@ The depth of orient's preparation depends on what is open:
 
 ## Drift check
 
-For each open track, orient checks the track's branch on both repos — `trunk` for home, `track/<name>` for a child — and surfaces the result per-track in the readout. The mechanics (`<lore>/memory/.git/` location, the explicit `git -C` discipline) live in [`git.md`](../git.md).
+For each open track, orient checks the track's branch on both repos — `trunk` for home, `track/<name>` for a child — and surfaces the result per-track in the readout. The mechanics (`<lore>/memory/.git/` location, the explicit `git -C` discipline) live in [`git.md`](./git.md).
 
 ## How it states the context
 
