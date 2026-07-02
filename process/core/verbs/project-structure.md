@@ -35,7 +35,7 @@ my-project/                           my-project/
 
 `out/` is the **disposable-scratch catch-all** — see [Scratch (`out/`)](#scratch-out) below. Like `publish/`, it sits at the project root and is in **no** git repo.
 
-Code repositories, specs, documentation sets — anything whose deliverable is the Payload itself — fit the default and need no Publish target. Projects whose deliverable is a folder elsewhere (a Drive folder, a static-site source, a client directory) declare Publishing — the Payload moves into a `payload/` folder so the curated `publish/` sibling can sit cleanly beside it. The choice is set at [`init`](./init.md); see [Publish](#publish) for the details.
+Code repositories, specs, documentation sets — anything whose deliverable is the Payload itself — fit the default and need no Publish target. Projects whose deliverable is a folder elsewhere (a Drive folder, a static-site source, a client directory) declare Publishing — the Payload moves into a `payload/` folder so the curated `publish/` sibling can sit cleanly beside it. The choice is set at [`init`](./lifecycle/init.verb.md); see [Publish](#publish) for the details.
 
 ### The Lore
 
@@ -75,16 +75,16 @@ The Lore folder is identical in both shapes — same `.ai-lore-<project_name>/` 
     └── <name>.md                      one file per referenced project
 ```
 
-The methodology is placed into the project at [`init`](./init.md) time, version-pinned by `core_version`. Two pieces:
+The methodology is placed into the project at [`init`](./lifecycle/init.verb.md) time, version-pinned by `core_version`. Two pieces:
 
 - **A two-line shim at `ai_readme.md` (project root)** — the AI-agnostic entry point. Says *"This project uses AI-Lore. Read `.ai-lore-<project_name>/process/ai_readme.md` and follow its instructions."* Any AI can be pointed at it.
 - **The full methodology under `.ai-lore-<project>/process/`** — pillars and verbs, copied verbatim. The real entry point lives here as `process/ai_readme.md`; the root shim is just the path-less handshake the Human Lead types.
 
-[`upgrade`](./upgrade.md) re-copies the methodology when the project moves to a new `core_version`. Engine bindings (see [`bindings.md`](./bindings.md)) layer engine-native delivery on top — they never replace this AI-agnostic baseline.
+[`upgrade`](./lifecycle/upgrade.verb.md) re-copies the methodology when the project moves to a new `core_version`. Engine bindings (see [`bindings.md`](./bindings.md)) layer engine-native delivery on top — they never replace this AI-agnostic baseline.
 
 ### The git arrangement
 
-Memory (`<lore>/memory/`) and Payload (the Project root) are each their own git repository. They commit together as one unit through [`ack`](./ack.md), [`save-point`](./save-point.md), and the track-lifecycle verbs. Child tracks branch both repos together as `track/<name>`; home sits on `trunk` in both. The full git contract — `.gitignore` rules, the `<lore>/memory/.git/` location wart, vendored `process/` untracking, `publish/` in no repo, branch arrangement, drift signal mechanics — is covered in [`git.md`](./git.md).
+Memory (`<lore>/memory/`) and Payload (the Project root) are each their own git repository. They commit together as one unit through [`ack`](./acknowledgement/ack.verb.md), [`save-point`](./acknowledgement/save-point.verb.md), and the track-lifecycle verbs. Child tracks branch both repos together as `track/<name>`; home sits on `trunk` in both. The full git contract — `.gitignore` rules, the `<lore>/memory/.git/` location wart, vendored `process/` untracking, `publish/` in no repo, branch arrangement, drift signal mechanics — is covered in [`git.md`](./git.md).
 
 ## The Lore folder is uniquely named per project
 
@@ -148,13 +148,13 @@ Publish is **optional.** A project with no `publish:` block in `workspace.yaml` 
 `payload/` and `publish/` sit at the project root, siblings to the Lore folder. The two folders carry different rules:
 
 - **`payload/` is the Payload** — read–write by a full track within its claim, tracked by the Payload repo.
-- **`publish/` is the deliverable** — written **only** by the [`publish`](./publish.md) verb. Writes outside the verb are refused regardless of track type. This keeps the curation gate honest.
-- **`publish/` may be a real directory** (the publish process writes into it) **or a symlink to an external mount** (a Drive folder, a static-site source, a deploy directory). The choice is per-project — declared in `workspace.yaml` and shaped at [`init`](./init.md).
+- **`publish/` is the deliverable** — written **only** by the [`publish`](./outward/publish.verb.md) verb. Writes outside the verb are refused regardless of track type. This keeps the curation gate honest.
+- **`publish/` may be a real directory** (the publish process writes into it) **or a symlink to an external mount** (a Drive folder, a static-site source, a deploy directory). The choice is per-project — declared in `workspace.yaml` and shaped at [`init`](./lifecycle/init.verb.md).
 - **The recipe** — what crosses from `payload/` to `publish/`, how the sync runs, what curation rules fire — lives in `<lore>/memory/blueprint/processes/publish.process.md`. The verb is platform-neutral; the recipe is project-specific.
 
-`publish/` is **derived state.** `payload/` is the source of truth; `publish/` is regenerable from `payload/` at any time via the [`publish`](./publish.md) verb. That asymmetry is the safety net: if `publish/` is corrupted, lost, or out of sync, re-publish.
+`publish/` is **derived state.** `payload/` is the source of truth; `publish/` is regenerable from `payload/` at any time via the [`publish`](./outward/publish.verb.md) verb. That asymmetry is the safety net: if `publish/` is corrupted, lost, or out of sync, re-publish.
 
-The `workspace.yaml` `publish:` block declares the path and optional symlink target — see [workspace.yaml](#workspaceyaml) above for the format. Presence of the block is the declaration; absence means a default Project, and the [`publish`](./publish.md) verb refuses.
+The `workspace.yaml` `publish:` block declares the path and optional symlink target — see [workspace.yaml](#workspaceyaml) above for the format. Presence of the block is the declaration; absence means a default Project, and the [`publish`](./outward/publish.verb.md) verb refuses.
 
 ## Scratch (`out/`)
 
@@ -164,4 +164,4 @@ The contrast with `publish/` is the point. Both live at the root and both are ou
 
 - **Nothing in `out/` is ever a source of truth.** It is disposable by definition — safe to delete at any time, never referenced as authoritative, never the single copy of anything. A write whose result must survive does not belong in `out/`; it belongs in the Payload or Memory.
 
-`out/` is **global, not per-track** — scratch needs no track-scoping, and a single folder avoids a per-track cleanup story. It is in **no git repo**: the Payload's `.gitignore` excludes it (written by [`init`](./init.md), alongside `.ai-lore-<project>/` and `publish/`), and the lore repo only ever covered `memory/`. See [`git.md`](./git.md#what-git-does-not-own).
+`out/` is **global, not per-track** — scratch needs no track-scoping, and a single folder avoids a per-track cleanup story. It is in **no git repo**: the Payload's `.gitignore` excludes it (written by [`init`](./lifecycle/init.verb.md), alongside `.ai-lore-<project>/` and `publish/`), and the lore repo only ever covered `memory/`. See [`git.md`](./git.md#what-git-does-not-own).

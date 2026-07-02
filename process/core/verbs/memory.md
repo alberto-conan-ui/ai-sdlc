@@ -29,13 +29,13 @@ Across every component, **emptiness is a valid state**. An empty knowledge tree,
 - **`tooling/`** — a registry of the executable resources the project owns: a build script, a doc generator, an auxiliary app. One entry per tool — its path, how to invoke it, its purpose, when to reach for it. Distinct from `processes/`: a process is a checklist the AI *executes by hand*; a tooling entry points at something that *executes for it*. The scripts themselves live in the Payload; the registry is the catalog.
 - **`mirror/`** — a description of the Payload's own shape. The Payload's directory tree is mirrored here, with a node where the project has something standing to say about an area: what it is, what it owns, what an AI session needs to know before working it. Most folders have no mirror node — emptiness is valid. Mirror is *committed* description; the knowledge tree is *learned* insight.
 
-**Save-points** — `memory/save-points/` is an append-only ledger that never rolls and is never archived. The [`save-point`](./save-point.md) verb records a milestone here — date, description, lore commit ID, Payload commit ID. A save-point must stay reachable forever, which is why journal files (which roll) cannot hold it.
+**Save-points** — `memory/save-points/` is an append-only ledger that never rolls and is never archived. The [`save-point`](./acknowledgement/save-point.verb.md) verb records a milestone here — date, description, lore commit ID, Payload commit ID. A save-point must stay reachable forever, which is why journal files (which roll) cannot hold it.
 
 **Knowledge tree** — the project's **long-term learning memory**, organised by the boundaries where different knowledge applies. Three branches: **reconciled** (validated, authoritative), **working** (structured drafts, not yet validated), **notepad** (low-friction, focus-scoped observations). Insights are prescriptive, not descriptive.
 
 ## Drift and acknowledgement
 
-Memory and Payload are both in git; the working-tree state on each track's branches is the project's drift signal. The mechanics — branches, the per-track drift check, the explicit `git -C` commands, what each verb commits — live in [`git.md`](./git.md). The methodology meaning: every Memory write is reviewable through [`write-lore`](./write-lore.md), and every commit through [`ack`](./ack.md), [`ack-and-continue`](./ack-and-continue.md), [`save-point`](./save-point.md), or [`close-session`](./close-session.md) is the Human Lead's act, not the session's.
+Memory and Payload are both in git; the working-tree state on each track's branches is the project's drift signal. The mechanics — branches, the per-track drift check, the explicit `git -C` commands, what each verb commits — live in [`git.md`](./git.md). The methodology meaning: every Memory write is reviewable through [`write-lore`](./status-tree/update-focus.verb.md), and every commit through [`ack`](./acknowledgement/ack.verb.md), [`ack-and-continue`](./acknowledgement/ack-and-continue.verb.md), [`save-point`](./acknowledgement/save-point.verb.md), or [`close-session`](./bookends/close-session.verb.md) is the Human Lead's act, not the session's.
 
 ## Tree discipline
 
@@ -44,7 +44,7 @@ Structural conventions that keep every memory tree navigable:
 - **Typed files.** Every file is `[name].[type].md` — the suffix says what it is without opening it.
 - **Index per folder.** Every folder carries `[folder-name].index.md`. Its body follows a three-section grammar: **References** (context this folder depends on, up and sideways), **Siblings** (companion files in the same folder), **Children** (nodes below). An index is **pure wiring** — pointers and structure only. Instructions, history, status narrative, and prose belong in the typed body files, never in an index. (This is enforcement of a long-standing rule, hardened in v0.7: an index stuffed with narrative is the defect that bloated pre-v0.7 status pages.)
 - **Single source.** Content lives in exactly one place; references point to it. All links point to `.md` files, never folders, using relative paths.
-- **Append-forward.** Memory moves forward by adding new artifacts alongside old ones. The [`write-lore`](./write-lore.md) verb is the sole path for every write.
+- **Append-forward.** Memory moves forward by adding new artifacts alongside old ones. The [`write-lore`](./status-tree/update-focus.verb.md) verb is the sole path for every write.
 
 ## The file schema
 
@@ -68,7 +68,7 @@ Every Memory file carries **YAML frontmatter plus a per-type body structure** �
 | `focus` | `status`, `focus_type` (`build`/`goal`), `claim` (optional — path prefixes the focus owns when active on a track) | gate (build) or vision (goal), context, stack, active child pointer, journal trail. **L1 of the status tree.** |
 | `stage` | `gated`, `status` | intent, gate, stack, active child pointer, journal trail. **L2 — a focus's child; may hold phases.** |
 | `phase` | `gated`, `status` | intent, gate, stack (optional), journal trail. **L3 — a stage's child; a buildable step, no children.** |
-| `backlog` | `status` (optional) | a future to-do, pre-focus; lives in `status/backlog/`; graduates into a focus via [`grow`](./grow.md). Not in `status.stack.md`. |
+| `backlog` | `status` (optional) | a future to-do, pre-focus; lives in `status/backlog/`; graduates into a focus via [`grow`](./status-tree/add-new-focus.verb.md). Not in `status.stack.md`. |
 | `journal` | `date`, `session`, `track` (name), `focus` (path) | session body, handover |
 | `blueprint` | `branch` (`contracts`/`processes`/`tooling`/`mirror`) | per-branch — contract text, process steps, tooling-registry entry, or area description |
 | `kt-node` | `branch` (`reconciled`/`working`/`notepad`) | insight format — Context / Insight / Source |

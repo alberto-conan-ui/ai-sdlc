@@ -40,6 +40,6 @@ executes through its own verb under its own confirmation.
 
 Every buffer drained or consciously smaller; every finding disposed on the record;
 the close states the full delta. If the sweep produced substantial writes, an
-[`ack`](../verbs/ack.verb.md) is the natural coda — and if the journal's live window
-has grown stale, offer [`archive-journal`](../verbs/archive-journal.verb.md) as an
+[`ack`](../verbs/acknowledgement/ack.verb.md) is the natural coda — and if the journal's live window
+has grown stale, offer [`archive-journal`](../verbs/lifecycle/archive-journal.verb.md) as an
 encore.

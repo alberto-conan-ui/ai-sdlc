@@ -4,7 +4,7 @@ AI-Lore is **platform-neutral plain text**. The methodology — the Memory model
 
 ## Two paths
 
-**Plain text.** The methodology works on any AI, with no setup. Point a session at the project and say *"read ai_readme.md"*. The entry point is at the project root (placed there by [`init`](./init.md)); the pillars and verbs sit under `.ai-lore-<project>/process/`. The session reads the methodology, orients, and works. Verbs are loaded the moment they are invoked. This path is always available and is the methodology in full.
+**Plain text.** The methodology works on any AI, with no setup. Point a session at the project and say *"read ai_readme.md"*. The entry point is at the project root (placed there by [`init`](./lifecycle/init.verb.md)); the pillars and verbs sit under `.ai-lore-<project>/process/`. The session reads the methodology, orients, and works. Verbs are loaded the moment they are invoked. This path is always available and is the methodology in full.
 
 **Installed.** AI-Lore can be embedded into an engine so its mechanisms carry the methodology automatically — verbs as the engine's native invocable units, bookends fired by engine hooks. Nothing about the methodology changes — installing changes *how it is delivered*, not *what it says*. Both paths share the same files on disk; installing wires those files into engine machinery so the engine triggers them without the Human Lead having to.
 
@@ -12,7 +12,7 @@ The plain-text path is the floor. Installing is an upgrade in delivery, never a 
 
 ## The install verb
 
-A binding is applied by the [`install`](./install.md) verb, invoked once per project per engine — `install-claude`, `install-gemini`, and so on. The engine names the binding. `install` reads the methodology already placed in the project and writes it into the target engine's native form.
+A binding is applied by the [`install`](./lifecycle/install.verb.md) verb, invoked once per project per engine — `install-claude`, `install-gemini`, and so on. The engine names the binding. `install` reads the methodology already placed in the project and writes it into the target engine's native form.
 
 Each engine has its own binding section below — what "native form" means there. Adding support for a new engine means adding a binding section and an `install` target; the methodology itself does not change.
 
@@ -79,11 +79,11 @@ The methodology never depends on either hook — bookends are intrinsic — but 
 
 If `.claude/settings.json` does not exist, install creates it with the two hook entries above. If it exists, install merges the `SessionStart` and `SessionEnd` hook entries while preserving every other key and entry — other hooks, permissions, etc., are untouched. The user's separate `.claude/settings.local.json` is never read or written. Re-install replaces these specific entries; nothing else.
 
-Re-running `install-claude` after [`upgrade`](./upgrade.md) re-projects the new methodology into the same locations.
+Re-running `install-claude` after [`upgrade`](./lifecycle/upgrade.verb.md) re-projects the new methodology into the same locations.
 
 ### Plan-mode collision
 
-Claude Code ships a built-in `/plan` slash command that enables a native plan mode. The mode forces plan files to `~/.claude/plans/`, outside the project — invisible to both AI-Lore git repos and to any future session. AI-Lore has **no plan posture** (v0.7 removed postures); design work happens by **growing the status tree** ([`grow`](./grow.md)) on a full track, where focuses/stages/phases persist and walk in the focus chain.
+Claude Code ships a built-in `/plan` slash command that enables a native plan mode. The mode forces plan files to `~/.claude/plans/`, outside the project — invisible to both AI-Lore git repos and to any future session. AI-Lore has **no plan posture** (v0.7 removed postures); design work happens by **growing the status tree** ([`grow`](./status-tree/add-new-focus.verb.md)) on a full track, where focuses/stages/phases persist and walk in the focus chain.
 
 There is nothing to redirect `/plan` *to* — AI-Lore exposes no `/ai-lore-plan`. Claude Code provides no mechanism to disable a built-in command, so `install-claude` handles the collision by **documentation**:
 
@@ -164,7 +164,7 @@ If `.gemini/settings.json` does not exist, install creates it with the two hook 
 
 `.gemini/commands/ai-lore-*.toml` files are overwritten by name on re-install. Other TOML files in `.gemini/commands/` (the user's own custom commands, or commands from extensions) are untouched.
 
-Re-running `install-gemini` after [`upgrade`](./upgrade.md) re-projects the new methodology into the same locations.
+Re-running `install-gemini` after [`upgrade`](./lifecycle/upgrade.verb.md) re-projects the new methodology into the same locations.
 
 ### No plan-mode collision
 
