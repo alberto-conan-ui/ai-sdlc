@@ -24,8 +24,8 @@ resolving lowest-wins only on direct name conflict.
 
 **The un-overridable floor**: the bootstrap (`ai_readme.md`) plus
 [`add-verb`](./add-verb.verb.md) / [`add-process`](./add-process.verb.md) /
-[`add-contract`](./add-contract.verb.md). Everything else, core included, is
-shadowable. A shadow carries a one-line *what it changes and why* — that line is
+[`add-contract`](./add-contract.verb.md) / [`run-process`](./run-process.verb.md).
+Everything else, core included, is shadowable. A shadow carries a one-line *what it changes and why* — that line is
 what makes `upgrade`'s shadow re-validation minutes instead of archaeology.
 
 Artifact **names never change** (a rename is retire + add) — names are how

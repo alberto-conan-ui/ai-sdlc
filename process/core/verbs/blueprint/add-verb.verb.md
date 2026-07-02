@@ -35,7 +35,7 @@ can never itself be shadowed away.
 
 The artifact shape, placement, the resolution chain, shadowing, and engine wiring:
 [`blueprint.md`](./blueprint.md). What this card adds: **the floor exception** —
-`add-verb`, `add-process`, `add-contract`, and the bootstrap cannot be shadowed;
+`add-verb`, `add-process`, `add-contract`, `run-process`, and the bootstrap cannot be shadowed;
 authoring the authoring verb with itself is the one circle the system refuses.
 A shadow states in one line what it changes and why (upgrade's re-validation reads
 that line). A name collision with an inherited verb *is* the shadow mechanism —

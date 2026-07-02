@@ -38,9 +38,9 @@ core, then parents (declaration order breaks ties), then project-local. Contract
 **accumulate** across the chain rather than replace, resolving lowest-wins only on
 direct conflict.
 
-**The un-overridable floor** is this file plus the three authoring verbs —
-`add-verb`, `add-process`, `add-contract`. Everything else, core included, is
-shadowable. The floor is what keeps a broken customization repairable.
+**The un-overridable floor** is this file plus four verbs — the authoring verbs
+`add-verb` / `add-process` / `add-contract`, and `run-process` (the process
+runner). Everything else, core included, is shadowable. The floor is what keeps a broken customization repairable.
 
 ## Opening a session
 

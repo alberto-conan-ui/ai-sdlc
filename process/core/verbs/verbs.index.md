@@ -9,7 +9,7 @@ loaded when invoked, self-contained.
 Verbs live in the resolution chain — core (this set) < parents < project-local,
 by-name lowest-wins; contracts accumulate. Core is never edited in place; disagree
 by shadowing ([`add-verb`](./blueprint/add-verb.verb.md)). The un-overridable floor: the
-bootstrap + `add-verb` / `add-process` / `add-contract`.
+bootstrap + `add-verb` / `add-process` / `add-contract` / `run-process`.
 
 ## Status tree
 
@@ -40,6 +40,7 @@ bootstrap + `add-verb` / `add-process` / `add-contract`.
 | [`add-verb`](./blueprint/add-verb.verb.md) | author a verb / a shadow — **floor**; the shadowing encyclopedia |
 | [`update-verb`](./blueprint/update-verb.verb.md) / [`retire-verb`](./blueprint/retire-verb.verb.md) | amend / remove an authored verb |
 | [`add-process`](./blueprint/add-process.verb.md) | author an orchestration — **floor**; steps are verb references only |
+| [`run-process`](./blueprint/run-process.verb.md) | drive an orchestration step-by-verb — **floor** (HL) |
 | [`update-process`](./blueprint/update-process.verb.md) / [`retire-process`](./blueprint/retire-process.verb.md) | amend / remove |
 | [`add-contract`](./blueprint/add-contract.verb.md) | author an inviolable rule — **floor**; the citation model |
 | [`update-contract`](./blueprint/update-contract.verb.md) / [`retire-contract`](./blueprint/retire-contract.verb.md) | sharpen / release a rule (HL) |
@@ -106,6 +107,9 @@ heuristics.
 |---|---|
 | [`groom`](../processes/groom.process.md) | the five grooming verbs — the tidy-the-project sweep |
 | [`close-out`](../processes/close-out.process.md) | complete-focus → archive-focus → save-point |
+| [`start-work`](../processes/start-work.process.md) | intention → focus → decomposition → mounted first step |
+| [`parallel-work`](../processes/parallel-work.process.md) | the child-track journey: spawn → mount → land/discard |
+| [`recover-session`](../processes/recover-session.process.md) | after a dead session: release → remount → keep/discard drift |
 
 ## Transitional note (v0.8 build)
 
