@@ -114,12 +114,26 @@ def set_core_version(ws_path, version):
     write(ws_path, s2)
 
 
+def is_project_root(d):
+    """A project root holds .ai-lore-<name>/ with a manifest at the v0.8 location
+    (memory/workspace.yaml) or the pre-v0.8 location (<lore>/workspace.yaml)."""
+    if not os.path.isdir(d):
+        return False
+    for name in os.listdir(d):
+        if name.startswith(".ai-lore-") and (os.path.isfile(os.path.join(d, name, "memory", "workspace.yaml"))
+                                            or os.path.isfile(os.path.join(d, name, "workspace.yaml"))):
+            return True
+    return False
+
+
 def find_project(start):
+    """Walk up from start to the nearest project root. Only used when --project is absent;
+    an explicit --project is taken as the root itself (never walked upward — a v0.7 copy
+    nested under a v0.8 project must not resolve to its ancestor)."""
     d = os.path.abspath(start)
     while True:
-        for name in sorted(os.listdir(d)) if os.path.isdir(d) else []:
-            if name.startswith(".ai-lore-") and os.path.isfile(os.path.join(d, name, "memory", "workspace.yaml")):
-                return d
+        if is_project_root(d):
+            return d
         parent = os.path.dirname(d)
         if parent == d:
             return None
@@ -136,6 +150,8 @@ class Project:
         self.memory = os.path.join(self.lore, "memory")
         self.blueprint = os.path.join(self.memory, "blueprint")
         self.ws_path = os.path.join(self.memory, "workspace.yaml")
+        if not os.path.isfile(self.ws_path) and os.path.isfile(os.path.join(self.lore, "workspace.yaml")):
+            self.ws_path = os.path.join(self.lore, "workspace.yaml")  # pre-v0.8 location; migrate moves it
         self.ws = load_workspace(self.ws_path)
         self.name = self.ws["project_name"] or lores[0][len(".ai-lore-"):]
 
@@ -228,7 +244,7 @@ def resolve(project, _seen=None):
     levels = [("core", {b: scan_branch(os.path.join(project.blueprint, b, "core"), b, False) for b in BRANCHES})]
     for i, ppath in enumerate(project.ws["parents"]):
         proot = os.path.normpath(os.path.join(project.root, ppath)) if not os.path.isabs(ppath) else ppath
-        if not find_project(proot) or find_project(proot) != os.path.abspath(proot):
+        if not is_project_root(proot):
             die(f"parent {ppath} is not an AI-Lore project root")
         parent = Project(proot)
         pres = resolve(parent, _seen)
@@ -745,9 +761,9 @@ def append_row(pr, verb, track, branch, payload_hash, summary):
 
 # ----------------------------------------------------------------------------- migrate 0.7 → 0.8
 def cmd_migrate(args):
-    root = find_project(args.project)
-    if not root:
-        die("not inside an AI-Lore project")
+    root = os.path.abspath(args.project)
+    if not is_project_root(root):
+        die(f"{root} is not an AI-Lore project root (no .ai-lore-<name>/ with a workspace.yaml at either the v0.7 or v0.8 location)")
     lores = [n for n in os.listdir(root) if n.startswith(".ai-lore-")]
     lore = os.path.join(root, lores[0])
     mem = os.path.join(lore, "memory")
@@ -804,6 +820,8 @@ def cmd_migrate(args):
                 s = read(np_idx).rstrip("\n")
                 if "(empty" in s:
                     s = s.replace("(empty)", "").replace("(empty — drained)", "").rstrip("\n")
+                if s.endswith("## Children"):
+                    s += "\n"
                 write(np_idx, s + f"\n- [{slug}.note.md](./{slug}.note.md) — from `knowledge-tree/{rel}`; awaiting integrate-notepad.\n")
                 moved += 1
         shutil.rmtree(kt)
@@ -865,9 +883,14 @@ def main(argv=None):
     s = sub.add_parser("migrate"); s.add_argument("--from", dest="dist", required=True); s.set_defaults(fn=cmd_migrate)
     args = ap.parse_args(argv)
     if args.cmd != "init":
-        args.project = args.project or find_project(os.getcwd())
-        if not args.project:
-            die("not inside an AI-Lore project (pass --project)")
+        if args.project:
+            args.project = os.path.abspath(args.project)
+            if not is_project_root(args.project):
+                die(f"--project {args.project} is not an AI-Lore project root")
+        else:
+            args.project = find_project(os.getcwd())
+            if not args.project:
+                die("not inside an AI-Lore project (pass --project)")
     args.fn(args)
 
 

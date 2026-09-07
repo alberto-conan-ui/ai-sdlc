@@ -5,6 +5,7 @@ description: "AI-Lore process release — Release a new core version"
 
 > Projected from `.ai-lore-ai-sdlc/memory/blueprint/processes/release.process.md` by `ai-lore.py install` — the Lore file is the source; this copy is derived. Under the golden rule every write this process makes is confirmed with the Human Lead.
 
+> **invoker:** human-lead · **contracts:** golden-rule; ack-pairing; released-on-main · **composes:** update-payload; save-point; complete-focus
 
 # Release a new core version
 
@@ -35,7 +36,7 @@ The arc: **Draft → cut RC (Part A) → acceptance gate (Part B) → promote to
 - The release focus is in `review`.
 - `process/changelog/v<X>.md` exists and reads as final (only the Status flips are left).
 - `process/migration-from-<predecessor>.md` exists and reads as final.
-- The session is on the release branch (e.g. `v0.7`), not `main`.
+- The session is on the release branch (e.g. `v0.8`), not `main`; home's track record names that branch (branches are record-authoritative).
 
 ## Part A — Cut the RC
 
@@ -47,11 +48,14 @@ The arc: **Draft → cut RC (Part A) → acceptance gate (Part B) → promote to
 
 The RC is promotable only when **all** of the following pass. Run them against the RC code — fetch playbooks from the **RC tag ref** (`.../v<X>-rc<N>/process/...`), not `main`. The dogfood project (this repo, the source itself) migrates against its **local** `process/`; downstream testers fetch from the pushed RC tag.
 
+**The gate runs on a disposable subject (F9).** Build a throwaway copy of a project at the predecessor's shape — for the dogfood, clone this repo and its Memory repo at the predecessor's tags into a scratch folder, add the vendored predecessor `process/` and manifest as they were — and migrate *that*. The subject is recreatable, so a failed gate re-runs against a fresh copy for the next RC instead of being validated by inspection.
+
 **Run the playbook literally — corrections are findings, not fixes.** The migration must be driven by the *written* playbook, not by the runner's judgement patching it mid-flight. If a step assumes structure that isn't there, contradicts another step, or has to be reinterpreted to work, that is a **blocking finding** — the playbook is fixed and a new RC is cut, the migration is *not* hand-corrected to push through. A gate where a competent runner silently repairs the playbook tests the runner, not the playbook; a real downstream user upgrading in a fresh session has no such runner. Prefer running the dogfood in a **fresh session that has only the playbook**, so the playbook's gaps surface as failures rather than being absorbed by session context.
 
-1. **Dogfood self-migration.** Run the migration chain on this project's own Memory, from its current `core_version` up to the candidate, following `migration-from-<predecessor>.md` (chaining predecessors if the project is more than one version behind). It must complete clean — every step's preconditions met, no improvised workarounds.
-2. **Fresh-session `orient`.** Open a fresh session on the migrated Memory. `orient` must load, read the registry, walk the tree, and state a correct readout with no missing-file errors.
-3. **Core verbs exercise.** Run the version's load-bearing verbs against the migrated Memory and confirm they behave (for v0.7: `grow` adds a node, `advance` moves a status, `save-point` commits + ledgers).
+1. **Dogfood self-migration.** Run the migration chain on the disposable subject, from its `core_version` up to the candidate, following `migration-from-<predecessor>.md` (chaining predecessors if the subject is more than one version behind), in a fresh session that has only the playbook. It must complete clean — every step's preconditions met, no improvised workarounds.
+2. **Fresh-session reopen (F10).** Open a *second* fresh session on the migrated subject **through the installed binding** (not the source tree). `orient` must load the floor and thin core, read the registry, walk the tree, and state a correct readout with no missing-file errors.
+3. **Core verbs exercise.** In that same fresh session, run the version's load-bearing verbs and confirm they behave (for v0.8: `add-note` writes a note, `ack-and-continue` lands a paired commit and appends its accumulator row, `run-process` resolves a core process by name; `ai-lore.py check` passes).
+   Then the source project itself migrates (self-hosting: the same playbook against local `process/`) so the release is cut from a project already living on the candidate.
 4. **Downstream upgrade-by-fire.** When a real downstream project exists at the predecessor version (e.g. `ai-lore-companion`), upgrade it from the RC tag and confirm it lands. Skip only if no downstream is at the right version — and say so in the journal.
 
 All green → the RC is **accepted**; proceed to Part C. Any red → [Failure loop](#failure-loop).
@@ -60,9 +64,9 @@ All green → the RC is **accepted**; proceed to Part C. Any red → [Failure lo
 
 1. **Flip the changelog Status to Released.** In `process/changelog/v<X>.md`, set Status: Released and Released: today.
 2. **Flip the index table and the current-version line.** In `process/changelog/changelog.index.md`, set the v<X> row to `Released` and update the bottom-line "Current version" sentence to v<X>.
-3. **Re-install bindings (self-hosting only).** This project's vendored `.ai-lore-<project>/process/` must match canonical `/process/`. Re-invoke the relevant install verb (e.g. `install-claude`) to project the new methodology in. (The dogfood Memory was already migrated in Part B; this step only re-projects the bindings.) Skip on non-self-hosting projects.
+3. **Regenerate the operating core and bindings (self-hosting only).** The operating `blueprint/*/core/` must be generated from canonical `/process/`: `ai-lore.py upgrade --from process` (places core, refreshes the floor, re-projects the Claude binding). `ai-lore.py check --from process` must pass. Skip on non-self-hosting projects.
 4. **Save-point the release.** Invoke `save-point` to commit both repos. The ledger entry marks the version's release commit on each repo *and* records that the RC gate passed (which rc, what was tested).
-5. **Re-tag the validated commit and merge to main.** Tag the accepted RC commit as `v<X>` (the final tag points at the same commit the gate validated). Merge the release branch into `main` and `git push origin main` plus the `v<X>` tag. This is the step that makes the methodology reachable to outside sessions via the kickstart URL.
+5. **Tag and merge to main, both repos.** Tag the release commit `v<X>` on both repos (the Payload tag points at the commit the gate validated plus the Part C flips). Merge the release branch into `main` on both repos, then `git push origin main` plus the `v<X>` tag on both (the Lore repo's remote is private — F12). This is the step that makes the methodology reachable to outside sessions via the kickstart URL, and Memory's history safe off this disk. Home's track record returns to `branch: main`.
 6. **Verify the kickstart URL resolves.** Fetch the migration playbook URL printed in `migration-from-<predecessor>.md` from `main`. A 200 with the expected body means an outside session can now upgrade.
 7. **Move the release focus to Done.**
 
@@ -78,7 +82,7 @@ Failed `rc<N>` tags remain as historical record. They are never promoted, never 
 
 ## Done when
 
-The [`released-on-main`](../../../.ai-lore-ai-sdlc/memory/blueprint/contracts/released-on-main.contract.md) contract evaluates true: local `main` is at the release commit, and `origin/main` matches. The kickstart URL returns the expected playbook from `main`. The save-point ledger records the passing RC.
+The [`released-on-main`](../../../.ai-lore-ai-sdlc/memory/blueprint/contracts/released-on-main.contract.md) contract evaluates true: local `main` is at the release commit, and `origin/main` matches. The kickstart URL returns the expected playbook from `main`. The save-point ledger records the passing RC. Both repos are pushed.
 
 ## Why this exists
 
