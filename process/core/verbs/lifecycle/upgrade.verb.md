@@ -55,12 +55,18 @@ its accumulator row — the project can point at the moment it changed versions.
 ## The operation
 
 1. **Verify the invoker**; **confirm the verb** (golden rule); home-mounted, no
-   open children (an upgrade is a consolidation-grade act).
-2. **Replace `core/`** wholesale from the new version's source.
+   open children (an upgrade is a consolidation-grade act). Both repos clean.
+2. **Replace `core/`** wholesale from the new version's source —
+   `python3 <lore>/memory/blueprint/tooling/core/ai-lore.py upgrade --from <dist>`
+   (a checkout of the new version's ai-sdlc repo at its release tag, or the local
+   `process/` in the self-hosting project). The tool places core, refreshes the
+   floor, prints the shadow list, bumps the pin, and re-projects installed engines.
 3. **Walk the shadows** with the Human Lead; retire / amend / keep each, on the
    record.
-4. **Run the migration playbook** literally; file defects found.
-5. **Bump the pin; re-project; core-containment check.**
+4. **Run the migration playbook** literally (`migration-from-v<old>.md`; for
+   0.7 → 0.8 the tool's `migrate` command is the playbook's mechanical body); file
+   defects found.
+5. **`ai-lore.py check --from <dist>`** — core-containment and the rest hold.
 6. **One paired commit + accumulator row.** State the delta: version, shadows'
    fates, playbook findings.
 

@@ -1,183 +1,149 @@
 # Bindings
 
-AI-Lore is **platform-neutral plain text**. The methodology — the Memory model, the status tree, the verbs, the bookends — is this folder of documents, and it is complete on its own. A session uses it by reading it. A **binding** layers engine-native delivery on top — same content, automatic invocation.
+AI-Lore is **platform-neutral plain text**. The methodology — the floor, the verb
+cards, the processes, the contracts — is a folder of documents, complete on its own.
+A session uses it by reading it. A **binding** layers engine-native delivery on top:
+same content, automatic invocation, and — where the engine allows — mechanical
+reinforcement of the contracts.
 
 ## Two paths
 
-**Plain text.** The methodology works on any AI, with no setup. Point a session at the project and say *"read ai_readme.md"*. The entry point is at the project root (placed there by [`init`](./lifecycle/init.verb.md)); the pillars and verbs sit under `.ai-lore-<project>/process/`. The session reads the methodology, orients, and works. Verbs are loaded the moment they are invoked. This path is always available and is the methodology in full.
+**Plain text.** Works on any AI, no setup. Point a session at the project and say
+*"read `ai_readme.md`"*. The root shim points at the floor
+(`.ai-lore-<project>/ai_readme.md`); the floor points at the thin core in
+`memory/blueprint/verbs/core/`; every verb loads when invoked. This path is always
+available and is the methodology in full.
 
-**Installed.** AI-Lore can be embedded into an engine so its mechanisms carry the methodology automatically — verbs as the engine's native invocable units, bookends fired by engine hooks. Nothing about the methodology changes — installing changes *how it is delivered*, not *what it says*. Both paths share the same files on disk; installing wires those files into engine machinery so the engine triggers them without the Human Lead having to.
+**Installed.** The [`install`](./lifecycle/install.verb.md) verb projects the
+**resolved** artifact set — core ⊕ parents ⊕ project-local, after shadowing — into
+the engine's native forms. Nothing about the methodology changes; installing changes
+*how it is delivered*. The plain-text path survives every install: after
+`install claude` you can still open another engine and say *"read `ai_readme.md`"*.
 
-The plain-text path is the floor. Installing is an upgrade in delivery, never a prerequisite — and it never removes the plain-text path. After `install-claude`, you can still open Gemini in the same project and say *"read ai_readme.md"*.
+The mechanical half of every binding is `ai-lore.py install <engine>`
+(`blueprint/tooling/core/`). The authoring verbs keep a projection incrementally
+true; a full re-projection is `install`'s job, re-run after `upgrade`, `add-parent`
+/ `remove-parent`, or any change too broad for per-artifact wiring.
 
-## The install verb
+## What a binding projects
 
-A binding is applied by the [`install`](./lifecycle/install.verb.md) verb, invoked once per project per engine — `install-claude`, `install-gemini`, and so on. The engine names the binding. `install` reads the methodology already placed in the project and writes it into the target engine's native form.
+| Artifact | Projects to | Notes |
+|---|---|---|
+| verb | the engine's invocable unit | card **bundled with its family context doc** into one self-contained unit; relative links rewritten to resolve from the projected location (F11) |
+| process | the engine's composition form | the process doc; its steps name verbs the engine already has |
+| contract | an enforcement hook where the rule is mechanically checkable; text + citations otherwise | the layered model — stated → cited → reinforced; hooks reinforce, never carry |
+| bookends | session-open / session-close hooks | orient cannot be skipped when installed; close-session stays intrinsic |
 
-Each engine has its own binding section below — what "native form" means there. Adding support for a new engine means adding a binding section and an `install` target; the methodology itself does not change.
+Projections are **derived state**: regenerable from the Lore, never the source of
+anything. Stale projections (names no longer in the resolved set) are removed on
+re-install.
 
 ## Binding: Claude
 
-`install-claude` writes the following into the project, all idempotent on re-install.
+`install claude` writes the following, all idempotent on re-install.
 
 ### CLAUDE.md handshake
 
-A delimited block in the project's `CLAUDE.md`:
+A delimited block, replaced in place (the rest of the file is preserved):
 
 ```
 <!-- AI-LORE:BEGIN -->
 This project uses AI-Lore. Read `ai_readme.md` and follow its instructions.
 
-Do not use Claude Code's built-in `/plan` in this project — AI-Lore plans by growing the status tree (`grow`). If you invoke `/plan` anyway, treat its plan file as scratch.
+Every write is confirmed to a verb (the golden rule). Do not use Claude Code's built-in `/plan` in this project — AI-Lore plans by growing the status tree (`add-new-focus` / `add-stage` / `add-phase`). If you invoke `/plan` anyway, treat its plan file as scratch.
 <!-- AI-LORE:END -->
 ```
 
-If `CLAUDE.md` does not exist, install creates it with this block as the entire content. If it exists, install replaces only the delimited block and preserves the rest of the file. Claude Code loads `CLAUDE.md` at session open, so the handshake fires the universal load against the methodology already on disk.
+### Verbs and processes → skills
 
-### Verbs → skills
+Each resolved verb and process becomes a project-scoped skill at
+`.claude/skills/ai-lore-<name>/SKILL.md`: synthesized frontmatter (`name`,
+`description` from the card's title line — Claude triggers skills by description
+matching), a provenance line naming the Lore source, the card's metadata (family,
+track, writes, contracts), the card body, and — for verbs — the family context doc
+appended under *Family context*. Every relative link is rewritten to resolve from
+the skill folder; the install refuses to report success while a projected link is
+dead.
 
-Each verb file under `.ai-lore-<project>/process/verbs/` becomes a skill at `.claude/skills/ai-lore-<verb>/SKILL.md`. The skill file is the verb's content with **synthesized YAML frontmatter prepended**:
+### Contracts → hooks
 
-```markdown
----
-name: ai-lore-<verb>
-description: <the verb's one-line entry from verbs.index.md>
----
+One guard script, `.claude/hooks/ai-lore-guard.py`, wired to two hooks in
+`.claude/settings.json` (matcher `Write|Edit|MultiEdit|NotebookEdit`):
 
-<verb file content, unchanged>
-```
+- **PreToolUse — `journal-append-forward`, enforced.** A `Write`/`Edit` targeting an
+  *existing* `journal/(live|archive)/YYYY-MM-DD_NN.md` is **denied**, with the
+  contract named as the reason. The one core contract the engine can enforce
+  outright.
+- **PostToolUse — `golden-rule`, reinforced.** After every write, one line lands in
+  the session's context: the write belongs to a verb the Human Lead confirmed — name
+  it if you have not. Advisory by nature: a hook cannot know whether a verb was
+  confirmed; the Human Lead's review can.
 
-Claude Code triggers skills by **description matching** — the description field is what makes the skill discoverable. Descriptions are sourced from the operations table in [`verbs/verbs.index.md`](./verbs.index.md); that table is the canonical list, used by every engine binding that triggers on descriptions.
-
-Skills are project-scoped (`.claude/skills/`, not `~/.claude/skills/`), so each project's install is isolated.
+`ack-pairing` and `core-containment` are checked by `ai-lore.py check` (run by
+`init`, `upgrade`, and at `save-point`'s contract walk), not by hooks — they are
+properties of repositories, not of single writes. Writes made through the shell
+(heredocs, scripts) bypass tool hooks; the text remains the floor.
 
 ### Bookends → hooks
 
-`orient` and `close-session` are skills (as above) **and** are wired into Claude Code's `SessionStart` and `SessionEnd` hooks in `.claude/settings.json`. The hook command is a shell command whose stdout becomes session context — it emits the instruction telling the running session to invoke the bookend skill:
-
-```json
-{
-  "hooks": {
-    "SessionStart": [{ "matcher": "*", "hooks": [
-      { "type": "command", "command": "echo 'Invoke the ai-lore-orient skill now.'" }
-    ]}],
-    "SessionEnd": [{ "matcher": "*", "hooks": [
-      { "type": "command", "command": "echo 'Invoke the ai-lore-close-session skill now.'" }
-    ]}]
-  }
-}
-```
-
-In the plain-text path the bookends are intrinsic behaviour the session performs on itself. Installed, the hooks have **asymmetric reinforcement**:
-
-- **SessionStart genuinely reinforces orient.** The hook fires before the session takes any user input; the stdout instruction lands in context as the session's first turn, and the model invokes the orient skill immediately. A session cannot silently skip orient when installed. As of v0.7 `orient` loads only the **thin core** (`project-structure.md`, `status.md`, `verbs.index.md`); the other pillars are pulled on demand by the verbs that declare them — so the SessionStart load is small, and each verb skill carries its own prerequisites when invoked.
-- **SessionEnd is advisory only.** By the time SessionEnd fires, the session is already closing; the model does not get a turn to act on the injected instruction. The hook's stdout still lands in the transcript, but it cannot force the model to invoke close-session before exit. In practice, close-session works because the model invokes it **proactively** when it recognises the session is ending — driven by the methodology loaded at session start, not by the hook. The SessionEnd hook is a telemetry/logging hook, not enforcement.
-
-The methodology never depends on either hook — bookends are intrinsic — but it is worth knowing which one is real reinforcement and which is advisory.
+`SessionStart` emits *"Invoke the ai-lore-orient skill now."* — the instruction lands
+as the session's first turn, so an installed session cannot open without orienting.
+`SessionEnd` emits the close-session instruction but is **advisory only**: the
+session is already closing when it fires and gets no turn to act. close-session
+works because the methodology loaded at open makes the session invoke it when it
+recognizes the end — the hook is telemetry, not enforcement.
 
 ### Merge behavior
 
-If `.claude/settings.json` does not exist, install creates it with the two hook entries above. If it exists, install merges the `SessionStart` and `SessionEnd` hook entries while preserving every other key and entry — other hooks, permissions, etc., are untouched. The user's separate `.claude/settings.local.json` is never read or written. Re-install replaces these specific entries; nothing else.
-
-Re-running `install-claude` after [`upgrade`](./lifecycle/upgrade.verb.md) re-projects the new methodology into the same locations.
+`install` creates `.claude/settings.json` if absent; otherwise it replaces only the
+hook entries whose command mentions `ai-lore` and preserves every other key and
+entry. `.claude/settings.local.json` is never touched. Skill folders named
+`ai-lore-*` that no longer correspond to a resolved artifact are deleted; other
+skills are untouched.
 
 ### Plan-mode collision
 
-Claude Code ships a built-in `/plan` slash command that enables a native plan mode. The mode forces plan files to `~/.claude/plans/`, outside the project — invisible to both AI-Lore git repos and to any future session. AI-Lore has **no plan posture** (v0.7 removed postures); design work happens by **growing the status tree** ([`grow`](./status-tree/add-new-focus.verb.md)) on a full track, where focuses/stages/phases persist and walk in the focus chain.
-
-There is nothing to redirect `/plan` *to* — AI-Lore exposes no `/ai-lore-plan`. Claude Code provides no mechanism to disable a built-in command, so `install-claude` handles the collision by **documentation**:
-
-- The `CLAUDE.md` handshake block steers the user away from `/plan`, pointing at the status tree instead.
-
-A user who invokes `/plan` anyway gets Claude Code's native plan-mode behaviour — including the harness plan file at `~/.claude/plans/`. That file is scratch (belongs in `out/` thinking, not Memory); the authoritative plan is the status tree, grown through `grow`. Discard the harness plan file once the tree reflects the work.
+Claude Code's built-in `/plan` writes its plan file to `~/.claude/plans/`, outside
+both repos. AI-Lore plans by growing the status tree on a full track. There is
+nothing to redirect `/plan` to and no way to disable it, so the handshake steers
+away from it by documentation; a plan file that appears anyway is scratch.
 
 ## Binding: Gemini
 
-`install-gemini` writes the following into the project, all idempotent on re-install.
+`install gemini` writes, idempotently:
 
-### GEMINI.md handshake
+- **`GEMINI.md` handshake** — the same delimited block, without the `/plan` line
+  (Gemini CLI has no plan mode).
+- **Verbs and processes → TOML slash commands** at
+  `.gemini/commands/ai-lore-<name>.toml`: `description` from the card's title,
+  `prompt` an `@file` injection of the card and (for verbs) its family context doc —
+  thin pointers, so an edited card is live without re-install.
+- **Bookends → hooks** in `.gemini/settings.json` (`SessionStart` matcher
+  `startup`, `SessionEnd` matcher `exit`), emitting `additionalContext` that
+  invokes the bookend commands. Same asymmetry as Claude: start reinforces, end
+  is advisory by Gemini's own documentation.
+- **Contracts** — no pre-write deny exists in Gemini's hook model; the contracts
+  stay text + citations there.
 
-A delimited block in the project's `GEMINI.md`:
+Merge behavior mirrors Claude's: only `ai-lore` hook entries and `ai-lore-*.toml`
+files are owned by the install.
 
-```
-<!-- AI-LORE:BEGIN -->
-This project uses AI-Lore. Read `ai_readme.md` and follow its instructions.
-<!-- AI-LORE:END -->
-```
-
-If `GEMINI.md` does not exist, install creates it with this block as the entire content. If it exists, install replaces only the delimited block and preserves the rest of the file. Gemini CLI auto-loads `GEMINI.md` at session open via its hierarchical context discovery (no flag needed); the handshake fires the universal load against the methodology already on disk.
-
-There is no Gemini equivalent of Claude Code's `/plan` collision — Gemini CLI has no built-in plan mode — so the handshake block omits Claude's steer-away-from-`/plan` line.
-
-### Verbs → TOML slash commands
-
-Each verb file under `.ai-lore-<project>/process/verbs/<verb>.md` becomes a slash command at `.gemini/commands/ai-lore-<verb>.toml`. The TOML is a thin pointer — the source-of-truth verb content stays in the verb file:
-
-```toml
-description = "<the verb's one-line entry from verbs.index.md>"
-prompt = "@.ai-lore-<project>/process/verbs/<verb>.md"
-```
-
-Gemini CLI's `@file` syntax injects the referenced file's content into the prompt at invocation time, so each invocation reads the current verb file — no stale projection if the verb is edited and `install-gemini` is not re-run. The `description` field is what shows in `/help` and what the user (or model) browses to recognise the command.
-
-The user invokes verbs as `/ai-lore-<verb>` (e.g. `/ai-lore-orient`, `/ai-lore-close-session`). Descriptions are sourced from the operations table in [`verbs/verbs.index.md`](./verbs.index.md) — the same canonical table Claude's binding uses.
-
-Slash commands are project-scoped (`.gemini/commands/`, not `~/.gemini/commands/`), so each project's install is isolated.
-
-### Bookends → hooks
-
-`orient` and `close-session` are slash commands (as above) **and** are wired into Gemini CLI's `SessionStart` and `SessionEnd` hooks in `.gemini/settings.json`. The hook command emits JSON to stdout; `hookSpecificOutput.additionalContext` is injected as the session's first turn:
-
-```json
-{
-  "hooks": {
-    "SessionStart": [
-      {
-        "matcher": "startup",
-        "hooks": [
-          { "type": "command", "command": "echo '{\"hookSpecificOutput\":{\"additionalContext\":\"Invoke the /ai-lore-orient command now.\"}}'" }
-        ]
-      }
-    ],
-    "SessionEnd": [
-      {
-        "matcher": "exit",
-        "hooks": [
-          { "type": "command", "command": "echo '{\"hookSpecificOutput\":{\"additionalContext\":\"Invoke the /ai-lore-close-session command now.\"}}'" }
-        ]
-      }
-    ]
-  }
-}
-```
-
-Lifecycle-event matchers in Gemini are exact strings — `"startup"`, `"resume"`, `"clear"` for SessionStart; `"exit"`, `"clear"`, `"logout"`, `"prompt_input_exit"`, `"other"` for SessionEnd. The shown example matches the primary cases; matcher entries can be duplicated to cover `"resume"` or `"clear"` if desired.
-
-Same asymmetric reinforcement as Claude:
-
-- **SessionStart genuinely reinforces orient.** The `additionalContext` injection lands as the session's first turn; the model invokes the orient command immediately.
-- **SessionEnd is advisory by Gemini's own documentation.** *"The CLI will not wait for this hook to complete and ignores all flow-control fields."* The hook fires but cannot force close-session before exit. close-session works because the model invokes it proactively when it recognises the session is ending — driven by the methodology, not the hook.
-
-### Merge behavior
-
-If `.gemini/settings.json` does not exist, install creates it with the two hook entries above. If it exists, install merges the `SessionStart` and `SessionEnd` hook entries while preserving every other key and entry — other hooks, MCP server configs, extension configs, etc., are untouched. The user's separate `~/.gemini/settings.json` is never read or written. Re-install replaces these specific entries; nothing else.
-
-`.gemini/commands/ai-lore-*.toml` files are overwritten by name on re-install. Other TOML files in `.gemini/commands/` (the user's own custom commands, or commands from extensions) are untouched.
-
-Re-running `install-gemini` after [`upgrade`](./lifecycle/upgrade.verb.md) re-projects the new methodology into the same locations.
-
-### No plan-mode collision
-
-Gemini CLI has no built-in `/plan` slash command and no native plan mode, and AI-Lore has no plan verb of its own — design work is growing the status tree (`grow`). Nothing collides, so the handshake block omits the steer Claude needs.
-
-(Gemini CLI does have a built-in `/memory` command for managing GEMINI.md context. The name overlaps conceptually with AI-Lore's Memory pillar but does not collide — the AI-Lore Memory verbs are `write-lore`, `ack`, `save-point`, etc., never `/memory`.)
+The Gemini binding has not been exercised against a live project since v0.6.1
+(test-by-fire deferred, recorded on the v0.6.1 focus). Treat it as the shape of the
+projection, verified by inspection.
 
 ## Binding: other engines
 
-Engines beyond Claude and Gemini bind by the same shape — verbs to whatever invocable unit the engine offers, bookends to whatever reinforcement it offers, the plain-text `ai_readme.md` handshake to whatever auto-load file the engine reads at session open. Each is its own binding section, added when the engine is supported. The neutral methodology is the shared source for all of them.
+Any engine binds by the same shape — verbs and processes to its invocable unit,
+contracts to whatever pre-write gate it exposes, bookends to whatever session hooks
+it has, the handshake to whatever file it auto-loads. Adding an engine is a
+`tooling` change plus a section here; the methodology does not change.
 
 ## The companion app
 
-A companion app is a **runtime**, not part of the methodology. It hosts AI-Lore projects, reads the focus chain, and surfaces Memory and the review queue to the Human Lead. It is one consumer of the neutral Memory model — never a dependency of it.
-
-The methodology stays **companion-agnostic**: a session with no companion runs identically, the Human Lead reading raw Memory files. The Memory file schema ([`memory.md`](./memory.md)) is what lets a companion parse Memory; it never assumes a companion is present.
+A companion app is a **runtime**, not part of the methodology. It hosts AI-Lore
+projects, reads the focus chain, and resolves every acknowledgement pair from the
+ledger (`save-points/next.save-point.md` and the sealed entries — cross-repo
+correlation by data, never heuristics). It is one consumer of the neutral Memory
+model; the methodology never assumes it is present. The Memory file schema
+([`memory.md`](./memory.md)) is what lets it parse Memory.

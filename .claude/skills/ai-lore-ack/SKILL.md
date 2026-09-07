@@ -1,46 +1,120 @@
 ---
 name: ai-lore-ack
-description: "Commit both repos on the mounted track's branches at a deliberate pause point — acknowledge accumulated work"
+description: "AI-Lore verb ack — acknowledge accumulated work"
 ---
+
+> Projected from `.ai-lore-ai-sdlc/memory/blueprint/verbs/core/acknowledgement/ack.verb.md` by `ai-lore.py install` — the Lore file is the source; this copy is derived. Under the golden rule every write this verb makes is confirmed with the Human Lead.
+
+> **family:** acknowledgement · **track:** full · **invoker:** human-lead · **writes:** commits on the mounted track's branches, both repos, payload-first; next-save-point accumulator (one row per ack) · **contracts:** golden-rule; ack-pairing
 
 # ack
 
-`ack` is how the Human Lead acknowledges accumulated work — a deliberate pause point where the working tree on the mounted track's branches becomes a reviewable commit. Same commit shape as [`save-point`](./save-point.md); no ledger entry, no blueprint check, no archive offer.
+The Human Lead acknowledges accumulated work: the dirty tree on the mounted track's
+branches becomes a reviewable commit — **both repos as one unit, recorded as one row
+in the next-save-point accumulator**. The deliberate pause-point verb; the message
+ceremony is the point.
 
-**The session never self-acks.** Acknowledgement is the Human Lead's confirmation that accumulated work has been reviewed; only they can give it.
+## When to invoke
 
-## When the Human Lead invokes it
+- After reviewing a batch of accumulated changes — Memory, Payload, or both.
+- Before switching context or stopping, when the work is not milestone-level
+  (that is [`save-point`](../../../.ai-lore-ai-sdlc/memory/blueprint/verbs/core/acknowledgement/save-point.verb.md)).
+- When further work would compound the drift past reviewable size.
+- NOT mid-execution between chunks — that is
+  [`ack-and-continue`](../../../.ai-lore-ai-sdlc/memory/blueprint/verbs/core/acknowledgement/ack-and-continue.verb.md), same commit shape, no ceremony.
 
-- After reviewing a batch of accumulated changes — Memory writes, Payload edits, or both — and wanting to mark a pause point in the working stream.
-- Before switching context, mounting a different focus, or stopping work for a while, if the work is not yet milestone-level (which would be [`save-point`](./save-point.md)).
-- Whenever the working tree is large enough that further work would compound the drift to an unreviewable size.
+## What an ack is
 
-## What every ack is
+The pairing discipline, the accumulator row, branch naming, never-self-ack:
+[`acknowledgement.md`](../../../.ai-lore-ai-sdlc/memory/blueprint/verbs/core/acknowledgement/acknowledgement.md). What this card adds: **the message
+ceremony is the point.** Grouped by area (focus, status, journal, blueprint,
+Payload), specific enough to review later — a vague ack defeats the verb. The
+session drafts from the actual diff; the Human Lead confirms or edits before
+anything lands. Independent of `close-session` — neither runs nor prompts about
+the other.
 
-A commit on the mounted track's branches — `trunk` on home, or `track/<name>` on a child track — in each dirty repo, with a Human-Lead-confirmed message capturing what is being acknowledged. Both repos commit together as one unit of acknowledgement; if only one repo is dirty, only that repo commits, but the unit is still "this ack on this track."
+## The operation
 
-A vague ack defeats the purpose — the message is what makes the acknowledgement reviewable later. The session helps draft a specific message grouped by area (focus, journal, blueprint, KT, AT, Payload); the Human Lead confirms or edits before the commit lands.
+1. **Verify the invoker** is the Human Lead; mounted full track required (light
+   tracks are forbidden to commit — their drift is home's to acknowledge).
+2. **Confirm the verb** (golden rule).
+3. **Draft the message** from the actual diff, area-grouped; the Human Lead
+   confirms.
+4. **Commit payload-first**, append the accumulator row, commit lore. Verify both
+   trees clean.
+5. **State the pair**: payload hash, lore hash, the row as written.
 
-Ack is a **deliberate** acknowledgement — the message ceremony is the point. For mid-execution commits that don't need that ceremony — chunking during an execution run where the work is small and the next step is to keep going — use [`ack-and-continue`](./ack-and-continue.md) instead.
+## Refusals
 
-## Trackless sessions cannot ack
+- Not the Human Lead → refuse; sessions never self-ack.
+- Trackless or light → refuse; nothing to commit on / forbidden to commit.
+- Clean trees → nothing to acknowledge; say so.
 
-`ack` requires a mounted **full** track — there is no branch for a trackless session to commit on. A trackless session that has been asked to acknowledge has nothing to acknowledge; the dirty state lives on a track, not on the session. **Light tracks are forbidden to `ack`** — their journal/backlog drift sits on trunk and is acknowledged by a home session, not by the light track (see [`tracks.md`](../tracks.md#track-types)).
+## Related
 
-## Independent from close-session
+[`ack-and-continue`](../../../.ai-lore-ai-sdlc/memory/blueprint/verbs/core/acknowledgement/ack-and-continue.verb.md) the light sibling ·
+[`save-point`](../../../.ai-lore-ai-sdlc/memory/blueprint/verbs/core/acknowledgement/save-point.verb.md) seals the accumulator ·
+[`close-session`](../../../.ai-lore-ai-sdlc/memory/blueprint/verbs/core/bookends/close-session.verb.md) commits its own closing state ·
+[`merge-track`](../../../.ai-lore-ai-sdlc/memory/blueprint/verbs/core/tracks/merge-track.verb.md) / [`abandon-track`](../../../.ai-lore-ai-sdlc/memory/blueprint/verbs/core/tracks/abandon-track.verb.md)
+append their own rows.
 
-`ack` and [`close-session`](./close-session.md) are orthogonal. ack does not run close-session and does not prompt about it. close-session does not run ack and does not prompt about it. They are different operations:
 
-- **ack** acknowledges accumulated work mid-stream — the session continues afterward.
-- **close-session** is the session-ending bookend — it writes the journal and commits the closing state itself, separately from any ack the session may have done earlier.
+---
 
-Their writes never trail each other: if a session ends with a clean ack-then-close-session sequence, close-session's own commit captures the journal and any new drift; if the session ends without a prior ack, close-session still captures everything dirty. The previous coupling — ack offering close-session as a prompt — has been removed because most acks have nothing to do with closing.
+# Family context
 
-## Relationship to other verbs
+# Acknowledgement — family context
 
-- [`ack-and-continue`](./ack-and-continue.md) — the lighter sibling. Same commit shape; minimal message ceremony; used for mid-execution chunking when no pause is intended.
-- [`save-point`](./save-point.md) — the heavier cousin. Home-only consolidation primitive; adds the ledger entry, blueprint-contract check, and archive offer on top of the ack's commit shape; refuses if any child track is open. A save-point on a dirty tree includes the implicit ack — the commit it produces *is* the acknowledgement of the working state.
+The shared knowledge of the ack family. Verb cards in this folder assume it.
 
-## Prerequisites
+## The drift signal
 
-Read [`git.md`](../git.md) (the two-repo contract, branches per track, the explicit `git -C` discipline) before acking.
+Memory and Payload are separate git repos (the lore repo's `.git/` lives at
+`<lore>/memory/.git/` — address it explicitly: `git -C <lore>/memory`). The working
+tree's dirty state on a track's branches is that track's **drift signal**: dirty =
+unacknowledged work, clean = acknowledged. Drift is per-track, derived at the
+bookends, stored nowhere.
+
+**Branches are record-authoritative.** The methodology says `trunk` as
+role-language for home's branch; the *actual* name lives on home's track record
+(`main` in most real projects). Children use `track/<name>`, identical on both
+repos.
+
+## The pairing discipline
+
+Every acknowledgement commits **both repos as one unit**, and the pair is joined by
+**data, not heuristics**:
+
+1. **Payload commits first** (when dirty), on the track's branch.
+2. **A row is appended** to the open accumulator (below): date · verb · track ·
+   branch · the payload commit's hash · one-line summary. Lore-only acks record
+   `—` in the payload column.
+3. **The lore repo commits second, carrying the row.** The row's lore-side commit
+   is **self-identifying** — the commit that added row N *is* acknowledgement N's
+   lore half.
+
+Any consumer — a companion app, a future session — resolves every cross-repo,
+cross-branch pair from one file.
+
+## The accumulator and the ledger
+
+`memory/save-points/` is the **append-only ledger** — it never rolls; entries stay
+reachable forever. Between milestones, one entry is always **open**:
+`next.save-point.md`, the accumulator every ack-family commit appends to. It is a
+shared surface (child tracks append too — that is what makes cross-branch
+correlation work). [`save-point`](../../../.ai-lore-ai-sdlc/memory/blueprint/verbs/core/acknowledgement/save-point.verb.md) **seals** it into a dated
+entry — final hash pins, the milestone description above the accumulated rows,
+which remain as the milestone's *story* — and opens a fresh one.
+
+## Who commits, and who never does
+
+**Sessions never self-ack, self-save-point, self-merge, or self-abandon.** Every
+landing onto canonical state is the Human Lead's act — direct, or a standing
+instruction that names the verb and cadence; the git operation is just the
+mechanism. Five verbs append rows: [`ack`](../../../.ai-lore-ai-sdlc/memory/blueprint/verbs/core/acknowledgement/ack.verb.md),
+[`ack-and-continue`](../../../.ai-lore-ai-sdlc/memory/blueprint/verbs/core/acknowledgement/ack-and-continue.verb.md),
+[`save-point`](../../../.ai-lore-ai-sdlc/memory/blueprint/verbs/core/acknowledgement/save-point.verb.md), the closing commit of
+[`close-session`](../../../.ai-lore-ai-sdlc/memory/blueprint/verbs/core/bookends/close-session.verb.md), and the auto-ack of
+[`abandon-track`](../../../.ai-lore-ai-sdlc/memory/blueprint/verbs/core/tracks/abandon-track.verb.md) (plus
+[`merge-track`](../../../.ai-lore-ai-sdlc/memory/blueprint/verbs/core/tracks/merge-track.verb.md)'s merge commits). Light tracks are
+forbidden to commit entirely.

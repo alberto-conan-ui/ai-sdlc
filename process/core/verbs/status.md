@@ -4,7 +4,7 @@ Where the project stands and how its work decomposes. Status is the project's or
 
 Earlier versions split this in two: a status *registry* (`status/`) and a separate *action tree* (`action-tree/`) for decomposition, joined only by pointers. The two drifted independently — registries bloated into narrative, decomposition branches lingered after they were done. v0.7 merges them into a single tree with a forced, uniform shape, mutated only through a typed set of verbs.
 
-This pillar covers the status tree (its shape and the three levels), the stack file that registers focuses, the focus chain, and the backlog. The workspace primitive underneath — tracks, their types, mounting, claims — lives in [`tracks.md`](./tracks.md); *what a session may touch* is governed by its **track type**, not by any posture or mode. The git arrangement lives in [`git.md`](./git.md). The rest of the persistent record — journal, blueprint, save-points, knowledge tree — lives in [`memory.md`](./memory.md).
+This pillar covers the status tree (its shape and the three levels), the stack file that registers focuses, the focus chain, and the backlog. The workspace primitive underneath — tracks, their types, mounting, claims — lives in [`tracks.md`](./tracks.md); *what a session may touch* is governed by its **track type**, not by any posture or mode. The git arrangement lives in [`git.md`](./git.md). The rest of the persistent record — journal, blueprint, save-points, notepad — lives in [`memory.md`](./memory.md).
 
 ## The status tree
 
@@ -33,9 +33,9 @@ Stage and phase bodies carry intent, gate, stack, and active-child pointer. The 
 
 ### The tree is verb-only
 
-The status tree's **structure** — folders, indexes, hierarchy, and each focus's row in the stack file — is mutated **only through the status-tree verbs**: [`grow`](./status-tree/add-new-focus.verb.md) (add a node), [`advance`](./status-tree/status-tree.md) (move a focus's status), [`archive`](./status-tree/archive-focus.verb.md) (finish a focus and relocate its subtree). Each verb carries a fixed step-list that preserves the four shape rules above, so the tree cannot rot into the free-for-all the action tree allowed.
+The status tree's **structure** — folders, indexes, hierarchy, and each focus's row in the stack file — is mutated **only through the status-tree family** ([`status-tree.md`](./status-tree/status-tree.md)): [`add-new-focus`](./status-tree/add-new-focus.verb.md) / [`add-stage`](./status-tree/add-stage.verb.md) / [`add-phase`](./status-tree/add-phase.verb.md) create nodes; [`complete-stage`](./status-tree/complete-stage.verb.md) / [`complete-phase`](./status-tree/complete-phase.verb.md) / [`complete-focus`](./status-tree/complete-focus.verb.md) close them; [`pause-focus`](./status-tree/pause-focus.verb.md) / [`resume-focus`](./status-tree/resume-focus.verb.md) move the side-state; [`archive-focus`](./status-tree/archive-focus.verb.md) relocates a finished subtree. Each verb carries a fixed step-list that preserves the four shape rules above, so the tree cannot rot into the free-for-all the action tree allowed.
 
-Free-form structural editing is refused for *every* track — there is no free-hand path into the tree's structure. [`write-lore`](./status-tree/update-focus.verb.md) still fills node **bodies** (the gate text, the context prose) under claim, but it can never create, move, or restructure nodes. Structure is the verbs' job; substance is `write-lore`'s.
+Free-form structural editing is refused for *every* track — there is no free-hand path into the tree's structure. [`update-focus`](./status-tree/update-focus.verb.md) fills node **bodies** (the gate text, the context prose) under claim, but it can never create, move, or restructure nodes. Structure is the lifecycle verbs' job; substance is `update-focus`'s.
 
 ## status.stack.md — the focus registry
 
@@ -77,7 +77,7 @@ A track may point at a focus to declare what work it is doing in that workspace.
 
 The focus chain *is* the orientation chain, walked over the status tree. When a session is mounted on a track, the chain starts at the track's active focus and walks down through stages and phases until there is nothing below. Each node adds exactly one thing its parent does not already say; no node repeats its parent.
 
-**Status transitions and the Human Lead.** A session may [`advance`](./status-tree/status-tree.md) a focus through `draft → in progress` (and `→ paused`), but **only the Human Lead moves a focus to `done`.** This is where human accountability lives at the focus level — the session delivers and may judge the work complete, but the close is the Human Lead's act.
+**Status transitions and the Human Lead.** A focus moves `draft → in progress` on first work and `→ paused` / back via [`pause-focus`](./status-tree/pause-focus.verb.md) / [`resume-focus`](./status-tree/resume-focus.verb.md), but **only the Human Lead moves a focus to `done`** ([`complete-focus`](./status-tree/complete-focus.verb.md)).** This is where human accountability lives at the focus level — the session delivers and may judge the work complete, but the close is the Human Lead's act.
 
 ## Indexes
 
@@ -89,6 +89,6 @@ The **backlog** is where work that is *not yet a focus* is annotated — future 
 
 The backlog is a **tree of folders and item files** — group similar items into folders as deep as the work wants. Unlike the status tree, it carries no positional-naming rule and no depth cap; the backlog is informal by nature. The one discipline that keeps it navigable is the universal one: **every folder carries a standard index** (pure wiring), and **every item is a typed md file**.
 
-A backlog item **graduates into a focus** when the project commits to it: [`grow`](./status-tree/add-new-focus.verb.md) creates a focus informed by the item, and the item is then removed from the backlog. Until then it costs nothing and stays out of the focus registry.
+A backlog item **graduates into a focus** when the project commits to it: [`add-new-focus`](./status-tree/add-new-focus.verb.md) creates a focus informed by the item, and the item is then removed from the backlog. Until then it costs nothing and stays out of the focus registry.
 
-The backlog is one of the two surfaces a **light track** may write — the other is the journal (see [`tracks.md`](./tracks.md#track-types)). A backlog item is Memory *content*, so it is written through [`write-lore`](./status-tree/update-focus.verb.md), not through the status-tree verbs — those own the focus tree's structure, not the backlog.
+The backlog is one of the three surfaces a **light track** may write — the others are the journal and the notepad (see [`tracks.md`](./tracks.md#track-types)). A backlog item is written through [`add-backlog-item`](./buffers/add-backlog-item.verb.md) and groomed by [`review-backlog`](./buffers/review-backlog.verb.md), not through the status-tree verbs — those own the focus tree's structure, not the backlog.

@@ -4,11 +4,11 @@
 >
 > | Group | File |
 > |---|---|
-> | Memory | [../memory.md](../memory.md) |
-> | Migration | [../migration-from-v0.4.md](../migration-from-v0.4.md) |
-> | Used by | [../verbs/upgrade.md](../verbs/upgrade.md) (version migration) |
+> | Memory | [../core/verbs/memory.md](../core/verbs/memory.md) |
+> | Migration | [../migration-from-v0.7.md](../migration-from-v0.7.md) (latest; earlier playbooks beside it) |
+> | Used by | [../core/verbs/lifecycle/upgrade.verb.md](../core/verbs/lifecycle/upgrade.verb.md) (version migration) |
 
-This folder tracks the evolution of AI-Lore core. Each version is documented here — release notes for what changed and why. The changelog is the source of truth for `core_version`; the [`upgrade`](../verbs/upgrade.md) verb reads the relevant entries when migrating a project between versions.
+This folder tracks the evolution of AI-Lore core. Each version is documented here — release notes for what changed and why. The changelog is the source of truth for `core_version`; the [`upgrade`](../core/verbs/lifecycle/upgrade.verb.md) verb reads the relevant entries when migrating a project between versions.
 
 ## Version layout
 
@@ -39,5 +39,7 @@ Each release follows this structure: version number (major.minor.patch, so sort-
 | [v0.6](./v0.6.md)   | Released            | 2026-05-27     | Parallelism pillar: tracks introduced as persistent workspaces (branch + claim + posture + dials + focus), master always-present and uniform with children, save-point as consolidation primitive, claim-disjoint write enforcement, three new verbs (`mount`/`merge`/`abandon`). Pillar set grows 5 → 7 with new `tracks.md` and `git.md`. Single-session common case preserved. |
 | [v0.6.1](./v0.6.1.md) | Released          | 2026-05-28     | Process polish: `ack` decoupled from `close-session` (new `ack-and-continue` light sibling for mid-execution chunking, close-session commits its own writes); focuses gain optional `claim` field, home's claim becomes focus-derived; Gemini binding section added to `bindings.md` parallel to Claude; chat posture gains a narrow **marginalia** carve-out for HL-initiated Memory housekeeping (frontmatter, link repair, typos, index entries); always-present track renamed `master` → `home` and file moves from `tracks/master.md` to `tracks/home.track.md` (aligning with the `<name>.<type>.md` convention). |
 | [v0.7](./v0.7.md)   | Released            | 2026-06-19     | The status tree: status and the action tree merge into one positional three-level tree (focus → stage → phase, folders, strict indexes); `status.index.md`'s narrative is replaced by a strict root index plus a lean `status.stack.md` (link + status + active-mark, enum `draft`/`paused`/`in progress`/`done`); the tree is mutated only through three new verbs (`grow`/`advance`/`archive`), `write-lore` fills bodies only. **Posture and dials removed** (chat/plan/reshape/execute, altitude/commitment, `redial`, presets) — **track type** is now the write-gate, with three types: trackless (read-only), **light** (journal + backlog only, not mounted, can't ack), and full (mounted, claimed). New `status/backlog/` for pre-focus to-dos. Lazy methodology loading (thin eager core + verb-declared prerequisites); `blueprint/tooling/` fourth branch; root-level `out/` disposable-scratch folder. |
+
+| [v0.8](./v0.8.md)   | RC                  | 2026-09-07     | Verb discipline: the golden rule (every write confirmed to a verb) as a contract; 52 entity-family verbs in nine families replace the v0.7 set; methodology dissolves into `blueprint/*/core/` (shadow-by-name, `parents:` inheritance, un-overridable floor); four core contracts; the ack ledger accumulator; process layer + `run-process`; grooming verbs; notepad replaces the knowledge tree; `ai-lore.py` tool. |
 
 **Current version:** v0.7 (latest release; promoted from `v0.7-rc2`, the first RC-gated release).

@@ -52,11 +52,12 @@ verb, not a cosmetic wart to document around.
 ## The operation
 
 1. **Verify the invoker**; **confirm the verb** (golden rule); mounted.
-2. **Resolve the set** (walk core, parents in order, local; apply shadowing;
-   accumulate contracts) and present the resolution summary.
-3. **Project** per the engine's binding, all four artifact kinds, links rewritten.
-4. **Verify**: every projected artifact loads, no dead links, bookend reinforcement
-   fires.
+2. **Resolve the set** (`ai-lore.py resolve`: core, parents in order, local;
+   shadowing applied; contracts accumulated) and present the resolution summary.
+3. **Project** per the engine's binding, all four artifact kinds, links rewritten —
+   `python3 <lore>/memory/blueprint/tooling/core/ai-lore.py install <engine>`.
+4. **Verify**: every projected artifact loads, no dead links (the tool refuses to
+   report success otherwise), bookend reinforcement fires on the next open.
 5. **State the binding**: engine, artifact counts, reinforcements.
 
 ## Refusals

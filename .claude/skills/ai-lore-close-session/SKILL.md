@@ -1,37 +1,74 @@
 ---
 name: ai-lore-close-session
-description: "Session close — write the journal, handover, surface any drift on the mounted track"
+description: "AI-Lore verb close-session — the session-closing bookend"
 ---
+
+> Projected from `.ai-lore-ai-sdlc/memory/blueprint/verbs/core/bookends/close-session.verb.md` by `ai-lore.py install` — the Lore file is the source; this copy is derived. Under the golden rule every write this verb makes is confirmed with the Human Lead.
+
+> **family:** bookends · **track:** any (its writes depend on the session's track type) · **invoker:** session (intrinsic — no external trigger) · **writes:** journal/live/ (the session record — full and light tracks); track record + status.stack.md (unmount, active-mark cleared); one closing paired commit (full tracks; Human-Lead-confirmed); next-save-point accumulator (the closing commit's row) · **contracts:** golden-rule; ack-pairing; journal-append-forward
 
 # close-session
 
-`close-session` is the **session-closing bookend.** It leaves the session in a state the next session can pick up from. The session runs `close-session` on itself at the end of every session; the Human Lead does not invoke it.
+The session-closing bookend: write the journal, hand over, unmount, land the
+closing commit. What makes session 87 start where 86 stopped instead of at zero.
 
-## What close-session leaves behind
+## The journal write
 
-- **A journal entry for this session, if a track was mounted.** `journal/live/YYYY-MM-DD_NN.md`, with frontmatter (`date`, `session`, `track`, `focus`), a body covering the work done, and a **handover** section last — where the work stands, what the next session does first, what to watch.
-- **An updated registry.** The journal trail gains this session's line in the journal index (`journal/live/live.index.md`); the focus's row in `status/status.stack.md` reflects any status change and its active-mark is cleared as the track unmounts. The mounted track's record is unmounted (`mounted_by` cleared); the track itself persists for the next session to mount.
-- **A Human-Lead-confirmed closing commit.** The journal write, the status update, and any drift already on the working tree are committed together on the mounted track's branches — `trunk` on home, or `track/<name>` on a child — as one closing commit per dirty repo. The session drafts a closing message; the Human Lead confirms or edits before the commit lands. This is how close-session avoids leaving a trail of uncommitted journal writes behind a clean working tree.
-- **An empty-track prompt, if applicable.** If the mounted track is a child that has zero commits on its branch since creation, close-session asks the Human Lead whether to [`abandon`](./abandon.md) the track now or keep it for a later session. Abandon is never automatic.
+One file per session, `journal/live/YYYY-MM-DD_NN.md` (`NN` the day's session
+counter): frontmatter (`type: journal`, `date`, `session`, `track`, `focus`) · the
+body — what actually happened, decisions with their why, defects found, dead ends
+worth not re-walking · and the **handover** as the last section: where the work
+stands, the next step, what the next session must know that the files alone don't
+say. Then the one-liner into `live.index.md`, newest first — the trail orient
+scans.
 
-Every Memory write goes through [`write-lore`](./write-lore.md). If insights from this session are immediately clear and well-placed, the session may also write them into the knowledge tree; if not, the journal carries them and they are placed deliberately later. Links in new files are verified to resolve.
+**Append-forward unconditionally** (the contract): journal files are never edited
+or deleted after writing — sessions 1 through N are the audit trail, wrong guesses
+included. By track type: **full** writes all of this; **light** writes the journal
+entry only (its whole trace, landing as trunk drift for home to acknowledge);
+**trackless leaves nothing** — no entry, no trace, by definition.
 
-## The session never self-acks
+## The closing commit
 
-The closing commit is **Human-Lead-confirmed**, not session-autonomous. close-session drafts the closing message and presents it; the Human Lead confirms or edits before the commit lands. The "session never self-acks" rule holds because the Human Lead remains the acknowledgement gate — the same gate as [`ack`](./ack.md) and [`save-point`](./save-point.md). What changes is the timing: the closing commit is the bookend's own move, not a separate [`ack`](./ack.md) invocation chained afterward.
+Full tracks close dirty almost always — the journal write itself dirties the lore
+repo. The bookend commits **its own writes plus whatever drift remains** as one
+closing paired commit on the track's branches: payload-first, accumulator row
+(verb column: `close-session`), lore carrying row + journal.
+**Human-Lead-confirmed** — the session drafts the message, the Human Lead confirms
+before it lands; the never-self-ack rule holds at the door too. Independent of the
+ack family as ever: a session that ack'd five minutes ago still closes with its own
+commit; one that never ack'd captures everything now.
 
-This decouples close-session from ack. [`ack`](./ack.md) and [`ack-and-continue`](./ack-and-continue.md) are independent verbs the Human Lead invokes mid-stream; close-session is the bookend that wraps up at session end. Neither prompts about the other.
+## Unmount
 
-## Trackless sessions leave no trace
+`mounted_by` cleared on the track record; the focus's **active-mark cleared** in
+`status.stack.md` (nobody is on it now — the track's focus *pointer* survives on
+the record for the next mount). Where the session ends without this bookend — a
+crash, a kill — the stale mount stays until the Human Lead's
+[`release-track`](../../../.ai-lore-ai-sdlc/memory/blueprint/verbs/core/tracks/release-track.verb.md); this paragraph is why that verb exists.
 
-A session that never mounted a track writes **no journal entry** and updates nothing in Memory at close. No closing commit fires either — there is no branch to commit on and nothing was written. Trackless sessions are the ephemeral read-only mode for consulting the project; they leave the audit trail untouched. The session simply ends.
+## The operation
 
-## No coordination with other sessions
+1. **Surface the state**: drift on the track (both repos), work done, anything
+   half-finished the handover must carry.
+2. **Write the journal** — body + handover; index one-liner. (Light track: this,
+   then stop — no commit, no unmount, nothing was mounted.)
+3. **Draft the closing message**; the **Human Lead confirms**.
+4. **Commit** payload-first, row, lore.
+5. **Unmount**: record + active-mark. Verify both trees clean.
+6. **Last words**: one line — where things stand, for the human closing the lid.
 
-Each session closes independently. If another session is running concurrently on a different track, this close-session does not wait for it and does not look at its state. The other session's drift, journal, and unmount are its own concern; consolidation across all tracks happens at [`save-point`](./save-point.md), not at close-session.
+## Refusals
 
-An engine binding may reinforce `close-session` with a session-end hook so a session cannot close without it. The reinforcement is advisory in practice — by the time a session-end hook fires, the session is already closing and may not get a turn to act on the hook's instruction. The methodology does not depend on the reinforcement; close-session is intrinsic behaviour the session performs on itself before the user signals exit.
+- Editing a prior journal entry while here → never; append-forward.
+- Closing with unexplained drift → the drift goes *in* the closing commit and the
+  handover names it; silent drift is the one thing this bookend exists to prevent.
+- Trackless asked to journal → trackless leaves no trace; if the session did
+  something worth recording, it wasn't trackless — resolve that honestly instead.
 
-## Prerequisites
+## Related
 
-Read [`git.md`](../git.md) (the closing commit on the mounted track's branches, the drift check) and [`memory.md`](../memory.md) (the journal entry and handover) before closing.
+[`orient`](../../../.ai-lore-ai-sdlc/memory/blueprint/verbs/core/bookends/orient.verb.md) reads tomorrow what this writes today ·
+[`ack`](../../../.ai-lore-ai-sdlc/memory/blueprint/verbs/core/acknowledgement/ack.verb.md) family — independent, never coupled ·
+[`archive-journal`](../../../.ai-lore-ai-sdlc/memory/blueprint/verbs/core/lifecycle/archive-journal.verb.md) rolls what accumulates ·
+[`release-track`](../../../.ai-lore-ai-sdlc/memory/blueprint/verbs/core/tracks/release-track.verb.md) mops up when this never ran.

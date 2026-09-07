@@ -111,9 +111,17 @@ heuristics.
 | [`parallel-work`](../processes/parallel-work.process.md) | the child-track journey: spawn → mount → land/discard |
 | [`recover-session`](../processes/recover-session.process.md) | after a dead session: release → remount → keep/discard drift |
 
-## Transitional note (v0.8 build)
+## The pillars
 
-The v0.7 pillar files (`project-structure.md`, `status.md`, `memory.md`,
-`tracks.md`, `git.md`, `bindings.md`) remain in this folder as reference while
-their content finishes dissolving into the encyclopedias; the v0.7 verb files they
-link to are superseded by the `*.verb.md` set above.
+Six reference pillars sit beside the families — `project-structure.md` (the
+vocabulary; the thin core), `status.md` (the tree and registry; the thin core),
+`memory.md` (components and the file schema), `tracks.md`, `git.md`, `bindings.md`.
+They carry vocabulary and background; the verb cards are authoritative on
+operation. Two of them load at orient; the rest load when a card or a question
+needs them.
+
+## The tool
+
+`blueprint/tooling/core/ai-lore.py` is the mechanical half of `init` / `install` /
+`upgrade` (and the `check` behind `core-containment`, `ack-pairing`'s ledger
+presence, and dead-link hygiene). See its card, `ai-lore.tooling.md`.

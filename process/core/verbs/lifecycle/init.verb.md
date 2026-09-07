@@ -63,10 +63,12 @@ project is mountable.
 
 1. **Verify the invoker**; settle name + shape + Lore remote with the Human Lead.
 2. **Create** floor, Lore, core placement, Memory skeleton, git arrangement as
-   above.
+   above — `python3 <dist>/core/tooling/ai-lore.py init <dir> --name <name>
+   --from <dist> [--branch main] [--publishing] [--lore-remote <url>]`, where
+   `<dist>` is a checkout of ai-sdlc at the wanted release tag.
 3. **Verify core-containment** (the contract's fresh-install check — light
-   bootstrap, ALL else in blueprint).
-4. **First paired commit**, first accumulator row.
+   bootstrap, ALL else in blueprint; the tool runs `check` as its last step).
+4. **First paired commit**, first accumulator row (the tool lands both).
 5. **State the project's shape** and hand off: orient will run on next session
    open; [`install`](./install.verb.md) offers engine wiring.
 

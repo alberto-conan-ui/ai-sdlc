@@ -9,9 +9,10 @@ The foundation layer: the vocabulary every other document uses, the disk layout 
 | **Project** | The root directory where work happens. Has a name (`project_name`). Contains a Payload and a Lore. |
 | **Payload** | The Project's working materials. Lives at the project root by default, or in `<project>/payload/` in Publishing projects. See [Publish](#publish). |
 | **Lore** | The support system. Lives at `<project>/.ai-lore-<project_name>/`. |
-| **Memory** | The Project's record of its own thinking — status, focus, tracks, journal, blueprint, trees, save-points. Lives at `<lore>/memory/`. |
+| **Memory** | The Project's record of its own thinking — status, tracks, journal, blueprint (verbs, processes, contracts, tooling, mirror), notepad, save-points. Lives at `<lore>/memory/`. |
 | **Track** | A persistent workspace within Memory. Comes in three **types** — trackless (read-only), light (journal + backlog only, not mounted), and full (mounted, branched, claimed). A full track is a branch + claim + focus pointer; sessions mount full tracks (one per session). The **home** track always exists on trunk; child tracks branch from home and merge back. Lives at `<memory>/tracks/`. See [`tracks.md`](./tracks.md). |
 | **References** | Pointers to other AI-Lore projects on disk this project consults for context. Read-only by contract. Live at `<lore>/references/`. Optional. |
+| **Parents** | Other AI-Lore projects this one *inherits* from: their `blueprint/` artifacts become invocable here through the resolution chain. Declared as an ordered `parents:` list in `workspace.yaml`. Optional. |
 | **Publish** | Curated destination derived from the Payload — the deliverable for projects whose ship target is not the Payload itself. Lives at `<project>/publish/`, paired with `<project>/payload/`. See [Publish](#publish). |
 
 The Payload is the point — where the work happens. The Lore exists to serve it; Memory is the part of the Lore the session reads and writes as work proceeds; Tracks are the persistent workspaces within Memory that sessions mount to do that work; References, when present, point outward at other projects this one looks at; Publish, when present, is the curated subset that ships outward — the Payload remains the source of truth.
@@ -43,17 +44,10 @@ The Lore folder is identical in both shapes — same `.ai-lore-<project_name>/` 
 
 ```
 .ai-lore-my-project/                  ← Lore  (folder name = .ai-lore-${project_name})
-├── workspace.yaml                     manifest
+├── ai_readme.md                       the floor — the whole methodology a session carries before reaching an artifact
 │
-├── process/                          methodology — plain text, pinned by core_version
-│   ├── ai_readme.md
-│   ├── project-structure.md
-│   ├── memory.md
-│   ├── status.md
-│   ├── bindings.md
-│   └── verbs/...
-│
-├── memory/                           ← Memory
+├── memory/                           ← Memory (its own git repo: memory/.git/)
+│   ├── workspace.yaml                  manifest — project_name, core_version, publish:, parents:
 │   ├── status/                         ← the status tree
 │   │   ├── status.index.md               root index (pure wiring)
 │   │   ├── status.stack.md               focus registry (link + status + active-mark)
@@ -62,29 +56,30 @@ The Lore folder is identical in both shapes — same `.ai-lore-<project_name>/` 
 │   │   └── archive/                      finished focuses (relocated by archive)
 │   ├── tracks/                         tracks.index.md + home.track.md + per-child track records
 │   ├── journal/                        live/ and archive/ (live.index.md carries the journal trail)
-│   ├── blueprint/                      standing commitments
-│   │   ├── contracts/                    evergreen rules the Payload must honour
-│   │   ├── processes/                    repeated procedures (e.g. publish.process.md)
-│   │   ├── tooling/                      registry of owned scripts / aux apps
+│   ├── blueprint/                      authored, shareable artifacts
+│   │   ├── verbs/                        units of what to do — core/ (OOB, in family folders) + local shadows
+│   │   ├── processes/                    orchestrations of verbs — core/ + local
+│   │   ├── contracts/                    inviolable rules — core/ + local; accumulate
+│   │   ├── tooling/                      registry of executables — core/ ships ai-lore.py
 │   │   └── mirror/                       description of the Payload's shape
-│   ├── save-points/                    append-only milestone ledger
-│   └── knowledge-tree/                 reconciled / working / notepad, optional
+│   ├── notepad/                        the knowledge inbox — buffer, never destination
+│   └── save-points/                    append-only milestone ledger; next.save-point.md is the open accumulator
 │
 └── references/                       ← References (optional)
     ├── references.index.md            registry
     └── <name>.md                      one file per referenced project
 ```
 
-The methodology is placed into the project at [`init`](./lifecycle/init.verb.md) time, version-pinned by `core_version`. Two pieces:
+The methodology is placed into the project at [`init`](./lifecycle/init.verb.md) time, version-pinned by `core_version`. Two pieces (the `core-containment` contract):
 
-- **A two-line shim at `ai_readme.md` (project root)** — the AI-agnostic entry point. Says *"This project uses AI-Lore. Read `.ai-lore-<project_name>/process/ai_readme.md` and follow its instructions."* Any AI can be pointed at it.
-- **The full methodology under `.ai-lore-<project>/process/`** — pillars and verbs, copied verbatim. The real entry point lives here as `process/ai_readme.md`; the root shim is just the path-less handshake the Human Lead types.
+- **A two-line shim at `ai_readme.md` (project root)** — the AI-agnostic entry point. Says *"This project uses AI-Lore. Read `.ai-lore-<project_name>/ai_readme.md` and follow its instructions."* Any AI can be pointed at it.
+- **The floor at `.ai-lore-<project>/ai_readme.md`, and the core artifact set under `memory/blueprint/{verbs,processes,contracts,tooling}/core/`.** Nothing else is methodology. A project customizes by shadowing core artifacts by name outside `core/`, and inherits from parents the same way.
 
-[`upgrade`](./lifecycle/upgrade.verb.md) re-copies the methodology when the project moves to a new `core_version`. Engine bindings (see [`bindings.md`](./bindings.md)) layer engine-native delivery on top — they never replace this AI-agnostic baseline.
+[`upgrade`](./lifecycle/upgrade.verb.md) replaces `core/` wholesale when the project moves to a new `core_version`. Engine bindings (see [`bindings.md`](./bindings.md)) layer engine-native delivery on top — they never replace this AI-agnostic baseline.
 
 ### The git arrangement
 
-Memory (`<lore>/memory/`) and Payload (the Project root) are each their own git repository. They commit together as one unit through [`ack`](./acknowledgement/ack.verb.md), [`save-point`](./acknowledgement/save-point.verb.md), and the track-lifecycle verbs. Child tracks branch both repos together as `track/<name>`; home sits on `trunk` in both. The full git contract — `.gitignore` rules, the `<lore>/memory/.git/` location wart, vendored `process/` untracking, `publish/` in no repo, branch arrangement, drift signal mechanics — is covered in [`git.md`](./git.md).
+Memory (`<lore>/memory/`) and Payload (the Project root) are each their own git repository. They commit together as one unit through [`ack`](./acknowledgement/ack.verb.md), [`save-point`](./acknowledgement/save-point.verb.md), and the track-lifecycle verbs. Child tracks branch both repos together as `track/<name>`; home sits on its recorded trunk-role branch (`main`, typically) in both. The full git contract — `.gitignore` rules, the `<lore>/memory/.git/` location wart, the Lore remote, `publish/` in no repo, branch arrangement, drift signal mechanics — is covered in [`git.md`](./git.md).
 
 ## The Lore folder is uniquely named per project
 
@@ -100,14 +95,22 @@ By default a Project carries only the two required fields:
 
 ```yaml
 project_name: my-project       # the Project's name; also the Lore folder suffix
-core_version: "0.6"          # pinned AI-Lore version
+core_version: "0.8"            # pinned AI-Lore core version
+```
+
+A project that inherits shared discipline adds an ordered **`parents:`** list — paths to other AI-Lore project roots (relative to this project root, or absolute). Their `blueprint/` artifacts resolve here between core and project-local, declaration order breaking ties; contracts accumulate. Managed by [`add-parent`](./outward/add-parent.verb.md) / [`remove-parent`](./outward/remove-parent.verb.md):
+
+```yaml
+parents:
+  - ../org-discipline
+  - ../team-playbook
 ```
 
 A **Publishing** project adds a `publish:` block — presence of the block is the declaration:
 
 ```yaml
 project_name: my-project
-core_version: "0.6"
+core_version: "0.8"
 
 publish:                       # presence declares a Publishing project (see Publish)
   path: ./publish              # where Publish lives at the project root
@@ -135,7 +138,7 @@ The body explains how to consult the reference — what to look at, when to look
 
 References are **read-only by contract.** A session never writes through a reference into another project's Memory or Payload. Cross-project edits happen the other way around: open the other project explicitly and work there.
 
-References are **link metadata only.** Insights this project draws from reading a referenced project belong in this project's knowledge tree, with `source` pointing back at the reference name. The reference file describes the link, not the project's interactions with it — otherwise it turns into a competing journal.
+References are **link metadata only.** Insights this project draws from reading a referenced project belong in this project's notepad (then blueprint, via `integrate-notepad`), with `source` pointing back at the reference name. The reference file describes the link, not the project's interactions with it — otherwise it turns into a competing journal.
 
 References are **not auto-loaded.** The session knows the folder exists from this document; it consults a reference when the work calls for cross-project context, not at every session open.
 

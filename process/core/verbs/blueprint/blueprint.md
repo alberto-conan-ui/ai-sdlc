@@ -8,7 +8,8 @@ assume it.
 `blueprint/` holds the project's authored, shareable artifacts in three branches —
 **verbs** (units of what to do), **processes** (Human-Lead-started orchestrations of
 verbs), **contracts** (inviolable, always-on rules) — plus **tooling** (registry of
-owned executables) and **mirror** (committed description of the Payload's shape).
+owned executables; its `core/` ships `ai-lore.py`, the mechanical half of the
+lifecycle verbs) and **mirror** (committed description of the Payload's shape).
 Authority runs **contract > process > verb**: a process cannot waive a contract; a
 verb's refusals hold even when a process invoked it.
 

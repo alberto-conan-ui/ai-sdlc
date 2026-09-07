@@ -11,7 +11,7 @@ What a session may touch is determined by its track type — not by any posture,
 | Type | Mounted? | Has a record? | Claim | May write |
 |---|---|---|---|---|
 | **Trackless** | no | no | — | nothing — read-only across the project; the query / "just looking" mode |
-| **Light** | no | no | journal + backlog only | the journal and the [backlog](./status.md#backlog), nothing else |
+| **Light** | no | no | journal + backlog + notepad | the journal, the [backlog](./status.md#backlog), and the notepad — nothing else |
 | **Full** | **yes** (required) | yes (`tracks/<name>.track.md`) | a real, disjoint claim | everything within its claim — Payload + Memory |
 
 - **Trackless** is read-only and leaves no trace — no journal entry, no Memory write, no record. It is what a session is before it mounts, and the right shape for a spawned session that only *queries* the project.
@@ -25,7 +25,7 @@ The rest of this pillar describes the **full track** primitive unless it says ot
 One file per full track at `memory/tracks/<name>.track.md` (trackless and light tracks have no record). Every full track carries:
 
 - **`name`** — unique among open tracks (reusable after the track is removed).
-- **`branch`** — the branch name used identically on both repos. Home's branch is `trunk`; child tracks use `track/<name>`. See [`git.md`](./git.md) for the branch arrangement.
+- **`branch`** — the branch name used identically on both repos, **record-authoritative**: home's is whatever the record says (`main` in most projects; `trunk` is role-language); child tracks use `track/<name>`. See [`git.md`](./git.md) for the branch arrangement.
 - **`claim`** — path prefixes the track may write across Payload and Memory. Disjoint from every other open track's claim; see [Claims](#claims).
 - **`focus`** (optional) — pointer to the focus this track is currently working in. A track may exist focus-less for exploratory work.
 - **`mounted_by`** (optional) — the session ID of the mounted session, when one exists.
@@ -38,7 +38,7 @@ The **home track** (`tracks/home.track.md`) is always present and sits on trunk 
 
 Tracks **outlive sessions.** A child track created in session 80 may be unmounted at close, mounted again in session 82, continue its work, and finally land in session 85. The work-in-progress lives on the track, not the session that happened to be working it.
 
-This gives three real states for a focus: **actively worked** (focus + track + mounted session); **in-flight idle** (focus + track + no session mounted); **dormant** (focus exists, no track points at it). Which focus a track is currently working — the *active* relationship — is **derived** from open tracks and their focus pointers, not stored separately: the [`status.stack.md`](./status.md#statusstackmd--the-focus-registry) active-mark records the track name *because* a track points there, and [`mount`](./tracks/mount-track.verb.md) writes it. The focus's own **lifecycle status** (`draft` / `paused` / `in progress` / `done`) is a different fact — it is stored, on the focus's row in `status.stack.md`, and moved by [`advance`](./status-tree/status-tree.md). So: *active* is derived from tracks; *status* is stored on the stack file. A focus with a track on it shows that track in its active-mark; a focus with no track has a blank active-mark and whatever lifecycle status it last reached.
+This gives three real states for a focus: **actively worked** (focus + track + mounted session); **in-flight idle** (focus + track + no session mounted); **dormant** (focus exists, no track points at it). Which focus a track is currently working — the *active* relationship — is **derived** from open tracks and their focus pointers, not stored separately: the [`status.stack.md`](./status.md#statusstackmd--the-focus-registry) active-mark records the track name *because* a track points there, and [`mount`](./tracks/mount-track.verb.md) writes it. The focus's own **lifecycle status** (`draft` / `paused` / `in progress` / `done`) is a different fact — it is stored, on the focus's row in `status.stack.md`, and moved by the status-tree lifecycle verbs ([`status-tree.md`](./status-tree/status-tree.md)). So: *active* is derived from tracks; *status* is stored on the stack file. A focus with a track on it shows that track in its active-mark; a focus with no track has a blank active-mark and whatever lifecycle status it last reached.
 
 ## Sessions and mounting
 
@@ -77,11 +77,11 @@ The claim is the rule that makes parallel tracks safe to coexist: each track dec
 - **Index files (`*.index.md`)** are shared. Any open track may write to any index file. Merge conflicts in index files are the natural cost of parallelism and are resolved at merge time.
 - **`status.index.md`** is the registry, shared by every track for registration, mount-state updates, drift summaries, and trail entries.
 
-[`write-lore`](./status-tree/update-focus.verb.md) enforces the claim at **every write**. A path outside the mounted track's claim (and not in the carve-out) is refused; the Human Lead extends the claim, mounts a different track, or skips the write. Disjointness across all open tracks is verified at track creation and at every claim-change — the write-time check only needs the local "in my claim" comparison.
+Every writing verb enforces the claim at **every write**. A path outside the mounted track's claim (and not in the carve-out) is refused; the Human Lead extends the claim, mounts a different track, or skips the write. Disjointness across all open tracks is verified at track creation and at every claim-change — the write-time check only needs the local "in my claim" comparison.
 
 **Home's claim is focus-derived.** When home has an active focus that carries a `claim` field, home's working claim is that focus's claim — seeded onto `tracks/home.track.md` when the focus is first activated, polishable thereafter by the Human Lead on home's record without touching the focus. If the active focus has no `claim` field — the back-compat case for focuses authored before the field existed, and for exploratory focuses where the area is not yet pinned — home's claim is **implicit**: everything not currently claimed by an open child track. Child tracks always carve sub-claims that are disjoint from home's claim and from each other; while a child track is open, home may not write to the child's claimed paths.
 
-The focus's `claim` field is set when the focus is created. The session proposes a claim derived from the focus's title, area, and any references it carries; the Human Lead confirms or edits before the focus file is written through [`write-lore`](./status-tree/update-focus.verb.md). The proposal is a starting point, not a commitment — the Human Lead can edit on the focus (the persistent default) or on home's track record (the working override) at any time.
+The focus's `claim` field is set when the focus is created. The session proposes a claim derived from the focus's title, area, and any references it carries; the Human Lead confirms or edits before the focus file is written by [`add-new-focus`](./status-tree/add-new-focus.verb.md). The proposal is a starting point, not a commitment — the Human Lead can edit on the focus (the persistent default) or on home's track record (the working override) at any time.
 
 ## Save-point as consolidation
 

@@ -2,105 +2,103 @@
 
 A methodology for building a **Payload** — software, a campaign, a specification, anything that benefits from persistent context — with an AI partner that remembers across sessions and challenges its own prior decisions.
 
-The Payload is what you produce. Everything else exists to serve it: a Memory model that compounds across sessions — status, focus, journal, blueprint, knowledge tree, action tree — so session 10 starts with everything sessions 1 through 9 learned. The compound curve is the point. But compounding only works if you review what the AI writes — the AI populates the memory; your review makes it trustworthy.
+The Payload is what you produce. Everything else exists to serve it: a Memory model that compounds across sessions — status tree, journal, blueprint, ledger — so session 10 starts with everything sessions 1 through 9 learned. The compound curve is the point. But compounding only works if you review what the AI writes — the AI populates the memory; your review makes it trustworthy.
+
+AI-Lore is a **starting point**: an upstream distribution a project configures as much as it wants, not a specification it complies with.
 
 ---
 
 ## The shape
-
-AI-Lore organises every project around four terms. Learn them once and the rest reads cleanly.
 
 | Term        | What it is                                                          |
 | ----------- | ------------------------------------------------------------------- |
 | **Project** | The root directory where work happens.                              |
 | **Payload** | What the Project produces. Project root minus the Lore folder.      |
 | **Lore**    | The support system. Lives at `<project>/.ai-lore-<project_name>/`.  |
-| **Memory**  | Lives at `<lore>/memory/`. The Project's record of its own thinking — status, focus, journal, blueprint, trees, save-points. |
+| **Memory**  | Lives at `<lore>/memory/`, its own git repo. The Project's record of its own thinking — status tree, tracks, journal, blueprint, notepad, save-points. |
+
+---
+
+## The golden rule
+
+**Every write is confirmed to a verb; nothing writes unchosen.** Reads and conversation are free. At every write, the session names the verb that owns it and the Human Lead confirms — usually the verb already in flight, at the cost of one breath. There is no exempt surface, and the session never guesses your intent: it proposes, you choose.
+
+The rule is total because the verb set is: every entity in Memory names its lifecycle verbs, and the Payload has its floor verb. A write with no verb is a gap in the verb set, closed through the authoring verbs — never a silent exception.
 
 ---
 
 ## How a session runs
 
-You open an AI in your project root and say: *read `ai_readme.md`*. That is the four-word handshake.
+Open an AI in your project root and say: *read `ai_readme.md`*.
 
-1. **Load the methodology.** [`process/ai_readme.md`](./process/ai_readme.md) walks the AI through five documents — project structure, memory, dials, verbs, bindings. The AI is now AI-Lore-shaped.
-2. **Orient.** It reads `memory/status/status.index.md`, walks the tracker chain into the active focus, and picks up the last session's handover. Three-second orientation is the test.
-3. **Work.** The session produces against the focus's gate, recording everything as it goes. The Human Lead invokes verbs as needed.
-4. **Close.** The session writes a journal entry, updates status, and hands the work over to the next session.
-
----
-
-## The two dials
-
-A session's conversational register is set by two dials:
-
-| Dial           | Settings                  | What it controls            |
-| -------------- | ------------------------- | --------------------------- |
-| **Altitude**   | Low / Mid / High          | How lean the talk is        |
-| **Commitment** | Go / Neutral / Challenge  | How hard the session pushes |
-
-The dials shape the *conversation*, not what the session does — with one honest limit: at their extremes they cost you information, not just words. The Human Lead sets them with the `redial` verb. See [`process/dials.md`](./process/dials.md).
+1. **The floor.** The root shim points at `.ai-lore-<project>/ai_readme.md` — the golden rule, how artifacts resolve, and where to go next. Deliberately small; everything else loads when invoked.
+2. **Orient.** The session reads the thin core, the focus registry (`status.stack.md`), walks the active focus's chain, checks both repos for drift, and states where the work stands.
+3. **Work.** You invoke verbs — or name a process for `run-process` to drive. Each write is confirmed.
+4. **Close.** The session writes its journal entry and handover, lands one paired closing commit, and unmounts.
 
 ---
 
-## Verbs
+## Verbs, processes, contracts
 
-A **verb** is a named operation the Human Lead invokes. Verbs are loaded the moment they are invoked, not carried as standing instructions — an instruction loaded when it is needed is high-signal.
+All methodology artifacts live in the Lore's `memory/blueprint/`, four branches, each with a **`core/`** subfolder holding the out-of-the-box set (never edited in place):
 
-| Verb          | What it does                                              |
-| ------------- | --------------------------------------------------------- |
-| `write-lore`  | Write or update Memory — the sole path for writing lore   |
-| `redial`      | Set the dials                                             |
-| `dictation`   | Shape Human Lead input before the session consumes it     |
-| `ack`         | Commit both repos with a focused message — acknowledge accumulated work |
-| `save-point`  | Formal milestone — commit, ledger entry, blueprint-contract check |
-| `plan`        | Set posture to Planning — produce a plan, no Payload writes |
-| `reshape`     | Set posture to Reshaping — work on Memory, no Payload writes |
-| `execute`     | Set posture to Executing — produce the Payload (the default) |
-| `init`        | Bootstrap a folder into an AI-Lore project                |
-| `upgrade`     | Migrate a project to a new core version                   |
-| `install`     | Bind AI-Lore into a specific AI engine                    |
+- **`verbs/`** — the units of *what to do*. 52 intent-named verbs in nine families — status tree (`add-new-focus`, `complete-stage`, `archive-focus`, …), buffers (`add-note`, `review-backlog`), blueprint authoring (`add-verb`, `add-contract`, `run-process`, …), payload (`update-payload`), tracks (`spawn-track`, `mount-track`, `merge-track`, …), acknowledgement (`ack`, `ack-and-continue`, `save-point`), outward (`add-parent`, `add-reference`, `publish`), lifecycle (`init`, `install`, `upgrade`, `archive-journal`), bookends (`orient`, `close-session`). Each family folder holds one context doc and lean cards.
+- **`processes/`** — orchestrations of verbs, Human-Lead-started: `start-work`, `parallel-work`, `recover-session`, `groom`, `close-out`. Steps are verb references only.
+- **`contracts/`** — inviolable, always-on rules: `golden-rule`, `ack-pairing`, `core-containment`, `journal-append-forward`. Stated in the floor, cited by every verb they govern, reinforced by engine hooks where checkable.
+- **`tooling/`** — a registry of executables; core ships `ai-lore.py`, the mechanical half of `init` / `install` / `upgrade` / `check`.
 
-Two **bookends** — `orient` and `close-session` — are run by the session on itself at open and close. See [`process/verbs/`](./process/verbs/verbs.index.md).
+**Customize by shadowing.** Author a same-named artifact outside `core/` and it wins. **Share through parents.** An ordered `parents:` list in `workspace.yaml` makes other projects' blueprints invocable here — resolution is by name, lowest level wins (core < parents < local), contracts accumulate. `upgrade` replaces `core/` wholesale and walks your shadows with you. The un-overridable floor is the bootstrap plus `add-verb` / `add-process` / `add-contract` / `run-process`.
 
 ---
 
 ## Memory
 
-Memory is what makes session 10 cheaper than session 1. Six components:
+| Component       | Role                                                                            |
+| --------------- | ------------------------------------------------------------------------------- |
+| **Status tree** | One positional tree — focus → stage → phase — plus `status.stack.md`, the focus registry. Mutated only through the status-tree verbs. |
+| **Tracks**      | Persistent workspaces: home is always present; child tracks branch both repos and merge back. A track's type — trackless, light, full — is the write gate. |
+| **Journal**     | One file per session, append-forward, never edited. The handover is what the next session reads. |
+| **Blueprint**   | Verbs, processes, contracts, tooling, and the mirror of the Payload's shape.     |
+| **Notepad**     | The knowledge inbox — capture is frictionless, integration is deliberate; buffer, never destination. |
+| **Save-points** | Append-only ledger. The open `next` entry accumulates a row per acknowledgement — verb, track, branch, payload hash — so any consumer resolves every cross-repo pair from one file; `save-point` seals it. |
 
-| Component          | Role                                                                | Required |
-| ------------------ | ------------------------------------------------------------------- | -------- |
-| **Status**         | Three-second orientation. Where the project is right now.           | Yes      |
-| **Journal**        | Continuity wire. One file per session, append-forward, never edited.| Yes      |
-| **Blueprint**      | Production rules and standing contracts the Payload must honour.    | Yes      |
-| **Save-points**    | Append-only ledger of committed milestones.                         | Yes      |
-| **Action tree**    | Decomposition for focuses too large for one tracker.                | Optional |
-| **Knowledge tree** | Curated, durable insights that compound over time.                  | Optional |
+Every Memory file carries YAML frontmatter plus a per-type body, so a program can read Memory as easily as a person can. Emptiness is a valid state everywhere.
 
-Status, focus, and action-tree nodes are all instances of one primitive — the **tracker** — each carrying a stack, an active child pointer, a journal trail, and a gate. The tracker chain runs from `status.index.md` down into whatever decomposition the work needs.
+---
 
-Across all six components, **emptiness is a valid state.** An absent action tree, an empty knowledge tree — these are not gaps. They mean the project has not yet committed to anything in that area.
+## Two repositories
 
-Every Memory file carries a parseable schema — YAML frontmatter plus a per-type body — so a program can read Memory as easily as a person can. See [`process/memory.md`](./process/memory.md).
+The Project root is the Payload repo. `<lore>/memory/` is its own repo. Every acknowledgement commits both as one unit, payload-first, and appends its row to the ledger. The working tree's dirty state is the drift signal. Memory is the project's entire durable record — give it a remote.
 
 ---
 
 ## Plain text, and installed
 
-AI-Lore is platform-neutral plain text — complete on its own. It also **binds** to a specific AI engine: the `install` verb (`install-claude`, `install-gemini`, …) embeds the methodology into that engine's native mechanisms, so verbs become trigger-loaded units and the bookends are reinforced.
+AI-Lore is platform-neutral plain text — complete on its own. The `install` verb projects the *resolved* artifact set into an engine: verbs and processes become skills (Claude) or slash commands (Gemini), bookends become session hooks, and the contracts an engine can enforce become hooks (Claude: journal entries cannot be edited; every write is followed by the golden-rule reminder). Installing changes how the methodology is delivered, never what it says.
 
-Installing changes *how the methodology is delivered*, never *what it says*. The plain-text path is always the floor; installing is a delivery upgrade, never a prerequisite. See [`process/bindings.md`](./process/bindings.md).
+---
+
+## Getting started
+
+```
+git clone --depth 1 --branch v0.8 https://github.com/alberto-conan-ui/ai-sdlc /tmp/ai-lore
+python3 /tmp/ai-lore/process/core/tooling/ai-lore.py init <your-folder> --name <project-name> --from /tmp/ai-lore
+python3 <your-folder>/.ai-lore-<project-name>/memory/blueprint/tooling/core/ai-lore.py --project <your-folder> install claude
+```
+
+Then open a session in `<your-folder>` and say *read `ai_readme.md`*.
+
+Already on v0.7? [`process/migration-from-v0.7.md`](./process/migration-from-v0.7.md) is the playbook; `ai-lore.py migrate` is its body. Earlier versions chain through the playbooks beside it.
 
 ---
 
 ## Why this works
 
-**Planning is cheap; discipline is the lock.** LLMs can plan in minutes. AI-Lore locks in the *discipline* of planning, not the plan. You plan, execute, learn, replan — tight cycles, disposable plans, durable discipline.
+**Planning is cheap; discipline is the lock.** LLMs can plan in minutes. AI-Lore locks in the *discipline* — of planning, of writing, of acknowledging — not the plan.
 
-**Knowledge compounds.** The hardest problem with AI-assisted work is that every session starts from zero. AI-Lore's memory model lets session N load exactly what it needs from sessions 1 through N–1, in a fraction of the tokens rediscovery would cost. The curve is back-loaded — dramatic over a multi-month effort, barely worth it for a two-session task.
+**Knowledge compounds.** Session N loads exactly what it needs from sessions 1 through N–1, in a fraction of the tokens rediscovery would cost. The curve is back-loaded — dramatic over a multi-month effort, barely worth it for a two-session task.
 
-**The AI is a collaborator you can dial in.** Same model, different register, summoned on demand — and the dials persist through delivery, not just chat.
+**Nothing writes unchosen.** The golden rule turns "the AI did something I didn't ask for" from a fear into a catchable, attributable event.
 
 ---
 
@@ -108,31 +106,21 @@ Installing changes *how the methodology is delivered*, never *what it says*. The
 
 Experienced practitioners — people who know their domain well enough to evaluate AI output critically. The methodology does not teach you your craft; it gives you a structure for practicing it *with AI* that does not degrade over time.
 
-**Use it for the right work.** A quick task, a one-off question — just do it. AI-Lore earns its keep when the work has dependencies, spans sessions, or makes decisions that constrain future work.
-
 > **Fair warning.** This methodology is deliberately demanding. The payoff is back-loaded: early sessions feel expensive; by session ten the compounded memory makes the AI productive immediately. Rubber-stamping the artefacts gives you all the overhead with none of the returns.
 
 ---
 
-## Getting started
+## Self-hosting
 
-1. **Initialise.** Run the `init` verb in your project folder — it creates the Lore, the manifest, the Memory skeleton, and seeds the blueprint. See [`process/verbs/init.md`](./process/verbs/init.md).
-2. **Open a session.** *Read `ai_readme.md`*.
-3. **Work.**
-
-Already on an older version? The `upgrade` verb drives the migration — see [`process/migration-from-v0.4.md`](./process/migration-from-v0.4.md).
-
----
+This repository is AI-Lore's own project. `process/` is the canonical distribution; `.ai-lore-ai-sdlc/` (gitignored, its Memory in a private repo) is the operating copy generated from it. Every release is cut through the `release` process and eats its own dogfood before it reaches `main`: see [`process/changelog/`](./process/changelog/changelog.index.md).
 
 ## Contributing
 
-This is a personal methodology, shared because it might be useful to others. Issues and discussions are welcome. If you want to propose changes, open an issue first.
-
----
+A personal methodology, shared because it might be useful. Issues and discussions are welcome; open an issue before proposing changes.
 
 ## Version
 
-**v0.5** — May 2026. The methodology is plain text, bound to an engine via the `install` verb. Memory files carry a parseable schema; a save-points ledger records committed milestones. See [`process/changelog/v0.5.md`](./process/changelog/v0.5.md).
+**v0.8** — September 2026. Verb discipline: the golden rule as a contract, entity-family verbs, core dissolved into blueprint with shadowing and parents, the ack ledger, `run-process`, grooming verbs, `ai-lore.py`. See [`process/changelog/v0.8.md`](./process/changelog/v0.8.md).
 
 ## License
 
