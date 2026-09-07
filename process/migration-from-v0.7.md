@@ -99,8 +99,11 @@ What it does, in order (each step idempotent):
    `tooling/core/` from the distribution, links transformed, indexes generated;
    branch indexes gain their `core/` line; the floor is written to
    `<lore>/ai_readme.md`.
-4. **Removes the vendored `<lore>/process/` tree** (core-containment) and rewrites
-   the root shim `ai_readme.md` to point at the floor.
+4. **Remaps every Memory link that pointed into the vendored tree** (journal files
+   excepted — append-forward) to its v0.8 target in `blueprint/verbs/core/` (v0.7
+   verb names mapped per the table in step 3), **removes the vendored
+   `<lore>/process/` tree** (core-containment), and rewrites the root shim
+   `ai_readme.md` to point at the floor.
 5. **Dissolves `memory/knowledge-tree/`**: every non-index file becomes
    `memory/notepad/<slug>.note.md` (frontmatter `type: note`, `source:` the old
    path), indexed in `notepad.index.md`; the folder is removed;

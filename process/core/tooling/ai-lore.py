@@ -761,6 +761,60 @@ def append_row(pr, verb, track, branch, payload_hash, summary):
 
 
 # ----------------------------------------------------------------------------- migrate 0.7 → 0.8
+
+# v0.7 verb names → v0.8 artifact names (for link remapping at migration)
+V07_VERB_MAP = {
+    "grow": "add-new-focus", "advance": "status-tree", "archive": "archive-focus",
+    "mount": "mount-track", "spawn": "spawn-track", "merge": "merge-track", "abandon": "abandon-track",
+    "write-lore": "update-focus", "install-claude": "install", "install-gemini": "install",
+}
+
+
+def remap_vendored_links(pr, vend):
+    """Rewrite Memory links that point into the vendored <lore>/process/ tree (v0.7) to their
+    v0.8 targets in blueprint/verbs/core/. Journal files are never touched (append-forward)."""
+    core = os.path.join(pr.blueprint, "verbs", "core")
+    by_name = {}
+    for dp, _, fn in os.walk(core):
+        for f in fn:
+            if f.endswith(".verb.md"):
+                by_name.setdefault(f[:-len(".verb.md")], os.path.join(dp, f))
+            elif f.endswith(".md") and not f.endswith(".index.md"):
+                by_name.setdefault(f[:-3], os.path.join(dp, f))
+    rewritten = 0
+    for dp, dn, fn in os.walk(pr.memory):
+        dn[:] = [d for d in dn if d not in (".git", "journal", "blueprint")]
+        for f in fn:
+            if not f.endswith(".md"):
+                continue
+            p = os.path.join(dp, f)
+            text = read(p)
+
+            def fix(m, dp=dp):
+                t = m.group(2)
+                if t.startswith(("http://", "https://", "mailto:", "/")):
+                    return m.group(0)
+                abs_t = os.path.normpath(os.path.join(dp, t))
+                if not abs_t.startswith(vend + os.sep):
+                    return m.group(0)
+                rel = os.path.relpath(abs_t, vend).replace(os.sep, "/")
+                if rel == "ai_readme.md":
+                    target = os.path.join(pr.lore, "ai_readme.md")
+                elif rel.startswith("verbs/"):
+                    name = os.path.basename(rel)[:-3]
+                    target = by_name.get(V07_VERB_MAP.get(name, name))
+                else:
+                    target = os.path.join(core, rel)
+                if not target or not os.path.exists(target):
+                    return m.group(0)
+                return m.group(1) + os.path.relpath(target, dp).replace(os.sep, "/") + m.group(3)
+
+            new = LINK_RE.sub(fix, text)
+            if new != text:
+                write(p, new)
+                rewritten += 1
+    return rewritten
+
 def cmd_migrate(args):
     root = os.path.abspath(args.project)
     if not is_project_root(root):
@@ -795,11 +849,12 @@ def cmd_migrate(args):
         if "verbs/verbs.index.md" not in s:
             s = s.rstrip("\n") + "\n- [verbs/verbs.index.md](./verbs/verbs.index.md) — the units of what to do; `core/` holds the OOB set.\n"
             write(bp_idx, s)
-    # 2. the vendored tree retires; the root shim points at the floor
+    # 2. Memory links into the vendored tree are remapped, then the tree retires; the root shim points at the floor
     vend = os.path.join(lore, "process")
     if os.path.isdir(vend):
+        n = remap_vendored_links(pr, vend)
         shutil.rmtree(vend)
-        print("removed vendored <lore>/process/ (core-containment)")
+        print(f"remapped links into the vendored tree in {n} Memory file(s); removed vendored <lore>/process/ (core-containment)")
     write(os.path.join(root, "ai_readme.md"), f"# {pr.name}\n\nThis project uses AI-Lore (v{dist_version(dist)}). Read `.ai-lore-{pr.name}/ai_readme.md` — the floor — and follow its instructions.\n")
     # 3. knowledge-tree dissolves into the notepad
     kt = os.path.join(mem, "knowledge-tree")
