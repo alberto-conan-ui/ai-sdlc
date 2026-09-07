@@ -447,10 +447,11 @@ def cmd_check(args):
             for step in (d.get("composes") or []):
                 if yaml_scalar(step) not in res["verbs"]:
                     problems.append(f"process {n} composes unknown verb '{step}'")
-    # 6. dead links in blueprint + projections
-    for label, root in (("blueprint", pr.blueprint), ("skills", os.path.join(pr.root, ".claude", "skills"))):
+    # 6. dead links in blueprint, the live Memory surfaces, and projections (journal/ and
+    #    status/ are history — their rot is review-focus-tree's business, not a release gate)
+    for label, root in (("blueprint", pr.blueprint), ("memory", pr.memory), ("skills", os.path.join(pr.root, ".claude", "skills"))):
         if os.path.isdir(root):
-            total, dead = dead_links(root)
+            total, dead = dead_links(root, skip_dirs=(".git", "journal", "status", "blueprint") if label == "memory" else (".git",))
             if label == "skills":
                 dead = [d for d in dead if d[0].startswith("ai-lore-")]
             notes.append(f"{label}: {total} links, {len(dead)} dead")
@@ -771,7 +772,10 @@ def cmd_migrate(args):
     old_ws, new_ws = os.path.join(lore, "workspace.yaml"), os.path.join(mem, "workspace.yaml")
     if os.path.isfile(old_ws) and not os.path.isfile(new_ws):
         shutil.move(old_ws, new_ws)
-        print("moved workspace.yaml into memory/ (F7)")
+        mi0 = os.path.join(mem, "memory.index.md")
+        if os.path.isfile(mi0):
+            write(mi0, read(mi0).replace("path: ../workspace.yaml", "path: ./workspace.yaml"))
+        print("moved workspace.yaml into memory/ (F7); memory.index.md manifest reference repointed")
     pr = Project(root)
     if pr.ws["core_version"] not in ("0.7",):
         die(f"this playbook migrates 0.7 → 0.8; core_version is {pr.ws['core_version']}")

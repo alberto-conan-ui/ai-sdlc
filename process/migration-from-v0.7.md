@@ -92,7 +92,8 @@ python3 <dist>/process/core/tooling/ai-lore.py --project <project> migrate --fro
 What it does, in order (each step idempotent):
 
 1. **F7** — moves `<lore>/workspace.yaml` to `<lore>/memory/workspace.yaml` (inside
-   the Memory repo, so version bumps leave a trace).
+   the Memory repo, so version bumps leave a trace) and repoints the Manifest
+   reference in `memory.index.md`.
 2. Verifies `core_version` is `0.7` and the v0.7 shape is present (stops otherwise).
 3. **Places core**: `blueprint/verbs/core/`, `processes/core/`, `contracts/core/`,
    `tooling/core/` from the distribution, links transformed, indexes generated;
@@ -147,8 +148,8 @@ is the project's entire durable record.
 
 ### 6. Commit both repos
 
-One acknowledgeable unit, through `ack`: payload first (the root shim, `.claude/`
-projections, `.gitignore` if changed), the accumulator row, then the lore repo (the
+One acknowledgeable unit, through `ack`: payload first (the root shim, `CLAUDE.md`,
+`.claude/` projections, `.gitignore` if changed), the accumulator row, then the lore repo (the
 manifest, `blueprint/*/core/`, the notepad, the accumulator, the removed knowledge
 tree). Message e.g. *"v0.8 migration: core in blueprint, contracts, notepad,
 accumulator."*
@@ -162,7 +163,7 @@ load-bearing verbs: `add-note` writes a note; `ack-and-continue` lands a paired
 commit and appends its row; `run-process` resolves a core process by name. Finally:
 
 ```bash
-python3 <lore>/memory/blueprint/tooling/core/ai-lore.py check --from <dist>
+python3 <lore>/memory/blueprint/tooling/core/ai-lore.py --project <project> check --from <dist>
 ```
 
 must print `OK`. Take a `save-point` once verified — the milestone is "project is on
